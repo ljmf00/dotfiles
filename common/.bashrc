@@ -311,7 +311,7 @@ GPG_TTY="$(tty)"
 export GPG_TTY
 
 # Kitty
-if [ "$TERM" == "xterm-kitty" ]; then
+if [ "$TERM" == "xterm-kitty" ] && hash kitty 2> /dev/null; then
 	# shellcheck disable=SC1090
 	source <(kitty + complete setup bash)
 
