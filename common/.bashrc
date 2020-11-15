@@ -59,6 +59,13 @@ set -euo pipefail
 akey_continue() { read -n 1 -s -r -p "Press any key to continue"; }
 trap akey_continue EXIT
 
+if [ "$TERM" == "xterm-kitty" ]; then
+	if [ ! -f "/usr/share/terminfo/x/xterm-kitty" ]; then
+		# fallback to a legacy supported terminfo
+		TERM=xterm-256color
+	fi
+fi
+
 # define set_windowtitle and ncolors as early as possible
 case "$TERM" in
 	xterm*|rxvt*|Eterm|aterm|kterm|gnome*|linux*)
