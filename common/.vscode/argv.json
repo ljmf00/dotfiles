@@ -1,0 +1,6 @@
+{
+	"disable-hardware-acceleration": false,
+	"disable-color-correct-rendering": false,
+	"enable-crash-reporter": false,
+	"enable-proposed-api": ["ms-vsliveshare.vsliveshare", "ms-vscode-remote.remote-ssh"]
+}
