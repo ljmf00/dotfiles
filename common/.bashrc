@@ -20,7 +20,11 @@ export WINEPREFIX=$HOME/.wine
 export WINEARCH=win64
 
 # Java
-JAVA_HOME="/usr/lib/jvm/$(archlinux-java get)/"
+if hash archlinux-java 2>/dev/null; then
+	JAVA_HOME="/usr/lib/jvm/$(archlinux-java get)/"
+else
+	JAVA_HOME="/usr/lib/jvm/default/"
+fi
 export JAVA_HOME
 
 # Android
