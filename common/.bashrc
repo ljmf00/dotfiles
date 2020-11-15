@@ -241,8 +241,10 @@ fi
 [ -r /usr/share/bash-completion/bash_completion   ] && . /usr/share/bash-completion/bash_completion
 
 # pkgfile hook
-# shellcheck disable=SC1091
-source /usr/share/doc/pkgfile/command-not-found.bash
+if [ -f "/usr/share/doc/pkgfile/command-not-found.bash" ]; then
+	# shellcheck disable=SC1091
+	source /usr/share/doc/pkgfile/command-not-found.bash
+fi
 
 # Bash options
 # shellcheck disable=SC1090
