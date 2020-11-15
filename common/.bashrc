@@ -1,0 +1,525 @@
+#!/usr/bin/env bash
+# shellcheck shell=bash
+# shellcheck disable=SC2034
+# shellcheck disable=SC2015
+
+#
+# ~/.bashrc
+#
+
+# ===============================
+#           ENVIRONMENT
+# ===============================
+
+# ccache configurations
+export USE_CCACHE=1
+export CCACHE_COMPRESS=1
+
+# Wine
+export WINEPREFIX=$HOME/.wine
+export WINEARCH=win64
+
+# Java
+JAVA_HOME="/usr/lib/jvm/$(archlinux-java get)/"
+export JAVA_HOME
+
+# Android
+export ANDROID_HOME=/opt/android-sdk
+
+# jBOSS
+export JBOSS_HOME=/opt/wildfly
+
+# ===============================
+#    NON INTERACTIVE CONFIGS
+# ===============================
+
+# SSH Agent
+if ! pgrep -u "$USER" ssh-agent > /dev/null; then
+    ssh-agent > "$HOME/.ssh-agent-thing"
+fi
+if [ -z ${SSH_AGENT_PID+x} ]; then
+	# shellcheck disable=SC1090
+    source "$HOME/.ssh-agent-thing" > /dev/null
+fi
+
+# Add .local/bin/ to PATH
+export PATH="$HOME/.local/bin:$PATH"
+
+# ===============================
+#        EARLY BOOTSTRAP
+# ===============================
+
+# If not running interactively, don't do anything!
+[[ $- != *i* ]] && return
+
+# set safe failures
+set -euo pipefail
+
+# wait for user input
+akey_continue() { read -n 1 -s -r -p "Press any key to continue"; }
+trap akey_continue EXIT
+
+# define set_windowtitle and ncolors as early as possible
+case "$TERM" in
+	xterm*|rxvt*|Eterm|aterm|kterm|gnome*|linux*)
+		set_windowtitle() {
+			#[[ -n ${DISPLAY+x} ]] && echo -ne "\033]0;$*\007" || :
+			echo -ne "\033]0;$*\007"
+		}
+		# check number of colors available
+		ncolors="$(tput colors)"
+		;;
+	*)
+		set_windowtitle() {
+			:
+		}
+		ncolors=0
+		;;
+	esac
+
+# set window title for initialization
+set_windowtitle ".bashrc: init"
+
+# add newline to seperate last session line from tty
+[[ "$TERM" == linux* ]] && echo || :
+
+# ===============================
+#       COLORS DEFINITION
+# ===============================
+
+if test -n "$ncolors" && test $ncolors -ge 8; then
+	fg_bold="\e[1m"
+	reset_fg_bold="\e[21m"
+
+	dim_color="\e[2m"
+	reset_dim_color="\e[22m"
+
+	fg_underlined="\e[4m"
+	reset_fg_underlined="\e[24m"
+
+	blink_color="\e[5m"
+	reset_blink_color="\e[25m"
+
+	reverse_color="\e[7m"
+	reset_reverse_color="\e[27m"
+
+	hidden_color="\e[8m"
+	reset_hidden_color="\e[28m"
+
+	reset_colors="\e[0m"
+
+	fg_default_color="\e[39m"
+	fg_red="\e[31m"
+	fg_green="\e[32m"
+	fg_yellow="\e[33m"
+	fg_cyan="\e[36m"
+	fg_dark_gray="\e[90m"
+	fg_light_red="\e[91m"
+	fg_light_green="\e[92m"
+	fg_light_magenta="\e[95m"
+	fg_light_cyan="\e[96m"
+
+	# Log levels alias
+	info="$fg_cyan" # info
+	warn="$fg_yellow" # yellow
+	err="$fg_red" # error
+else
+	# dont mark log levels as unbound variables
+	info='' warn='' err=''
+fi
+
+# Logger
+# This function log messages
+# Usage: log <LEVEL> <MESSAGE>
+log_msg2() {
+    echo -e " $1--> ${fg_dark_gray}$2${reset_colors}"
+}
+
+# Fatal logger
+# This function log fatal messages
+# Usage: fatal <MESSAGE> <EXIT_CODE>
+log_fatal_msg2() {
+    log_msg2 "$err" "$1"
+    exit "$([ $# -eq 2 ] && echo "$2" || echo 1)"
+}
+
+# ===============================
+#             STARTUP
+# ===============================
+
+# shellcheck disable=SC1090
+source "$HOME/.oh-luis-bash/functions.sh"
+# shellcheck disable=SC1090
+source "$HOME/.oh-luis-bash/alias.sh"
+
+# block user input
+stty -echo
+
+# .bashrc paths
+BASHRC_CHECKSUM="$(cksum "$HOME/"{.bashrc,.oh-luis-bash/*})"
+BASHRC_CHECKSUM_FILE="$HOME/.bashrc.check"
+
+# if this file changed, run checks
+if [[ ! -f "$BASHRC_CHECKSUM_FILE" || ! "$BASHRC_CHECKSUM" == "$(cat "$BASHRC_CHECKSUM_FILE")" ]]; then
+	NEW_BASHRC=1
+
+	# set window title for new file routine
+	set_windowtitle ".bashrc: check new file"
+	
+	echo -e "New .bashrc loaded!\n"
+
+	# check if ncurses is installed
+	# check if lolcat is installed
+	# check if fortune is installed
+	# check if pygmentize is installed
+	if ! hash pygmentize 2> /dev/null; then
+		log_msg2 "$warn" "Package 'pygmentize' is not installed"
+		#TODO: Try to install package
+	fi
+	
+	# check if bash-completion is installed
+	if [ ! -d /usr/share/bash-completion ]; then
+		log_msg2 "$warn" "Package 'bash-completion' is not installed"
+		#TODO: Try to install package
+	fi
+	
+	# check if git is installed
+	if ! hash git 2> /dev/null; then
+		log_msg2 "$warn" "Package 'git' is not installed"
+		#TODO: Try to install package
+	fi
+	
+	# check if ssh is installed
+	if ! hash ssh 2> /dev/null; then
+		log_msg2 "$warn" "Package 'openssh' is not installed"
+		#TODO: Try to install package
+	fi
+
+	# check if thefuck is installed
+	if ! hash thefuck 2> /dev/null; then
+		log_msg2 "$warn" "Package 'thefuck' is not installed"
+		#TODO: Try to install package
+	fi
+
+	if ! hash micro 2> /dev/null; then
+		log_msg2 "$warn" "Recommended to install micro"
+	fi
+
+	if hash nano 2> /dev/null && [ ! -f ~/.nanorc ]; then
+		log_msg2 "$info" "Creating a .nanorc file to support colors"
+		touch "$HOME/.nanorc"
+
+		# adding every supported language at the
+		find /usr/share/nano/ -iname "*.nanorc" -exec echo include {} \; >> ~/.nanorc
+	fi
+
+	log_msg2 "$info" "Calculating checksum for .bashrc"
+	echo "$BASHRC_CHECKSUM" > "$BASHRC_CHECKSUM_FILE"
+
+	# add a final newline to the log
+	echo
+	
+
+	# set window title to warn user
+	set_windowtitle ".bashrc: waiting for user input"
+
+	# wait for user input
+	akey_continue
+	# clear entire screen
+	printf "\033c"
+fi
+
+# Bash completion
+# shellcheck disable=SC1091
+[ -r /usr/share/bash-completion/bash_completion   ] && . /usr/share/bash-completion/bash_completion
+
+# pkgfile hook
+# shellcheck disable=SC1091
+source /usr/share/doc/pkgfile/command-not-found.bash
+
+# Bash options
+# shellcheck disable=SC1090
+source "$HOME/.oh-luis-bash/shopt.sh"
+
+# Input binds
+# shellcheck disable=SC1090
+source "$HOME/.oh-luis-bash/binds.sh"
+
+# ===============================
+#         CONFIGURATIONS
+# ===============================
+
+if test -n "$ncolors" && test $ncolors -ge 8; then
+	# add termcap for less when colors are available
+	export LESS=-R
+	export LESS_TERMCAP_mb=$'\E[1;31m'     # begin blink
+	export LESS_TERMCAP_md=$'\E[1;36m'     # begin bold
+	export LESS_TERMCAP_me=$'\E[0m'        # reset bold/blink
+	export LESS_TERMCAP_so=$'\E[01;44;33m' # begin reverse video
+	export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
+	export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
+	export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
+fi
+
+# Editor configuration
+if hash micro 2> /dev/null && test -n "$ncolors" && test $ncolors -ge 8; then
+	EDITOR='micro'
+	VISUAL='micro'
+# fallback to nano text editor
+elif hash nano 2> /dev/null; then
+	EDITOR='nano'
+	VISUAL='nano'
+# fallback to nvim
+elif hash nvim 2> /dev/null; then
+	EDITOR='nvim'
+	VISUAL='nvim'
+# fallback to vim
+elif hash vim 2> /dev/null; then
+	EDITOR='vim'
+	VISUAL='vim'
+# fallback to vi if none found
+else
+	if ! hash vi 2> /dev/null; then
+		log_msg2 "$warn" "Falling to 'vi' as default editor but not installed!"
+	fi
+
+	EDITOR='vi'
+	VISUAL='vi'
+fi
+
+export EDITOR
+export VISUAL
+
+if hash thefuck 2> /dev/null; then
+	eval "$(thefuck --alias)"
+fi
+
+GPG_TTY="$(tty)"
+export GPG_TTY
+
+# Kitty
+if [ "$TERM" == "xterm-kitty" ]; then
+	# shellcheck disable=SC1090
+	source <(kitty + complete setup bash)
+
+	alias ssh='kitty kitten ssh'
+fi
+
+
+# ===============================
+#          DYNAMIC ALIAS
+# ===============================
+
+# Improved commands
+if test -n "$ncolors" && test $ncolors -ge 8; then
+	alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}'
+	alias ls='ls --color=tty'
+	alias ip='ip -color=auto'
+	alias dmesg='dmesg --color=always'
+else
+	alias grep='grep --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}'
+fi
+
+# ===============================
+#            COMMANDS
+# ===============================
+
+# shellcheck disable=SC1090
+source "$HOME/.oh-luis-bash/goto-command.sh"
+# shellcheck disable=SC1090
+source "$HOME/.oh-luis-bash/with-command.sh"
+
+# ===============================
+#              PROMPT
+# ===============================
+
+rprompt_git()
+{
+	local abrev_head dirty_status ret="";
+
+	# guess abrev head name
+	abrev_head="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
+
+	if [ "$abrev_head" == "HEAD" ]; then
+		# on detached branch, give short hash instead
+		abrev_head="$(git rev-parse --short HEAD 2>/dev/null)"
+
+		# maybe no detached branch and no history
+		# shellcheck disable=SC2181
+		if [ $? -gt 0 ]; then
+			abrev_head="$(git branch --show-current 2>/dev/null)"
+		fi
+	fi
+
+	# check if branch was modified
+	dirty_status="$([[ $(git diff --shortstat 2> /dev/null | tail -n1) != "" ]] && echo "*")"
+
+	# start branch identifier and dirty status scope
+	ret+="${fg_bold}${fg_default_color}["
+	ret+="${fg_light_green}${abrev_head}${dirty_status}"
+	# close scope and reset colors
+	ret+="${fg_default_color}]${reset_colors}"
+	echo -en "$ret"
+}
+
+# Print the right prompt
+# Please use this to print:
+#  printf "%*s" $COLUMNS "ATUM"
+rightprompt()
+{
+	local printable c_printable
+	
+	if git rev-parse --git-dir &> /dev/null; then
+		printable="$(rprompt_git)"
+	fi
+
+	c_printable="$(echo -e "$printable" | sed "s/$(echo -e "\e")[^m]*m//g")"
+
+	if [ "$printable" != "" ]; then
+		printf "%*s" $((COLUMNS + ${#printable} - ${#c_printable} )) "$printable"
+	fi
+}
+
+prompt_exitstatus()
+{
+	# save exit code to use later
+    PROMPT_EXITSTATUS="${?}"
+
+    if [[ ${PROMPT_EXITSTATUS} == "0" ]]
+    then
+        PROMPT_EXITSTATUS=
+    else
+        PROMPT_EXITSTATUS+=" "
+    fi
+}
+
+prompt_command () {
+    prompt_exitstatus
+}
+
+case "$TERM" in
+xterm*|rxvt*|Eterm|aterm|kterm|gnome*|linux*)
+	PROMPT_COMMAND=prompt_command
+	export PROMPT_COMMAND
+
+	# right-side definition
+	PS1="\\[\$(tput sc; rightprompt; tput rc)\\]"
+	
+	# left-side definition
+	
+	# set window title
+	if [[ -n ${SSH_CLIENT+x} || -n ${SSH_TTY+x} ]]; then
+		PS1+='\[\e]2;[ssh] \u@\h:\w\a\]'
+	else
+		PS1+='\[\e]2;\u@\h:\w\a\]'
+	fi
+
+	# start bold
+	PS1+="\\[${fg_bold}\\]"
+
+	# check for root user
+	if [ "$EUID" -eq 0 ]; then
+		PS1+="\\[${fg_red}\\]"
+	else
+		PS1+="\\[${fg_light_cyan}\\]"
+	fi
+	# location info
+	PS1+="\\u@\\h \\[${fg_light_green}\\]\\W "
+	# exit status handeling
+	PS1+="\\[${fg_light_red}\\]\$PROMPT_EXITSTATUS"
+	# final arrow
+	PS1+="\\[${fg_light_magenta}\\]►\\[${reset_colors}\\] "
+	
+	export PS1
+	export PS2="\\[${fg_light_magenta}\\]►\\[$reset_colors\\] "
+	#\\[\$(tput sc; echo -en "${fg_light_red}↵$reset_colors"; tput rc)\\]
+	;;
+*)
+	# Default prompt PS1
+	PS1='[\u@\h \W]\$ '
+	export PS1
+	;;
+esac
+
+if [[ "$TERM" == screen* ]]; then
+	export PROMPT_COMMAND=${PROMPT_COMMAND:+$PROMPT_COMMAND; }'printf "\033_%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'
+elif [[ "$TERM" == linux* ]]; then
+	# set terminal cursor on tty
+	export PROMPT_COMMAND=${PROMPT_COMMAND:+$PROMPT_COMMAND; }'tput cnorm'
+fi
+
+
+# ===============================
+#           GREETINGS
+# ===============================
+
+# greetings only on normal users
+if [ "$EUID" -ne 0 ]; then
+
+NUMBER_OF_SESSIONS="$(who | wc -l)"
+NUMOF_ONLINE_NETWORKS=0
+# shellcheck disable=SC2010
+for interface in $(ls /sys/class/net/ | grep -v lo); do
+  if [[ "$(cat "/sys/class/net/$interface/carrier")" == 1 ]]; then
+  	NUMOF_ONLINE_NETWORKS=$((NUMOF_ONLINE_NETWORKS+1))
+  fi
+done
+
+echo " Welcome,"
+
+figlets_arr=('standard' 'big' 'slant' 'small' 'banner' 'mini' 'smslant' 'script' 'smscript' 'shadow' 'smshadow')
+GREETINGS_HEADER="$( if hash figlet 2>/dev/null; then
+	figlet -f "${figlets_arr[$((RANDOM % ${#figlets_arr[@]}))]}" lsferreira
+else
+	# lsferreira header
+	cat << EOF
+ ┬  ┌─┐┌─┐┌─┐┬─┐┬─┐┌─┐┬┬─┐┌─┐
+ │  └─┐├┤ ├┤ ├┬┘├┬┘├┤ │├┬┘├─┤
+ ┴─┘└─┘└  └─┘┴└─┴└─└─┘┴┴└─┴ ┴
+EOF
+fi )"
+
+# pride month with lolcat
+if hash lolcat 2>/dev/null && [ "$(date +%m)" == "06" ]; then
+	echo -e "$GREETINGS_HEADER\n\n It's pride month!\n" | lolcat
+else
+	echo -e "$GREETINGS_HEADER"
+fi
+
+# last logged session
+{ [[ "$TERM" != linux* ]] || [[ "$TERM" == linux* && -n ${NEW_BASHRC+x} ]]; } \
+	&& echo -e " Last Session: $(last -1 -R "$USER" -n 1 | head -1 |cut -c 23-38)" \
+	|| :
+
+# print number of active sessions if greater than 1
+if [ "$NUMBER_OF_SESSIONS" -gt 1 ]; then
+	echo -e " There's currently $NUMBER_OF_SESSIONS active sessions."
+fi
+
+# reminder for no network connection
+if [ "$NUMOF_ONLINE_NETWORKS" -eq 0 ]; then
+	echo -e " You're not connected to any network."
+fi
+
+# Write random quote
+if hash fortune 2> /dev/null; then
+	printf '\n%s\n' "$(fortune)"
+fi
+
+fi # [ "$EUID" -ne 0 ]
+
+# ===============================
+#        FINAL BOOTSTRAP
+# ===============================
+
+# reenable input
+stty echo
+
+# reenable bash failures
+set +euo pipefail
+
+# untrap exit
+trap - EXIT
+
+# trap hide cursor on tty exit
+[[ "$TERM" == linux* ]] && trap 'tput civis' EXIT || :
