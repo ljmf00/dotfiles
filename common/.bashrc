@@ -274,7 +274,7 @@ if test -n "$ncolors" && test $ncolors -ge 8; then
 	export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 fi
 
-if [ "$COLORTERM" == "truecolor" ] && hash micro 2> /dev/null; then
+if [ -z ${COLORTERM+x} ] && [ "$COLORTERM" == "truecolor" ] && hash micro 2> /dev/null; then
 	MICRO_TRUECOLOR=1
 	export MICRO_TRUECOLOR
 fi
