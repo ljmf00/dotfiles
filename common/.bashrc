@@ -478,7 +478,7 @@ NUMBER_OF_SESSIONS="$(who | wc -l)"
 NUMOF_ONLINE_NETWORKS=0
 # shellcheck disable=SC2010
 for interface in $(ls /sys/class/net/ | grep -v lo); do
-  if [[ "$(cat "/sys/class/net/$interface/carrier")" == 1 ]]; then
+  if [[ "$(cat "/sys/class/net/$interface/carrier" 2>/dev/null)" == 1 ]]; then
   	NUMOF_ONLINE_NETWORKS=$((NUMOF_ONLINE_NETWORKS+1))
   fi
 done
