@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+set -e
+
+remote_server="$1"
+
+if [ "$remote_server" == "" ]; then
+	echo "!! Please provide a ssh remote"
+	exit 1
+fi
+
+package_deps=( "${@:2}" )
+
+if [ "${#package_deps[@]}" -eq 0 ]; then
+	echo "@@ No dependencies provided, building with normal offload-build"
+	offload-build -s "$remote_server"
+fi
+
+remote_workdir="$(ssh -q "$remote_server" echo \$HOME)/Temp"
+ssh -q "$remote_server" mkdir -p "$remote_workdir"
+
+pkg_install_deps () {
+	echo "--> Copying packages to the remote"
+	for pkg in ${package_deps[@]}; do
+		scp "$(pwd)/$(basename "$(find . -name "$pkg-*.pkg.tar.zst" -print -quit)")" "$remote_server:$remote_workdir"
+	done
+}
+
+pkg_try_remove_deps() {
+	echo "--> Removing packages from the remote"
+	for pkg in ${package_deps[@]}; do
+		ssh -q "$remote_server" rm "$remote_workdir/\$(basename \"\$(find "$remote_workdir" -name \"$pkg-*.pkg.tar.zst\" -print -quit)\")"
+	done
+}
+
+OFFLOAD_ARGS="-- --"
+
+for pkg in ${package_deps[@]}; do
+	OFFLOAD_ARGS+=" -I $remote_workdir/$(basename "$(find . -name "$pkg-*.pkg.tar.zst" -print -quit)")"
+done
+
+pkg_install_deps
+
+trap pkg_try_remove_deps EXIT
+
+echo "--> Running offload build"
+offload-build -s "$remote_server" $OFFLOAD_ARGS
