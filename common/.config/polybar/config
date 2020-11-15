@@ -1,0 +1,258 @@
+[bar/top]
+font-0 = DejaVu Sans Mono Nerd Font Mono:size=10:style=Regular
+font-1 = Noto Sans Symbols2:size=10:style=Regular;+2
+font-2 = DejaVu Sans:size=10:style=Regular;+2
+
+monitor=${env:MONITOR:}
+modules-right = battery io-usage cpu memory date time
+modules-left = i3 backlight pulseaudio
+modules-center = title
+width = 100%
+height = 18
+background = #BB000000
+module-margin = 1
+scroll-up = i3wm-wsnext
+scroll-down = i3wm-wsprev
+
+tray-position = right
+tray-padding = 5
+tray-background = #dd222222
+tray-detached = false
+tray-offset-y = 0
+
+;wm-restack = i3
+
+fixed-center = true
+
+[module/date]
+interval = 1.0
+type = internal/date
+date=%A, %d %b %Y%
+time = %H:%M
+format = <label>
+label = %{F#8fbcbb}🗓 %date%%{F#b48ead} 🕐 %time%
+label-font = 6
+
+[module/io-usage]
+type = custom/script
+
+# avg value
+#exec = "iostat -xy 2 1 | awk '/%util$/{x=NR+FNR}(NR<x){print $NF}' | tail -n +2 | tr -s '\n' | awk '{ total += $1; count++ } END { print total/count }' | cut -d. -f1"
+# max value
+exec = "iostat -xy 2 1 | awk '/%util$/{x=NR+FNR}(NR<x){print $NF}' | tail -n +2 | sort -nr | head -n1"
+
+label = %{F#ff992b}IO %output%%
+
+; Will the script output continous content?
+; Default: false
+tail = true
+
+interval = 2
+
+[module/pulseaudio]
+type = internal/pulseaudio
+use-ui-max = true
+
+interval = 5
+
+format-volume = %{F#ffaf00}<ramp-volume> <label-volume>
+
+label-muted = 🔇
+label-muted-foreground = #bf630b
+
+; Only applies if <ramp-volume> is used
+ramp-volume-0 = 🔈
+ramp-volume-1 = 🔉
+ramp-volume-2 = 🔊
+
+[module/backlight]
+type = internal/backlight
+
+; Use the following command to list available cards:
+; $ ls -1 /sys/class/backlight/
+card = intel_backlight
+format = %{F#bf616a}<ramp> <label>
+label = %percentage%%
+
+ramp-0 = 🌕
+ramp-1 = 🌔
+ramp-2 = 🌓
+ramp-3 = 🌒
+ramp-4 = 🌑
+
+bar-width = 10
+bar-indicator = |
+bar-fill = ─
+bar-empty = ─
+
+[module/i3]
+type = internal/i3
+pin-workspaces = true
+strip-wsnumbers = true
+index-sort = true
+enable-click = true
+
+format = <label-state> <label-mode>
+
+; Available tokens:
+;   %mode%
+; Default: %mode%
+label-mode = %mode%
+label-mode-padding = 2
+label-mode-background = #bbffaf00
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+;   %output%
+; Default: %icon%  %name%
+label-focused = %index%
+label-focused-foreground = #000000
+label-focused-background = #608aba
+label-focused-padding = 1
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+;   %output%
+; Default: %icon%  %name%
+label-unfocused = %index%
+label-unfocused-foreground = #ffffff
+label-unfocused-background = #dd222222
+label-unfocused-padding = 1
+
+;label-separator =|
+;label-separator-foreground = #bf630b
+
+[module/wired-network]
+type = internal/network
+interface = enp0s20f0u1u1
+
+; Seconds to sleep between updates
+; Default: 1
+interval = 3.0
+format-connected = %{F#ebcb8b} <label-connected>
+label-connected = "%{A1:wicd-client:}🌍 %signal%% %essid%%{A}"
+
+; Available tags:
+;   <label-disconnected> (default)
+format-disconnected = <label-disconnected>
+label-disconnected = 🕱
+
+[module/wireless-network]
+type = internal/network
+interface = wlp1s0
+
+; Available tags:
+;   <label-connected> (default)
+;   <label-packetloss>
+;   <animation-packetloss>
+format-packetloss = <animation-packetloss> <label-connected>
+
+; Seconds to sleep between updates
+; Default: 1
+interval = 3.0
+format-connected = %{F#ebcb8b} <label-connected>
+label-connected = "%{A1:wicd-client:}🌍 %signal%% %essid%%{A}"
+
+; Available tags:
+;   <label-disconnected> (default)
+format-disconnected = <label-disconnected>
+label-disconnected = not connected
+label-disconnected-foreground = #66ffffff
+
+; Only applies if <animation-packetloss> is used
+animation-packetloss-0 = ⚠
+animation-packetloss-0-foreground = #ffa64c
+animation-packetloss-1 = 📶
+animation-packetloss-1-foreground = #000000
+; Framerate in milliseconds
+animation-packetloss-framerate = 500
+
+[module/title]
+type = internal/xwindow
+
+format = <label>
+format-foreground = #aaa
+format-padding = 4
+
+; Available tokens:
+;   %title%
+; Default: %title%
+label = %title%
+label-maxlen = 75
+
+[module/cpu]
+type = internal/cpu
+
+; Seconds to sleep between updates
+; Default: 1
+interval = 0.5
+format = <label> %{F#81a1c1}<ramp-load>
+
+; Available tokens:
+;   %percentage% (default) - total cpu load averaged over all cores
+;   %percentage-sum% - Cumulative load on all cores
+;   %percentage-cores% - load percentage for each core
+;   %percentage-core[1-9]% - load percentage for specific core
+label = %{F#ff992b}CPU %percentage%%
+
+ramp-load-0 = ▁
+ramp-load-1 = ▂
+ramp-load-2 = ▃
+ramp-load-3 = ▄
+ramp-load-4 = ▅
+ramp-load-5 = ▆
+ramp-load-6 = ▇
+ramp-load-7 = █
+
+[module/memory]
+type = internal/memory
+format = %{F#ff922b}<label> %{F#a3be8c}<ramp-used>
+;label = RAM %gb_used%/%gb_total%
+label = RAM %percentage_used%%
+
+ramp-used-0 = ▁
+ramp-used-1 = ▂
+ramp-used-2 = ▃
+ramp-used-3 = ▄
+ramp-used-4 = ▅
+ramp-used-5 = ▆
+ramp-used-6 = ▇
+ramp-used-7 = █
+
+[module/battery]
+type = internal/battery
+
+; This is useful in case the battery never reports 100% charge
+full-at = 99
+
+battery = BAT0
+adapter = ADP1
+poll-interval = 5
+
+time-format = %H:%M
+
+format-charging = %{F#a3be8c}<animation-charging> <label-charging>
+label-charging = %{F#ffaf00}🗲 %{F#a3be8c}%percentage%%
+
+
+format-discharging = %{F#a3be8c}<ramp-capacity> <label-discharging>
+label-discharging = %percentage%%
+
+format-full = %{F#a3be8c}<ramp-capacity> <label-full>
+label-full = 100%
+ramp-capacity-0 = ▁
+ramp-capacity-1 = ▂
+ramp-capacity-2 = ▅
+ramp-capacity-3 = ▆
+ramp-capacity-4 = █
+
+animation-charging-framerate = 750
+animation-charging-0 = ▁
+animation-charging-1 = ▂
+animation-charging-2 = ▅
+animation-charging-3 = ▆
+animation-charging-4 = █
