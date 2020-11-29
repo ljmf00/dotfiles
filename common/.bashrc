@@ -176,7 +176,7 @@ if [[ ! -f "$BASHRC_CHECKSUM_FILE" || ! "$BASHRC_CHECKSUM" == "$(cat "$BASHRC_CH
 
 	# set window title for new file routine
 	set_windowtitle ".bashrc: check new file"
-	
+
 	echo -e "New .bashrc loaded!\n"
 
 	# check if ncurses is installed
@@ -187,19 +187,19 @@ if [[ ! -f "$BASHRC_CHECKSUM_FILE" || ! "$BASHRC_CHECKSUM" == "$(cat "$BASHRC_CH
 		log_msg2 "$warn" "Package 'pygmentize' is not installed"
 		#TODO: Try to install package
 	fi
-	
+
 	# check if bash-completion is installed
 	if [ ! -d /usr/share/bash-completion ]; then
 		log_msg2 "$warn" "Package 'bash-completion' is not installed"
 		#TODO: Try to install package
 	fi
-	
+
 	# check if git is installed
 	if ! hash git 2> /dev/null; then
 		log_msg2 "$warn" "Package 'git' is not installed"
 		#TODO: Try to install package
 	fi
-	
+
 	# check if ssh is installed
 	if ! hash ssh 2> /dev/null; then
 		log_msg2 "$warn" "Package 'openssh' is not installed"
@@ -229,7 +229,7 @@ if [[ ! -f "$BASHRC_CHECKSUM_FILE" || ! "$BASHRC_CHECKSUM" == "$(cat "$BASHRC_CH
 
 	# add a final newline to the log
 	echo
-	
+
 
 	# set window title to warn user
 	set_windowtitle ".bashrc: waiting for user input"
@@ -386,7 +386,7 @@ rprompt_git()
 rightprompt()
 {
 	local printable c_printable
-	
+
 	if git rev-parse --git-dir &> /dev/null; then
 		printable="$(rprompt_git)"
 	fi
@@ -412,25 +412,74 @@ prompt_exitstatus()
 }
 
 prompt_command () {
+	PROMPT_SPWD="$(spwd)"
     prompt_exitstatus
 }
 
+function prompt_settitle () {
+	# return on tab completion
+	[[ -n "${COMP_LINE:-}" ]] && return || :
+
+	# return on calling PROMPT_COMMAND
+	[ "$BASH_COMMAND" = "$PROMPT_COMMAND" ] && return || :
+
+	# old way to fetch the command
+	# local title="${BASH_COMMAND//[^[:print:]]/}"
+
+	local title
+	title="$(
+		export LC_ALL=C
+		HISTTIMEFORMAT='' builtin history 1 | sed '1 s/^ *[0-9][0-9]*[* ] //'
+	)"
+
+	if [[ "$title" == *\=* ]]; then
+		title="$(echo "$title" | awk '{ print substr($0, 1, 20) }')"
+	else
+		# get first executable name
+		title="$(echo "$title" | sed -e 's/^[[:space:]]*//' | sed 's/\\ /\n/' | cut -d ' ' -f 1 | tr '\n' ' ' | sed -e 's/[[:space:]]*$//')"
+	fi
+
+	if [ "${#title}" -eq 20 ]; then
+		title+="..."
+	fi
+
+	if [[ "$PROMPT_TITLE" -gt 0 ]]; then
+		if [ ! -z ${PROMPT_PRE_TITLE+x} ]; then
+			title="$PROMPT_PRE_TITLE($title) "
+		else
+			title="($title) "
+		fi
+		title+="$USER@$HOSTNAME:$PROMPT_SPWD"
+
+		printf "\033]0;%s\007" "$title"
+	fi
+}
+
+if [[ "$TERM" != linux* && "$TERM" != screen* ]]; then
+	PROMPT_TITLE=0
+	export PROMPT_TITLE
+	trap 'prompt_settitle' DEBUG
+fi
+
+PROMPT_PRE_TITLE=""
+
 case "$TERM" in
 xterm*|rxvt*|Eterm|aterm|kterm|gnome*|linux*)
-	PROMPT_COMMAND=prompt_command
+	PROMPT_COMMAND="prompt_command"
 	export PROMPT_COMMAND
 
 	# right-side definition
 	PS1="\\[\$(tput sc; rightprompt; tput rc)\\]"
-	
+
 	# left-side definition
-	
+
 	# set window title
+	PS1+='\[\e]2;'
 	if [[ -n ${SSH_CLIENT+x} || -n ${SSH_TTY+x} ]]; then
-		PS1+='\[\e]2;[ssh] \u@\h:\w\a\]'
-	else
-		PS1+='\[\e]2;\u@\h:\w\a\]'
+		PROMPT_PRE_TITLE+='[ssh] '
 	fi
+	PS1+="$PROMPT_PRE_TITLE"
+	PS1+='\u@\h:$PROMPT_SPWD\a\]'
 
 	# start bold
 	PS1+="\\[${fg_bold}\\]"
@@ -442,12 +491,12 @@ xterm*|rxvt*|Eterm|aterm|kterm|gnome*|linux*)
 		PS1+="\\[${fg_light_cyan}\\]"
 	fi
 	# location info
-	PS1+="\\u@\\h \\[${fg_light_green}\\]\\W "
+	PS1+="\\u@\\h \\[${fg_light_green}\\]\$PROMPT_SPWD "
 	# exit status handeling
 	PS1+="\\[${fg_light_red}\\]\$PROMPT_EXITSTATUS"
 	# final arrow
 	PS1+="\\[${fg_light_magenta}\\]►\\[${reset_colors}\\] "
-	
+
 	export PS1
 	export PS2="\\[${fg_light_magenta}\\]►\\[$reset_colors\\] "
 	#\\[\$(tput sc; echo -en "${fg_light_red}↵$reset_colors"; tput rc)\\]
@@ -458,6 +507,8 @@ xterm*|rxvt*|Eterm|aterm|kterm|gnome*|linux*)
 	export PS1
 	;;
 esac
+
+export PROMPT_PRE_TITLE
 
 if [[ "$TERM" == screen* ]]; then
 	export PROMPT_COMMAND=${PROMPT_COMMAND:+$PROMPT_COMMAND; }'printf "\033_%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'
@@ -541,3 +592,7 @@ trap - EXIT
 
 # trap hide cursor on tty exit
 [[ "$TERM" == linux* ]] && trap 'tput civis' EXIT || :
+
+# set title
+PROMPT_TITLE=1
+export PROMPT_TITLE
