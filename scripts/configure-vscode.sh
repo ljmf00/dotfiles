@@ -124,7 +124,7 @@ job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" humao.rest-client # Rest API Client
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" ms-vscode-remote.vscode-remote-extensionpack
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" ms-vscode-remote.remote-ssh
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" ms-vscode-remote.remote-ssh-edit
-job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" ms-vscode-remote.remote-containers@0.140.1
+job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" ms-vscode-remote.remote-containers
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" MS-vsliveshare.vsliveshare
 
 # Misc
