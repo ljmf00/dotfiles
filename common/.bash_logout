@@ -6,3 +6,9 @@
 #
 # ~/.bash_logout
 #
+
+# on an ssh session dont do nothing
+[[ -n ${SSH_CLIENT+x} || -n ${SSH_TTY+x} ]] && return || :
+
+clear
+reset
