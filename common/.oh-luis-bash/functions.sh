@@ -147,13 +147,18 @@ lsgrep () { ls | grep "$*" ; }
 
 # get all possible bash colors matrix
 color-matrix() {
-	for x in {0..8}; do 
-	    for i in {30..37}; do 
-	        for a in {40..47}; do 
+	for x in {0..8}; do
+	    for i in {30..37}; do
+	        for a in {40..47}; do
 	            echo -ne "\e[$x;$i;$a""m\\\e[$x;$i;$a""m\e[0;37;40m "
 	        done
 	        echo
 	    done
 	done
 	echo ""
+}
+
+spwd() {
+    cwd=$(echo "${PWD/#$HOME/\~}" | perl -F/ -ane 'print join( "/", map { $i++ < @F - 1 ?  substr $_,0,1 : $_ } @F)')
+    echo -n "$cwd"
 }
