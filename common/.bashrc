@@ -426,32 +426,44 @@ function prompt_settitle () {
 	# old way to fetch the command
 	# local title="${BASH_COMMAND//[^[:print:]]/}"
 
-	local title
-	title="$(
+	local title title_cmd using_root tmp_var
+
+	title_cmd="$(
 		export LC_ALL=C
 		HISTTIMEFORMAT='' builtin history 1 | sed '1 s/^ *[0-9][0-9]*[* ] //'
 	)"
 
-	if [[ "$title" == *\=* ]]; then
-		title="$(echo "$title" | awk '{ print substr($0, 1, 20) }')"
+	if [[ "$title_cmd" == *\=* ]]; then
+		title_cmd="$(echo "$title_cmd" | awk '{ print substr($0, 1, 20) }')"
 	else
 		# get first executable name
-		title="$(echo "$title" | sed -e 's/^[[:space:]]*//' | sed 's/\\ /\n/' | cut -d ' ' -f 1 | tr '\n' ' ' | sed -e 's/[[:space:]]*$//')"
+		title_cmd="$(echo "$title_cmd" | sed -e 's/^[[:space:]]*//')"
+		[[ "$title_cmd" == sudo* ]] && using_root=1 || using_root=0
+		tmp_var="$(echo "$title_cmd" | sed 's/\\ /\n/' | cut -d ' ' -f $((1 + using_root)) | tr '\n' ' ' | sed -e 's/[[:space:]]*$//')"
+		if [[ "$tmp_var" == '-'* ]]; then
+			using_root=0
+			title_cmd="$(echo "$title_cmd" | awk '{ print substr($0, 1, 20) }')"
+		else
+			title_cmd="$tmp_var"
+		fi
 	fi
 
-	if [ "${#title}" -eq 20 ]; then
-		title+="..."
+	if [ "${#title_cmd}" -eq 20 ]; then
+		title_cmd+="..."
 	fi
+
+	title=""
 
 	if [[ "$PROMPT_TITLE" -gt 0 ]]; then
 		if [ ! -z ${PROMPT_PRE_TITLE+x} ]; then
-			title="$PROMPT_PRE_TITLE($title) "
-		else
-			title="($title) "
+			title+="$PROMPT_PRE_TITLE"
 		fi
-		title+="$USER@$HOSTNAME:$PROMPT_SPWD"
+		title+="($title_cmd) "
+		[ "$using_root" -gt 0 ] && title+="root" || title+="$USER"
+		title+="@$HOSTNAME:"
+		[ "$using_root" -gt 0 ] && title+="$(HOME='/root' spwd)" || title+="$PROMPT_SPWD"
 
-		printf "\033]0;%s\007" "$title"
+		set_windowtitle "$title"
 	fi
 }
 
