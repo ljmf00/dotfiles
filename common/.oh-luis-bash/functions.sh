@@ -160,5 +160,5 @@ color-matrix() {
 
 spwd() {
     cwd=$(echo "${PWD/#$HOME/\~}" | perl -F/ -ane 'print join( "/", map { $i++ < @F - 1 ?  substr $_,0,1 : $_ } @F)')
-    echo -n "$cwd"
+    echo "$cwd"
 }
