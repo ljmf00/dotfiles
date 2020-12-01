@@ -428,6 +428,8 @@ function prompt_settitle () {
 
 	local title title_cmd using_root tmp_var
 
+	using_root=0
+
 	title_cmd="$(
 		export LC_ALL=C
 		HISTTIMEFORMAT='' builtin history 1 | sed '1 s/^ *[0-9][0-9]*[* ] //'
@@ -440,7 +442,7 @@ function prompt_settitle () {
 		title_cmd="$(echo "$title_cmd" | sed -e 's/^[[:space:]]*//')"
 		[[ "$title_cmd" == sudo* ]] && using_root=1 || using_root=0
 		tmp_var="$(echo "$title_cmd" | sed 's/\\ /\n/' | cut -d ' ' -f $((1 + using_root)) | tr '\n' ' ' | sed -e 's/[[:space:]]*$//')"
-		if [[ "$tmp_var" == '-'* ]]; then
+		if [[ "$tmp_var" =~ ^-.* ]]; then
 			using_root=0
 			title_cmd="$(echo "$title_cmd" | awk '{ print substr($0, 1, 20) }')"
 		else
