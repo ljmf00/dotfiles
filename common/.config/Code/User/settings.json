@@ -66,9 +66,6 @@
 	"workbench.editor.showTabs": true,
 	"mesonbuild.configureOnOpen": false,
 	"workbench.iconTheme": "vscode-icons",
-	"oracleDeveloperTools.intellisense.enable": false,
-	"oracleDeveloperTools.networkConfiguration.configFilesLocation": "/home/luis/Oracle/network/admin",
-	"oracleDeveloperTools.networkConfiguration.walletFileLocation": "/home/luis/Oracle/network/admin",
 	"java.configuration.checkProjectSettingsExclusions": false,
 	"workbench.preferredDarkColorTheme": "Monokai",
 	"workbench.tips.enabled": false,
@@ -109,5 +106,10 @@
 			"name": "Red Hat Server Connector",
 			"startOnActivation": false
 		}
-	]
+	],
+	"oracledevtools.intellisense.enable": false,
+	"oracledevtools.bookmarkFileFolder": "/home/luis/Oracle/oracle.oracledevtools",
+	"oracledevtools.connectionConfiguration.configFilesFolder": "/home/luis/Oracle/network/admin",
+	"oracledevtools.connectionConfiguration.walletFileFolder": "/home/luis/Oracle/network/admin",
+	"java.project.importOnFirstTimeStartup": "automatic"
 }
