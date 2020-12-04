@@ -216,6 +216,16 @@ if [[ ! -f "$BASHRC_CHECKSUM_FILE" || ! "$BASHRC_CHECKSUM" == "$(cat "$BASHRC_CH
 		log_msg2 "$warn" "Recommended to install micro"
 	fi
 
+	if ! hash figlet 2> /dev/null; then
+		log_msg2 "$warn" "Package 'figlet' is not installed"
+		#TODO: Try to install package
+	fi
+
+	if ! hash fortune 2> /dev/null; then
+		log_msg2 "$warn" "Package 'fortune-mod' is not installed"
+		#TODO: Try to install package
+	fi
+
 	if hash nano 2> /dev/null && [ ! -f ~/.nanorc ]; then
 		log_msg2 "$info" "Creating a .nanorc file to support colors"
 		touch "$HOME/.nanorc"
