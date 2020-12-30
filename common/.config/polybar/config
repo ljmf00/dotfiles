@@ -123,6 +123,12 @@ label-unfocused-foreground = #ffffff
 label-unfocused-background = #dd222222
 label-unfocused-padding = 1
 
+label-visible = %index%
+label-visible-padding = 1
+
+label-urgent = %index%
+label-urgent-padding = 1
+
 ;label-separator =|
 ;label-separator-foreground = #bf630b
 
