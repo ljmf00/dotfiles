@@ -1,0 +1,75 @@
+* {
+    background: #00C1DDE8;
+    foreground: #263238;
+    selected:   #2c6787E8;
+    accent:     #F5F5F5;
+    urgent:     #FF5252;
+
+    spacing: 1;
+    background-color: #FFFFFF00;
+    anchor: north;
+    location: center;
+
+    font: "DejaVu Sans Mono Nerd Font Mono 11";
+}
+
+#window {
+    transparency: "screenshot";
+    y-offset: -20%;
+}
+
+#mainbox {
+    spacing: 1%;
+}
+
+#message {
+    border: 2px;
+    padding: 1em;
+    background-color: @background;
+    text-color: @foreground;
+}
+
+#textbox normal {
+    text-color: @foreground;
+    padding: 0;
+    border: 0;
+}
+
+#listview {
+    padding: 10px;
+    columns: 2;
+    background-color: @background;
+}
+
+#element {
+    padding: 2px;
+    text-color: @foreground;
+}
+#element .urgent {
+    text-color: @urgent;
+}
+#element selected {
+    background-color: @selected;
+    text-color: @accent;
+}
+
+#inputbar {
+    padding: 0.5em 1em;
+    background-color: @background;
+}
+#inputbar normal {
+    foreground-color: @foreground;
+    background-color: @background;
+}
+
+#inputbar {
+    children:   [ prompt, textbox-prompt-colon, entry, case-indicator ];
+}
+
+#textbox-prompt-colon {
+    expand:     false;
+    str:        ":";
+    margin:     0px 0.3em 0em 0em ;
+    text-color: @foreground;
+}
+
