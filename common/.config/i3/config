@@ -240,8 +240,8 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86Display exec xrandr --auto
 
 # Alt+TAB
-bindsym Mod1+Tab       exec --no-startup-id i3-cycle-focus
-bindsym Mod1+Shift+Tab exec --no-startup-id i3-cycle-focus --reverse
+bindsym Mod1+Tab       exec --no-startup-id $HOME/.local/bin/i3-cycle-focus --switch
+#bindsym Mod1+Shift+Tab exec --no-startup-id $HOME/.local/bin/i3-cycle-focus --reverse
 
 ## Rules
 # Dropdown rules
@@ -322,6 +322,7 @@ exec_always --no-startup-id betterlockscreen -u /home/current.jpg
 #}
 
 # Autostart scripts
+exec_always --no-startup-id $HOME/.local/bin/i3-cycle-focus
 exec_always --no-startup-id $HOME/.local/bin/dotfiles-polybar-relaunch
 exec --no-startup-id tmux new -s weechat weechat
 exec --no-startup-id nm-applet
