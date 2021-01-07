@@ -335,5 +335,5 @@ exec --no-startup-id fluxgui
 exec --no-startup-id clipmenud
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id i3-battery-popup
-exec --no-startup-id steam -silent
+#exec --no-startup-id steam -silent
 #exec --no-startup-id remmina -i
