@@ -1,0 +1,37 @@
+[Unit]
+Description=rclone - rsync for cloud storage
+Documentation=https://rclone.org/docs/
+After=network-online.target
+Wants=network-online.target systemd-networkd-wait-online.service
+
+[Service]
+Type=notify
+Restart=on-failure
+
+; Create mount point target
+PermissionsStartOnly=true
+ExecStartPre=/bin/rm -rf %h/.cache/rclone
+ExecStartPre=/bin/mkdir -p %h/mnt/%I
+
+; rclone start command.
+ExecStart=/usr/bin/rclone mount \
+  --user-agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36' \
+  --cache-db-purge \
+  --cache-info-age 6h \
+  --cache-chunk-size 10M \
+  --cache-chunk-total-size 10G \
+  --cache-db-path=%h/.cache/rclone/%I/db \
+  --cache-tmp-upload-path=%h/.cache/rclone/%I/upload \
+  --cache-chunk-path=%h/.cache/rclone/%I/chunks \
+  --cache-dir=%h/.cache/rclone/%I/vfs \
+  -v \
+  %I: %h/mnt/%I
+
+ExecReload=/bin/kill -USR1 $MAINPID
+ExecStop=/bin/fusermount -uz %h/mnt/%I
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStopSec=5s
+
+[Install]
+WantedBy=default.target
