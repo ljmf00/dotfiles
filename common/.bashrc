@@ -422,8 +422,8 @@ prompt_exitstatus()
 }
 
 prompt_command () {
+	prompt_exitstatus
 	PROMPT_SPWD="$(spwd)"
-    prompt_exitstatus
 }
 
 function prompt_settitle () {
