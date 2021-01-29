@@ -73,6 +73,7 @@ job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" webfreak.code-d # D Language Server
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" ms-vscode.vscode-typescript-next # Typescript
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" vscjava.vscode-java-pack # Java
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" dgileadi.java-decompiler # Java Decompiler
+job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" ms-vscode.cpptools-extension-pack # C/C++
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" ms-vscode.cpptools # C/C++
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" ms-dotnettools.csharp # C#
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" ms-python.python # Python
@@ -126,6 +127,8 @@ job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" ms-vscode-remote.remote-ssh
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" ms-vscode-remote.remote-ssh-edit
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" ms-vscode-remote.remote-containers
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" MS-vsliveshare.vsliveshare
+job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" github.codespaces
+job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" ms-vsonline.vsonline
 
 # Misc
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" msjsdiag.debugger-for-chrome
