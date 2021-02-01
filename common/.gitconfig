@@ -6,9 +6,6 @@
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
-[filesystem "Oracle Corporation|1.8.0_242|/dev/mapper/vg0-root"]
-	timestampResolution = 1001 microseconds
-	minRacyThreshold = 4090 microseconds
 [pull]
 	ff = only
 [alias]
