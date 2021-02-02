@@ -48,8 +48,11 @@ if [ -z ${SSH_AUTH_SOCK+x} ]; then
 	    ssh-agent -s > "$HOME/.ssh-agent-env"
 	fi
 
-	# shellcheck disable=SC1090
-    source "$HOME/.ssh-agent-env" > /dev/null
+	# Load SSH Agent environment file if exists
+	if [ -f "$HOME/.ssh-agent-env" ]; then
+		# shellcheck disable=SC1090
+		source "$HOME/.ssh-agent-env" > /dev/null
+	fi
 fi
 
 # Add .local/bin/ to PATH
