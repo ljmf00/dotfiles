@@ -42,13 +42,14 @@ fi
 #    NON INTERACTIVE CONFIGS
 # ===============================
 
-# SSH Agent
-if ! pgrep -u "$USER" ssh-agent > /dev/null; then
-    ssh-agent > "$HOME/.ssh-agent-thing"
-fi
-if [ -z ${SSH_AGENT_PID+x} ]; then
+if [ -z ${SSH_AUTH_SOCK+x} ]; then
+	# SSH Agent
+	if ! pgrep -u "$USER" ssh-agent > /dev/null; then
+	    ssh-agent -s > "$HOME/.ssh-agent-env"
+	fi
+
 	# shellcheck disable=SC1090
-    source "$HOME/.ssh-agent-thing" > /dev/null
+    source "$HOME/.ssh-agent-env" > /dev/null
 fi
 
 # Add .local/bin/ to PATH
