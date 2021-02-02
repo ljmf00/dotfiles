@@ -162,3 +162,7 @@ spwd() {
     cwd=$(echo "${PWD/#$HOME/\~}" | perl -F/ -ane 'print join( "/", map { $i++ < @F - 1 ?  substr $_,0,1 : $_ } @F)')
     echo "$cwd"
 }
+
+bootstrap-ssh() {
+	ssh-add -l > /dev/null || ssh-add
+}
