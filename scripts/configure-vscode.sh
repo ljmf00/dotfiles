@@ -115,6 +115,7 @@ job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" GitHub.vscode-pull-request-github # Gi
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" WakaTime.vscode-wakatime # Wakatime
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" thekalinga.bootstrap4-vscode # Bootstrap
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" asabil.meson # Meson
+job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" surajbarkale.ninja # Ninja
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" platformio.platformio-ide # PlatformIO
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" satoqz.yet-another-discord-presence # Discord
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" shyykoserhiy.vscode-spotify # Spotify
