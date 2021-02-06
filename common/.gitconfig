@@ -1,6 +1,18 @@
+[core]
+	editor = micro
+	excludesfile = ~/.gitignore
+	commitGraph = true
+	hooksPath = ~/.git-hooks
+[color]
+	ui = true
 [user]
 	email = contact@lsferreira.net
 	name = Luís Ferreira
+	signingkey = 730750D54B7A9F66
+[log]
+	utf8 = true
+[init]
+	templatedir = ~/.git-templates
 [filter "lfs"]
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
@@ -10,5 +22,7 @@
 	ff = only
 [alias]
 	c = commit -s
+[gpg]
+	program = gpg2
 [commit]
 	gpgsign = true
