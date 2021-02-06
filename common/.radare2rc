@@ -1,0 +1,20 @@
+# Show comments at right of disassembly
+e asm.cmt.right = true
+
+# Use UTF-8 to show cool arrows that do not look like crap :)
+e scr.utf8 = true
+
+# Display stack and register values on top of disasembly view (visual mode)
+e cmd.stack = true
+
+# Sandbox settings
+e cfg.sandbox = false
+
+e asm.describe = true
+e scr.pipecolor = true
+e scr.pager = less -R
+e bin.demangle = true
+
+"$context='drr;so -6; pd ($r-40);sr SP;pxr 64;sr PC'"
+"$ps='sr PC;ds;$context'"
+"$pso='sr PC;dso;$context'"
