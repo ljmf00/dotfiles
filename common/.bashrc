@@ -434,11 +434,6 @@ prompt_exitstatus()
     fi
 }
 
-prompt_command () {
-	prompt_exitstatus
-	PROMPT_SPWD="$(spwd)"
-}
-
 function prompt_settitle () {
 	# return on tab completion
 	[[ -n "${COMP_LINE:-}" ]] && return || :
@@ -492,13 +487,52 @@ function prompt_settitle () {
 	fi
 }
 
+function prompt_timer_now {
+    date +%s%N
+}
+
+function prompt_timer_start {
+    prompt_timer_start_var=${prompt_timer_start_var:-$(prompt_timer_now)}
+}
+
+function prompt_timer_stop {
+    local delta_us=$((($(prompt_timer_now) - $prompt_timer_start_var) / 1000))
+    local us=$((delta_us % 1000))
+    local ms=$(((delta_us / 1000) % 1000))
+    local s=$(((delta_us / 1000000) % 60))
+    local m=$(((delta_us / 60000000) % 60))
+    local h=$((delta_us / 3600000000))
+
+    if ((h > 0)); then PROMPT_TIMER=${h}h${m}m
+    elif ((m > 0)); then PROMPT_TIMER=${m}m${s}s
+    elif ((s >= 10)); then PROMPT_TIMER=${s}.$((ms / 100))s
+    elif ((s > 0)); then PROMPT_TIMER=${s}.$(printf %03d $ms)s
+    elif ((ms >= 100)); then PROMPT_TIMER=${ms}ms
+    elif ((ms > 0)); then PROMPT_TIMER=${ms}.$((us / 100))ms
+    else PROMPT_TIMER=${us}us
+    fi
+    unset prompt_timer_start_var
+}
+
+function prompt_debug_cb () {
+	prompt_settitle
+	prompt_timer_start
+}
+
+prompt_command () {
+	prompt_exitstatus
+	prompt_timer_stop
+	PROMPT_SPWD="$(spwd)"
+}
+
 if [[ "$TERM" != linux* && "$TERM" != screen* ]]; then
 	PROMPT_TITLE=0
 	export PROMPT_TITLE
-	trap 'prompt_settitle' DEBUG
+	trap 'prompt_debug_cb' DEBUG
 fi
 
 PROMPT_PRE_TITLE=""
+PROMPT_TIMER=""
 
 case "$TERM" in
 xterm*|rxvt*|Eterm|aterm|kterm|gnome*|linux*)
@@ -531,6 +565,9 @@ xterm*|rxvt*|Eterm|aterm|kterm|gnome*|linux*)
 	PS1+="\\u@\\h \\[${fg_light_green}\\]\$PROMPT_SPWD "
 	# exit status handeling
 	PS1+="\\[${fg_light_red}\\]\$PROMPT_EXITSTATUS"
+
+	PS1+="\\[${fg_dark_gray}\\]\$PROMPT_TIMER \\[${reset_colors}\\]"
+
 	# final arrow
 	PS1+="\\[${fg_light_magenta}\\]►\\[${reset_colors}\\] "
 
@@ -544,8 +581,6 @@ xterm*|rxvt*|Eterm|aterm|kterm|gnome*|linux*)
 	export PS1
 	;;
 esac
-
-export PROMPT_PRE_TITLE
 
 if [[ "$TERM" == screen* ]]; then
 	export PROMPT_COMMAND=${PROMPT_COMMAND:+$PROMPT_COMMAND; }'printf "\033_%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'
