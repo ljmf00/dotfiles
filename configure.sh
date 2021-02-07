@@ -12,6 +12,8 @@ DOTFILES_FOLDER="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 unset SOURCE
 
 source "$DOTFILES_FOLDER/scripts/apply-dotfiles.sh"
+source "$DOTFILES_FOLDER/scripts/get-micro.sh"
+source "$DOTFILES_FOLDER/scripts/configure-micro.sh"
 source "$DOTFILES_FOLDER/scripts/configure-bash.sh"
 source "$DOTFILES_FOLDER/scripts/configure-vscode.sh"
 source "$DOTFILES_FOLDER/scripts/fix-permissions.sh"
