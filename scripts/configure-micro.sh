@@ -8,3 +8,4 @@ micro -plugin install misspell
 micro -plugin install editorconfig
 micro -plugin install comment
 micro -plugin install filemanager
+micro -plugin install manipulator
