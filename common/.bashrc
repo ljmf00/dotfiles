@@ -81,7 +81,7 @@ fi
 
 # define set_windowtitle and ncolors as early as possible
 case "$TERM" in
-	xterm*|rxvt*|Eterm|aterm|kterm|gnome*|linux*)
+	xterm*|rxvt*|Eterm|aterm|kterm|gnome*|linux*|tmux*)
 		set_windowtitle() {
 			#[[ -n ${DISPLAY+x} ]] && echo -ne "\033]0;$*\007" || :
 			echo -ne "\033]0;$*\007"
@@ -535,7 +535,7 @@ PROMPT_PRE_TITLE=""
 PROMPT_TIMER=""
 
 case "$TERM" in
-xterm*|rxvt*|Eterm|aterm|kterm|gnome*|linux*)
+xterm*|rxvt*|Eterm|aterm|kterm|gnome*|linux*|tmux*)
 	PROMPT_COMMAND="prompt_command"
 	export PROMPT_COMMAND
 
