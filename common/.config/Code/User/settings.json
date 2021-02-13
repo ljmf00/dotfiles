@@ -111,5 +111,6 @@
 	"oracledevtools.bookmarkFileFolder": "/home/luis/Oracle/oracle.oracledevtools",
 	"oracledevtools.connectionConfiguration.configFilesFolder": "/home/luis/Oracle/network/admin",
 	"oracledevtools.connectionConfiguration.walletFileFolder": "/home/luis/Oracle/network/admin",
-	"java.project.importOnFirstTimeStartup": "automatic"
+	"java.project.importOnFirstTimeStartup": "automatic",
+	"python.languageServer": "Pylance"
 }

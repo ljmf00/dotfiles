@@ -77,6 +77,7 @@ job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" ms-vscode.cpptools-extension-pack # C/
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" ms-vscode.cpptools # C/C++
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" ms-dotnettools.csharp # C#
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" ms-python.python # Python
+job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" ms-python.vscode-pylance # Python
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" golang.Go # Go
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" rust-lang.rust # Rust
 job_pool_run "$INSTALL_VSCODE_EXT_SCRIPT" GraphQL.vscode-graphql # GraphQL
