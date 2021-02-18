@@ -75,7 +75,9 @@ trap akey_continue EXIT
 if [ "$TERM" == "xterm-kitty" ]; then
 	if [ ! -f "/usr/share/terminfo/x/xterm-kitty" ]; then
 		# fallback to a legacy supported terminfo
-		TERM=xterm-256color
+		export TERM=xterm-256color
+	elif [[ -n ${SSH_CLIENT+x} || -n ${SSH_TTY+x} ]]; then
+		export COLORTERM=truecolor
 	fi
 fi
 
