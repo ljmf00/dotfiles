@@ -24,6 +24,8 @@ ExecStart=/usr/bin/rclone mount \
   --cache-tmp-upload-path=%h/.cache/rclone/%I/upload \
   --cache-chunk-path=%h/.cache/rclone/%I/chunks \
   --cache-dir=%h/.cache/rclone/%I/vfs \
+  --allow-other \
+  --allow-root \
   -v \
   %I: %h/mnt/%I
 
