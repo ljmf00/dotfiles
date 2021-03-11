@@ -166,3 +166,16 @@ spwd() {
 bootstrap-ssh() {
 	ssh-add -l > /dev/null || ssh-add
 }
+
+download-music() {
+	youtube-dl \
+		-f bestaudio \
+		--extract-audio \
+		--audio-format mp3 \
+		--audio-quality 0 \
+		--embed-thumbnail \
+		--add-metadata \
+		-i \
+		-o "%(uploader)s - %(title)s.%(ext)s" \
+		$@
+}
