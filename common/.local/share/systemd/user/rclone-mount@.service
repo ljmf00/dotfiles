@@ -16,7 +16,6 @@ ExecStartPre=/bin/mkdir -p %h/mnt/%I
 ; rclone start command.
 ExecStart=/usr/bin/rclone mount \
   --user-agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36' \
-  --cache-db-purge \
   --cache-info-age 6h \
   --cache-chunk-size 10M \
   --cache-chunk-total-size 10G \
@@ -25,7 +24,8 @@ ExecStart=/usr/bin/rclone mount \
   --cache-chunk-path=%h/.cache/rclone/%I/chunks \
   --cache-dir=%h/.cache/rclone/%I/vfs \
   --allow-other \
-  --allow-root \
+  --mega-hard-delete \
+  --links \
   -v \
   %I: %h/mnt/%I
 
