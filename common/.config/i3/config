@@ -222,6 +222,7 @@ bindsym --release Print exec --no-startup-id scrot -p -e 'mkdir -p ~/Pictures/Sc
 # scrot - select window or rectangle
 bindsym --release $mod+Shift+Print exec --no-startup-id escrotum -s -e 'mkdir -p ~/Pictures/Screenshots/ && mv $f ~/Pictures/Screenshots/ && xclip -selection clipboard -target image/png -i ~/Pictures/Screenshots/$f'
 bindsym --release $mod+Print exec --no-startup-id scrot -u -e 'mkdir -p ~/Pictures/Screenshots/ && mv $f ~/Pictures/Screenshots/ && xclip -selection clipboard -target image/png -i ~/Pictures/Screenshots/$f'
+bindsym --release $mod+Mod1+Print exec --no-startup-id escrotum -s -e 'mkdir -p ~/Pictures/Screenshots/ && mv $f ~/Pictures/Screenshots/ && cat ~/Pictures/Screenshots/$f | apaste | tee >(xsel -b) >(xargs notify-send "Upload Complete")'
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.local/bin/dotfiles-chvolume -npy -i 1 -l 100 # increase sound volume
