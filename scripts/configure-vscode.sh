@@ -27,8 +27,6 @@ mkdir -vp "$HOME/.config/Code/"
 [[ ! -L "$HOME/.config/Code - OSS/" && ! -d "$HOME/.config/Code - OSS/" ]] && (rm -rvf "$HOME/.config/Code - Insiders/"; ln -sfv "Code/" "$HOME/.config/Code - OSS")
 [[ ! -L "$HOME/.config/Code - Insiders/" && ! -d "$HOME/.config/Code - Insiders/" ]] && (rm -rvf "$HOME/.config/Code - OSS/"; ln -sfv "Code/" "$HOME/.config/Code - Insiders")
 
-cp -r "$HOME/.config/Code/" .local/share/code-server/
-
 echo "Installing extensions..."
 
 INSTALL_VSCODE_EXT_SCRIPT="$DOTFILES_FOLDER/scripts/install-vscode-extensions.sh"

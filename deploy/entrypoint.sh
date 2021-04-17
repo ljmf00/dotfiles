@@ -69,6 +69,13 @@ else
 fi
 
 echo "[$PREFIX] Running dotfiles configuration..."
+
+"$HOME"/dotfiles/scripts/apply-dotfiles.sh
+
+mkdir -vp "$HOME/.local/share/code-server/User/"
+cp "$HOME/.config/Code/User/settings.json" "$HOME/.local/share/code-server/User/settings.json"
+cp "$HOME/.config/Code/User/keybindings.json" "$HOME/.local/share/code-server/User/keybindings.json"
+
 "$HOME"/dotfiles/configure.sh &
 
 echo "[$PREFIX] Starting code-server..."
