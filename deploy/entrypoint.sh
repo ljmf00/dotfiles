@@ -7,7 +7,7 @@ PREFIX="dotfiles-web"
 mkdir -p "$START_DIR"
 
 # set hostname inside docker
-sudo hostnamectl set-hostname dotty
+sudo hostname dotty
 
 # add rclone config and start rclone, if supplied
 if [[ -z "${RCLONE_DATA}" ]]; then

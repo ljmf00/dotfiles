@@ -44,7 +44,7 @@ RUN locale-gen en_US.UTF-8
 ENV LC_CTYPE 'en_US.UTF-8'
 
 RUN pacman -S --noprogressbar --needed --noconfirm \
-	rclone rsync openssh python-pygments thefuck figlet fortune-mod
+	rclone rsync openssh python-pygments thefuck figlet fortune-mod inetutils
 
 # Remove unrequired dependencies
 RUN pacman -Rs jq --noprogressbar --noconfirm && \
