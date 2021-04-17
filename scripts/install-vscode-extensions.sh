@@ -61,15 +61,23 @@ TEMP_FOLDER="$(mktemp -d /tmp/vscode.XXXXXXXXXX)"
 
 trap "rm -rf '$TEMP_FOLDER'" EXIT
 
+run_code_cmd() {
+	if hash code 2>/dev/null; then
+		code $@
+	elif hash code-server 2>/dev/null; then
+		code-server $@
+	fi
+}
+
 install_vscode_extension() {
 	echo "Downloading '$FULL_EXTENSION_NAME' extension..."
 	vscode_api Microsoft.VisualStudio.Services.VSIXPackage > "$TEMP_EXTENSION_PATH"
 
 	trap "echo 'ERROR: Cant install $FULL_EXTENSION_NAME extension!'" ERR
-	code --install-extension "$TEMP_EXTENSION_PATH" 2> /dev/null | awk "{print \"[$FULL_EXTENSION_NAME] \"\$0}"
+	run_code_cmd --install-extension "$TEMP_EXTENSION_PATH" 2> /dev/null | awk "{print \"[$FULL_EXTENSION_NAME] \"\$0}"
 }
 
-if hash code; then
+if hash code 2>/dev/null || hash code-server 2>/dev/null; then
 	TEMP_EXTENSION_PATH="$TEMP_FOLDER/${FULL_EXTENSION_NAME}-${EXTENSION_VERSION}.vsix"
 
 	echo "Looking for the extension locally..."
