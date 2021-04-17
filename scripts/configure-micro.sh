@@ -1,11 +1,19 @@
 #!/usr/bin/env bash
 
+exec_micro_cmd() {
+	if hash micro 2>/dev/null; then
+		micro $@
+	else
+		"$HOME/.local/bin/micro" $@
+	fi
+}
+
 echo "Update micro text editor plugins..."
-micro -plugin update
+exec_micro_cmd -plugin update
 
 echo "Install micro text editor plugins..."
-micro -plugin install misspell
-micro -plugin install editorconfig
-micro -plugin install comment
-micro -plugin install filemanager
-micro -plugin install manipulator
+exec_micro_cmd -plugin install misspell
+exec_micro_cmd -plugin install editorconfig
+exec_micro_cmd -plugin install comment
+exec_micro_cmd -plugin install filemanager
+exec_micro_cmd -plugin install manipulator
