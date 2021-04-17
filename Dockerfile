@@ -44,7 +44,9 @@ RUN locale-gen en_US.UTF-8
 ENV LC_CTYPE 'en_US.UTF-8'
 
 RUN pacman -S --noprogressbar --needed --noconfirm \
-	rclone rsync openssh python-pygments thefuck figlet fortune-mod inetutils
+	rclone rsync openssh python-pygments thefuck figlet fortune-mod inetutils \
+	dlang dotnet-host dotnet-runtime dotnet-sdk aspnet-runtime aspnet-targeting-pack \
+	dotnet-targeting-pack netstandard-targeting-pack
 
 # Remove unrequired dependencies
 RUN pacman -Rs jq --noprogressbar --noconfirm && \
