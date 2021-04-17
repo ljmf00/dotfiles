@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-START_DIR="${START_DIR:-/home/luis}"
+START_DIR="${START_DIR:-/home/luis/Workspace}"
 
 PREFIX="dotfiles-web"
 
