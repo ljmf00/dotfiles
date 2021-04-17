@@ -9,6 +9,10 @@ mkdir -p "$START_DIR"
 # set hostname inside docker
 sudo hostname dotty
 
+if [[ ! -z "${WAKATIME_API_KEY}" ]]; then
+	echo -e "[settings]\napi_key = $WAKATIME_API_KEY" > "$HOME/.wakatime.cfg"
+fi
+
 # add rclone config and start rclone, if supplied
 if [[ -z "${RCLONE_DATA}" ]]; then
     echo "[$PREFIX] RCLONE_DATA is not specified. Files will not persist"
