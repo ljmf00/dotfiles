@@ -227,6 +227,10 @@ if [[ ! -f "$BASHRC_CHECKSUM_FILE" || ! "$BASHRC_CHECKSUM" == "$(cat "$BASHRC_CH
 		log_msg2 "$warn" "Recommended to install micro"
 	fi
 
+	if ! hash lsd 2> /dev/null; then
+		log_msg2 "$warn" "Recommended to install lsd"
+	fi
+
 	if ! hash figlet 2> /dev/null; then
 		log_msg2 "$warn" "Package 'figlet' is not installed"
 		#TODO: Try to install package
@@ -304,6 +308,10 @@ if [ ! -z ${COLORTERM+x} ] && [ "$COLORTERM" == "truecolor" ] && hash micro 2> /
 	export MICRO_TRUECOLOR
 fi
 
+if hash lsd 2> /dev/null; then
+	alias ls="lsd"
+fi
+
 # Editor configuration
 if hash micro 2> /dev/null && test -n "$ncolors" && test $ncolors -ge 8; then
 	EDITOR='micro'
@@ -356,7 +364,9 @@ fi
 # Improved commands
 if test -n "$ncolors" && test $ncolors -ge 8; then
 	alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}'
-	alias ls='ls --color=tty'
+	if ! hash lsd 2> /dev/null; then
+		alias ls='ls --color=tty'
+	fi
 	alias ip='ip -color=auto'
 	alias dmesg='dmesg --color=always'
 else
