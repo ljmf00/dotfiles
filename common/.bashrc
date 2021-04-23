@@ -181,6 +181,43 @@ stty -echo
 BASHRC_CHECKSUM="$(cksum "$HOME/"{.bashrc,.oh-luis-bash/*})"
 BASHRC_CHECKSUM_FILE="$HOME/.bashrc.check"
 
+NON_INTERACTIVE_INSTALL="0"
+
+install_archpkg_pacman() {
+	sudo pacman -S "$1" --noconfirm --needed
+}
+
+install_archpkg_yay() {
+	yay -S "$1" --noconfirm --needed
+}
+
+install_archpkg() {
+	case $1 in
+		aur ) install_archpkg_aur "$2";;
+		pacman ) install_archpkg_pacman "$2";;
+	esac
+}
+
+install_archpkg_prompt() {
+	if [ "$NON_INTERACTIVE_INSTALL" == "1" ]; then
+		install_archpkg "$1" "$2"
+	elif [ "$NON_INTERACTIVE_INSTALL" == "0" ]; then
+		while true; do
+		    read -p "Do you wish to install '$2' program? [ynaq]" yn
+		    echo
+		    case $yn in
+		        [Yy]* ) install_archpkg "$1" "$2"; break;;
+		        [Aa]* ) NON_INTERACTIVE_INSTALL="1"; install_archpkg "$1" "$2"; break;;
+		        [Qq]* ) NON_INTERACTIVE_INSTALL="-1"; break;;
+		        [Nn]* ) break;;
+		        * ) echo "Please answer yes, no, all or Q/q for never.";;
+		    esac
+		done
+	else
+		echo "Ignoring installation of '$2'"
+	fi
+}
+
 # if this file changed, run checks
 if [[ ! -f "$BASHRC_CHECKSUM_FILE" || ! "$BASHRC_CHECKSUM" == "$(cat "$BASHRC_CHECKSUM_FILE")" ]]; then
 	NEW_BASHRC=1
@@ -190,37 +227,33 @@ if [[ ! -f "$BASHRC_CHECKSUM_FILE" || ! "$BASHRC_CHECKSUM" == "$(cat "$BASHRC_CH
 
 	echo -e "New .bashrc loaded!\n"
 
-	# check if ncurses is installed
-	# check if lolcat is installed
-	# check if fortune is installed
-	# check if pygmentize is installed
 	if ! hash pygmentize 2> /dev/null; then
 		log_msg2 "$warn" "Package 'pygmentize' is not installed"
-		#TODO: Try to install package
+		install_archpkg_prompt 'pacman' 'pygmentize'
 	fi
 
 	# check if bash-completion is installed
 	if [ ! -d /usr/share/bash-completion ]; then
 		log_msg2 "$warn" "Package 'bash-completion' is not installed"
-		#TODO: Try to install package
+		install_archpkg_prompt 'pacman' 'bash-completion'
 	fi
 
 	# check if git is installed
 	if ! hash git 2> /dev/null; then
 		log_msg2 "$warn" "Package 'git' is not installed"
-		#TODO: Try to install package
+		install_archpkg_prompt 'pacman' 'git'
 	fi
 
 	# check if ssh is installed
 	if ! hash ssh 2> /dev/null; then
 		log_msg2 "$warn" "Package 'openssh' is not installed"
-		#TODO: Try to install package
+		install_archpkg_prompt 'pacman' 'openssh'
 	fi
 
 	# check if thefuck is installed
 	if ! hash thefuck 2> /dev/null; then
 		log_msg2 "$warn" "Package 'thefuck' is not installed"
-		#TODO: Try to install package
+		install_archpkg_prompt 'pacman' 'thefuck'
 	fi
 
 	if ! hash micro 2> /dev/null; then
@@ -229,16 +262,17 @@ if [[ ! -f "$BASHRC_CHECKSUM_FILE" || ! "$BASHRC_CHECKSUM" == "$(cat "$BASHRC_CH
 
 	if ! hash lsd 2> /dev/null; then
 		log_msg2 "$warn" "Recommended to install lsd"
+		install_archpkg_prompt 'pacman' 'lsd'
 	fi
 
 	if ! hash figlet 2> /dev/null; then
 		log_msg2 "$warn" "Package 'figlet' is not installed"
-		#TODO: Try to install package
+		install_archpkg_prompt 'pacman' 'figlet'
 	fi
 
 	if ! hash fortune 2> /dev/null; then
 		log_msg2 "$warn" "Package 'fortune-mod' is not installed"
-		#TODO: Try to install package
+		install_archpkg_prompt 'pacman' 'fortune-mod'
 	fi
 
 	if hash nano 2> /dev/null && [ ! -f ~/.nanorc ]; then
