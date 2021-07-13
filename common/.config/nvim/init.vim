@@ -49,6 +49,11 @@ Plug 'honza/vim-snippets'
 Plug 'idanarye/vim-dutyl'
 Plug 'kiith-sa/DSnips'
 
+" Fuzzy finding
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+
 call plug#end()
 
 if exists('g:loaded_sensible') || &compatible
@@ -174,3 +179,11 @@ let g:NERDTreeDirArrowCollapsible = '▾'
 let g:NERDTreeShowLineNumbers=0
 
 nnoremap <silent> <C-b> :NERDTreeToggle<CR>
+
+" Find files using Telescope command-line sugar.
+let mapleader=","
+
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
