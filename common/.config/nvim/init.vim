@@ -101,8 +101,6 @@ let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline_theme='powerlineish'
 
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
 
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 
@@ -124,6 +122,8 @@ set mouse=a
 
 let g:comfortable_motion_friction = 80.0
 let g:comfortable_motion_air_drag = 2.0
+
+let g:comfortable_motion_no_default_key_mappings = 1
 
 " Autoclose brackets
 inoremap " ""<left>
@@ -158,8 +158,19 @@ noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-20)<CR>
 autocmd FileType d set efm=%*[^@]@%f\(%l\):\ %m,%f\(%l\\,%c\):\ %m,%f\(%l\):\ %m
 
 autocmd StdinReadPre * let s:std_in=1
+
+" NERDTree
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
+autocmd FileType nerdtree set norelativenumber
+autocmd FileType taglist set norelativenumber
+
+
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+let g:NERDTreeShowLineNumbers=0
+
+nnoremap <silent> <C-b> :NERDTreeToggle<CR>
