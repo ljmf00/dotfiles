@@ -28,6 +28,7 @@ Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-obsession'
 
 Plug 'tpope/vim-git'
 Plug 'tpope/vim-fugitive'
