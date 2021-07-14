@@ -346,18 +346,18 @@ if hash lsd 2> /dev/null; then
 	alias ls="lsd"
 fi
 
-# Editor configuration
-if hash micro 2> /dev/null && test -n "$ncolors" && test $ncolors -ge 8; then
+# Editor configurations
+if hash nvim 2> /dev/null; then
+	EDITOR='nvim'
+	VISUAL='nvim'
+# fallback to micro
+elif hash micro 2> /dev/null && test -n "$ncolors" && test $ncolors -ge 8; then
 	EDITOR='micro'
 	VISUAL='micro'
 # fallback to nano text editor
 elif hash nano 2> /dev/null; then
 	EDITOR='nano'
 	VISUAL='nano'
-# fallback to nvim
-elif hash nvim 2> /dev/null; then
-	EDITOR='nvim'
-	VISUAL='nvim'
 # fallback to vim
 elif hash vim 2> /dev/null; then
 	EDITOR='vim'
