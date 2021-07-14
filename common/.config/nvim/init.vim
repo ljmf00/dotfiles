@@ -72,6 +72,9 @@ set cursorline
 set number relativenumber
 set showmatch
 
+" Ruler
+  set cc=80
+
 set clipboard+=unnamedplus
 
 " FIXME: Don't toggle this on NERDTree
