@@ -74,6 +74,7 @@ set showmatch
 
 set clipboard+=unnamedplus
 
+" FIXME: Don't toggle this on NERDTree
 augroup numbertoggle
     autocmd!
     autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
