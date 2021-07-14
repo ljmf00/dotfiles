@@ -114,11 +114,6 @@ vnoremap <C-k> :m '<-2<CR>gv=gv
 " Smooth scroll
 set mouse=a
 
-let g:comfortable_motion_friction = 80.0
-let g:comfortable_motion_air_drag = 2.0
-
-let g:comfortable_motion_no_default_key_mappings = 1
-
 " Auto indentation
   set smartindent
   set tabstop=8
