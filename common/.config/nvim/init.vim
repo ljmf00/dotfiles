@@ -21,14 +21,15 @@ Plug 'lifepillar/vim-solarized8'
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 Plug 'RRethy/vim-illuminate'
 
-" Smooth scrolling
-Plug 'yuttie/comfortable-motion.vim'
-
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-obsession'
+
+" Tabs
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'romgrk/barbar.nvim'
 
 Plug 'tpope/vim-git'
 Plug 'tpope/vim-fugitive'
@@ -37,17 +38,13 @@ Plug 'APZelos/blamer.nvim'
 
 Plug 'bogado/file-line'
 Plug 'preservim/nerdtree'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
-Plug 'prabirshrestha/vim-lsp'
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-compe'
+Plug 'windwp/nvim-autopairs'
+
 Plug 'SirVer/ultisnips'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'thomasfaingnaert/vim-lsp-snippets'
-Plug 'thomasfaingnaert/vim-lsp-ultisnips'
-Plug 'honza/vim-snippets'
-
-" Dlang support
-Plug 'idanarye/vim-dutyl'
 Plug 'kiith-sa/DSnips'
 
 " Fuzzy finding
@@ -63,17 +60,7 @@ else
   let g:loaded_sensible = 'yes'
 endif
 
-if has('autocmd')
-  filetype plugin indent on
-endif
-if has('syntax') && !exists('g:syntax_on')
-  syntax enable
-endif
-
-if !has('nvim') && &ttimeoutlen == -1
-  set ttimeout
-  set ttimeoutlen=100
-endif
+syntax enable
 
 " Solarized Dark theme
 colorscheme solarized8
@@ -84,6 +71,8 @@ hi Normal guibg=#002b37
 set cursorline
 set number relativenumber
 set showmatch
+
+set clipboard+=unnamedplus
 
 augroup numbertoggle
     autocmd!
@@ -106,7 +95,6 @@ let g:syntastic_warning_symbol = '⚠'
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline_theme='powerlineish'
-
 
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 
@@ -131,60 +119,122 @@ let g:comfortable_motion_air_drag = 2.0
 
 let g:comfortable_motion_no_default_key_mappings = 1
 
-" Autoclose brackets
-inoremap " ""<left>
-inoremap ' ''<left>
-inoremap ( ()<left>
-inoremap [ []<left>
-inoremap { {}<left>
-inoremap {<CR> {<CR>}<ESC>O
-inoremap {;<CR> {<CR>};<ESC>O
-
 " Auto indentation
+  set smartindent
+  set tabstop=8
+  set softtabstop=4
+  set shiftwidth=4
+  set expandtab
 
-set smartindent
-set tabstop=8
-set softtabstop=4
-set shiftwidth=4
-set expandtab
+  set autoindent
+  set backspace=indent,eol,start
+  set complete-=i
+  set smarttab
 
-set autoindent
-set backspace=indent,eol,start
-set complete-=i
-set smarttab
+  let g:dutyl_dontHandleFormat = 1
+  let g:dutyl_dontHandleIndent = 1
 
-let g:dutyl_dontHandleFormat = 1
-let g:dutyl_dontHandleIndent = 1
+  set nrformats-=octal
 
-set nrformats-=octal
+" LSP
+lua << EOF
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-noremap <silent> <ScrollWheelDown> :call comfortable_motion#flick(20)<CR>
-noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-20)<CR>
+  require'lspconfig'.vimls.setup{}
+  require'lspconfig'.serve_d.setup{}
+  vim.o.completeopt = "menuone,noselect"
 
-autocmd FileType d set efm=%*[^@]@%f\(%l\):\ %m,%f\(%l\\,%c\):\ %m,%f\(%l\):\ %m
+  require'compe'.setup {
+    enabled = true;
+    autocomplete = true;
+    debug = false;
+    min_length = 1;
+    preselect = 'enable';
+    throttle_time = 80;
+    source_timeout = 200;
+    resolve_timeout = 800;
+    incomplete_delay = 400;
+    max_abbr_width = 100;
+    max_kind_width = 100;
+    max_menu_width = 100;
+    documentation = {
+      border = { '', '' ,'', ' ', '', '', '', ' ' }, -- the border option is the same as `|help nvim_open_win|`
+      winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
+      max_width = 120,
+      min_width = 60,
+      max_height = math.floor(vim.o.lines * 0.3),
+      min_height = 1,
+    };
+
+    source = {
+      path = true;
+      buffer = true;
+      calc = true;
+      nvim_lsp = true;
+      nvim_lua = true;
+      vsnip = true;
+      ultisnips = true;
+      luasnip = true;
+    };
+  }
+  require('nvim-autopairs').setup()
+  require("nvim-autopairs.completion.compe").setup({
+    map_cr = true, --  map <CR> on insert mode
+    map_complete = true -- it will auto insert `(` after select function or method item
+  })
+
+  vim.lsp.set_log_level("debug")
+EOF
+
+" Autocompletion
+  inoremap <silent><expr> <C-Space> compe#complete()
+  inoremap <silent><expr> <CR>      compe#confirm(luaeval("require 'nvim-autopairs'.autopairs_cr()"))
+  inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+  inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+  inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+
+" D error parsing
+  autocmd FileType d set efm=%*[^@]@%f\(%l\):\ %m,%f\(%l\\,%c\):\ %m,%f\(%l\):\ %m
 
 autocmd StdinReadPre * let s:std_in=1
 
+" Don't show relative line numbers in taglists
+  autocmd FileType taglist set norelativenumber
+
 " NERDTree
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+  autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-autocmd FileType nerdtree set norelativenumber
-autocmd FileType taglist set norelativenumber
+  autocmd FileType nerdtree set norelativenumber
 
+  let g:NERDTreeDirArrowExpandable = '▸'
+  let g:NERDTreeDirArrowCollapsible = '▾'
+  let g:NERDTreeShowLineNumbers=0
 
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-let g:NERDTreeShowLineNumbers=0
+  nnoremap <silent> <C-b> <cmd>NERDTreeToggle<CR>
 
-nnoremap <silent> <C-b> :NERDTreeToggle<CR>
+" Open terminal on insert mode automatically
+  autocmd TermOpen * startinsert
 
-" Find files using Telescope command-line sugar.
-let mapleader=","
+" Navigation
+  let mapleader=","
 
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+  nnoremap <C-p> <cmd>lua vim.lsp.diagnostic.goto_prev()<cr>
+  nnoremap <C-n> <cmd>lua vim.lsp.diagnostic.goto_next()<cr>
+  nnoremap <C-Space> <cmd>lua vim.lsp.buf.hover()<cr>
+
+  nnoremap <leader>gD <cmd>lua vim.lsp.buf.declaration()<cr>
+  nnoremap <leader>gd <cmd>Telescope lsp_definitions<cr>
+  nnoremap <leader>gi <cmd>Telescope lsp_implementations<cr>
+  nnoremap <leader>gr <cmd>Telescope lsp_references<cr>
+  nnoremap <leader>ff <cmd>Telescope find_files<cr>
+  nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+  nnoremap <leader>fb <cmd>Telescope buffers<cr>
+  nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+  nnoremap <leader>fds <cmd>Telescope lsp_document_symbols<cr>
+  nnoremap <leader>fws <cmd>Telescope lsp_dynamic_workspace_symbols<cr>
+  nnoremap <leader>fdd <cmd>Telescope lsp_document_diagnostics<cr>
+  nnoremap <leader>fwd <cmd>Telescope lsp_workspace_diagnostics<cr>
