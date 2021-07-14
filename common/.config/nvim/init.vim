@@ -178,6 +178,7 @@ lua << EOF
       vsnip = true;
       ultisnips = true;
       luasnip = true;
+      emoji = true;
     };
   }
   require('nvim-autopairs').setup()
