@@ -1,5 +1,5 @@
 [core]
-	editor = micro
+	editor = nvim
 	excludesfile = ~/.gitignore
 	commitGraph = true
 	hooksPath = ~/.git-hooks
