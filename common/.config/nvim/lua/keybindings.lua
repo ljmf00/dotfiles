@@ -68,8 +68,8 @@ local mappings = {
   },
   n = { -- Normal mode
 
-    -- Save
-    { "<C-s>", "<cmd>w<cr>"},
+    -- Remove trailing whitespaces and save
+    { "<C-s>", "<cmd>%s/\\s\\+$//e<cr><cmd>w<cr>"},
 
     -- Build
     { "<F5>", "<cmd>make<cr>" },
