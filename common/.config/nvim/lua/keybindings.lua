@@ -71,6 +71,8 @@ local mappings = {
     -- Remove trailing whitespaces and save
     { "<C-s>", "<cmd>%s/\\s\\+$//e<cr><cmd>w<cr>"},
 
+    -- Toggle Highlighted search
+    { "<F3>", "<cmd>set hlsearch!<CR>"},
     -- Build
     { "<F5>", "<cmd>make<cr>" },
 
