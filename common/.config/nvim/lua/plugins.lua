@@ -80,7 +80,8 @@ return require('packer').startup(function()
 
   -- LSP Support
   use {
-    'neovim/nvim-lspconfig',
+    'ljmf00/nvim-lspconfig',
+    branch = 'patch-1',
     config = function()
       require 'pconfig.c-lsp'
     end,

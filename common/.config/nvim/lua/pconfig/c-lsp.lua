@@ -6,4 +6,4 @@ local lspc = require('lspconfig')
 lspc.vimls.setup{}
 lspc.clangd.setup{}
 lspc.tsserver.setup{}
--- lspc.serve_d.setup{}
+lspc.serve_d.setup{}
