@@ -40,8 +40,11 @@ vim.cmd 'set clipboard+=unnamedplus'
 -- Mouse support
 vim.o.mouse = 'a'
 
--- Open terminal on insert mode automatically
+-- Terminal
+--  Open terminal on insert mode automatically
 vim.cmd 'autocmd TermOpen * startinsert'
+--  Close terminal immediatly
+vim.cmd 'au TermClose * call feedkeys("i")'
 
 vim.api.nvim_exec(
         [[
