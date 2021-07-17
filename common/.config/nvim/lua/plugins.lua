@@ -21,6 +21,9 @@ return require('packer').startup(function()
     end,
   }
 
+  -- Wakatime
+  use { 'wakatime/vim-wakatime', tag = '8.0.0' }
+
   -- Misc settings
 
   --  Auto relative number toggle
