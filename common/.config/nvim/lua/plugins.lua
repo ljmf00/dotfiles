@@ -15,6 +15,7 @@ return require('packer').startup(function()
   -- Theme
   use {
     'sainnhe/sonokai',
+    commit = 'ef631befe2bea01c23f4f0d9685025ac15d51ace',
     config = function()
       require 'pconfig.c-sonokai'
     end,
@@ -23,30 +24,32 @@ return require('packer').startup(function()
   -- Misc settings
 
   --  Auto relative number toggle
-  use 'jeffkreeftmeijer/vim-numbertoggle'
+  use { 'jeffkreeftmeijer/vim-numbertoggle', tag = '2.1.2' }
   --  File number on vim startup
-  use 'bogado/file-line'
+  use { 'bogado/file-line', tag = '1.0' }
   --  Sensible default configs
-  use 'tpope/vim-sensible'
+  use { 'tpope/vim-sensible', tag = 'v1.2' }
   --  Surround fast change
-  use 'tpope/vim-surround'
+  use { 'tpope/vim-surround', tag = 'v2.1' }
   --  Auto indentation
-  use 'tpope/vim-sleuth'
+  use { 'tpope/vim-sleuth', tag = 'v1.2' }
   --  Session manager
-  use 'tpope/vim-obsession'
+  use { 'tpope/vim-obsession', commit = '82c9ac5e130c92a46e043dd9cd9e5b48d15e286d' }
   --  Color code highlighter
   use {
     'rrethy/vim-hexokinase',
+    commit = '62324b43ea858e268fb70665f7d012ae67690f43',
     run = 'make hexokinase',
     config = function()
       require 'pconfig.c-hexokinase'
     end,
   }
   --  Highlight similar words
-  use { 'RRethy/vim-illuminate' }
+  use { 'RRethy/vim-illuminate', commit = '8fe150bd775f659da7e40ea2d3ad7473e6d29494' }
   -- Smooth scroll
   use {
       "karb94/neoscroll.nvim",
+      commit = '2b0d9b2db68995bf3fd280523dc192ca602e8367',
       event = "WinScrolled",
       config = function()
           require("neoscroll").setup()
@@ -55,6 +58,7 @@ return require('packer').startup(function()
   --  Custom dashboard
   use {
       "glepnir/dashboard-nvim",
+      commit = 'ba98ab86487b8eda3b0934b5423759944b5f7ebd',
       cmd = {
           "Dashboard",
           "DashboardNewFile",
@@ -70,6 +74,7 @@ return require('packer').startup(function()
   -- Git Support
   use {
     'lewis6991/gitsigns.nvim',
+    tag = 'v0.2',
     requires = {
       'nvim-lua/plenary.nvim'
     },
@@ -92,25 +97,34 @@ return require('packer').startup(function()
     'nvim-telescope/telescope.nvim',
     requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
   }
-  use {"nvim-telescope/telescope-fzf-native.nvim", run = "make", cmd = "Telescope"}
   use {
-      "nvim-telescope/telescope-media-files.nvim",
-      cmd = "Telescope"
+    "nvim-telescope/telescope-fzf-native.nvim",
+    requires = { 'nvim-telescope/telescope.nvim' },
+    run = "make",
+    cmd = "Telescope"
   }
-
-  -- Autocomplete
   use {
-    'hrsh7th/nvim-compe',
-    config = function()
-      require 'pconfig.c-compe'
-    end,
+    "nvim-telescope/telescope-media-files.nvim",
+    requires = { 'nvim-telescope/telescope.nvim' },
+    cmd = "Telescope"
   }
 
   -- Autopairs
   use {
     "windwp/nvim-autopairs",
+    commit = 'e599e15f9400e6b587e3160d2dff83764cb4ab7d',
     config = function()
       require 'pconfig.c-autopairs'
+    end,
+    requires = { 'hrsh7th/nvim-compe' }
+  }
+
+  -- Autocomplete
+  use {
+    'hrsh7th/nvim-compe',
+    tag = 'v2.0.0',
+    config = function()
+      require 'pconfig.c-compe'
     end,
   }
 
@@ -159,12 +173,13 @@ return require('packer').startup(function()
   -- Status Line and Bufferline
   use {
     'glepnir/galaxyline.nvim',
-      branch = 'main',
-      config = function() require'pconfig.c-galaxyline' end,
-      requires = {'kyazdani42/nvim-web-devicons', opt = true},
+    commit = 'd544cb9d0b56f6ef271db3b4c3cf19ef665940d5',
+    config = function() require'pconfig.c-galaxyline' end,
+    requires = {'kyazdani42/nvim-web-devicons', opt = true},
   }
   use {
     'akinsho/nvim-bufferline.lua',
+    commit = 'cebafb95622205a414a6c10bf0e40d197cc652b1',
     config = function() require'pconfig.c-bufferline' end,
     requires = {'kyazdani42/nvim-web-devicons', opt = true},
   }

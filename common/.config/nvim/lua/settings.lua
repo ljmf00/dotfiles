@@ -31,6 +31,9 @@ vim.cmd 'filetype plugin indent on'
 --  Hidden buffers
 vim.o.hidden = true
 
+-- Completion settings
+vim.o.completeopt = "menuone,noselect"
+
 -- Clipboard support
 vim.cmd 'set clipboard+=unnamedplus'
 
