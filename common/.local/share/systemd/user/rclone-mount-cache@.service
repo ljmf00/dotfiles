@@ -17,6 +17,18 @@ ExecStartPre=/bin/mkdir -p %h/mnt/%I
 ExecStart=/usr/bin/rclone mount \
   --user-agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36' \
   --use-server-modtime \
+  --dir-cache-time 1000h \
+  --vfs-cache-mode full \
+  --vfs-cache-max-size 10G \
+  --vfs-cache-max-age 120h \
+  --buffer-size 64M \
+  --cache-info-age 6h \
+  --cache-chunk-size 10M \
+  --cache-chunk-total-size 10G \
+  --cache-db-path=%h/.cache/rclone/%I/db \
+  --cache-tmp-upload-path=%h/.cache/rclone/%I/upload \
+  --cache-chunk-path=%h/.cache/rclone/%I/chunks \
+  --cache-dir=%h/.cache/rclone/%I/vfs \
   --allow-other \
   --fast-list \
   --mega-hard-delete \
@@ -24,7 +36,7 @@ ExecStart=/usr/bin/rclone mount \
   --transfers 10 \
   --async-read \
   --links \
-  --retries 5 \
+  --retries 3 \
   --retries-sleep 1s \
   %I: %h/mnt/%I
 
