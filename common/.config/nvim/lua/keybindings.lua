@@ -113,6 +113,7 @@ local mappings = {
     { "<leader>fds", "<cmd>Telescope lsp_document_symbols<cr>" },
     { "<leader>fws", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>" },
     { "<leader>fdd", "<cmd>Telescope lsp_document_diagnostics<cr>" },
+    { "<leader>fdl", "<cmd>Telescope loclist<cr>" },
     { "<leader>fwd", "<cmd>Telescope lsp_workspace_diagnostics<cr>" },
     --  Files
     { "<leader>ff", "<cmd>Telescope find_files<cr>" },
