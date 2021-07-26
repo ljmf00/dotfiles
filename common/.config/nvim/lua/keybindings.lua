@@ -2,6 +2,12 @@
 -- Remap leader key
 vim.cmd 'let mapleader=","'
 
+-- Smart Home key
+vim.cmd [[
+noremap  <expr> <Home> col('.') == match(getline('.'), '\S') + 1 ? "\<Home>" : "^"
+inoremap <expr> <Home> col('.') == match(getline('.'), '\S') + 1 ? "\<Home>" : "\<C-O>^"
+]]
+
 vim.cmd [[
   function! QuickFixToggle()
     if empty(filter(getwininfo(), 'v:val.quickfix'))
