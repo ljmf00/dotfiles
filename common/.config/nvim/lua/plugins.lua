@@ -95,6 +95,14 @@ return require('packer').startup(function()
     end,
   }
 
+  -- Better make command
+  use {
+    'neomake/neomake',
+    config = function()
+      require 'pconfig.c-neomake'
+    end
+  }
+
   -- Find: Telescope fuzzy finder
   use {
     'nvim-telescope/telescope.nvim',
