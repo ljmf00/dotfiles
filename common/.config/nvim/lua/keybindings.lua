@@ -82,6 +82,13 @@ local mappings = {
     -- Build
     { "<F5>", "<cmd>make<cr>" },
 
+    -- Make d(elete) and similar actually delete
+    { "d", "\"_d" },
+    { "<leader>d", "\"+d" },
+    { "<leader>D", "\"+D" },
+    { "D", "\"_D" },
+    { "x", "\"_x" },
+
     -- Navigation
 
     -- Tree
@@ -114,6 +121,10 @@ local mappings = {
     { "<leader>fh", "<cmd>Telescope help_tags<cr>" },
     { "<C-j>", "<cmd>m .+1<CR>=="},
     { "<C-k>", "<cmd>m .-2<CR>=="},
+  },
+  v = {
+    { "d", "\"_d" },
+    { "<leader>d", "\"+d" },
   },
   x = {
     -- Move selected line / block of text in visual mode
