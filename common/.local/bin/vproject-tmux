@@ -1,0 +1,36 @@
+#!/bin/sh -i
+
+if [ $# -gt 1 ]; then
+  folder_arg="$1"
+  if [ $# = 2 ]; then
+    echo "ATUM"
+    custom_vproject_name="$2"
+  fi
+else
+  folder_arg="$(pwd)"
+fi
+
+vproject_fullpath="$(readlink -f "$folder_arg")"
+
+[ "$custom_vproject_name" = "" ] \
+  && tmux_vproject_hash="vproject_$(echo "$vproject_fullpath" | sha224sum - | cut -d' ' -f1)" \
+  || tmux_vproject_hash="$custom_vproject_name"
+
+last_sessions="$(tmux ls | cut -d: -f1)"
+
+IFS='
+'
+for tsession in $last_sessions; do
+  if [ "$tsession" = "$tmux_vproject_hash" ]; then
+    tmux attach -t "$tmux_vproject_hash"
+    exit 0
+  fi
+done
+
+if [ -f "$vproject_fullpath/Session.vim" ]; then
+  tmux new -s "$tmux_vproject_hash" nvim "$vproject_fullpath" -S "$vproject_fullpath/Session.vim"
+else
+  tmux new -s "$tmux_vproject_hash" nvim "$vproject_fullpath"
+fi
+
+
