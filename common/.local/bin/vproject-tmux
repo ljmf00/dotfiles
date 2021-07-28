@@ -3,7 +3,6 @@
 if [ $# -gt 1 ]; then
   folder_arg="$1"
   if [ $# = 2 ]; then
-    echo "ATUM"
     custom_vproject_name="$2"
   fi
 else
