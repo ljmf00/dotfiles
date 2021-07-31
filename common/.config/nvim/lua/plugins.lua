@@ -153,6 +153,9 @@ return require('packer').startup(function()
   -- NvimTree
   use {
     "kyazdani42/nvim-tree.lua",
+    config = function()
+      require 'pconfig.c-nvimtree'
+    end,
     commit = "fd7f60e242205ea9efc9649101c81a07d5f458bb",
   }
 
