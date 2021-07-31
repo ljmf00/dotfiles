@@ -61,6 +61,18 @@ vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", { expr = true })
 vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
 vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
 
+-- Move lines around in visual mode
+vim.cmd [[
+vmap <unique> <A-k>    <Plug>SchleppUp
+vmap <unique> <A-j>    <Plug>SchleppDown
+vmap <unique> <A-h>    <Plug>SchleppLeft
+vmap <unique> <A-l>    <Plug>SchleppRight
+vmap <unique> <C-k>    <Plug>SchleppDupUp
+vmap <unique> <C-j>    <Plug>SchleppDupDown
+vmap <unique> <C-h>    <Plug>SchleppDupLeft
+vmap <unique> <C-l>    <Plug>SchleppDupRight
+]]
+
 local mappings = {
   i = { -- Insert mode
     -- Autocomplete
