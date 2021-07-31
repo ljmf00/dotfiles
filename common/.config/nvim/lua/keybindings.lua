@@ -1,6 +1,9 @@
 
 -- Remap leader key
-vim.cmd 'let mapleader=","'
+vim.cmd 'let mapleader=" "'
+
+-- Set paste toggle
+vim.o.pastetoggle = '<F2>'
 
 -- Smart Home key
 vim.cmd [[
@@ -81,32 +84,57 @@ local mappings = {
     { "<C-e>", "compe#close('<C-e>')", { silent = true, expr = true } },
     { "<C-f>", "compe#scroll({ 'delta': +4 })", { silent = true, expr = true } },
     { "<C-d>", "compe#scroll({ 'delta': -4 })", { silent = true, expr = true } },
-    { "<C-j>", "<ESC>:m .+1<CR>==gi"},
-    { "<C-k>", "<ESC>:m .-2<CR>==gi"},
+    { "<A-j>", "<ESC><cmd>m .+1<CR>==gi" },
+    { "<A-k>", "<ESC><cmd>m .-2<CR>==gi" },
+
+    -- Save while writing
+    { "<C-s>", "<ESC><C-s>", { noremap = false }},
   },
   n = { -- Normal mode
 
     -- Remove trailing whitespaces and save
-    { "<C-s>", "<cmd>%s/\\s\\+$//e<cr><cmd>w<cr>"},
+    { "<C-s>", "<cmd>%s/\\s\\+$//e<cr><cmd>w<cr>" },
+
+    -- Toggle spell
+    { "<F1>", "<cmd>set spell!<CR>" },
 
     -- Toggle Highlighted search
-    { "<F3>", "<cmd>set hlsearch!<CR>"},
+    { "<F3>", "<cmd>set hlsearch!<CR>" },
     -- Build
     { "<F5>", "<cmd>make<cr>" },
 
     -- Make d(elete) and similar actually delete
-    { "d", "\"_d" },
-    { "<leader>d", "\"+d" },
-    { "<leader>D", "\"+D" },
-    { "D", "\"_D" },
-    { "x", "\"_x" },
+    { "\\d", "\"_d" },
+    { "\\D", "\"_D" },
+    { "\\x", "\"_x" },
 
     -- Navigation
 
-    -- Tree
-    { "<leader>t", "<cmd>NvimTreeToggle<cr>" },
-    { "<C-n>", "<cmd>bn<cr>" },
-    { "<C-p>", "<cmd>bp<cr>" },
+    --  Tree
+    { "<leader>vt", "<cmd>NvimTreeToggle<cr>" },
+
+    -- View
+    --  Reset view
+    { "<leader>vr",
+      table.concat({
+        "<cmd>NvimTreeOpen<cr>",
+        "<cmd>windo set nonumber<cr>",
+        "<cmd>windo set norelativenumber<cr>",
+        "<cmd>windo set nolist<cr>",
+        "<cmd>NvimTreeClose<cr>",
+        "<cmd>tabdo set number<cr>",
+        "<cmd>tabdo set list<cr>",
+        }, ''
+      );
+    },
+
+    --  Buffers
+    { "<C-n>b", "<cmd>bn<cr>" },
+    { "<C-p>b", "<cmd>bp<cr>" },
+
+    --  Diagnostics
+    { "<C-p>d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>" },
+    { "<C-n>d", "<cmd>lua vim.lsp.diagnostic.goto_next()<cr>" },
 
     --  LSP Hover description
     { "<C-Space>", "<cmd>lua vim.lsp.buf.hover()<cr>" },
@@ -116,11 +144,12 @@ local mappings = {
     { "<leader>gd", "<cmd>Telescope lsp_definitions<cr>" },
     { "<leader>gi", "<cmd>Telescope lsp_implementations<cr>" },
     { "<leader>gr", "<cmd>Telescope lsp_references<cr>" },
+    { "<leader>ggl", "<cmd>Telescope git_commits<cr>" },
+    { "<leader>ggc", "<cmd>Telescope git_bcommits<cr>" },
+    { "<leader>ggb", "<cmd>Telescope git_branches<cr>" },
+    { "<leader>ggs", "<cmd>Telescope git_status<cr>" },
 
     --  Find
-    --   Diagnostics
-    { "<leader>pd", "<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>" },
-    { "<leader>nd", "<cmd>lua vim.lsp.diagnostic.goto_next()<cr>" },
     --  Symbols
     { "<leader>fds", "<cmd>Telescope lsp_document_symbols<cr>" },
     { "<leader>fws", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>" },
@@ -132,17 +161,19 @@ local mappings = {
     { "<leader>fg", "<cmd>Telescope live_grep<cr>" },
     { "<leader>fb", "<cmd>Telescope buffers<cr>" },
     { "<leader>fh", "<cmd>Telescope help_tags<cr>" },
-    { "<C-j>", "<cmd>m .+1<CR>=="},
-    { "<C-k>", "<cmd>m .-2<CR>=="},
+
+    --  Move lines up and down
+    { "<A-j>", "<cmd>m .+1<CR>=="},
+    { "<A-k>", "<cmd>m .-2<CR>=="},
   },
+
   v = {
-    { "d", "\"_d" },
-    { "<leader>d", "\"+d" },
-  },
-  x = {
-    -- Move selected line / block of text in visual mode
-    { "<C-k>", "<cmd>m '<-2<CR>gv-gv" },
-    { "<C-j>", "<cmd>m '>+1<CR>gv-gv" },
+    -- Delete to void register
+    { "\\d", "\"_d" },
+
+    -- Keep visual mode on Tab and S-Tab
+    { "<Tab>", ">gv" },
+    { "<S-Tab>", "<gv" },
   },
   [""] = {
     -- Toggle the QuickFix window
@@ -161,3 +192,4 @@ local function register_mappings(mappings, default_options)
 end
 
 register_mappings(mappings, { silent = true, noremap = true })
+
