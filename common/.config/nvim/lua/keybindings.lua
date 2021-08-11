@@ -172,6 +172,7 @@ local mappings = {
     -- Delete to void register
     { "\\d", "\"_d" },
     { "\\c", "\"_c" },
+    { "\\/", "\"fy/<C-R>f", { silent = false }},
 
     -- Keep visual mode on Tab and S-Tab
     { "<Tab>", ">gv" },
