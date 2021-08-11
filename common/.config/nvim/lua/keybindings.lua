@@ -107,6 +107,7 @@ local mappings = {
     { "\\d", "\"_d" },
     { "\\D", "\"_D" },
     { "\\x", "\"_x" },
+    { "\\c", "\"_c" },
 
     -- Navigation
 
@@ -170,6 +171,7 @@ local mappings = {
   v = {
     -- Delete to void register
     { "\\d", "\"_d" },
+    { "\\c", "\"_c" },
 
     -- Keep visual mode on Tab and S-Tab
     { "<Tab>", ">gv" },
