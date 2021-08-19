@@ -173,6 +173,7 @@ local mappings = {
     { "\\d", "\"_d" },
     { "\\c", "\"_c" },
     { "\\/", "\"fy/<C-R>f", { silent = false }},
+    { "<C-a>", "<ESC>ggVG"},
 
     -- Keep visual mode on Tab and S-Tab
     { "<Tab>", ">gv" },
