@@ -9,14 +9,14 @@ while [ -h "$SOURCE" ]; do
   [[ $SOURCE != /* ]] && SOURCE="$DOTFILES_FOLDER/$SOURCE"
 done
 DOTFILES_FOLDER="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
-DOTFILES_FOLDER="$(dirname $DOTFILES_FOLDER)"
+DOTFILES_FOLDER="$(dirname "$DOTFILES_FOLDER")"
 unset SOURCE
 
 echo "Apply common dotfiles..."
 rsync -avh --progress "$DOTFILES_FOLDER/common/" "$HOME/"
 
-IFS=$'\n'
-for folder in $(find "$DOTFILES_FOLDER/" -maxdepth 1 -mindepth 1 -type d -iname 'machine_*'); do
+find "$DOTFILES_FOLDER/" -maxdepth 1 -mindepth 1 -type d -iname 'machine_*' |
+  while IFS= read -r -d '' folder; do
 	MACHINE="$(basename "$folder" | sed 's/machine_\(.*$\)/\1/')"
 
 	if [ "$(cat /etc/hostname)" == "$MACHINE" ]; then
@@ -25,4 +25,4 @@ for folder in $(find "$DOTFILES_FOLDER/" -maxdepth 1 -mindepth 1 -type d -iname 
 	else
 		echo "Skip machine '$MACHINE'"
 	fi
-done
+  done

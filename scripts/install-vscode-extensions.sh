@@ -11,11 +11,11 @@ vscode_api() {
 }
 
 vercomp () {
-    if [[ $1 == $2 ]]
-    then
+    if [[ "$1" == "$2" ]]; then
         return 0
     fi
     local IFS=.
+    # shellcheck disable=SC2206
     local i ver1=($1) ver2=($2)
     # fill empty fields in ver1 with zeros
     for ((i=${#ver1[@]}; i<${#ver2[@]}; i++))
@@ -59,13 +59,14 @@ EXTENSION_VERSION="$(vscode_api Microsoft.VisualStudio.Services.VsixManifest | s
 
 TEMP_FOLDER="$(mktemp -d /tmp/vscode.XXXXXXXXXX)"
 
+# shellcheck disable=SC2064
 trap "rm -rf '$TEMP_FOLDER'" EXIT
 
 run_code_cmd() {
 	if hash code 2>/dev/null; then
-		code $@
+		code "$@"
 	elif hash code-server 2>/dev/null; then
-		code-server $@
+		code-server "$@"
 	fi
 }
 
@@ -73,6 +74,7 @@ install_vscode_extension() {
 	echo "Downloading '$FULL_EXTENSION_NAME' extension..."
 	vscode_api Microsoft.VisualStudio.Services.VSIXPackage > "$TEMP_EXTENSION_PATH"
 
+	# shellcheck disable=SC2064
 	trap "echo 'ERROR: Cant install $FULL_EXTENSION_NAME extension!'" ERR
 	run_code_cmd --install-extension "$TEMP_EXTENSION_PATH" 2> /dev/null | awk "{print \"[$FULL_EXTENSION_NAME] \"\$0}"
 }
@@ -82,7 +84,7 @@ if hash code 2>/dev/null || hash code-server 2>/dev/null; then
 
 	echo "Looking for the extension locally..."
 	LOCAL_EXTENSION_BASENAME="$(find "$HOME/.vscode/extensions/" -maxdepth 1 -mindepth 1 -iname "${FULL_EXTENSION_NAME,,}-*" -exec basename {} \; | grep -Po "${FULL_EXTENSION_NAME,,}-(\d+\.)+\d+$" || :)"
-	
+
 	if [ "$LOCAL_EXTENSION_BASENAME" == "" ]; then
 		echo "Extension '$FULL_EXTENSION_NAME' not found locally, installing..."
 		install_vscode_extension

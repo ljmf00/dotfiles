@@ -13,7 +13,7 @@ fi
 
 fix_file_permission() {
 	local chown_aargs=''
-	
+
 	if [[ "$3" == "1" ]]; then
 			chown_aargs+="-R"
 	fi

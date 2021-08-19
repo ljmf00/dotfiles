@@ -16,10 +16,10 @@
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -55,7 +55,7 @@ job_pool_nerrors=0
 function _job_pool_echo()
 {
     if [[ "${job_pool_echo_command}" == "1" ]]; then
-        echo $@
+        echo "$@"
     fi
 }
 
@@ -76,8 +76,9 @@ function _job_pool_exit_handler()
 # \param[in] result_log  the file where the exit codes are written to
 function _job_pool_print_result_log()
 {
-    job_pool_nerrors=$(grep ^ERROR "${job_pool_result_log}" | wc -l)
-    cat "${job_pool_result_log}" | sed -e 's/^ERROR//'
+    export job_pool_nerrors
+    job_pool_nerrors=$(grep -c ^ERROR "${job_pool_result_log}")
+    sed -e 's/^ERROR//' "${job_pool_result_log}"
 }
 
 # \brief the worker function that is called when we fork off worker processes
@@ -92,13 +93,13 @@ function _job_pool_worker()
     local cmd=
     local args=
 
-    exec 7<> ${job_queue}
+    exec 7<> "${job_queue}"
     while [[ "${cmd}" != "${job_pool_end_of_jobs}" && -e "${job_queue}" ]]; do
         # workers block on the exclusive lock to read the job queue
         flock --exclusive 7
         IFS=$'\v'
-        read cmd args <${job_queue}
-        set -- ${args}
+        read -r cmd args <"${job_queue}"
+        set -- "${args}"
         unset IFS
         flock --unlock 7
         # the worker should exit if it sees the end-of-job marker or run the
@@ -120,12 +121,12 @@ function _job_pool_worker()
             fi
             # now write the error to the log, making sure multiple processes
             # don't trample over each other.
-            exec 8<> ${result_log}
+            exec 8<> "${result_log}"
             flock --exclusive 8
-            _job_pool_echo "${status}job_pool: exited ${result}: ${cmd} $@" >> ${result_log}
+            _job_pool_echo "${status}job_pool: exited ${result}: ${cmd} $*" >> "${result_log}"
             flock --unlock 8
             exec 8>&-
-            _job_pool_echo "### _job_pool_worker-${id}: exited ${result}: ${cmd} $@"
+            _job_pool_echo "### _job_pool_worker-${id}: exited ${result}: ${cmd} $*"
         fi
     done
     exec 7>&-
@@ -147,8 +148,8 @@ function _job_pool_start_workers()
 {
     local job_queue=$1
     local result_log=$2
-    for ((i=0; i<${job_pool_pool_size}; i++)); do
-        _job_pool_worker ${i} ${job_queue} ${result_log} &
+    for ((i=0; i<job_pool_pool_size; i++)); do
+        _job_pool_worker "${i}" "${job_queue}" "${result_log}" &
     done
 }
 
@@ -159,6 +160,7 @@ function _job_pool_start_workers()
 # \brief initializes the job pool
 # \param[in] pool_size  number of parallel jobs allowed
 # \param[in] echo_command  1 to turn on echo, 0 to turn off
+# shellcheck disable=SC2120
 function job_pool_init()
 {
     local pool_size=$1

@@ -9,7 +9,7 @@ while [ -h "$SOURCE" ]; do
   [[ $SOURCE != /* ]] && SOURCE="$DOTFILES_FOLDER/$SOURCE"
 done
 DOTFILES_FOLDER="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
-DOTFILES_FOLDER="$(dirname $DOTFILES_FOLDER)"
+DOTFILES_FOLDER="$(dirname "$DOTFILES_FOLDER")"
 unset SOURCE
 
 echo "$DOTFILES_FOLDER"

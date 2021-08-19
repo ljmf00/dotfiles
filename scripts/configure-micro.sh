@@ -2,9 +2,9 @@
 
 exec_micro_cmd() {
 	if hash micro 2>/dev/null; then
-		micro $@
+		micro "$@"
 	else
-		"$HOME/.local/bin/micro" $@
+		"$HOME/.local/bin/micro" "$@"
 	fi
 }
 

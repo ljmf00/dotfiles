@@ -7,7 +7,7 @@ if [ "$EUID" -eq 0 ]; then
 	exit 1
 fi
 
-CURRENT_SHELL="$(cat /etc/passwd | grep "^$(whoami):" | cut -d: -f7)"
+CURRENT_SHELL="$(grep "^$(whoami):" < /etc/passwd | cut -d: -f7)"
 
 if [ "$CURRENT_SHELL" != "/bin/bash" ]; then
 	chsh -s /bin/bash "$(whoami)"

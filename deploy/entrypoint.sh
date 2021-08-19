@@ -9,7 +9,7 @@ mkdir -p "$START_DIR"
 # set hostname inside docker
 sudo hostname dotty
 
-if [[ ! -z "${WAKATIME_API_KEY}" ]]; then
+if [[ -n "${WAKATIME_API_KEY}" ]]; then
 	echo -e "[settings]\napi_key = $WAKATIME_API_KEY" > "$HOME/.wakatime.cfg"
 fi
 
@@ -27,7 +27,7 @@ else
     RCLONE_AUTO_PUSH="${RCLONE_AUTO_PUSH:-true}"
     RCLONE_AUTO_PULL="${RCLONE_AUTO_PULL:-true}"
 
-    if [ $RCLONE_VSCODE_TASKS = "true" ]; then
+    if [ "$RCLONE_VSCODE_TASKS" = "true" ]; then
         # copy our tasks config to VS Code
         echo "[$PREFIX] Applying VS Code tasks for rclone"
         cp "$HOME/dotfiles/deploy/rclone-tasks.json" "$HOME/.local/share/code-server/User/tasks.json"
@@ -45,9 +45,9 @@ else
     echo "rclone sync $RCLONE_REMOTE_PATH $RCLONE_SOURCE_PATH $RCLONE_FLAGS -vv" > "$HOME/pull_remote.sh"
     chmod +x "$HOME/push_remote.sh" "$HOME/pull_remote.sh"
 
-    if rclone ls $RCLONE_REMOTE_PATH; then
+    if rclone ls "$RCLONE_REMOTE_PATH"; then
 
-        if [ $RCLONE_AUTO_PULL = "true" ]; then
+        if [ "$RCLONE_AUTO_PULL" = "true" ]; then
             # grab the files from the remote instead of running project_init()
             echo "[$PREFIX] Pulling existing files from remote..."
             "$HOME"/pull_remote.sh&
@@ -58,7 +58,7 @@ else
 
     else
 
-        if [ $RCLONE_AUTO_PUSH = "true" ]; then
+        if [ "$RCLONE_AUTO_PUSH" = "true" ]; then
             # we need to clone the git repo and sync
             echo "[$PREFIX] Pushing initial files to remote..."
             project_init

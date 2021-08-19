@@ -13,6 +13,6 @@ if ! hash micro 2>/dev/null; then
 		mv -v "micro" "$HOME/.local/bin/"
 	)
 	set -eo pipefail
-	
+
 	rm -rf "$TEMP_DIR_MICRO"
 fi

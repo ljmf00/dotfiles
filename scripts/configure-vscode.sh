@@ -11,7 +11,7 @@ while [ -h "$SOURCE" ]; do
   [[ $SOURCE != /* ]] && SOURCE="$DOTFILES_FOLDER/$SOURCE"
 done
 DOTFILES_FOLDER="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
-DOTFILES_FOLDER="$(dirname $DOTFILES_FOLDER)"
+DOTFILES_FOLDER="$(dirname "$DOTFILES_FOLDER")"
 unset SOURCE
 
 echo "Remove created folders for vscode variants and link them instead..."
@@ -31,6 +31,7 @@ echo "Installing extensions..."
 
 INSTALL_VSCODE_EXT_SCRIPT="$DOTFILES_FOLDER/scripts/install-vscode-extensions.sh"
 
+# shellcheck source=utils-job-pool.sh
 source "$DOTFILES_FOLDER/scripts/utils-job-pool.sh"
 
 job_pool_init 30 0
