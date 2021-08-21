@@ -1,8 +1,39 @@
 #!/bin/sh -i
 
-if [ $# -gt 1 ]; then
+while getopts "cg:" option; do
+  case $option in
+    c)
+      custom_vproject_name_arg="true"
+      shift
+      ;;
+    g)
+      source "$HOME/.oh-luis-bash/goto-command.sh"
+      goto_path="$(goto -x "$OPTARG" 2>/dev/null)"
+      if [ "$goto_path" = "" ]; then
+        echo "Error: invalid goto alias!"
+        exit 1
+      fi
+      $0 "$goto_path" "$OPTARG"
+      exit 0
+      ;;
+    :)
+      echo "Error: -${OPTARG} requires an argument."
+      exit 1
+      ;;
+    *)
+      echo "Unknown command arguments."
+      exit 1
+      ;;
+  esac
+done
+
+if [ $# -ge 1 ]; then
   folder_arg="$1"
   if [ $# = 2 ]; then
+    if [ "$custom_vproject_name_arg" = "true" ]; then
+      echo "Error: custom vproject name already set!"
+      exit 1
+    fi
     custom_vproject_name="$2"
   fi
 else
@@ -10,6 +41,10 @@ else
 fi
 
 vproject_fullpath="$(readlink -f "$folder_arg")"
+
+if [ "$custom_vproject_name_arg" = "true" ]; then
+  custom_vproject_name="$(basename "$vproject_fullpath")"
+fi
 
 [ "$custom_vproject_name" = "" ] \
   && tmux_vproject_hash="vproject_$(echo "$vproject_fullpath" | sha224sum - | cut -d' ' -f1)" \
