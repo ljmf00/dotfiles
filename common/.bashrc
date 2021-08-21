@@ -35,7 +35,8 @@ export JBOSS_HOME=/opt/wildfly
 
 # set $USER variable
 if [ -z ${USER+x} ]; then
-	export USER="$(id -u -n)"
+	export USER
+	USER="$(id -u -n)"
 fi
 
 # ===============================
