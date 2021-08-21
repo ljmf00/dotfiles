@@ -69,6 +69,8 @@ export PATH="$HOME/.local/bin:$PATH"
 # set safe failures
 set -euo pipefail
 
+(( BASH_VERSINFO[0] < 4 )) && echo "Bash 4+ required." && exit 1
+
 # wait for user input
 akey_continue() { read -n 1 -s -r -p "Press any key to continue"; }
 trap akey_continue EXIT
