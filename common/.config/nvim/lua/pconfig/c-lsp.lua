@@ -7,3 +7,4 @@ lspc.vimls.setup{}
 lspc.clangd.setup{}
 lspc.tsserver.setup{}
 lspc.serve_d.setup{}
+lspc.jedi_language_server.setup{}
