@@ -21,6 +21,10 @@
 	ff = only
 [alias]
 	c = commit -s
+	s = status
+	b = branch
+	co = checkout
+	cp = cherry-pick
 [gpg]
 	program = gpg2
 [commit]
