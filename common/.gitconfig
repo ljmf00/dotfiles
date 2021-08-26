@@ -25,6 +25,7 @@
 	b = branch
 	co = checkout
 	cp = cherry-pick
+	unstage = reset HEAD --
 [gpg]
 	program = gpg2
 [commit]
