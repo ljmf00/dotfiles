@@ -90,8 +90,8 @@ return require('packer').startup(function()
 
   -- LSP Support
   use {
-    'ljmf00/nvim-lspconfig',
-    branch = 'patch-1',
+    'neovim/nvim-lspconfig',
+    commit = '8909ba7d1f57e2e508a23c422eb198b6c90f4698',
     config = function()
       require 'pconfig.c-lsp'
     end,
