@@ -1,5 +1,10 @@
 #!/bin/sh -i
 
+if [ -n "${TMUX}" ]; then
+  echo "Yeah no, please don't, I'm not gonna do this, please do this outside tmux!"
+  exit 1
+fi
+
 while getopts "cg:" option; do
   case $option in
     c)
