@@ -102,6 +102,8 @@ local mappings = {
     { "<F3>", "<cmd>set hlsearch!<CR>" },
     -- Build
     { "<F5>", "<cmd>make<cr>" },
+    -- Toogle Tagbar
+    { "<F8>", "<cmd>TagbarToggle<CR>" },
 
     -- Make d(elete) and similar actually delete
     { "\\d", "\"_d" },

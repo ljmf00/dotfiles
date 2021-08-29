@@ -97,6 +97,12 @@ return require('packer').startup(function()
     end,
   }
 
+  -- Tagbar
+  use {
+    'preservim/tagbar',
+    tag = 'v3.0.0'
+  }
+
   -- Better make command
   use {
     'neomake/neomake',
