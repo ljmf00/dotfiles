@@ -1,14 +1,40 @@
 # -*- coding: utf-8 -*-
 from typing import List  # noqa: F401
 
+import os
+import platform
+import logging
+
 from libqtile import layout, hook, bar, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
-import platform
+from Xlib import display as xdisplay
+import pyudev
+
+# =============================================================================
+# LOGGING
+# =============================================================================
+
+XDG_DATA_HOME = os.environ.get('XDG_DATA_HOME')
+if not XDG_DATA_HOME:
+    XDG_DATA_HOME = ".local/share/"
+
+logging.basicConfig(
+    filename=os.path.join(XDG_DATA_HOME, "qtile/qtile.log"),
+    filemode="a",
+    level=logging.INFO,
+)
+
+logging.info("Reinitializing config!")
+
+# =============================================================================
+# MISCELLANEOUS
+# =============================================================================
 
 hostname = platform.node()
+logging.info(f"Running on hostname '{hostname}'")
 
 mod = "mod4"
 terminal = guess_terminal()
@@ -148,35 +174,111 @@ wmname = "LG3D"
 # SCREEN
 # =============================================================================
 
-screens = [
-    Screen(
-        top=bar.Bar(
+screens: List[Screen] = []
+
+additional_widgets_right = {
+        'deimos': [
+            widget.Battery(
+                energy_now_file='charge_now',
+                energy_full_file='charge_full',
+                power_now_file='current_now',
+                **widget_defaults
+            ),
+        ]
+    }.get(hostname, [])
+
+
+def setup_screens(num_screens: int = 1) -> None:
+    """
+    Setup screens list according to a given number
+    """
+    screens.clear()
+    for _ in range(num_screens):
+        bar_instance = bar.Bar(
             [
-                widget.CurrentLayout(),
-                widget.GroupBox(),
+                widget.GroupBox(
+                    disable_drag=True
+                ),
                 widget.Prompt(),
+                widget.Spacer(),
                 widget.WindowName(),
+                widget.Spacer(),
+                *additional_widgets_right,
                 widget.Chord(
                     chords_colors={
                         'launch': ("#ff0000", "#ffffff"),
                     },
                     name_transform=lambda name: name.upper(),
                 ),
-                widget.TextBox("default config", name="default"),
-                widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
+                widget.Clock(format='\U0001F4C5 %A, %d %b %Y \U0001F551 %H:%M'),
                 widget.Systray(),
-                widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
-                widget.QuickExit(),
             ],
-            24,
-        ),
-    )
-]
+            18,
+        )
+
+        screen_instance = Screen(
+            top=bar_instance,
+            wallpaper='~/wallpapers/mac_computer.jpg',
+            wallpaper_mode='fill',
+        )
+
+        screens.append(screen_instance)
 
 
-def detect_screens(qtile):
-    while len(screens) < len(qtile.conn.pseudoscreens):
-        screens.append(screens[0].copy())
+def detect_screens(qtile) -> None:
+    """
+    Detect if a new screen is plugged and reconfigure/restart qtile
+    """
+
+    def update_screens_callback(action=None, device=None) -> None:
+        """
+        Callback to setup monitors
+        """
+
+        if action == "change":
+            lazy.restart()
+
+        num_screens = len(qtile.conn.pseudoscreens)
+        setup_screens(num_screens)
+
+    context = pyudev.Context()
+    monitor = pyudev.Monitor.from_netlink(context)
+    monitor.filter_by('drm')
+    monitor.enable_receiving()
+
+    # observe if the monitors change and reset monitors config
+    observer = pyudev.MonitorObserver(monitor, update_screens_callback)
+    observer.start()
+
+
+def get_num_screens() -> int:
+    """
+    Get number of active screens
+    """
+    num_monitors = 0
+    try:
+        display = xdisplay.Display()
+        screen = display.screen()
+        resources = screen.root.xrandr_get_screen_resources()
+
+        for output in resources.outputs:
+            monitor = display.xrandr_get_output_info(output, resources.config_timestamp)
+            preferred = False
+            if hasattr(monitor, "preferred"):
+                preferred = monitor.preferred
+            elif hasattr(monitor, "num_preferred"):
+                preferred = monitor.num_preferred
+            if preferred:
+                num_monitors += 1
+    except Exception as e:
+        # always setup at least one monitor
+        logging.error(e)
+        return 1
+    else:
+        return num_monitors
+
+logging.info(f"Number of screens detected: {get_num_screens()}")
+setup_screens(max(1, get_num_screens()))
 
 # =============================================================================
 # HOOKS
@@ -187,6 +289,12 @@ def detect_screens(qtile):
 @hook.subscribe.screen_change
 def restart_on_randr(qtile, ev):
     qtile.cmd_restart()
+
+
+@hook.subscribe.client_new
+def new_client(client):
+    if client.window.get_wm_class()[0] == "screenkey":
+        client.static(0)
 
 # =============================================================================
 # ENTRYPOINT
