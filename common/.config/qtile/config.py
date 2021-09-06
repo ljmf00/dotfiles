@@ -293,6 +293,68 @@ additional_widgets_right = {
         ]
     }.get(hostname, [])
 
+# To save time and machine resources instanciate widgets only one time to share
+# values across multiple Bar instances
+resources_widgets = [
+    # Disk IO Usage
+    widget.TextBox('\U0001F5B4'),
+    widget.HDDBusyGraph(
+         width=30,
+         border_width=1,
+         border_color="#000000",
+         line_width=1,
+         frequency=5,
+         samples=50,
+        ),
+    # Network Usage
+    widget.TextBox('\U0001F310'),
+    widget.NetGraph(
+         width=30,
+         border_width=1,
+         border_color="#000000",
+         line_width=1,
+         frequency=5,
+         samples=50,
+         fill_color="EEE8AA",
+    ),
+
+    # CPU Usage
+    widget.CPU(
+        format='CPU {load_percent}%',
+        update_interval=1.5,
+    ),
+    widget.CPUGraph(
+        width=30,
+        border_width=1,
+        border_color="#000000",
+        frequency=5,
+        line_width=1,
+        samples=50,
+    ),
+
+    # RAM Usage
+    widget.Memory(
+        format='RAM {MemPercent}%',
+        update_interval=1.5,
+    ),
+    widget.MemoryGraph(
+         width=30,
+         border_width=1,
+         border_color="#000000",
+         line_width=1,
+         frequency=5,
+         samples=50,
+         fill_color="F9BC16",
+     ),
+]
+
+# Shared Clock widget collection
+clock_widgets = [
+    # Date
+    widget.Clock(foreground='8fbcbb', format='\U0001F4C5 %A, %d %b %Y'),
+    # Time
+    widget.Clock(foreground='b48ead', format='\U0001F551 %H:%M'),
+]
 
 def setup_screens(num_screens: int = 1) -> None:
     """
@@ -302,22 +364,30 @@ def setup_screens(num_screens: int = 1) -> None:
     for _ in range(num_screens):
         bar_instance = bar.Bar(
             [
+                # Left
                 widget.GroupBox(
-                    disable_drag=True
+                    disable_drag=True,
+                    hide_unused=True,
                 ),
                 widget.Prompt(),
+
+                # Center
                 widget.Spacer(),
                 widget.WindowName(),
                 widget.Spacer(),
+
+                # Right
                 *additional_widgets_right,
-                widget.Chord(
-                    chords_colors={
-                        'launch': ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-                widget.Clock(format='\U0001F4C5 %A, %d %b %Y \U0001F551 %H:%M'),
+                *resources_widgets,
+                *clock_widgets,
                 widget.Systray(),
+                widget.KeyboardLayout(
+                    #TODO: Add mouse callbacks to switch keyboard layout
+                    display_map={
+                        'us': '\U0001F1FA\U0001F1F8',
+                        'pt': '\U0001F1F5\U0001F1F9',
+                    }
+                ),
             ],
             18,
         )
