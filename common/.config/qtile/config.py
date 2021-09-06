@@ -9,6 +9,7 @@ from libqtile import layout, hook, bar, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
+from libqtile.backend.x11.xkeysyms import keysyms
 
 from Xlib import display as xdisplay
 import pyudev
@@ -36,14 +37,68 @@ logging.info("Reinitializing config!")
 hostname = platform.node()
 logging.info(f"Running on hostname '{hostname}'")
 
-mod = "mod4"
+# =============================================================================
+# KEYBINDINGS
+# =============================================================================
+
+
+class KeysHolder:
+    """
+    Key holder helper to alias common keysyms names
+    """
+
+    # Arrow keys
+    UP: str
+    DOWN: str
+    LEFT: str
+    RIGHT: str
+
+    EXCLAM: str
+    QUOTEDBL: str
+
+    def __init__(self):
+        # set attribute for every key found in Qtile's keysyms
+        for key in keysyms.keys():
+            self_key = key.upper()
+            if key[0] in range(0, 9):
+                # for numbers, prepend K
+                self_key = "K" + self_key
+            setattr(self, self_key, key)
+
+        # special aliases
+        self.ALT = self.MOD1 = "mod1"
+        self.HYPER = self.MOD3 = "mod3"
+        self.SUPER = self.MOD4 = "mod4"
+        self.SHIFT = "shift"
+        self.CONTROL = "control"
+        self.EXCLAMATION = self.EXCLAM
+        self.DOUBLE_QUOTE = self.QUOTEDBL
+
+
+class MouseButtons:
+    """
+    A collection of mouse button aliases
+    """
+    LEFT = BUTTON1 = "Button1"
+    MIDDLE = BUTTON2 = "Button2"
+    RIGHT = BUTTON3 = "Button3"
+    WHEEL_UP = BUTTON4 = "Button4"
+    WHEEL_DOWN = BUTTON5 = "Button5"
+    WHEEL_LEFT = BUTTON6 = "Button6"
+    WHEEL_RIGHT = BUTTON7 = "Button7"
+    PREVIOUS = BUTTON8 = "Button8"
+    NEXT = BUTTON9 = "Button9"
+
+
+k = KeysHolder()
+m = MouseButtons()
+
+# Used mod key
+mod = k.SUPER
+
 terminal = guess_terminal()
 keys = [
-    # Switch between windows
-    Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
-    Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
-    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
-    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
+
     Key([mod], "space", lazy.layout.next(),
         desc="Move window focus to other window"),
 
@@ -74,16 +129,67 @@ keys = [
     # multiple stack panes
     Key([mod, "shift"], "Return", lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack"),
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
 
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
 
     Key([mod, "control"], "r", lazy.restart(), desc="Restart Qtile"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(),
         desc="Spawn a command using a prompt widget"),
+
+    # Actions for focused windows
+    # ---------------------------
+
+    # Close an application
+    Key([k.ALT], "F4", lazy.window.kill(), desc="Kill focused window"),
+
+    # Switch between windows
+    Key([mod], k.UP, lazy.layout.up(), desc="Move focus to up"),
+    Key([mod], k.DOWN, lazy.layout.down(), desc="Move focus to down"),
+    Key([mod], k.RIGHT, lazy.layout.right(), desc="Move focus to right"),
+    Key([mod], k.LEFT, lazy.layout.left(), desc="Move focus to left"),
+
+    # Vim-like shortcuts
+    Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
+    Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
+    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
+    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
+
+
+    # Spawn applications
+    # ------------------
+
+    # Terminal
+    Key(
+        [k.ALT, k.CONTROL], "t",
+        lazy.spawn(terminal),
+        desc="Launch terminal"
+    ),
+
+    # File manager
+    Key(
+        [k.ALT, k.CONTROL], "f",
+        lazy.spawn("nautilus -w"),
+        desc="Launch file manager"
+    ),
+
+    # Rofi
+    Key(
+        [mod], "d",
+        lazy.spawn("rofi -show run -theme menu-bar"),
+        desc="Quick command runner"
+    ),
+    Key(
+        [mod, k.SHIFT], "d",
+        lazy.spawn("rofi -show drun -show-icons -theme menu-center"),
+        desc="Quick application launcher"
+    ),
+    Key(
+        [mod], "e",
+        lazy.spawn("rofimoji"),
+        desc="Quick emoji picker"
+    ),
 ]
 
 groups = [Group(i) for i in "1234567890"]
