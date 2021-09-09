@@ -1,0 +1,10 @@
+---
+
+- name: Install base package groups
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - base
+    - base-devel
+  tags: base
