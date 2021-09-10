@@ -3,6 +3,7 @@
 import pathlib
 import subprocess
 import time
+import statistics
 
 # paired with fan speed (0-255) and temp (degrees C)
 f_low_speed = 0
@@ -24,7 +25,7 @@ while True:
         for file in temperature_files
     ]
 
-    avg_temp = sum(temp_lst)/len(temp_lst)
+    avg_temp = statistics.mean(temp_lst)
 
     # find what speed the fan should be
     if avg_temp < f_low_temp:
