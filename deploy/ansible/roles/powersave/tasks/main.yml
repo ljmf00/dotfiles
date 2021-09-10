@@ -1,0 +1,51 @@
+---
+
+- name: install powertop
+  pacman:
+    name: powertop
+    state: present
+  tags:
+    - powertop
+    - powersave
+
+- name: add systemd task to auto-tune powertop
+  copy: src={{ item }} dest=/etc/systemd/system/{{ item }} owner=root group=root mode=0644
+  with_items:
+    - powertop.service
+  notify:
+    - daemon reload
+  tags:
+    - powertop
+    - powersave
+
+- name: start and enable powertop units
+  service: name={{ item }} enabled=yes state=started
+  with_items:
+    - powertop.service
+  tags:
+    - powertop
+    - powersave
+
+- name: add ipmi-ibm-fancontrol binary
+  copy: src=ipmi-ibm-fancontrol.py dest=/usr/local/bin/ipmi-ibm-fancontrol owner=root group=root mode=0755
+  tags:
+    - powersave
+    - ipmitool
+
+- name: add systemd service for ipmi-ibm-fancontrol daemon
+  copy: src={{ item }} dest=/etc/systemd/system/{{ item }} owner=root group=root mode=0644
+  with_items:
+    - ipmi-ibm-fancontrol.service
+  notify:
+    - daemon reload
+  tags:
+    - powersave
+    - ipmitool
+
+- name: start and enable ipmi-ibm-fancontrol units
+  service: name={{ item }} enabled=yes state=started
+  with_items:
+    - ipmi-ibm-fancontrol.service
+  tags:
+    - powersave
+    - ipmitool

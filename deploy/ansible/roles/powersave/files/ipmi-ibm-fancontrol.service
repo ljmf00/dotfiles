@@ -1,0 +1,11 @@
+[Unit]
+Description=IBM ipmitool fan control service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+ExecStart=/usr/local/bin/ipmi-ibm-fancontrol
+
+[Install]
+WantedBy=multi-user.target
