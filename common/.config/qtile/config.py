@@ -192,16 +192,25 @@ keys = [
     ),
 ]
 
-groups = [Group(i) for i in "1234567890"]
+groups = [Group(str(i)) for i in range(1, 21)]
 
 for i in groups:
+    n = int(i.name)
+    if n == 10:
+        i_key = '0'
+    elif n > 10:
+        # use function keys
+        i_key = 'F' + str(n - 10)
+    else:
+        i_key = i.name
+
     keys.extend([
         # mod1 + letter of group = switch to group
-        Key([mod], i.name, lazy.group[i.name].toscreen(),
+        Key([mod], i_key, lazy.group[i.name].toscreen(toggle=False),
             desc="Switch to group {}".format(i.name)),
 
         # mod1 + shift + letter of group = switch to & move focused window to group
-        Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True),
+        Key([mod, "shift"], i_key, lazy.window.togroup(i.name, switch_group=True),
             desc="Switch to & move focused window to group {}".format(i.name)),
         # Or, use below if you prefer not to switch to that group.
         # # mod1 + shift + letter of group = move focused window to group
