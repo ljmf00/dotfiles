@@ -53,6 +53,9 @@ class KeysHolder:
     LEFT: str
     RIGHT: str
 
+    TAB : str
+    SPACE: str
+
     EXCLAM: str
     QUOTEDBL: str
 
