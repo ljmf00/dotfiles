@@ -14,6 +14,10 @@ from libqtile.backend.x11.xkeysyms import keysyms
 from Xlib import display as xdisplay
 import pyudev
 
+import subprocess
+
+HOME = os.path.expanduser('~')
+
 # =============================================================================
 # LOGGING
 # =============================================================================
@@ -507,6 +511,15 @@ def new_client(client):
     if (client.window.get_wm_transient_for()
             or client.window.get_wm_type() in floating_types):
         client.floating = True
+
+
+# Qtile startup commands, not repeated at qtile restart
+@hook.subscribe.startup_once
+def autostart():
+    try:
+        subprocess.call([os.path.join(HOME, '.config/qtile/autostart.sh')])
+    except Exception as e:
+        logging.error(e)
 
 # =============================================================================
 # ENTRYPOINT
