@@ -266,6 +266,10 @@ dgroups_app_rules = []  # type: List
 follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
+
+floating_types = ["notification", "toolbar", "splash", "dialog",
+                  "utility", "menu", "dropdown_menu", "popup_menu", "tooltip,dock",
+                  ]
 floating_layout = layout.Floating(float_rules=[
     # Run the utility of `xprop` to see the wm class and name of an X client.
     *layout.Floating.default_float_rules,
@@ -500,8 +504,9 @@ def restart_on_randr(qtile, ev):
 
 @hook.subscribe.client_new
 def new_client(client):
-    if client.window.get_wm_class()[0] == "screenkey":
-        client.static(0)
+    if (client.window.get_wm_transient_for()
+            or client.window.get_wm_type() in floating_types):
+        client.floating = True
 
 # =============================================================================
 # ENTRYPOINT
