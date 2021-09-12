@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-echo "Waking bond0 interface..."
+echo "Waking tornado network interfaces..."
+wol 02:78:7b:59:4f:7b
+echo "Sent packet to bond0"
 wol 98:be:94:35:0e:e8
 echo "Sent packet to eno1"
 wol 98:be:94:35:0e:ea
