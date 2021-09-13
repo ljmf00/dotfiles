@@ -1,0 +1,11 @@
+---
+
+install_host_packages:
+  official:
+    - nvtop
+    - nvidia-dkms
+    - cuda
+    - libvdpau
+    - opencl-nvidia
+  aur:
+
