@@ -1,0 +1,34 @@
+---
+
+- name: Install official common packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ install_common_packages.official }}"
+  when: install_common_packages.official
+  tags:
+    - packages
+    - official-packages
+
+- name: Install official group packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ install_group_packages.official }}"
+  when: install_group_packages.official
+  tags:
+    - packages
+    - official-packages
+
+- name: Install official host packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ install_host_packages.official }}"
+  when: install_host_packages.official
+  tags:
+    - packages
+    - official-packages
