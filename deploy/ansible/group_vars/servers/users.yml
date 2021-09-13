@@ -1,0 +1,18 @@
+---
+
+user_groups:
+  - user
+  - dev
+  - admin
+  - docker
+
+users:
+  luis:
+    name: 'Luís Ferreira'
+    ssh_key: luis.pub
+    shell: /usr/bin/bash
+    groups:
+      - user
+      - dev
+      - admin
+      - docker
