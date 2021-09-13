@@ -1,0 +1,35 @@
+---
+
+- name: install sudo
+  pacman:
+    name: sudo
+    state: present
+
+- name: add wheel group
+  group:
+    name: wheel
+    state: present
+
+# https://github.com/ansible/ansible/issues/11024
+- name: remove all users from wheel group
+  command: groupmems -g wheel --purge
+
+- name: add sudo users to wheel
+  user:
+    name: '{{ item.key }}'
+    append: yes
+    groups: wheel
+  with_dict: '{{ users }}'
+  when: '"admin" in item.value.groups'
+
+- name: secure path to protect against attacks
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/bin"'
+    insertafter: '^# Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"'
+    line: 'Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/bin"'
+    validate: 'visudo -cf %s'
+
+- name: install wheel sudoers config
+  copy: src=wheel_group dest=/etc/sudoers.d/99-wheel_group
