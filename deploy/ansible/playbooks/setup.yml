@@ -1,0 +1,21 @@
+---
+
+- name: Setup machines
+  hosts:
+    - mars
+    - deimos
+    - tornado
+  remote_user: root
+  roles:
+    - { role: users, tags: ['users'] }
+    - { role: sudo, tags: ['sudo']}
+    - { role: base, tags: ['base'] }
+    - role: hardening
+      tags: ['hardening']
+      when: "'servers' in group_names"
+    - { role: powersave, tags: ['powersave'] }
+    - { role: packages, tags: ['packages'] }
+    - { role: archbuild, tags: ['archbuild'] }
+    - role: syncrepo
+      tags: ['syncrepo']
+      when: "'servers' in group_names"
