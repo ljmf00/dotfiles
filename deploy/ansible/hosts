@@ -1,2 +1,6 @@
-[tornado]
-192.168.1.1
+[servers]
+tornado ansible_host=192.168.1.1
+
+[personal]
+mars ansible_host=192.168.1.103
+deimos ansible_host=192.168.1.105
