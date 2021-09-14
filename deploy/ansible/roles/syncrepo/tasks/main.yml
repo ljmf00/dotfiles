@@ -1,0 +1,59 @@
+---
+
+# - name: create ssl cert
+#   command: certbot certonly --email webmaster@archlinux.org --agree-tos --rsa-key-size 4096 --renew-by-default --webroot -w {{letsencrypt_validation_dir}} -d '{{ mirror_domain }}' creates='/etc/letsencrypt/live/{{ mirror_domain }}/fullchain.pem'
+#   when: 'mirror_domain is defined'
+
+- name: install rsync
+  pacman: name=rsync state=present
+  tags: syncrepo
+
+- name: install syncrepo script
+  copy: src={{ item }} dest=/usr/local/bin/{{ item }} owner=root group=root mode=0755
+  with_items:
+    - syncrepo
+  tags: syncrepo
+
+- name: install syncrepo units
+  copy: src={{ item }} dest=/etc/systemd/system/{{ item }} owner=root group=root mode=0644
+  with_items:
+    - syncrepo.timer
+    - syncrepo.service
+  notify:
+    - daemon reload
+  tags: syncrepo
+
+- name: install rsyncd config
+  copy: src=rsyncd.conf dest=/etc/rsyncd.conf owner=root group=root mode=0644
+  tags: syncrepo
+
+- name: start and enable syncrepo units
+  service: name={{ item }} enabled=yes state=started
+  with_items:
+    - syncrepo.timer
+    - rsyncd.socket
+  tags: syncrepo
+
+- name: set local mirror as cachedir
+  lineinfile:
+    dest: /etc/pacman.conf
+    insertafter: '^#CacheDir'
+    regexp: '^CacheDir'
+    line: 'CacheDir     = /var/cache/pacman/pkg/ /var/lib/syncrepo/repo/pool/packages/ /var/lib/syncrepo/repo/pool/community/'
+  tags: syncrepo
+
+# - name: open tcp firewall holes
+#   ufw:
+#     rule: allow
+#     port: rsync
+#     proto: tcp
+#   tags:
+#     - firewall
+#
+# - name: open udp firewall holes
+#   ufw:
+#     rule: allow
+#     port: rsync
+#     proto: udp
+#   tags:
+#     - firewall
