@@ -1,0 +1,468 @@
+#!/usr/bin/ruby
+require 'optparse'
+require 'readline'
+
+$options = {}
+OptionParser.new do |opts|
+  opts.banner = <<~END
+    Usage: #{File.basename($0)} [Git URI]
+
+      Maintains Git-source PKGBUILDs. Allows selecting a new commit to build.
+
+      If first source is not a git URI, tries to alter PKGBUILD to port from
+      autotools distributed source to a git repo. If an absolute Git URI is
+      not provided, tries discover it automatically.
+
+      Otherwise, if a Git URI is provided, replaces the first source with the
+      provided URI.
+
+      Submodules are not yet handled. Remember to properly source and inject
+      any submodules required.
+
+    Options:
+  END
+
+  opts.on("-h", "--help", "Print this help") do
+    puts opts
+    exit
+  end
+end.parse!
+
+ENV["GIT_TERMINAL_PROMPT"] = "0"
+
+def header(s)
+  puts "\n\e[1m#{s}:\e[0m"
+end
+
+def indent(s, c=2)
+  s.strip.each_line.map { |l| " " * c + l.strip }.join("\n")
+end
+
+class Pkgbuild
+  attr_reader :filename, :contents
+
+  def initialize(filename="PKGBUILD")
+    @filename = filename
+    @contents = File.read filename
+  end
+
+  def =~(regex)
+    @contents =~ regex
+  end
+
+  def has_var?(name)
+    @contents =~ /^#{name}=/
+  end
+
+  def has_func?(name)
+    @contents =~ /^#{name}\(\)/
+  end
+end
+
+class PkgbuildWriter < Pkgbuild
+  def write
+    File.write(@filename, @contents)
+  end
+
+  def sub(*args, &block)
+    @contents.sub!(*args, &block)
+  end
+
+  def gsub(*args, &block)
+    @contents.gsub!(*args, &block)
+  end
+
+  private def replace_thing(re_gen, after, before, separator)
+    after.nil? ^ before.nil? or raise ArgumentError, "need either after: or before:"
+
+    return false if @contents.sub!(re_gen[]) { yield($1) }
+
+    if after.nil?
+      @contents.sub!(re_gen[before]) { yield("") + separator + $& }
+    else
+      @contents.sub!(re_gen[after]) { $& + separator + yield("") }
+    end
+
+    true
+  end
+
+  def replace_func(name, content=nil, after: nil, before: nil)
+    content.nil? ^ !block_given? or raise ArgumentError, "need either content or block"
+    before.nil? && after.nil? and before=/[A-Za-z0-9_-]+/
+
+    re = lambda { |what=name| /^#{what}\(\)\s*{(.*?)^}/m }
+
+    replace_thing(re, after, before, "\n\n") do |orig|
+      "#{name}() {\n#{indent(content || yield(orig))}\n}"
+    end
+  end
+
+  def replace_var(name, content=nil, after: nil, before: nil)
+    content.nil? ^ !block_given? or raise ArgumentError, "need either content or block"
+
+    re = lambda { |what=name| /^#{what}=(\([^)]*\)|.*$)/ }
+
+    replace_thing(re, after, before, "\n") do |orig|
+      "#{name}=#{content || yield(orig)}"
+    end
+  end
+
+  def append_array(name, content, **kwargs)
+    replace_var(name, **kwargs) do |orig|
+      if orig =~ /^\(([^)]+)\)$/
+        "(#{$1} #{content})"
+      else
+        "(#{content})"
+      end
+    end
+  end
+end
+
+class PkgbuildReader < Pkgbuild
+  attr_reader :pkgbase, :basevar, :makedepends, :source
+
+  def initialize(*args)
+    super
+
+    @bash = IO.popen ["bash"], "r+"
+    @bash.puts "{", @contents, "} &>/dev/null"
+
+    @pkgbase = read :pkgbase
+    @basevar = :pkgbase
+    if @pkgbase.empty?
+      @pkgbase = read :pkgname
+      @basevar = :pkgname
+    end
+
+    @makedepends = readarray :makedepends
+    @source = readarray :source
+  end
+
+  def exec(*lines)
+    lines.each { |l| @bash.puts l }
+    @bash.puts "printf '\\x00ENDEXEC\\x00'"
+    buf = ""
+    buf << @bash.readchar until buf[-1] == ?\x00 && buf =~ /\x00ENDEXEC\x00\Z/
+    buf[0..-10]
+  end
+
+  def read(varname)
+    exec("printf '%s' \"${#{varname}}\"")
+  end
+
+  def readarray(varname)
+    exec("printf '%s\\x00' \"${#{varname}[@]}\"").split("\x00")
+  end
+end
+
+class Repo
+  SRCDEST = "/var/lib/archbuilddest/srcdest"
+  DISCOVER_URLS = [
+    "https://gitlab.freedesktop.org/%.git",
+    "https://anongit.freedesktop.org/git/%",
+    "https://gitlab.gnome.org/GNOME/%.git",
+    "https://gitlab.gnome.org/%.git",
+    "https://github.com/%",
+  ]
+
+  attr_reader :name, :url
+
+  def self.is_git_src?(src)
+    src =~ /(^|::)git(\+https?)?:\/\//
+  end
+
+  def self.split_src(src)
+    name, url = src =~ /::/ ? src.split("::", 2) : [nil, src.dup]
+    url.sub!(/#.*/, "")
+    url.sub!(/\?signed/, "")
+    url.sub!(/^git\+/, "")
+    [name, url]
+  end
+
+  def self.exists?(src)
+    _name, url = split_src src
+    !!Kernel.system('git', 'ls-remote', url, [:out, :err] => "/dev/null")
+  end
+
+  def self.discover(src)
+    name, url = split_src src
+
+    if url !~ /:\/\//
+      url = DISCOVER_URLS.map { |u| u.sub(/%/, url) }.find do |u|
+        puts "Trying #{u}"
+        exists?(u)
+      end
+      raise "Discover failure" if url.nil?
+    end
+
+    url.prepend "git+" unless Repo.is_git_src?(name)
+    url << "#commit=$_commit"
+
+    return "#{name}::#{url}" unless name.nil?
+    return url
+  end
+
+  def initialize(src)
+    @name, @url = self.class.split_src(src)
+    @name = url.sub(/(\.git)?\/?$/, "").sub(/^.*\//, "") if @name.nil?
+
+    @dir = File.join(SRCDEST, name)
+
+    if test ?e, @dir
+       system('git', 'fetch', '--all', '-p')
+    else
+      Dir.chdir(SRCDEST) do
+        Kernel.system('git', 'clone', '--mirror', url, name) or raise "Clone failure"
+      end
+    end
+
+    @refs = read('git', 'for-each-ref', '--sort=v:refname', '--format=%(refname)',
+                 'refs/heads/*', 'refs/tags/*').lines.
+            map { |l| l.scrub.strip.sub(/^refs\/(heads|tags)\//, "") }
+  end
+
+  def system(*args)
+    Dir.chdir(@dir) do
+      Kernel.system(*args)
+    end
+  end
+
+  def read(*args)
+    ret = IO.popen(args, chdir: @dir, err: "/dev/null") { |f| f.read }
+
+    if !$?.exited?
+      raise "#{args[0] == "git" ? args[1] : args[0]} failed"
+    elsif !$?.exitstatus.zero?
+      raise "#{args[0] == "git" ? args[1] : args[0]} failed, exit #{$?.exitstatus}"
+    end
+
+    ret
+  end
+
+  def resolve(ref)
+    read('git', 'rev-parse', '--verify', '-q', "#{ref}^{commit}").chomp
+  end
+
+  def describe(*args)
+    read('git', 'describe', '--tags', *args).chomp
+  end
+
+  def read_file(ref, file, default=nil)
+    read 'git', 'show', "#{ref}:#{file}"
+  rescue
+    nil
+  end
+
+  def log(*args)
+    system('git', 'log', '--first-parent', '-m', '--decorate', *args)
+  end
+
+  def complete_ref(s)
+    @refs.grep(/^#{Regexp.escape s}/)
+  end
+
+  def choose_commit
+    header "Branches"
+    system 'git', '--no-pager', 'branch', '--sort=creatordate', '--column=row,dense'
+
+    header "Tags"
+    system 'git', '--no-pager', 'tag', '--sort=creatordate', '--column=row,dense'
+
+    begin
+      old_char = Readline.completion_append_character
+      old_proc = Readline.completion_proc
+      Readline.completion_append_character = ""
+      Readline.completion_proc = method(:complete_ref).to_proc
+      commit = nil
+
+      loop do
+        puts
+        if (ref = Readline.readline("Enter ref (or nothing to view all): ", true).strip).empty?
+          system('tig', '--branches', '--tags', '--date-order') or log('--graph', '--branches', '--tags', '--oneline')
+        else
+          begin
+            commit = resolve ref
+            break
+          rescue => e
+            puts "Failed to resolve ref (#{e})"
+          end
+        end
+      end
+    ensure
+      Readline.completion_append_character = old_char
+      Readline.completion_proc = old_proc
+    end
+
+    log '--stat=80', commit
+    system('git', 'show', "#{commit}:NEWS") if read_file(commit, "NEWS")
+
+    commit
+  end
+end
+
+pbr = PkgbuildReader.new
+reposrc = pbr.source.first
+gitify = !Repo.is_git_src?(reposrc)
+
+case ARGV.count
+when 0
+  reposrc = Repo.discover(pbr.pkgbase) if gitify
+when 1
+  reposrc = Repo.discover(ARGV.first)
+else
+  raise "Invalid number of arguments"
+end
+
+repo = Repo.new reposrc
+commit = repo.choose_commit
+commit_comment = repo.describe('--contains', '--all', commit)
+
+pbw = PkgbuildWriter.new
+pbw.replace_var :_commit, "#{commit}  # #{commit_comment}", before: :source
+pbw.sub(/source=\([^) \n]+/, "source=(\"#{reposrc}\"") unless pbr.source.first == reposrc
+
+if gitify
+  autogen = repo.read_file(commit, "autogen.sh") || ""
+  configure = repo.read_file(commit, "configure.ac") || ""
+  meson_build = repo.read_file(commit, "meson.build") || ""
+
+  add_md = lambda do |name, cond=true|
+    if !pbr.makedepends.grep(name).empty?
+      true
+    elsif cond
+      pbw.append_array(:makedepends, name, after: :depends)
+      true
+    else
+      false
+    end
+  end
+
+  add_md["git"]
+
+  meson = !meson_build.empty?
+  autotools = !autogen.empty?
+
+  case
+  when meson
+    add_md["meson"]
+    add_md["vala", meson_build =~ /'vala'/]
+  when autotools
+    unless add_md["gnome-common",
+        (autogen =~ /gnome-autogen\.sh/ || configure =~ /^GNOME_[A-Z_]+(\(|$)/)]
+      add_md["gtk-doc", configure =~ /^GTK_DOC_CHECK/]
+      add_md["yelp-tools", configure =~ /^YELP_HELP_INIT/]
+      add_md["autoconf-archive", configure =~ /^AX_/]
+      add_md["intltool", configure =~ /^IT_PROG_INTLTOOL/]
+    end
+
+    add_md["appstream-glib", configure =~ /^APPSTREAM_/]
+    add_md["vala", configure =~ /^AM_PROG_VALAC/]
+  end
+
+  if pbr.pkgbase == repo.name
+    localname = "$#{pbr.basevar}"
+  else
+    localname = repo.name
+  end
+
+  pbw.gsub(/(\${?#{pbr.basevar}}?|#{repo.name})-\${?pkgver}?/, localname)
+
+  meson &&= pbr !~ /meson/
+  autotools &&= pbr !~ /autogen\.sh/
+
+  {
+    pkgver: begin
+      ver_sed = ""
+
+      begin
+        describe = repo.describe(commit)
+
+        ver_sed << "s/^#{$&}//;" if describe =~ /^\D+/
+        ver_sed << "s/_/./g;" if describe =~ /_/
+      rescue => e
+        warn "pkgver() deduction failed: #{e}"
+      end
+
+      ver_sed << "s/-/+/g"
+
+      <<~END
+        cd #{localname}
+        git describe --tags | sed '#{ver_sed}'
+      END
+    end,
+
+    prepare: case
+    when meson
+      <<~END
+        cd #{localname}
+      END
+    when autotools
+      <<~END
+        cd #{localname}
+        NOCONFIGURE=1 ./autogen.sh
+      END
+    end,
+
+    check: case
+    when meson
+      <<~END
+        meson test -C build --print-errorlogs
+      END
+    when pbr.has_func?(:check)
+    when autotools
+      <<~END
+        make -C #{localname} check
+      END
+    end,
+
+    build: case
+    when meson
+      <<~END
+        arch-meson #{localname} build
+        ninja -C build
+      END
+    end,
+
+    package: case
+    when meson
+      <<~END
+        DESTDIR="$pkgdir" meson install -C build
+      END
+    end,
+  }.reverse_each do |name, content|
+    pbw.replace_func(name, content) if content
+  end
+end
+
+pbw.write
+system "updpkgsums"
+system "makepkg", "--verifysource"
+
+diff = IO.popen(['diff', '-u', '-', pbw.filename], "r+") do |f|
+  f.write pbr.contents
+  f.close_write
+  f.read
+end
+unless diff.empty?
+  header "Diff"
+  IO.popen(["colordiff"], "w") do |f|
+    f.write diff
+  end rescue puts diff
+end
+
+meson_options = repo.read_file(commit, "meson_options.txt")
+if meson_options
+    header "Meson Options"
+    puts meson_options, ""
+end
+
+gitmodules = repo.read_file(commit, ".gitmodules")
+if gitmodules
+  header "Submodules"
+  puts gitmodules, ""
+end
+
+Dir.unlink "src"
+File.unlink(*Dir.glob("*.pkg.tar*"))
+
+# vim:set sw=2 et:
