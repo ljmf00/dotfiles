@@ -1,0 +1,97 @@
+#!/bin/sh -i
+
+self_basename="$(basename "$0")"
+
+if [ "$self_basename" = "project-tmux" ]; then
+  echo "Please execute a linked binary instead!"
+  exit 1
+fi
+
+exec_prefixletter="$(echo "$self_basename" | awk '{ string=substr($0, 1, 1); print string; }')"
+
+if [ -n "${TMUX}" ]; then
+  echo "Yeah no, please don't, I'm not gonna do this, please do this outside tmux!"
+  exit 1
+fi
+
+
+while getopts "cg:" option; do
+  case $option in
+    c)
+      custom_vproject_name_arg="true"
+      shift
+      ;;
+    g)
+      source "$HOME/.oh-luis-bash/goto-command.sh"
+      goto_path="$(goto -x "$OPTARG" 2>/dev/null)"
+      if [ "$goto_path" = "" ]; then
+        echo "Error: invalid goto alias!"
+        exit 1
+      fi
+      $0 "$goto_path" "$OPTARG"
+      exit 0
+      ;;
+    :)
+      echo "Error: -${OPTARG} requires an argument."
+      exit 1
+      ;;
+    *)
+      echo "Unknown command arguments."
+      exit 1
+      ;;
+  esac
+done
+
+if [ $# -ge 1 ]; then
+  folder_arg="$1"
+  if [ $# = 2 ]; then
+    if [ "$custom_vproject_name_arg" = "true" ]; then
+      echo "Error: custom vproject name already set!"
+      exit 1
+    fi
+    custom_vproject_name="$2"
+  fi
+else
+  folder_arg="$(pwd)"
+fi
+
+vproject_fullpath="$(readlink -f "$folder_arg")"
+
+if [ "$custom_vproject_name_arg" = "true" ]; then
+  custom_vproject_name="$(basename "$vproject_fullpath")"
+fi
+
+[ "$custom_vproject_name" = "" ] \
+  && tmux_project_hash="${exec_prefixletter}project_$(echo "$vproject_fullpath" | sha224sum - | cut -d' ' -f1)" \
+  || tmux_project_hash="${exec_prefixletter}project_$custom_vproject_name"
+
+last_sessions="$(tmux ls | cut -d: -f1)"
+
+IFS='
+'
+for tsession in $last_sessions; do
+  if [ "$tsession" = "$tmux_project_hash" ]; then
+    tmux attach -t "$tmux_project_hash"
+    exit 0
+  fi
+done
+
+case "$exec_prefixletter" in
+  v) # vim/nvim
+    if [ -f "$vproject_fullpath/Session.vim" ]; then
+      tmux new -s "$tmux_project_hash" nvim "$vproject_fullpath" -S "$vproject_fullpath/Session.vim"
+    else
+      tmux new -s "$tmux_project_hash" nvim "$vproject_fullpath"
+    fi
+    ;;
+  t) # terminal only
+    tmux new -s "$tmux_project_hash"
+    ;;
+  *)
+    echo "Not a valid prefix '$exec_prefixletter'!"
+    exit 1
+    ;;
+esac
+
+
+
