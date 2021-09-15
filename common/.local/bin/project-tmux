@@ -85,7 +85,7 @@ case "$exec_prefixletter" in
     fi
     ;;
   t) # terminal only
-    tmux new -s "$tmux_project_hash"
+    tmux new -s "$tmux_project_hash" -c "$project_fullpath"
     ;;
   *)
     echo "Not a valid prefix '$exec_prefixletter'!"
