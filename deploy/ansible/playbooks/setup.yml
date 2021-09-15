@@ -19,3 +19,6 @@
     - role: syncrepo
       tags: ['syncrepo']
       when: "'servers' in group_names"
+
+    # Available subtags: docker, podman
+    - { role: containers, tags: ['containers'] }

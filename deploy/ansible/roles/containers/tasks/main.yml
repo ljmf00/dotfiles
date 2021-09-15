@@ -1,0 +1,32 @@
+---
+
+- name: install docker
+  pacman: name=docker,docker-compose state=present
+  tags:
+    - containers
+    - containers_docker
+
+- name: install podman
+  pacman: name=podman state=present
+  tags:
+    - containers
+    - containers_podman
+
+- name: create docker config dir
+  file: state=directory owner=root group=root path=/etc/docker/
+  tags:
+    - containers
+    - containers_docker
+
+- name: install docker config
+  template: src=daemon.json.j2 dest=/etc/docker/daemon.json owner=root group=root mode=0600
+  notify: restart docker
+  tags:
+    - containers
+    - containers_docker
+
+- name: start and enable service
+  service: name=docker state=started enabled=true
+  tags:
+    - containers
+    - containers_docker
