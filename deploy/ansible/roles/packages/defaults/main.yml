@@ -9,6 +9,7 @@ install_common_packages:
     - wget
     - tree
     - nmap
+    - inetutils
   aur:
 
 install_group_packages:
