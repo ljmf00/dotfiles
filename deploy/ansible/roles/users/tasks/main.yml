@@ -10,6 +10,16 @@
     - users
     - sudo
 
+- name: create system groups
+  group:
+    name: '{{ item }}'
+    state: present
+    system: no
+  with_items: '{{ system_groups }}'
+  tags:
+    - users
+    - sudo
+
 - name: create users
   user:
     name: '{{ item.key }}'
