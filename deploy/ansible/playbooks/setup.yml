@@ -13,6 +13,8 @@
     - role: hardening
       tags: ['hardening']
       when: "'servers' in group_names"
+
+    # Available subtags: powertop, ipmitool
     - { role: powersave, tags: ['powersave'] }
     - { role: packages, tags: ['packages'] }
     - { role: archbuild, tags: ['archbuild'] }
