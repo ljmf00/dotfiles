@@ -12,7 +12,9 @@
   group:
     name: wheel
     state: present
-  tags: sudo
+  tags:
+    - sudo
+    - users
 
 # https://github.com/ansible/ansible/issues/11024
 - name: remove all users from wheel group
@@ -26,7 +28,9 @@
     groups: wheel
   with_dict: '{{ users }}'
   when: '"admin" in item.value.groups'
-  tags: sudo
+  tags:
+    - sudo
+    - users
 
 - name: secure path to protect against attacks
   lineinfile:
