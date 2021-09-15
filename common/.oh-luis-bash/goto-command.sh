@@ -401,3 +401,30 @@ for alias in "${goto_aliases[@]}"; do
 	    complete -F _complete_goto_bash "$alias"
 	fi
 done
+
+# Bash programmable completion for the reduced goto function for tmux projects
+_complete_project_tmux_bash()
+{
+  local cur="${COMP_WORDS[$COMP_CWORD]}" prev
+
+  if [ "$COMP_CWORD" -eq "2" ]; then
+    # if we are on the second argument
+    prev="${COMP_WORDS[1]}"
+
+    if [[ $prev = "-g" ]] || [[ $prev = "--goto" ]]; then
+      # prompt with aliases if user tries to unregister one
+      _complete_goto_aliases "$cur"
+    fi
+  fi
+}
+
+goto_project_aliases=('vproject-tmux' 'project-tmux' 'tproject-tmux')
+
+# enable completion routines for bash
+for alias in "${goto_project_aliases[@]}"; do
+	if ! [[ $(uname -s) =~ Darwin* ]]; then
+	    complete -o filenames -F _complete_project_tmux_bash "$alias"
+	else
+	    complete -F _complete_project_tmux_bash "$alias"
+	fi
+done
