@@ -6,6 +6,9 @@ install_common_packages:
     - bash
     - neovim
     - usbutils
+    - wget
+    - tree
+    - nmap
   aur:
 
 install_group_packages:
