@@ -1,1 +1,9 @@
+# Binary blobs
 **/*.tar
+
+# Private dotfiles
+/private/
+/.git/modules/private/
+
+# Vim session
+Session.vim
