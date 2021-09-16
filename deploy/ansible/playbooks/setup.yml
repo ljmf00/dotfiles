@@ -8,8 +8,10 @@
     - localhost
   remote_user: root
   roles:
+    - { role: facts, tags: ['facts'] }
     - { role: users, tags: ['users'] }
     - { role: sudo, tags: ['sudo']}
+    - { role: sshd, tags: ['sshd'] }
     - { role: base, tags: ['base'] }
     - role: hardening
       tags: ['hardening']
@@ -29,7 +31,9 @@
     # Available subtags: docker, podman
     - { role: containers, tags: ['containers'] }
 
-    # Optional: please provide usersbox tag to explicitly deploy this
+    # Optional: please provide usersbox_full tag to explicitly deploy this
+    # fully. This is needed because copying the docker container on every
+    # deploy is costly.
     - role: usersbox
       when: ansible_hostname == 'tornado'
 
