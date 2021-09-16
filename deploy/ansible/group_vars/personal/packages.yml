@@ -7,4 +7,6 @@ install_host_packages:
     - lsd
     - figlet
     - fortune-mod
+    - python
+    - python-pip
   aur:
