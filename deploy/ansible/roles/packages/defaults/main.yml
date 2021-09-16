@@ -5,6 +5,7 @@ install_common_packages:
     - htop
     - bash
     - neovim
+    - tmux
     - usbutils
     - wget
     - tree
