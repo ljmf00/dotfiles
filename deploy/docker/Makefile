@@ -7,6 +7,7 @@ build:
 
 dist: build
 dist:
+	rm local-userimage-luis.tar
 	docker save local-userimage-luis -o local-userimage-luis.tar
 
 test-network:

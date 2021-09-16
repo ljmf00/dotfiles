@@ -59,7 +59,7 @@ RUN : \
     && (cd dotfiles/deploy/ansible; \
         ansible-playbook playbooks/setup.yml \
             --inventory-file local_hosts \
-            -t base,users,sudo,packages \
+            -t facts,base,users,sudo,sshd,packages \
         )
 
 # Remove unrequired dependencies
