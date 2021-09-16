@@ -54,13 +54,21 @@ ADD . /home/luis/dotfiles/
 
 RUN chown -R luis:wheel /home/luis/
 
+# Run dotfiles, deploy ansible locally and clean dotfiles git repo
 RUN : \
     && sudo -u luis ./dotfiles/scripts/apply-dotfiles.sh \
     && (cd dotfiles/deploy/ansible; \
         ansible-playbook playbooks/setup.yml \
             --inventory-file local_hosts \
-            -t facts,base,users,sudo,sshd,packages \
-        )
+            -t facts,base,users,sudo,sshd,packages; \
+        ) \
+    && (cd dotfiles; \
+        rm -rf private/; \
+        git checkout .; \
+        git reset origin/master --hard; \
+        git clean -fd; \
+        git gc --aggressive --auto; \
+    )
 
 # Remove unrequired dependencies
 RUN (unused_pkgs="$(pacman -Qqdt)"; \
