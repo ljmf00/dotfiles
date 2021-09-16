@@ -28,3 +28,8 @@
 
     # Available subtags: docker, podman
     - { role: containers, tags: ['containers'] }
+
+    # Optional: please provide usersbox tag to explicitly deploy this
+    - role: usersbox
+      when: ansible_hostname == 'tornado'
+

@@ -1,0 +1,129 @@
+---
+
+- shell: /bin/true
+  register: normal_task_list
+
+- name: Create a macvlan0 network to accommodate usersbox containers
+  community.docker.docker_network:
+    name: macvlan0
+    driver: macvlan
+    driver_options:
+      parent: bond0
+    ipam_config:
+      - subnet: 192.168.1.0/24
+        gateway: 192.168.1.254
+        # Increase subnet mask if more containers
+        iprange: 192.168.1.10/31
+  tags:
+    - usersbox
+    - usersbox_network
+
+- name: Create temporary build directory for docker
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: docker-usersbox
+  register: tempfolder
+  when: normal_task_list is not defined
+  tags:
+    - usersbox_full
+    - usersbox_load
+
+- name: Remove docker box container
+  community.docker.docker_container:
+    name: local-usercontainer-luis
+    state: absent
+    force_kill: yes
+    container_default_behavior: no_defaults
+  when: normal_task_list is not defined
+  tags:
+    - usersbox_recreate
+
+- name: Remove userbox image
+  community.docker.docker_image:
+    state: absent
+    name: local-userimage-luis
+  when: normal_task_list is not defined
+  tags:
+    - usersbox_recreate
+
+- name: Copy docker box image
+  ansible.builtin.copy:
+    src: ../../docker/local-userimage-luis.tar
+    dest: "{{ tempfolder.path }}"
+    owner: root
+    group: root
+  when: normal_task_list is not defined
+  tags:
+    - usersbox_full
+    - usersbox_load
+
+- name: Load image from an archive
+  community.docker.docker_image:
+    name: local-userimage-luis
+    load_path: "{{ tempfolder.path }}/local-userimage-luis.tar"
+    source: load
+    timeout: 600
+  when: normal_task_list is not defined
+  tags:
+    - usersbox_full
+    - usersbox_load
+
+- name: Check docker box directory existance
+  stat:
+    path: /mnt/docker/local-usercontainer-luis
+  register: dockerbox_mountfolder
+  tags:
+    - usersbox
+    - usersbox_full
+    - usersbox_common
+    - usersbox_run
+    - usersbox_recreate
+
+- name: Create docker box mount folder
+  file:
+    path: /mnt/docker/local-usercontainer-luis
+    state: directory
+    mode: 0755
+    group: root
+    owner: root
+  when: dockerbox_mountfolder.stat.exists == false
+  tags:
+    - usersbox
+    - usersbox_full
+    - usersbox_common
+    - usersbox_run
+    - usersbox_recreate
+
+- name: Run containers from an image
+  community.docker.docker_container:
+    name: local-usercontainer-luis
+    state: started
+    restart_policy: unless-stopped
+    image: local-userimage-luis
+    oom_killer: no
+    purge_networks: yes
+    tmpfs:
+      - "/run"
+      - "/tmp"
+    hostname: tornado-box
+    network_mode: macvlan0
+    container_default_behavior: no_defaults
+    networks:
+      - name: macvlan0
+    volumes:
+      - "/mnt/docker/local-usercontainer-luis:/mnt:rw"
+  tags:
+    - usersbox
+    - usersbox_full
+    - usersbox_run
+    - usersbox_recreate
+
+- name: Cleanup temp directories
+  ansible.builtin.file:
+    path: "{{ tempfolder.path }}"
+    state: absent
+  when: tempfolder.path is defined
+  tags:
+    - usersbox_full
+    - usersbox_load
+
