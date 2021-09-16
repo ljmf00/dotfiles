@@ -5,11 +5,11 @@ automatically setup machines.
 
 ## Pre requirements
 
-Before run an ansible playbook or any role individually, please install the
+Before run an ansible playbook or any role individually, please build/install the
 required dependencies:
 
 ```bash
-ansible-galaxy collection install -r requirements.yml
+./prepare.sh
 ```
 
 ## Available configurations
