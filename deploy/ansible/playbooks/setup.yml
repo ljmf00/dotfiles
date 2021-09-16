@@ -5,6 +5,7 @@
     - mars
     - deimos
     - tornado
+    - localhost
   remote_user: root
   roles:
     - { role: users, tags: ['users'] }
@@ -15,7 +16,10 @@
       when: "'servers' in group_names"
 
     # Available subtags: powertop, ipmitool
-    - { role: powersave, tags: ['powersave'] }
+    - role: powersave
+      tags: ['powersave']
+      when: "'servers' in group_names"
+
     - { role: packages, tags: ['packages'] }
     - { role: archbuild, tags: ['archbuild'] }
     - role: syncrepo
