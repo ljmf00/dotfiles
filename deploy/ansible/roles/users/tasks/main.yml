@@ -1,5 +1,27 @@
 ---
 
+- name: create .ssh directory for root user
+  file:
+    path: /root/.ssh
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+  tags:
+    - users
+    - users_root
+
+- name: add authorized keys for root
+  template:
+    src: root_authorized_keys.j2
+    dest: /root/.ssh/authorized_keys
+    mode: 0600
+    owner: root
+    group: root
+  tags:
+    - users
+    - users_root
+
 - name: create user groups
   group:
     name: '{{ item }}'
