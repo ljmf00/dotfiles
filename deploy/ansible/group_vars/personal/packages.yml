@@ -1,0 +1,10 @@
+---
+
+install_host_packages:
+  official:
+    - python-pygments
+    - thefuck
+    - lsd
+    - figlet
+    - fortune-mod
+  aur:
