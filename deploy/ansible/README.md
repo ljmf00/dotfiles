@@ -55,5 +55,5 @@ sdc      8:32   0 110.8G  0 disk
 
 Network:
 ```
-nm-bond0 <-- eno0 && eno1
+bond0 <-- eno0 && eno1
 ```
