@@ -45,6 +45,9 @@ RUN : \
 # Give user permissions to use ping binary
 RUN chmod 4755 /bin/ping
 
+# Unset password to allow reset it
+RUN passwd -d luis
+
 # Copy current context to dotfiles folder
 RUN mkdir -p /home/luis/dotfiles/
 ADD . /home/luis/dotfiles/
@@ -56,7 +59,7 @@ RUN : \
     && (cd dotfiles/deploy/ansible; \
         ansible-playbook playbooks/setup.yml \
             --inventory-file local_hosts \
-            -t base,packages \
+            -t base,users,sudo,packages \
         )
 
 # Remove unrequired dependencies

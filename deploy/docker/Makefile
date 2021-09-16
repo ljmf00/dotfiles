@@ -1,7 +1,13 @@
 all: build test-network run
 
 build:
-	docker build -t local-userimage-luis -f Dockerfile ../../
+	docker build -t local-userimage-luis $(DOCKER_BUILD_ARGS) \
+		-f Dockerfile \
+		../../
+
+dist: build
+dist:
+	docker save local-userimage-luis -o local-userimage-luis.tar
 
 test-network:
 	docker network rm macvlan0
