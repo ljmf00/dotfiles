@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Generate SSH host keys
+ssh-keygen -A
+
+# Start docker systemctl service
+exec /usr/bin/systemctl
