@@ -1,0 +1,13 @@
+---
+
+- name: Setup box machines
+  hosts:
+    - localhost
+  remote_user: root
+  roles:
+    - { role: facts, tags: ['facts'] }
+    - { role: users, tags: ['users'] }
+    - { role: sudo, tags: ['sudo']}
+    - { role: sshd, tags: ['sshd'] }
+    - { role: base, tags: ['base'] }
+    - { role: packages, tags: ['packages'] }

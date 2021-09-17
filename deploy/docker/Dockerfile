@@ -58,9 +58,7 @@ RUN chown -R luis:wheel /home/luis/
 RUN : \
     && sudo -u luis ./dotfiles/scripts/apply-dotfiles.sh \
     && (cd dotfiles/deploy/ansible; \
-        ansible-playbook playbooks/setup.yml \
-            --inventory-file local_hosts \
-            -t facts,base,users,sudo,sshd,packages; \
+        ansible-playbook playbooks/setup-box.yml; \
         ) \
     && (cd dotfiles; \
         rm -rf private/; \

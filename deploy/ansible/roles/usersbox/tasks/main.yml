@@ -36,6 +36,7 @@
     container_default_behavior: no_defaults
   when: normal_task_list is not defined
   tags:
+    - usersbox_full
     - usersbox_recreate
 
 - name: Remove userbox image
@@ -44,6 +45,7 @@
     name: local-userimage-luis
   when: normal_task_list is not defined
   tags:
+    - usersbox_full
     - usersbox_recreate
 
 - name: Copy docker box image
@@ -115,8 +117,8 @@
     volumes:
       - "/mnt/docker/local-usercontainer-luis/mnt:/mnt:rw"
       - "/mnt/docker/local-usercontainer-luis/home/luis:/home/luis:rw"
+  when: normal_task_list is not defined
   tags:
-    - usersbox
     - usersbox_full
     - usersbox_run
     - usersbox_recreate
