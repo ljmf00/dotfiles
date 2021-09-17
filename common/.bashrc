@@ -43,6 +43,9 @@ fi
 #    NON INTERACTIVE CONFIGS
 # ===============================
 
+# GPG
+export GPG_TTY=$(tty)
+
 if [ -z ${SSH_AUTH_SOCK+x} ]; then
 	GNUPG_AGENT_ENABLED=0
 
