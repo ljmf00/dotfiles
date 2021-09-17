@@ -81,11 +81,13 @@
 
 - name: Create docker box mount folder
   file:
-    path: /mnt/docker/local-usercontainer-luis
+    path: /mnt/docker/local-usercontainer-luis/{{ item }}
     state: directory
     mode: 0755
     group: root
     owner: root
+  with_items:
+    - mnt
   when: dockerbox_mountfolder.stat.exists == false
   tags:
     - usersbox
@@ -103,15 +105,16 @@
     oom_killer: no
     purge_networks: yes
     tmpfs:
-      - "/run"
-      - "/tmp"
+      - "/run:exec"
+      - "/tmp:exec"
     hostname: tornado-box
     network_mode: macvlan0
     container_default_behavior: no_defaults
     networks:
       - name: macvlan0
     volumes:
-      - "/mnt/docker/local-usercontainer-luis:/mnt:rw"
+      - "/mnt/docker/local-usercontainer-luis/mnt:/mnt:rw"
+      - "/mnt/docker/local-usercontainer-luis/home/luis:/home/luis:rw"
   tags:
     - usersbox
     - usersbox_full
