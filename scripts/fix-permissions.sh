@@ -33,6 +33,10 @@ fix_file_permission "$USER_HOME/.ssh/id_rsa.pub" 0644
 fix_file_permission "$USER_HOME/.ssh/id_rsa_codacy" 0600
 fix_file_permission "$USER_HOME/.ssh/id_rsa_codacy.pub" 0644
 
+# GPG
+fix_file_permission "$USER_HOME/.gnupg/" 0700
+fix_file_permission "$USER_HOME/.gnupg/gpg.conf" 0600
+
 # Bash and ZSH
 fix_file_permission "$USER_HOME/.bashrc" 0755
 fix_file_permission "$USER_HOME/.bash_history" 0600
