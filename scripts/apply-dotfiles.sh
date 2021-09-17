@@ -15,6 +15,9 @@ unset SOURCE
 echo "Apply common dotfiles..."
 rsync -avh --progress "$DOTFILES_FOLDER/common/" "$HOME/"
 
+echo "Run common script..."
+(source "$DOTFILES_FOLDER/common.sh")
+
 find "$DOTFILES_FOLDER/" -maxdepth 1 -mindepth 1 -type d -iname 'machine_*' |
   while IFS= read -r folder; do
 	MACHINE="$(basename "$folder" | sed 's/machine_\(.*$\)/\1/')"
@@ -22,7 +25,13 @@ find "$DOTFILES_FOLDER/" -maxdepth 1 -mindepth 1 -type d -iname 'machine_*' |
 	if [ "$(cat /etc/hostname)" == "$MACHINE" ]; then
 		echo "Apply machine '$MACHINE' dotfiles..."
 		rsync -avh --progress "$folder/" "$HOME/"
+
+		if [ -f "$DOTFILES_FOLDER/$(basename "$folder").sh" ]; then
+			echo "Run machine $MACHINE script..."
+			(source "$DOTFILES_FOLDER/$(basename "$folder").sh")
+		fi
 	else
 		echo "Skip machine '$MACHINE'"
 	fi
   done
+
