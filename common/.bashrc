@@ -44,16 +44,32 @@ fi
 # ===============================
 
 if [ -z ${SSH_AUTH_SOCK+x} ]; then
-	# SSH Agent
-	if ! pgrep -u "$USER" ssh-agent > /dev/null; then
-	    ssh-agent -s > "$HOME/.ssh-agent-env"
+	GNUPG_AGENT_ENABLED=0
+
+	# GPG Agent with SSH support
+	if pgrep -u "$USER" gpg-agent > /dev/null; then
+		GNUPG_AGENT_ENABLED=1
+		unset SSH_AGENT_PID
+		if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+			export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+		fi
 	fi
 
-	# Load SSH Agent environment file if exists
-	if [ -f "$HOME/.ssh-agent-env" ]; then
-		# shellcheck disable=SC1090
-		source "$HOME/.ssh-agent-env" > /dev/null
+	# Fallback to SSH Agent
+	if [ $GNUPG_AGENT_ENABLED == "0" ]; then
+		# SSH Agent
+		if ! pgrep -u "$USER" ssh-agent > /dev/null; then
+		    ssh-agent -s > "$HOME/.ssh-agent-env"
+		fi
+
+		# Load SSH Agent environment file if exists
+		if [ -f "$HOME/.ssh-agent-env" ]; then
+			# shellcheck disable=SC1090
+			source "$HOME/.ssh-agent-env" > /dev/null
+		fi
 	fi
+
+
 fi
 
 # Add .local/bin/ to PATH
