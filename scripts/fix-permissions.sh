@@ -36,6 +36,7 @@ fix_file_permission "$USER_HOME/.ssh/id_rsa_codacy.pub" 0644
 # GPG
 fix_file_permission "$USER_HOME/.gnupg/" 0700
 fix_file_permission "$USER_HOME/.gnupg/gpg.conf" 0600
+fix_file_permission "$USER_HOME/.gnupg/gpg-agent.conf" 0600
 
 # Bash and ZSH
 fix_file_permission "$USER_HOME/.bashrc" 0755
