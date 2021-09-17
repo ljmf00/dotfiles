@@ -46,6 +46,16 @@ fi
 # GPG
 export GPG_TTY=$(tty)
 
+if hash gpgconf 2> /dev/null; then
+	if ! pgrep -u "$USER" gpg-agent > /dev/null; then
+		gpgconf --launch gpg-agent
+	fi
+
+	if ! pgrep -u "$USER" dirmngr > /dev/null; then
+		gpgconf --launch dirmngr
+	fi
+fi
+
 if [ -z ${SSH_AUTH_SOCK+x} ]; then
 	GNUPG_AGENT_ENABLED=0
 
