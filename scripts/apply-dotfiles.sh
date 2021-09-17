@@ -16,7 +16,7 @@ echo "Apply common dotfiles..."
 rsync -avh --progress "$DOTFILES_FOLDER/common/" "$HOME/"
 
 find "$DOTFILES_FOLDER/" -maxdepth 1 -mindepth 1 -type d -iname 'machine_*' |
-  while IFS= read -r -d '' folder; do
+  while IFS= read -r folder; do
 	MACHINE="$(basename "$folder" | sed 's/machine_\(.*$\)/\1/')"
 
 	if [ "$(cat /etc/hostname)" == "$MACHINE" ]; then
