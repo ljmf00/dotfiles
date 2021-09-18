@@ -106,6 +106,10 @@
     image: local-userimage-luis
     oom_killer: no
     purge_networks: yes
+    capabilities:
+      - SYS_PTRACE
+    security_opts:
+      - "seccomp:unconfined"
     tmpfs:
       - "/run:exec"
       - "/tmp:exec"
