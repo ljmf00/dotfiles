@@ -2,6 +2,7 @@
 
 install_host_packages:
   official:
+    - bash-completion
     - python-pygments
     - thefuck
     - lsd
