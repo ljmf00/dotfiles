@@ -56,7 +56,7 @@ RUN chown -R luis:wheel /home/luis/
 
 # Run dotfiles, deploy ansible locally and clean dotfiles git repo
 RUN : \
-    && sudo -u luis ./dotfiles/scripts/apply-dotfiles.sh \
+    && sudo -u luis ./dotfiles/configure.sh \
     && (cd dotfiles/deploy/ansible; \
         ansible-playbook playbooks/setup-box.yml; \
         ) \
