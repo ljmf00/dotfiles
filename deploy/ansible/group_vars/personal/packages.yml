@@ -22,6 +22,7 @@ install_host_packages:
     - clipmenu
     - polkit-gnome
     - flameshot
+    - scrot
     # Fonts
     - noto-fonts
     - noto-fonts-cjk
