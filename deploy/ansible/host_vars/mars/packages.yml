@@ -2,6 +2,7 @@
 
 install_host_packages:
   official:
+    # NVIDIA GPU
     - nvtop
     - nvidia-dkms
     - cuda

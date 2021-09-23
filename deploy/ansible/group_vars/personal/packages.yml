@@ -10,4 +10,22 @@ install_host_packages:
     - fortune-mod
     - python
     - python-pip
+    - polkit
+    # Network management
+    - network-manager-applet
+    - nm-connection-editor
+    # X.org and related utility
+    - xorg
+    - i3-gaps
+    # GUI Applications
+    - kitty
+    - clipmenu
+    - polkit-gnome
+    - flameshot
+    # Fonts
+    - noto-fonts
+    - noto-fonts-cjk
+    - noto-fonts-emoji
   aur:
+    - fluxgui
+    - polybar

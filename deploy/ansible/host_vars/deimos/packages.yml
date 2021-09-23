@@ -1,0 +1,12 @@
+---
+
+install_host_packages:
+  official:
+    # Bluetooth
+    - blueman
+    - bluez
+    - bluez-utils
+    - pulseaudio-bluetooth
+  aur:
+    - i3-battery-popup
+
