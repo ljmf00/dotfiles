@@ -174,6 +174,8 @@ local mappings = {
     -- Delete to void register
     { "\\d", "\"_d" },
     { "\\c", "\"_c" },
+    { "\\p", "\"_dp" },
+    { "\\P", "\"_dP" },
     { "\\/", "\"fy/<C-R>f", { silent = false }},
     { "<C-a>", "<ESC>ggVG"},
 
