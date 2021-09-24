@@ -14,8 +14,15 @@ if [ -n "${TMUX}" ]; then
   exit 1
 fi
 
+case "$exec_prefixletter" in
+  s) # server-side project-tmux
+    exec_prefixletter="$(echo "$self_basename" | awk '{ string=substr($0, 2, 1); print string; }')"
+    ssh -t "$1" bash -i "${exec_prefixletter}project-tmux" ${@:2}
+    exit 0
+    ;;
+esac
 
-while getopts "cg:" option; do
+while getopts "scg:" option; do
   case $option in
     c)
       custom_vproject_name_arg="true"
@@ -92,6 +99,3 @@ case "$exec_prefixletter" in
     exit 1
     ;;
 esac
-
-
-
