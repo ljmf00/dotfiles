@@ -17,7 +17,21 @@ fi
 case "$exec_prefixletter" in
   s) # server-side project-tmux
     exec_prefixletter="$(echo "$self_basename" | awk '{ string=substr($0, 2, 1); print string; }')"
-    ssh -t "$1" bash -i "${exec_prefixletter}project-tmux" ${@:2}
+
+    # both is selected
+    if [ "$exec_prefixletter" = "b" ]; then
+      # TODO: generalize terminal opening
+      kitty --detach ssh -t "$1" bash -i "tproject-tmux" ${@:2}
+      ssh -t "$1" bash -i "vproject-tmux" ${@:2}
+    else
+      ssh -t "$1" bash -i "${exec_prefixletter}project-tmux" ${@:2}
+    fi
+    exit 0
+    ;;
+  b) # both v and t variant of project-tmux
+    # TODO: generalize terminal opening
+    kitty --detach bash -i tproject-tmux ${@:1}
+    vproject-tmux ${@:1}
     exit 0
     ;;
 esac
