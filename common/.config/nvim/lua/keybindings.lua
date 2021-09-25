@@ -155,6 +155,7 @@ local mappings = {
 
     -- Document actions
     { "<leader>aa", "<cmd>lua vim.lsp.buf.code_action()<cr>" },
+    { "<leader>ar", "<cmd>lua vim.lsp.buf.rename()<cr>"},
     { "<leader>af", "<cmd>lua vim.lsp.buf.formatting()<cr>" },
 
     --  Find
