@@ -5,6 +5,7 @@ install_common_packages:
     - htop
     - bash
     - git
+    - rsync
     - neovim
     - tmux
     - usbutils
