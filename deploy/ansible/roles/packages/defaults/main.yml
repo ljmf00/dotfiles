@@ -4,6 +4,7 @@ install_common_packages:
   official:
     - htop
     - bash
+    - git
     - neovim
     - tmux
     - usbutils
