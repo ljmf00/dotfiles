@@ -153,6 +153,10 @@ local mappings = {
     { "<leader>ggb", "<cmd>Telescope git_branches<cr>" },
     { "<leader>ggs", "<cmd>Telescope git_status<cr>" },
 
+    -- Document actions
+    { "<leader>aa", "<cmd>lua vim.lsp.buf.code_action()<cr>" },
+    { "<leader>af", "<cmd>lua vim.lsp.buf.formatting()<cr>" },
+
     --  Find
     --  Symbols
     { "<leader>fds", "<cmd>Telescope lsp_document_symbols<cr>" },
