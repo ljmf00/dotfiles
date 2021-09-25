@@ -141,6 +141,7 @@ local mappings = {
 
     --  LSP Hover description
     { "<C-Space>", "<cmd>lua vim.lsp.buf.hover()<cr>" },
+    { "<A-Space>", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>" },
 
     --  Goto symbol
     { "<leader>gD", "<cmd>lua vim.lsp.buf.declaration()<cr>" },
