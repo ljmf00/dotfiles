@@ -26,11 +26,30 @@
     - powersave
     - powersave_powertop
 
+- name: install ipmitool
+  pacman:
+    name: ipmitool
+    state: present
+  tags:
+    - powersave
+    - powersave_ipmitool
+  when: ansible_hostname == 'tornado'
+
+- name: make sure python is installed
+  pacman:
+    name: python
+    state: present
+  tags:
+    - powersave
+    - powersave_ipmitool
+  when: ansible_hostname == 'tornado'
+
 - name: add ipmi-ibm-fancontrol binary
   copy: src=ipmi-ibm-fancontrol.py dest=/usr/local/bin/ipmi-ibm-fancontrol owner=root group=root mode=0755
   tags:
     - powersave
     - powersave_ipmitool
+  when: ansible_hostname == 'tornado'
 
 - name: add systemd service for ipmi-ibm-fancontrol daemon
   copy: src={{ item }} dest=/etc/systemd/system/{{ item }} owner=root group=root mode=0644
@@ -41,6 +60,7 @@
   tags:
     - powersave
     - powersave_ipmitool
+  when: ansible_hostname == 'tornado'
 
 - name: start and enable ipmi-ibm-fancontrol units
   service: name={{ item }} enabled=yes state=started
@@ -49,3 +69,4 @@
   tags:
     - powersave
     - powersave_ipmitool
+  when: ansible_hostname == 'tornado'

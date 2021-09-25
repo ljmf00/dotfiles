@@ -5,6 +5,7 @@
     - mars
     - deimos
     - tornado
+    - pie
   remote_user: root
   roles:
     - { role: facts, tags: ['facts'] }
@@ -22,10 +23,14 @@
       when: "'servers' in group_names"
 
     - { role: packages, tags: ['packages'] }
-    - { role: archbuild, tags: ['archbuild'] }
+
+    - role: archbuild
+      tags: ['archbuild']
+      when: ansible_hostname == 'tornado'
+
     - role: syncrepo
       tags: ['syncrepo']
-      when: "'servers' in group_names"
+      when: ansible_hostname == 'tornado'
 
     # Available subtags: docker, podman
     - { role: containers, tags: ['containers'] }
