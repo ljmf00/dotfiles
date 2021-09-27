@@ -125,8 +125,9 @@ local mappings = {
         "<cmd>windo set norelativenumber<cr>",
         "<cmd>windo set nolist<cr>",
         "<cmd>NvimTreeClose<cr>",
-        "<cmd>tabdo set number<cr>",
-        "<cmd>tabdo set list<cr>",
+        "<cmd>tabdo windo set number<cr>",
+        "<cmd>tabdo windo set list<cr>",
+        "<cmd>tabdo windo set colorcolumn=80<cr>",
         }, ''
       );
     },
