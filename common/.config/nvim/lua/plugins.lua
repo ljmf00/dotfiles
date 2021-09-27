@@ -75,6 +75,14 @@ return require('packer').startup(function()
           require("pconfig.c-dashboard").config()
       end
   }
+  -- Indent guidelines
+  use {
+    "lukas-reineke/indent-blankline.nvim",
+    commit = '1b852dcb92fbef837ff6a0ef0f9269e4fd234370',
+    config = function()
+      require 'pconfig.c-indent'
+    end
+  }
 
   -- Git Support
   use {
