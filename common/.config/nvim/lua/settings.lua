@@ -23,7 +23,7 @@ vim.o.number = true
 vim.o.cc = '80'
 --  Whitespace rendering
 vim.o.list = true
-vim.o.listchars = 'tab:▸ ,extends:❯,precedes:❮,trail:·,nbsp:·'
+vim.o.listchars = 'tab:▸ ,extends:❯,precedes:❮,trail:·,nbsp:·,space:·'
 vim.o.showbreak = '↪'
 --  Indentation
 vim.o.autoindent = true
