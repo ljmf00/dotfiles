@@ -34,4 +34,4 @@
 	smtpEncryption = tls
 	smtpServer = smtp.lsferreira.net
 	smtpUser = contact@lsferreira.net
-	smtpServerPort = 465
+	smtpServerPort = 587
