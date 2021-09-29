@@ -30,3 +30,8 @@
 	program = gpg2
 [commit]
 	gpgsign = true
+[sendemail]
+	smtpEncryption = tls
+	smtpServer = smtp.lsferreira.net
+	smtpUser = contact@lsferreira.net
+	smtpServerPort = 465
