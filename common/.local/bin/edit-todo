@@ -1,0 +1,9 @@
+#!/bin/sh -i
+
+mkdir -p ~/Temp/
+if [ "$EDITOR" != "" ]; then
+  "$EDITOR" ~/Temp/TODO.md
+else
+  # fallback to vi
+  vi ~/Temp/TODO.md
+fi
