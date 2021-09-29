@@ -13,6 +13,7 @@ install_common_packages:
     - tree
     - nmap
     - inetutils
+    - bind-tools
     - ccache
   aur:
 
