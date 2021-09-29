@@ -11,3 +11,9 @@ done
 DOTFILES_FOLDER="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 unset SOURCE
 
+# check for internet availability
+if curl -sf 1.1.1.1 > /dev/null 2>&1; then
+  SENDEMAIL_SMTP_SERVER="$(dig +short smtp.lsferreira.net | head -n1 | sed 's/\.[^.]*$//')"
+
+  git config --global sendemail.smtpServer "$SENDEMAIL_SMTP_SERVER"
+fi
