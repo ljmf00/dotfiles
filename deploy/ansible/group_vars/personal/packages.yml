@@ -23,6 +23,7 @@ install_host_packages:
     - polkit-gnome
     - flameshot
     - scrot
+    - evolution
     # Fonts
     - noto-fonts
     - noto-fonts-cjk
@@ -30,6 +31,10 @@ install_host_packages:
     # Git sendmail dependencies
     - perl-io-socket-ssl
     - perl-authen-sasl
+    # Evolution plugins
+    - evolution-spamassassin
+    - evolution-rss
+    - highlight
   aur:
     - fluxgui
     - polybar
