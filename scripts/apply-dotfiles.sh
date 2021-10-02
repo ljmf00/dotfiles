@@ -34,4 +34,3 @@ find "$DOTFILES_FOLDER/" -maxdepth 1 -mindepth 1 -type d -iname 'machine_*' |
 		echo "Skip machine '$MACHINE'"
 	fi
   done
-

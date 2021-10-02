@@ -207,4 +207,3 @@ local function register_mappings(mappings, default_options)
 end
 
 register_mappings(mappings, { silent = true, noremap = true })
-
