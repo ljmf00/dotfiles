@@ -187,4 +187,3 @@ if __name__ == '__main__':
         asyncio.run(send_switch())
     else:
         asyncio.run(run_server())
-

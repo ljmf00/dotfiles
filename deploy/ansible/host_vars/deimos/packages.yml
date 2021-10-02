@@ -14,4 +14,3 @@ install_host_packages:
     - i3-battery-popup
     # Intel integrated graphics
     - intel-hybrid-codec-driver
-

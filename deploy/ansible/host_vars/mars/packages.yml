@@ -9,4 +9,3 @@ install_host_packages:
     - libvdpau
     - opencl-nvidia
   aur:
-

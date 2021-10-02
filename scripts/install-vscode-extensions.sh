@@ -103,4 +103,3 @@ else
 	echo "Please install visual-studio-code!"
 	exit 1
 fi
-
