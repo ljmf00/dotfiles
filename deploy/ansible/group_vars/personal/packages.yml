@@ -35,6 +35,13 @@ install_host_packages:
     - evolution-spamassassin
     - evolution-rss
     - highlight
+    # Drivers
+    - libva-mesa-driver
+    - mesa-vdpau
+    - libva-vdpau-driver
+    - libvdpau-va-gl
+    - libva-utils
+    - vdpauinfo
   aur:
     - fluxgui
     - polybar

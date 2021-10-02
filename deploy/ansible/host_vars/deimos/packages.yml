@@ -7,6 +7,11 @@ install_host_packages:
     - bluez
     - bluez-utils
     - pulseaudio-bluetooth
+    # Intel integrated graphics
+    - intel-media-driver
+    - libva-intel-driver
   aur:
     - i3-battery-popup
+    # Intel integrated graphics
+    - intel-hybrid-codec-driver
 
