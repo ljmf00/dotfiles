@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+clipdel -d ".*"
+printf "" | xclip -selection c
+notify-send "Clipboard deleted"
