@@ -103,7 +103,7 @@ def rm2svg(input_file, output_name, coloured_annotations=False,
     offset = 0
 
     # Is this a reMarkable .lines file?
-    
+
     expected_header=b'reMarkable .lines file, version=#          '
     if len(data) < len(expected_header) + 4:
         abort('File too short to be a valid file')
@@ -173,12 +173,12 @@ def rm2svg(input_file, output_name, coloured_annotations=False,
                 opacity = 0.9
             elif pen == 8: # Erase area
                 opacity = 0.
-            else: 
+            else:
                 print('Unknown pen: {}'.format(pen))
                 opacity = 0.
 
             width /= 2.3 # adjust for transformation to A4
-            
+
             #print('Stroke {}: pen={}, colour={}, width={}, nsegments={}'.format(stroke, pen, colour, width, nsegments))
             output.write('<polyline style="fill:none;stroke:{};stroke-width:{:.3f};opacity:{}" points="'.format(stroke_colour[colour], width, opacity)) # BEGIN stroke
 

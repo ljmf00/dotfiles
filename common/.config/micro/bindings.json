@@ -31,7 +31,7 @@
 
     "Alt-/": "lua:comment.comment",
     "Alt-b": "command:tree",
-    
+
     "Ctrl-q": "Quit",
     "Ctrl-p": "CommandMode",
     "Ctrl-b": "ShellMode"
