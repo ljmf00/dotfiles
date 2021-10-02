@@ -15,7 +15,7 @@ _with_usage()
 _with_help()
 {
   _with_usage
-  
+
   echo -e "\n  -h, --help   : Display command help"
 }
 
@@ -24,7 +24,7 @@ with()
 	#add options here, such as -h, -v
 	declare -a prefix
 	prefix=( "$@" )
-	
+
 	case ${prefix[*]} in
 	  "" )
 	  	echo "Missing arguments."
@@ -38,6 +38,6 @@ with()
 	    _with_help
 	    ;;
 	esac
-	
+
 	pmpt=${prefix[*]}
 }

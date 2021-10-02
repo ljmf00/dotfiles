@@ -322,7 +322,7 @@ done
 # Preprocess foreground*.svg
 for f in "${tmpfolder}"/foreground*.svg; do
     # debug
-    #cp -v "$f" ~/debug/"$(basename "$f")" 
+    #cp -v "$f" ~/debug/"$(basename "$f")"
     sed -i "s/stroke-width\:[\.0-9]\+/stroke-width:${STROKE_WIDTH}/g;s/opacity\:[\.0-9]\+/opacity:${OPACITY}/g" "$f"
     [ ! $? -eq 0 ] && echo "Failed to reset stroke-width and opacity in '$f'" && exit 1
 done
