@@ -1,0 +1,12 @@
+#!/bin/sh -i
+
+self_basename="$(basename "$0")"
+
+if [ "$self_basename" = "suspend-machine" ]; then
+  echo "Please execute a linked binary instead!"
+  exit 1
+fi
+
+machine_name="$(echo "$self_basename" | sed 's/^suspend-\(.*\)/\1/')"
+
+ssh -t "$machine_name" "sudo systemctl suspend"
