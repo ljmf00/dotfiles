@@ -1,0 +1,32 @@
+format = "$username[@](cyan bold)$hostname [$directory](bold green) [$cmd_duration](bold gray) $status $character"
+right_format = ""
+add_newline = false
+scan_timeout = 50
+command_timeout = 500
+
+[character]
+success_symbol = "[►](bold green)"
+error_symbol = "[►](bold red)"
+
+[username]
+style_user = "cyan bold"
+style_root = "red bold"
+format = "[$user]($style)"
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = false
+format =  "[$hostname](cyan bold)"
+disabled = false
+
+[directory]
+style = "bold green"
+truncation_length = 8
+truncation_symbol = "…/"
+
+[status]
+style = "bold red"
+format = '[\[$symbol $common_meaning$signal_name$maybe_int\]]($style) '
+map_symbol = true
+disabled = false
