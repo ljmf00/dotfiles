@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+echo "Waking mars network interfaces..."
+wol d8:cb:8a:c4:b3:a5
+echo "Sent packet to enp3s0"
+wol ce:81:70:9f:d9:49
+echo "Sent packet to wlp6s0"
