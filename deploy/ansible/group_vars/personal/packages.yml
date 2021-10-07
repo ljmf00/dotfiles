@@ -32,8 +32,8 @@ install_host_packages:
     - perl-io-socket-ssl
     - perl-authen-sasl
     # Evolution plugins
-    - evolution-spamassassin
     - evolution-rss
+    - evolution-on
     - highlight
     # Drivers
     - libva-mesa-driver
