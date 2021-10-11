@@ -82,22 +82,6 @@ alias gstl='git stash list'
 alias gstp='git stash pop'
 alias gswc='git switch -c'
 
-# Visual Studio Code
-alias vsc='code-oss .'
-alias vsca='code-oss --add'
-alias vscd='code-oss --diff'
-alias vscde='code-oss --disable-extensions'
-alias vsced='code-oss --extensions-dir'
-alias vscg='code-oss --goto'
-alias vscie='code-oss --install-extension'
-alias vscl='code-oss --log'
-alias vscn='code-oss --new-window'
-alias vscr='code-oss --reuse-window'
-alias vscu='code-oss --user-data-dir'
-alias vscue='code-oss --uninstall-extension'
-alias vscv='code-oss --verbose'
-alias vscw='code-oss --wait'
-
 # Misc
 alias waka='npx waka'
 alias v='nvim'
