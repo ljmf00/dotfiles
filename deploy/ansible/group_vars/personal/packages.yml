@@ -42,6 +42,8 @@ install_host_packages:
     - libvdpau-va-gl
     - libva-utils
     - vdpauinfo
+    - pass
   aur:
     - fluxgui
     - polybar
+    - dstask
