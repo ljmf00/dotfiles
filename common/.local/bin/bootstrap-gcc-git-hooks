@@ -1,0 +1,8 @@
+#!/bin/sh
+
+hookdir=`git rev-parse --git-path hooks`
+if [ -f "$hookdir/prepare-commit-msg" ]; then
+    echo " Moving existing prepare-commit-msg hook to prepare-commit-msg.bak"
+    mv "$hookdir/prepare-commit-msg" "$hookdir/prepare-commit-msg.bak"
+fi
+install -c "`git rev-parse --show-toplevel`/contrib/prepare-commit-msg" "$hookdir"
