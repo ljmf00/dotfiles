@@ -26,6 +26,10 @@
 	co = checkout
 	cp = cherry-pick
 	unstage = reset HEAD --
+	# GCC specific aliases
+	gcc-mklog = "!f() { \"`git rev-parse --show-toplevel`/contrib/mklog.py\" $@; } ; f"
+	gcc-commit-mklog = "!f() { \"`git rev-parse --show-toplevel`/contrib/git-commit-mklog.py\" \"$@\"; }; f"
+	gcc-verify = "!f() { \"`git rev-parse --show-toplevel`/contrib/gcc-changelog/git_check_commit.py\" $@; } ; f"
 [gpg]
 	program = gpg2
 [commit]
