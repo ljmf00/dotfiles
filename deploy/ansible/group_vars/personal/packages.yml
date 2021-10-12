@@ -43,6 +43,9 @@ install_host_packages:
     - libva-utils
     - vdpauinfo
     - pass
+    # Python packages
+    - python-unidiff
+    - python-gitpython
   aur:
     - fluxgui
     - polybar
