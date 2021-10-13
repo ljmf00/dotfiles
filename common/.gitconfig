@@ -25,6 +25,7 @@
 	b = branch
 	co = checkout
 	cp = cherry-pick
+	se = "!f() { git send-email --smtp-pass=\"$(pass website/mail.ovh.net/contact@lsferreira.net)\" $@; }; f"
 	unstage = reset HEAD --
 	# GCC specific aliases
 	gcc-mklog = "!f() { \"`git rev-parse --show-toplevel`/contrib/mklog.py\" $@; } ; f"
