@@ -31,6 +31,8 @@ vim.o.autoindent = true
 vim.cmd 'filetype plugin indent on'
 --  Hidden buffers
 vim.o.hidden = true
+-- Hidden mode
+vim.o.showmode = false
 
 -- Completion settings
 vim.o.completeopt = "menuone,noselect"

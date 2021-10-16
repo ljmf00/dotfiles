@@ -85,6 +85,7 @@ return require('packer').startup(function()
   }
 
   -- Git Support
+  use { 'tpope/vim-fugitive', tag = 'v3.4' }
   use {
     'lewis6991/gitsigns.nvim',
     tag = 'v0.2',
@@ -207,16 +208,17 @@ return require('packer').startup(function()
 
   -- Status Line and Bufferline
   -- FIXME: Find a better line
-  -- use {
-  --   'glepnir/galaxyline.nvim',
-  --   commit = 'd544cb9d0b56f6ef271db3b4c3cf19ef665940d5',
-  --   config = function() require'pconfig.c-galaxyline' end,
-  --   requires = {'kyazdani42/nvim-web-devicons', opt = true},
-  -- }
-  -- use {
-  --   'akinsho/nvim-bufferline.lua',
-  --   commit = 'cebafb95622205a414a6c10bf0e40d197cc652b1',
-  --   config = function() require'pconfig.c-bufferline' end,
-  --   requires = {'kyazdani42/nvim-web-devicons', opt = true},
-  -- }
+   use {
+    "itchyny/lightline.vim",
+    commit = "b06d921023cf6536bcbee5754071d122296e8942",
+    config = function ()
+      require 'pconfig.c-lightline'
+    end
+   }
+  use {
+    'akinsho/nvim-bufferline.lua',
+    commit = 'cebafb95622205a414a6c10bf0e40d197cc652b1',
+    config = function() require'pconfig.c-bufferline' end,
+    requires = {'kyazdani42/nvim-web-devicons', opt = true},
+  }
 end)
