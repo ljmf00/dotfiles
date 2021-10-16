@@ -99,7 +99,6 @@ return require('packer').startup(function()
   -- LSP Support
   use {
     'neovim/nvim-lspconfig',
-    commit = '8909ba7d1f57e2e508a23c422eb198b6c90f4698',
     config = function()
       require 'pconfig.c-lsp'
     end,
@@ -142,18 +141,24 @@ return require('packer').startup(function()
     commit = 'e599e15f9400e6b587e3160d2dff83764cb4ab7d',
     config = function()
       require 'pconfig.c-autopairs'
-    end,
-    requires = { 'hrsh7th/nvim-compe' }
+    end
   }
 
   -- Autocomplete
   use {
-    'hrsh7th/nvim-compe',
-    tag = 'v2.0.0',
+    'ms-jpq/coq_nvim',
+    branch = "coq",
     config = function()
-      require 'pconfig.c-compe'
+      require 'pconfig.c-coq'
     end,
+    requires = {
+      'ms-jpq/coq.artifacts',
+      'ms-jpq/coq.thirdparty',
+      'neovim/nvim-lspconfig'
+    }
   }
+  use { 'ms-jpq/coq.artifacts', branch = "artifacts" }
+  use { 'ms-jpq/coq.thirdparty', branch = "3p" }
 
   -- Snippets
   use 'SirVer/ultisnips'

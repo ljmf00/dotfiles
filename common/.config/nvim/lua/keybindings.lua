@@ -21,48 +21,32 @@ vim.cmd [[
 endfunction
 ]]
 
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
+local npairs = require('nvim-autopairs')
 
-local check_back_space = function()
-  local col = vim.fn.col "." - 1
-  if col == 0 or vim.fn.getline("."):sub(col, col):match "%s" then
-    return true
+-- skip it, if you use another global object
+_G.MUtils= {}
+
+MUtils.CR = function()
+  if vim.fn.pumvisible() ~= 0 then
+    if vim.fn.complete_info({ 'selected' }).selected ~= -1 then
+      return npairs.esc('<c-y>')
+    else
+      return npairs.esc('<c-e>') .. npairs.autopairs_cr()
+    end
   else
-    return false
+    return npairs.autopairs_cr()
   end
 end
+vim.api.nvim_set_keymap('i', '<cr>', 'v:lua.MUtils.CR()', { expr = true, noremap = true })
 
--- Use (s-)tab to:
---- move to prev/next item in completion menuone
---- jump to prev/next snippet's placeholder
-_G.tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-n>"
-  elseif vim.fn.call("vsnip#available", { 1 }) == 1 then
-    return t "<Plug>(vsnip-expand-or-jump)"
-  elseif check_back_space() then
-    return t "<Tab>"
+MUtils.BS = function()
+  if vim.fn.pumvisible() ~= 0 and vim.fn.complete_info({ 'mode' }).mode == 'eval' then
+    return npairs.esc('<c-e>') .. npairs.autopairs_bs()
   else
-    return vim.fn["compe#complete"]()
+    return npairs.autopairs_bs()
   end
 end
-
-_G.s_tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-p>"
-  elseif vim.fn.call("vsnip#jumpable", { -1 }) == 1 then
-    return t "<Plug>(vsnip-jump-prev)"
-  else
-    return t "<S-Tab>"
-  end
-end
-
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", { expr = true })
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", { expr = true })
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
+vim.api.nvim_set_keymap('i', '<bs>', 'v:lua.MUtils.BS()', { expr = true, noremap = true })
 
 -- Move lines around in visual mode
 vim.cmd [[
@@ -78,12 +62,14 @@ vmap <unique> <C-l>    <Plug>SchleppDupRight
 
 local mappings = {
   i = { -- Insert mode
+
     -- Autocomplete
-    { "<C-Space>", "compe#complete()", { silent = true, expr = true } },
-    { "<CR>", "compe#confirm(luaeval(\"require 'nvim-autopairs'.autopairs_cr()\"))", { silent = true, expr = true } },
-    { "<C-e>", "compe#close('<C-e>')", { silent = true, expr = true } },
-    { "<C-f>", "compe#scroll({ 'delta': +4 })", { silent = true, expr = true } },
-    { "<C-d>", "compe#scroll({ 'delta': -4 })", { silent = true, expr = true } },
+    -- FIXME: Doesn't work
+    { '<esc>', [[pumvisible() ? "<c-e><esc>" : "<esc>"]], { expr = true, silent = true, noremap = true }},
+    { '<c-c>', [[pumvisible() ? "<c-e><c-c>" : "<c-c>"]], { expr = true, silent = true, noremap = true }},
+    { '<Tab>', [[pumvisible() ? "<c-n>" : "<Tab>"]], { expr = true, silent = true, noremap = true}},
+    { '<S-Tab>', [[pumvisible() ? "<c-p>" : "<bs>"]], { expr = true, silent = true, noremap = true}},
+
     { "<A-j>", "<ESC><cmd>m .+1<CR>==gi" },
     { "<A-k>", "<ESC><cmd>m .-2<CR>==gi" },
 
