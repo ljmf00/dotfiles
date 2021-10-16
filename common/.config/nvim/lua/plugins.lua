@@ -206,16 +206,17 @@ return require('packer').startup(function()
   }
 
   -- Status Line and Bufferline
-  use {
-    'glepnir/galaxyline.nvim',
-    commit = 'd544cb9d0b56f6ef271db3b4c3cf19ef665940d5',
-    config = function() require'pconfig.c-galaxyline' end,
-    requires = {'kyazdani42/nvim-web-devicons', opt = true},
-  }
-  use {
-    'akinsho/nvim-bufferline.lua',
-    commit = 'cebafb95622205a414a6c10bf0e40d197cc652b1',
-    config = function() require'pconfig.c-bufferline' end,
-    requires = {'kyazdani42/nvim-web-devicons', opt = true},
-  }
+  -- FIXME: Find a better line
+  -- use {
+  --   'glepnir/galaxyline.nvim',
+  --   commit = 'd544cb9d0b56f6ef271db3b4c3cf19ef665940d5',
+  --   config = function() require'pconfig.c-galaxyline' end,
+  --   requires = {'kyazdani42/nvim-web-devicons', opt = true},
+  -- }
+  -- use {
+  --   'akinsho/nvim-bufferline.lua',
+  --   commit = 'cebafb95622205a414a6c10bf0e40d197cc652b1',
+  --   config = function() require'pconfig.c-bufferline' end,
+  --   requires = {'kyazdani42/nvim-web-devicons', opt = true},
+  -- }
 end)
