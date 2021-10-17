@@ -1,5 +1,5 @@
 vim.g['lightline'] = {
-      colorscheme = 'Tomorrow_Night_Eighties',
+      colorscheme = 'sonokai',
       active = {
             left = {
                   { 'mode', 'paste' },

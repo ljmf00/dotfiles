@@ -15,10 +15,13 @@ return require('packer').startup(function()
   -- Theme
   use {
     'sainnhe/sonokai',
-    commit = 'ef631befe2bea01c23f4f0d9685025ac15d51ace',
-    config = function()
-      require 'pconfig.c-sonokai'
-    end,
+    commit = '995c6d30ac2846c8230488246057c1ad1aa0b908',
+    requires = {
+      'neomake/neomake',
+      'nvim-treesitter/nvim-treesitter',
+      'yamatsum/nvim-nonicons',
+      'itchyny/lightline.vim'
+    },
   }
 
   -- Wakatime
