@@ -33,21 +33,20 @@ format = <label>
 label = %{F#8fbcbb}🗓 %date%%{F#b48ead} 🕐 %time%
 label-font = 6
 
-[module/io-usage]
-type = custom/script
+# [module/io-usage]
+# type = custom/script
 
 # avg value
 #exec = "iostat -xy 2 1 | awk '/%util$/{x=NR+FNR}(NR<x){print $NF}' | tail -n +2 | tr -s '\n' | awk '{ total += $1; count++ } END { print total/count }' | cut -d. -f1"
 # max value
 exec = "iostat -xy 2 1 | awk '/%util$/{x=NR+FNR}(NR<x){print $NF}' | tail -n +2 | sort -nr | head -n1"
 
-label = %{F#ff992b}IO %output%%
+# label = %{F#ff992b}IO %output%%
 
 ; Will the script output continous content?
 ; Default: false
-tail = true
-
-interval = 2
+# tail = true
+# interval = 2
 
 [module/pulseaudio]
 type = internal/pulseaudio
