@@ -219,7 +219,7 @@ return require('packer').startup(function()
     end
    }
   use {
-    'akinsho/nvim-bufferline.lua',
+    'akinsho/bufferline.nvim',
     commit = 'cebafb95622205a414a6c10bf0e40d197cc652b1',
     config = function() require'pconfig.c-bufferline' end,
     requires = {'kyazdani42/nvim-web-devicons', opt = true},
