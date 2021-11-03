@@ -196,12 +196,12 @@ return require('packer').startup(function()
   }
 
   -- vim-rooter
-  use {
-    "airblade/vim-rooter",
-    config = function()
-      require 'pconfig.c-vrooter'
-    end,
-  }
+  -- use {
+  --   "airblade/vim-rooter",
+  --   config = function()
+  --     require 'pconfig.c-vrooter'
+  --   end,
+  -- }
 
   -- Icons
   use {
