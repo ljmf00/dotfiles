@@ -2,7 +2,12 @@
 
 mkdir -p ~/Temp/
 if [ "$EDITOR" != "" ]; then
-  "$EDITOR" ~/Temp/TODO.md
+  if [ "$(basename "$EDITOR")" = "nvim" ]; then
+    ETODO_EDITOR_ARGS="+"
+  else
+    ETODO_EDITOR_ARGS=""
+  fi
+  "$EDITOR" "$ETODO_EDITOR_ARGS" ~/Temp/TODO.md
 else
   # fallback to vi
   vi ~/Temp/TODO.md
