@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+if hash lld 2>/dev/null; then
+	echo "--> LLD found, let's use it"
+	_CLANG_DEFAULT_LINKER='lld'
+	_LLVM_ENABLE_LLD="ON"
+else
+	echo "!!!!!!!!!!!!!!!!!!! Please install LLD !!!!!!!!!!!!!!!!!!!"
+	echo "--> Using ld for now"
+	_CLANG_DEFAULT_LINKER='ld'
+	_LLVM_ENABLE_LLD="OFF"
+fi
+
+if hash clang 2>/dev/null; then
+	export CC=clang
+	export CXX=clang++
+	_CMAKE_C_COMPILER='clang'
+	_CMAKE_CXX_COMPILER='clang++'
+else
+	echo "!!!!!!!!!!!!!!!!!!! Please install clang !!!!!!!!!!!!!!!!!!!"
+	echo "--> Using gcc compiler for now"
+
+	export CC=gcc
+	export CXX=g++
+	_CMAKE_C_COMPILER='gcc'
+	_CMAKE_CXX_COMPILER='g++'
+fi
+
+if [[ "$1" == "debug"* ]]; then
+	_CMAKE_BUILD_TYPE="Debug"
+	_LLVM_USE_SPLIT_DWARF="ON"
+	_LLVM_ENABLE_LTO="OFF"
+elif [[ "$1" == "release"* ]]; then
+	_CMAKE_BUILD_TYPE="Release"
+	_LLVM_USE_SPLIT_DWARF="OFF"
+	_LLVM_ENABLE_LTO="ON"
+fi
+
+
+cmake -S llvm -B build -G Ninja \
+	-DLLVM_ENABLE_PROJECTS="clang;llvm;lldb" \
+	-DCMAKE_BUILD_TYPE="${_CMAKE_BUILD_TYPE}" \
+	-DLLDB_EXPORT_ALL_SYMBOLS=OFF \
+	-DLLVM_OPTIMIZED_TABLEGEN=ON \
+	-DLLVM_ENABLE_ASSERTIONS=ON \
+	-DLLDB_ENABLE_PYTHON=ON \
+	-DLLVM_TARGETS_TO_BUILD="X86" \
+	-DLLVM_CCACHE_BUILD=ON \
+	-DLLVM_LINK_LLVM_DYLIB=ON \
+	-DCLANG_LINK_CLANG_DYLIB=ON \
+	-DCMAKE_C_COMPILER="${_CMAKE_C_COMPILER}" \
+	-DCMAKE_CXX_COMPILER="${_CMAKE_CXX_COMPILER}" \
+	-DLLVM_ENABLE_LLD="${_LLVM_ENABLE_LLD}" \
+	-DCLANG_DEFAULT_LINKER="${_CLANG_DEFAULT_LINKER}" \
+	-DLLVM_USE_SPLIT_DWARF=ON \
+	-DLLVM_ENABLE_LTO="${_LLVM_ENABLE_LTO}" \
+	#
+	# -DLLVM_BUILD_INSTRUMENTED_COVERAGE=ON \
+	# -DLLVM_USE_SANITIZE_COVERAGE=ON \
+	# -DLLVM_USE_SANITIZER=Address\;Undefined \
+	# -DLLVM_USE_LINKER=lld \
