@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+count_commits=$(( $(git rev-list --count origin/main..HEAD) - 1))
+
+for c in $(seq 0 "$count_commits"); do
+  c_rev="$((count_commits - c))"
+  git show --patch -U99999999 "HEAD~$c" > "$c_rev - $(git rev-parse --short "HEAD~$c") - $(git rev-list --format=%B --max-count=1 "HEAD~$c" | tail +2 | head -n1 | tr '/' '_').patch"
+done
