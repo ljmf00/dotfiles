@@ -1,0 +1,46 @@
+---
+
+- name: install libvirt and dependencies
+  pacman:
+    name:
+      - libvirt
+      - qemu
+      - openbsd-netcat
+      - ebtables
+      - dnsmasq
+      - bridge-utils
+      - dmidecode
+    state: present
+
+- name: add libvirt group
+  group:
+    name: libvirt
+    state: present
+
+# https://github.com/ansible/ansible/issues/11024
+- name: remove all users from libvirt group
+  command: groupmems -g libvirt --purge
+
+- name: add admin users to libvirt
+  user:
+    name: '{{ item.key }}'
+    append: yes
+    groups: libvirt
+  with_dict: '{{ users }}'
+  when: '"admin" in item.value.groups'
+
+- name: install libvirt configs
+  template:
+    src: '{{ item }}'
+    dest: '/etc/libvirt/{{ item }}'
+    mode: 0644
+    owner: root
+    group: root
+  with_items:
+    - libvirtd.conf.j2
+
+- name: activate libvirtd service
+  service:
+    name: libvirtd
+    enabled: yes
+    state: restarted

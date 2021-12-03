@@ -1,0 +1,11 @@
+---
+
+- name: install kvm modeprobe configuration
+  copy:
+    src: '{{ item }}'
+    dest: '/etc/{{ item }}'
+    mode: 0644
+    owner: root
+    group: root
+  with_items:
+    - modprobe.d/kvm.conf
