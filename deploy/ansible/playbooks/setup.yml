@@ -40,3 +40,6 @@
     # deploy is costly.
     - role: usersbox
       when: ansible_hostname == 'tornado'
+
+    - { role: kvm, tags: ['kvm'] }
+    - { role: libvirt, tags: ['libvirt'] }
