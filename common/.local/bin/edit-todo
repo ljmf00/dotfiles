@@ -1,14 +1,18 @@
 #!/bin/sh -i
 
-mkdir -p ~/Temp/
+if [ ! -d ~/Sync/ ]; then
+  echo "Please setup your Sync folder first!"
+  exit 1
+fi
+
 if [ "$EDITOR" != "" ]; then
   if [ "$(basename "$EDITOR")" = "nvim" ]; then
     ETODO_EDITOR_ARGS="+"
   else
     ETODO_EDITOR_ARGS=""
   fi
-  "$EDITOR" "$ETODO_EDITOR_ARGS" ~/Temp/TODO.md
+  "$EDITOR" "$ETODO_EDITOR_ARGS" ~/Sync/TODO.md
 else
   # fallback to vi
-  vi ~/Temp/TODO.md
+  vi ~/Sync/TODO.md
 fi
