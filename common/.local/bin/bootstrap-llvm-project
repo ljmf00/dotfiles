@@ -4,6 +4,10 @@ if [ "$1" == "git" ]; then
 	# LLVM doesn't use sign-off
 	[ -f .git/hooks/prepare-commit-msg ] && rm .git/hooks/prepare-commit-msg || :
 	exit
+else
+	if [ "$2" == "clean" ]; then
+		rm -rf build/
+	fi
 fi
 
 if hash lld 2>/dev/null; then
@@ -32,6 +36,7 @@ else
 	_CMAKE_CXX_COMPILER='g++'
 fi
 
+# Build types
 if [[ "$1" == "debug"* ]]; then
 	_CMAKE_BUILD_TYPE="Debug"
 	_LLVM_USE_SPLIT_DWARF="ON"
@@ -42,6 +47,28 @@ elif [[ "$1" == "release"* ]]; then
 	_LLVM_ENABLE_LTO="ON"
 fi
 
+# Expensive checks
+if [[ "$1" == *"-expensive"* ]]; then
+	_LLVM_ENABLE_EXPENSIVE_CHECKS="ON"
+else
+	_LLVM_ENABLE_EXPENSIVE_CHECKS="OFF"
+fi
+
+# Sanitization
+if [[ "$1" == *"-sanitize"* ]]; then
+	_LLVM_USE_SANITIZE_COVERAGE="ON"
+	_LLVM_USE_SANITIZER="Address;Undefined"
+else
+	_LLVM_USE_SANITIZE_COVERAGE="OFF"
+	_LLVM_USE_SANITIZER=""
+fi
+
+# Coverage
+if [[ "$1" == *"-cov"* ]]; then
+	_LLVM_BUILD_INSTRUMENTED_COVERAGE="ON"
+else
+	_LLVM_BUILD_INSTRUMENTED_COVERAGE="OFF"
+fi
 
 cmake -S llvm -B build -G Ninja \
 	-DLLVM_ENABLE_PROJECTS="clang;llvm;lldb" \
@@ -60,8 +87,8 @@ cmake -S llvm -B build -G Ninja \
 	-DCLANG_DEFAULT_LINKER="${_CLANG_DEFAULT_LINKER}" \
 	-DLLVM_USE_SPLIT_DWARF=ON \
 	-DLLVM_ENABLE_LTO="${_LLVM_ENABLE_LTO}" \
+	-DLLVM_ENABLE_EXPENSIVE_CHECKS="${_LLVM_ENABLE_EXPENSIVE_CHECKS}" \
+	-DLLVM_BUILD_INSTRUMENTED_COVERAGE="${_LLVM_BUILD_INSTRUMENTED_COVERAGE}" \
+	-DLLVM_USE_SANITIZE_COVERAGE="${_LLVM_USE_SANITIZE_COVERAGE}" \
+	-DLLVM_USE_SANITIZER="${_LLVM_USE_SANITIZER}" \
 	#
-	# -DLLVM_BUILD_INSTRUMENTED_COVERAGE=ON \
-	# -DLLVM_USE_SANITIZE_COVERAGE=ON \
-	# -DLLVM_USE_SANITIZER=Address\;Undefined \
-	# -DLLVM_USE_LINKER=lld \
