@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+xinput | grep "Goodix Capacitive TouchScreen" \
+       | sed 's/.*id=\([0-9]\+\).*/\1/' \
+       | xargs -I {} xinput disable {}
