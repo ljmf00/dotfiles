@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+if [ "$1" == "git" ]; then
+	# LLVM doesn't use sign-off
+	[ -f .git/hooks/prepare-commit-msg ] && rm .git/hooks/prepare-commit-msg || :
+	exit
+fi
+
 if hash lld 2>/dev/null; then
 	echo "--> LLD found, let's use it"
 	_CLANG_DEFAULT_LINKER='lld'
