@@ -9,4 +9,4 @@ fi
 
 machine_name="$(echo "$self_basename" | sed 's/^shutdown-\(.*\)/\1/')"
 
-ssh -t "$machine_name" "sudo shutdown now"
+ssh -t "root@$machine_name" "sudo shutdown now"
