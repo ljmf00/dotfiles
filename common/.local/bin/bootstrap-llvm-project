@@ -22,6 +22,7 @@ else
 fi
 
 if hash clang 2>/dev/null; then
+	echo "--> Clang found, let's use it"
 	export CC=clang
 	export CXX=clang++
 	_CMAKE_C_COMPILER='clang'
@@ -38,17 +39,20 @@ fi
 
 # Build types
 if [[ "$1" == "debug"* ]]; then
+	echo "--> Building in debug"
 	_CMAKE_BUILD_TYPE="Debug"
 	_LLVM_USE_SPLIT_DWARF="ON"
 	_LLVM_ENABLE_LTO="OFF"
 elif [[ "$1" == "release"* ]]; then
+	echo "--> Building in release"
 	_CMAKE_BUILD_TYPE="Release"
 	_LLVM_USE_SPLIT_DWARF="OFF"
-	_LLVM_ENABLE_LTO="ON"
+	_LLVM_ENABLE_LTO="Full"
 fi
 
 # Expensive checks
 if [[ "$1" == *"-expensive"* ]]; then
+	echo "--> Using expensive checks"
 	_LLVM_ENABLE_EXPENSIVE_CHECKS="ON"
 else
 	_LLVM_ENABLE_EXPENSIVE_CHECKS="OFF"
@@ -56,6 +60,7 @@ fi
 
 # Sanitization
 if [[ "$1" == *"-sanitize"* ]]; then
+	echo "--> Using sanitization"
 	_LLVM_USE_SANITIZE_COVERAGE="ON"
 	_LLVM_USE_SANITIZER="Address;Undefined"
 else
@@ -65,6 +70,7 @@ fi
 
 # Coverage
 if [[ "$1" == *"-cov"* ]]; then
+	echo "--> Using coverage"
 	_LLVM_BUILD_INSTRUMENTED_COVERAGE="ON"
 else
 	_LLVM_BUILD_INSTRUMENTED_COVERAGE="OFF"
