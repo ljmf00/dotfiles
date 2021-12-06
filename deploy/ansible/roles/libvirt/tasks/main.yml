@@ -10,6 +10,8 @@
       - dnsmasq
       - bridge-utils
       - dmidecode
+      - edk2-ovmf
+      - swtpm
     state: present
 
 - name: add libvirt group
