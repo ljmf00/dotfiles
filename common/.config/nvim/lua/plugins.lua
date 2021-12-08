@@ -179,7 +179,7 @@ return require('packer').startup(function()
     config = function()
       require 'pconfig.c-nvimtree'
     end,
-    commit = "fd7f60e242205ea9efc9649101c81a07d5f458bb",
+    commit = "2e33b1654384921ec1cc9656a2018744f3f1ce81",
   }
 
   -- Comments
