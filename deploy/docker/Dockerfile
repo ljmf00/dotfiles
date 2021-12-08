@@ -68,6 +68,8 @@ RUN : \
         git gc --aggressive --auto; \
     )
 
+RUN sed -i 's/^\(session.*\)required\(.*pam_limits.so\)/\1optional\2/' /etc/pam.d/system-auth
+
 # Remove unrequired dependencies
 RUN (unused_pkgs="$(pacman -Qqdt)"; \
     if [ "$unused_pkgs" != "" ]; then \
