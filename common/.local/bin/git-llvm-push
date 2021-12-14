@@ -16,4 +16,4 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
   exit 1
 fi
 
-git push https://github.com/llvm/llvm-project.git HEAD:main
+git push git@github.com:llvm/llvm-project.git HEAD:main
