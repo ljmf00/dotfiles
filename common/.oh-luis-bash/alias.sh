@@ -91,6 +91,7 @@ alias ccat='pygmentize -g'
 alias lccat='pygmentize -g -O style=colorful,linenos=1'
 alias please='sudo'
 alias task='dstask'
+alias t='dstask'
 
 # Fancy dir alias
 function d () {
