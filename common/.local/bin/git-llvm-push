@@ -2,14 +2,14 @@
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-read -p "Are you sure you want to push to '$BRANCH' ? (y/n): " -n 1 -r < /dev/tty
+read -p "Are you sure you want to push '$BRANCH' ? (y/n): " -n 1 -r < /dev/tty
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
   echo "Push aborted."
   exit 1
 fi
 
-read -p "Are you *really* sure you want to push to '$BRANCH' ? (y/n): " -n 1 -r < /dev/tty
+read -p "Are you *really* sure you want to push '$BRANCH' ? (y/n): " -n 1 -r < /dev/tty
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
   echo "Push aborted."
