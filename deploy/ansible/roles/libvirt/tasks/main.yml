@@ -5,11 +5,15 @@
     name: iptables
     state: absent
     force: yes
+  tags:
+    - libvirt
 
 - name: install ebtables package
   pacman:
     name: ebtables
     state: present
+  tags:
+    - libvirt
 
 - name: install libvirt and dependencies
   pacman:
@@ -23,15 +27,21 @@
       - edk2-ovmf
       - swtpm
     state: present
+  tags:
+    - libvirt
 
 - name: add libvirt group
   group:
     name: libvirt
     state: present
+  tags:
+    - libvirt
 
 # https://github.com/ansible/ansible/issues/11024
 - name: remove all users from libvirt group
   command: groupmems -g libvirt --purge
+  tags:
+    - libvirt
 
 - name: add admin users to libvirt
   user:
@@ -40,6 +50,8 @@
     groups: libvirt
   with_dict: '{{ users }}'
   when: '"admin" in item.value.groups'
+  tags:
+    - libvirt
 
 - name: install libvirt configs
   template:
@@ -50,9 +62,13 @@
     group: root
   with_items:
     - libvirtd.conf.j2
+  tags:
+    - libvirt
 
 - name: activate libvirtd service
   service:
     name: libvirtd
     enabled: yes
     state: restarted
+  tags:
+    - libvirt
