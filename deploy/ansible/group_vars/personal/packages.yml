@@ -24,10 +24,15 @@ install_group_packages:
     - flameshot
     - scrot
     - evolution
+    - rofi
+    - steam
     # Fonts
     - noto-fonts
     - noto-fonts-cjk
     - noto-fonts-emoji
+      lib32-fontconfig
+      ttf-liberation
+      wqy-zenhei
     # Git sendmail dependencies
     - perl-io-socket-ssl
     - perl-authen-sasl
@@ -53,6 +58,12 @@ install_group_packages:
     - wol
     - ethtool
   aur:
+    # Xorg related apps
+    - picom-git
+    # FIXME: Don't install this package explicitly (dependency of fluxgui)
+    - gnome-python
     - fluxgui
     - polybar
     - dstask
+    - nerd-fonts-dejavu-complete
+    - brave-bin
