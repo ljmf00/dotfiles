@@ -17,3 +17,6 @@ if curl -sf 1.1.1.1 > /dev/null 2>&1; then
 
   git config --global sendemail.smtpServer "$SENDEMAIL_SMTP_SERVER"
 fi
+
+mkdir -p ~/.ssh/
+cp "$DOTFILES_FOLDER/pubkeys/ssh_luis.pub" ~/.ssh/authorized_keys
