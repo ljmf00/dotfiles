@@ -31,6 +31,7 @@
   tags:
     - users
     - sudo
+    - yay
 
 - name: create system groups
   group:
@@ -41,6 +42,7 @@
   tags:
     - users
     - sudo
+    - yay
 
 - name: create users
   user:
@@ -56,6 +58,7 @@
   tags:
     - users
     - sudo
+    - yay
 
 - name: create .ssh directory
   file:

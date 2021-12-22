@@ -1,0 +1,45 @@
+---
+
+- name: create aur_user
+  user:
+    name: '{{ aur_user }}'
+    group: users
+    groups: dev
+    state: present
+    password: '!'
+
+- name: Giving passwordless access to pacman
+  lineinfile:
+    path: /etc/sudoers.d/11-install-{{ aur_user }}
+    line: '{{ aur_user }} ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+    create: true
+    validate: 'visudo -cf %s'
+
+- name: Check if yay is installed
+  command: pacman -Qi yay
+  ignore_errors: yes
+  register: yay_check_install
+  failed_when: False
+  changed_when: False
+
+- name: Install devtools
+  pacman:
+    name:
+      - devtools
+      - pacman-contrib
+    state: present
+
+- name: Installing yay
+  become: true
+  become_exe: sudo
+  become_flags: '-H -n'
+  become_user: '{{ aur_user }}'
+  shell: |
+    (
+      cd "$(mktemp -d)"
+      curl -LSs https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD\?h\=yay > PKGBUILD
+      extra-x86_64-build -- -- --noconfirm --noprogressbar && \
+      sudo pacman -U yay-*-x86_64.pkg.tar.zst --noconfirm --noprogressbar
+      rm -rf "$(pwd)"
+    )
+  when: yay_check_install.rc == 1
