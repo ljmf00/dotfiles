@@ -49,6 +49,9 @@ install_group_packages:
     # Neovim plugins dependencies
     - go
     - python-neovim
+    # WOL
+    - wol
+    - ethtool
   aur:
     - fluxgui
     - polybar
