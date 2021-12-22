@@ -1,6 +1,6 @@
 ---
 
-install_host_packages:
+install_group_packages:
   official:
     - bash-completion
     - python-pygments
