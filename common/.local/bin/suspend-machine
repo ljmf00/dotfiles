@@ -9,4 +9,9 @@ fi
 
 machine_name="$(echo "$self_basename" | sed 's/^suspend-\(.*\)/\1/')"
 
+if [ "$machine_name" = "mars" ]; then
+  # FIXME: Enable wake-on-lan once
+  ssh -t root@mars "sudo ethtool -s enp3s0 wol g"
+fi
+
 ssh -t "root@$machine_name" "sudo systemctl suspend"
