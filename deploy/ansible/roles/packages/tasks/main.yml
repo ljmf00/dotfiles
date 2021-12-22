@@ -32,3 +32,29 @@
   tags:
     - packages
     - official-packages
+
+- name: Install host aur packages
+  aur:
+    name: "{{ item }}"
+    use: yay
+    skip_installed: true
+  become: yes
+  become_user: aur_builder
+  with_items: '{{ install_host_packages.aur }}'
+  when: install_host_packages.aur
+  tags:
+    - packages
+    - aur-packages
+
+- name: Install group aur packages
+  aur:
+    name: "{{ item }}"
+    use: yay
+    skip_installed: true
+  become: yes
+  become_user: aur_builder
+  with_items: '{{ install_group_packages.aur }}'
+  when: install_group_packages.aur
+  tags:
+    - packages
+    - aur-packages

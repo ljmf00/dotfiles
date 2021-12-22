@@ -24,6 +24,7 @@
       when: "'servers' in group_names"
 
     - { role: archbuild, tags: ['archbuild'] }
+    - { role: yay, tags: ['yay'] }
     - { role: packages, tags: ['packages'] }
 
     - role: syncrepo

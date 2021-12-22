@@ -7,6 +7,7 @@
   tags:
     - sudo
     - archbuild
+    - yay
 
 - name: add wheel group
   group:
@@ -15,6 +16,7 @@
   tags:
     - sudo
     - users
+    - yay
 
 # https://github.com/ansible/ansible/issues/11024
 - name: remove all users from wheel group
@@ -31,6 +33,7 @@
   tags:
     - sudo
     - users
+    - yay
 
 - name: secure path to protect against attacks
   lineinfile:
@@ -44,4 +47,6 @@
 
 - name: install wheel sudoers config
   copy: src=wheel_group dest=/etc/sudoers.d/99-wheel_group
-  tags: sudo
+  tags:
+    - sudo
+    - yay
