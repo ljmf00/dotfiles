@@ -1,12 +1,22 @@
 ---
 
+- name: remove iptables package
+  pacman:
+    name: iptables
+    state: absent
+    force: yes
+
+- name: install ebtables package
+  pacman:
+    name: ebtables
+    state: present
+
 - name: install libvirt and dependencies
   pacman:
     name:
       - libvirt
       - qemu
       - openbsd-netcat
-      - ebtables
       - dnsmasq
       - bridge-utils
       - dmidecode
