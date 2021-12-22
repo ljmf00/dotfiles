@@ -46,6 +46,9 @@ install_group_packages:
     # Python packages
     - python-unidiff
     - python-gitpython
+    # Neovim plugins dependencies
+    - go
+    - python-neovim
   aur:
     - fluxgui
     - polybar
