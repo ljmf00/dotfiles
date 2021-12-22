@@ -13,6 +13,7 @@
     - { role: sudo, tags: ['sudo']}
     - { role: sshd, tags: ['sshd'] }
     - { role: base, tags: ['base'] }
+
     - role: hardening
       tags: ['hardening']
       when: "'servers' in group_names"
