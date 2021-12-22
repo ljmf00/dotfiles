@@ -43,3 +43,7 @@
 
     - { role: kvm, tags: ['kvm'] }
     - { role: libvirt, tags: ['libvirt'] }
+
+    - role: desktopenv
+      tags: ['desktopenv']
+      when: ansible_hostname in ['mars', 'deimos']
