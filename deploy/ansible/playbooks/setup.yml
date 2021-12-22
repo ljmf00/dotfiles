@@ -22,11 +22,8 @@
       tags: ['powersave']
       when: "'servers' in group_names"
 
+    - { role: archbuild, tags: ['archbuild'] }
     - { role: packages, tags: ['packages'] }
-
-    - role: archbuild
-      tags: ['archbuild']
-      when: ansible_hostname == 'tornado'
 
     - role: syncrepo
       tags: ['syncrepo']
