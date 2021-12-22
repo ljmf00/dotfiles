@@ -9,3 +9,5 @@
     group: root
   with_items:
     - modprobe.d/kvm.conf
+  tags:
+    - kvm
