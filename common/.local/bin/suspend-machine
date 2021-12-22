@@ -9,4 +9,4 @@ fi
 
 machine_name="$(echo "$self_basename" | sed 's/^suspend-\(.*\)/\1/')"
 
-ssh -t "$machine_name" "sudo systemctl suspend"
+ssh -t "root@$machine_name" "sudo systemctl suspend"
