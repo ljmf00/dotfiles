@@ -1,0 +1,18 @@
+---
+
+- name: install lightdm package
+  pacman:
+    name:
+      - lightdm
+      - lightdm-gtk-greeter
+    state: present
+  tags:
+    - desktopenv
+
+- name: activate libvirtd service
+  service:
+    name: lightdm
+    enabled: yes
+    state: started
+  tags:
+    - desktopenv
