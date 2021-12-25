@@ -77,7 +77,7 @@ else
 fi
 
 cmake -S llvm -B build -G Ninja \
-	-DLLVM_ENABLE_PROJECTS="clang;llvm;lldb" \
+	-DLLVM_ENABLE_PROJECTS="clang;llvm;lldb;lld" \
 	-DCMAKE_BUILD_TYPE="${_CMAKE_BUILD_TYPE}" \
 	-DLLDB_EXPORT_ALL_SYMBOLS=OFF \
 	-DLLVM_LIT_ARGS="-v -vv" \
