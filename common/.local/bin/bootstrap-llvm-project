@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
 
+BOOTSTRAP_DEFAULT_ARGS="release-all-wasm-development"
+
+if [[ "$1" == "." ]]; then
+	$1="$BOOTSTRAP_DEFAULT_ARGS"
+fi
+
 if [ "$1" == "git" ]; then
 	# LLVM doesn't use sign-off
 	[ -f .git/hooks/prepare-commit-msg ] && rm .git/hooks/prepare-commit-msg || :
 	exit
 else
-	if [ "$2" == "clean" ]; then
+	if [[ "$1" == "clean" || "$2" == "clean" ]]; then
 		rm -rf build/
 	fi
 fi
@@ -37,6 +43,15 @@ else
 	_CMAKE_CXX_COMPILER='g++'
 fi
 
+if hash ccache 2>/dev/null; then
+	export USE_CCACHE=1
+	export CCACHE_COMPRESS=1
+else
+	echo "~~ CCache not found! Please install."
+	exit 1
+fi
+
+
 # Build types
 if [[ "$1" == "debug"* ]]; then
 	echo "--> Building in debug"
@@ -47,6 +62,10 @@ elif [[ "$1" == "release"* ]]; then
 	echo "--> Building in release"
 	_CMAKE_BUILD_TYPE="Release"
 	_LLVM_USE_SPLIT_DWARF="OFF"
+	_LLVM_ENABLE_LTO="OFF"
+fi
+
+if [[ "$1" == *"-lto"* ]]; then
 	_LLVM_ENABLE_LTO="Full"
 fi
 
@@ -56,6 +75,18 @@ if [[ "$1" == *"-expensive"* ]]; then
 	_LLVM_ENABLE_EXPENSIVE_CHECKS="ON"
 else
 	_LLVM_ENABLE_EXPENSIVE_CHECKS="OFF"
+fi
+
+# Targets
+if [[ "$1" == *"-x86"* ]]; then
+	_LLVM_TARGETS_TO_BUILD="X86"
+else
+	# Default to all
+	_LLVM_TARGETS_TO_BUILD="all"
+fi
+
+if [[ "$1" == *"-wasm"* ]]; then
+	_LLVM_EXPERIMENTAL_TARGETS_TO_BUILD="WebAssembly"
 fi
 
 # Sanitization
@@ -76,8 +107,19 @@ else
 	_LLVM_BUILD_INSTRUMENTED_COVERAGE="OFF"
 fi
 
+# Shared libraries
+if [[ "$1" == *"-development"* ]]; then
+	_BUILD_SHARED_LIBS="ON"
+	_CLANG_LINK_CLANG_DYLIB="OFF"
+	_LLVM_LINK_LLVM_DYLIB="OFF"
+else
+	_BUILD_SHARED_LIBS="OFF"
+	_CLANG_LINK_CLANG_DYLIB="ON"
+	_LLVM_LINK_LLVM_DYLIB="ON"
+fi
+
 cmake -S llvm -B build -G Ninja \
-	-DLLVM_ENABLE_PROJECTS="clang;llvm;lldb;lld" \
+	-DLLVM_ENABLE_PROJECTS="clang-tools-extra;clang;llvm;lldb;lld" \
 	-DCMAKE_BUILD_TYPE="${_CMAKE_BUILD_TYPE}" \
 	-DLLDB_EXPORT_ALL_SYMBOLS=OFF \
 	-DLLVM_LIT_ARGS="-v -vv" \
@@ -87,13 +129,18 @@ cmake -S llvm -B build -G Ninja \
 	-DLLDB_ENABLE_LZMA=ON \
 	-DLLDB_ENABLE_LIBXML2=ON \
 	-DLLDB_ENABLE_PYTHON=ON \
-	-DLLVM_TARGETS_TO_BUILD="X86" \
+	-DLLVM_TARGETS_TO_BUILD="${_LLVM_TARGETS_TO_BUILD}" \
+	-DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD="${_LLVM_EXPERIMENTAL_TARGETS_TO_BUILD}" \
 	-DLLDB_TEST_USER_ARGS=-t \
 	-DLLVM_CCACHE_BUILD=ON \
-	-DLLVM_LINK_LLVM_DYLIB=ON \
-	-DCLANG_LINK_CLANG_DYLIB=ON \
+	-DLLVM_ENABLE_WERROR=ON \
+	-DLLVM_LINK_LLVM_DYLIB="${_LLVM_LINK_LLVM_DYLIB}" \
+	-DCLANG_LINK_CLANG_DYLIB="${_CLANG_LINK_CLANG_DYLIB}" \
+	-DBUILD_SHARED_LIBS="${_BUILD_SHARED_LIBS}" \
 	-DCMAKE_C_COMPILER="${_CMAKE_C_COMPILER}" \
 	-DCMAKE_CXX_COMPILER="${_CMAKE_CXX_COMPILER}" \
+	-DCMAKE_C_COMPILER_LAUNCHER="ccache" \
+	-DCMAKE_CXX_COMPILER_LAUNCHER="ccache" \
 	-DLLVM_ENABLE_LLD="${_LLVM_ENABLE_LLD}" \
 	-DCLANG_DEFAULT_LINKER="${_CLANG_DEFAULT_LINKER}" \
 	-DLLVM_USE_SPLIT_DWARF=ON \
