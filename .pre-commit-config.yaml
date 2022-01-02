@@ -1,23 +1,24 @@
 fail_fast: true
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.1.0
-    hooks:
-    - id: trailing-whitespace
-    - id: end-of-file-fixer
-    - id: check-json
-    - id: check-yaml
-    - id: sort-simple-yaml
-    - id: check-xml
-    - id: check-merge-conflict
-    - id: check-ast
-    - id: check-shebang-scripts-are-executable
-      exclude: '^.*\.j2$'
-    - id: check-toml
-    - id: destroyed-symlinks
-    - id: detect-private-key
-    - id: fix-encoding-pragma
-    - id: no-commit-to-branch
-      args: [--branch, master]
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.1.0
+  hooks:
+  - id: trailing-whitespace
+  - id: end-of-file-fixer
+  - id: check-json
+  - id: check-yaml
+  - id: sort-simple-yaml
+  - id: check-xml
+  - id: check-merge-conflict
+  - id: check-ast
+  - id: check-shebang-scripts-are-executable
+    exclude: '^.*\.j2$'
+  - id: check-toml
+  - id: destroyed-symlinks
+  - id: detect-private-key
+  - id: fix-encoding-pragma
+  - id: no-commit-to-branch
+    args: [--branch, master]
 ci:
-    autofix_prs: false
+  autofix_prs: false
+  autoupdate_commit_msg: 'pre-commit: bump repositories'
