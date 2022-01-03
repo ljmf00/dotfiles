@@ -41,6 +41,12 @@ settings:
     '*://*.gitlab.com/*': true
     '*://gitlab.org/*': true
     '*://*.gitlab.org/*': true
+    # Twitch
+    '*://*.twitch.tv/*': true
+    '*://twitch.tv/*': true
+    # Godbolt
+    '*://*.godbolt.org/*': true
+    '*://godbolt.org/*': true
     # Disable Javascript by default
     global: false
   content.media.audio_capture:
