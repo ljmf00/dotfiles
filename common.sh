@@ -20,3 +20,7 @@ fi
 
 mkdir -p ~/.ssh/
 cp "$DOTFILES_FOLDER/pubkeys/ssh_luis.pub" ~/.ssh/authorized_keys
+
+if [ "$(xdg-settings get default-web-browser)" != "org.qutebrowser.qutebrowser.desktop" ]; then
+  xdg-settings set default-web-browser org.qutebrowser.qutebrowser.desktop
+fi
