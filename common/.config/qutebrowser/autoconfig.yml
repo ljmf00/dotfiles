@@ -4,6 +4,11 @@ settings:
     global: true
   scrolling.smooth:
     global: true
+  content.blocking.method:
+    global: both
+  content.webgl:
+    # Disable WebGL to prevent fingerprinting
+    global: false
   input.insert_mode.auto_load:
     global: true
   content.javascript.enabled:
@@ -21,11 +26,20 @@ settings:
     # Twitter
     '*://*.twitter.com/*': true
     '*://twitter.com/*': true
+    # Disable Javascript by default
     global: false
   content.media.audio_capture:
     https://discord.com: true
   content.notifications.enabled:
+    https://discord.com: true
+    https://youtube.com: false
     https://www.reddit.com: false
+  # Languages support
+  spellcheck.languages:
+    global:
+    - en-US
+    - en-GB
+    - pt-PT
   url.searchengines:
     global:
       DEFAULT: https://duckduckgo.com/?q={}
