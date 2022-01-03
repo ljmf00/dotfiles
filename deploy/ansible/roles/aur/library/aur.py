@@ -1,16 +1,13 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
-
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+import json
+import os.path
+import tarfile
+import tempfile
+import urllib.parse
 
 from ansible.module_utils.basic import *
 from ansible.module_utils.urls import open_url
-import json
-import tarfile
-import os
-import os.path
-import tempfile
-import urllib.parse
 
 
 DOCUMENTATION = '''
@@ -90,7 +87,7 @@ use_cmd = {
     'trizen': ['trizen', '-S', '--noconfirm', '--noedit', '--needed'],
     'pikaur': ['pikaur', '-S', '--noconfirm', '--noedit', '--needed'],
     'aurman': ['aurman', '-S', '--noconfirm', '--noedit', '--needed', '--skip_news', '--pgp_fetch', '--skip_new_locations'],
-    'makepkg': ['makepkg', '--syncdeps', '--install', '--noconfirm', '--needed']
+    'makepkg': ['makepkg', '--syncdeps', '--install', '--noconfirm', '--needed'],
 }
 
 has_aur_option = ['yay', 'pacaur', 'trizen', 'aurman']
@@ -118,7 +115,7 @@ def check_packages(module, packages):
     if would_be_changed:
         status = True
         if len(packages) > 1:
-            message = '{} package(s) would be installed'.format(len(would_be_changed))
+            message = f'{len(would_be_changed)} package(s) would be installed'
         else:
             message = 'package would be installed'
     else:
@@ -135,10 +132,10 @@ def install_with_makepkg(module, package):
     Install the specified package with makepkg
     """
     module.get_bin_path('fakeroot', required=True)
-    f = open_url('https://aur.archlinux.org/rpc/?v=5&type=info&arg={}'.format(urllib.parse.quote(package)))
+    f = open_url(f'https://aur.archlinux.org/rpc/?v=5&type=info&arg={urllib.parse.quote(package)}')
     result = json.loads(f.read().decode('utf8'))
     if result['resultcount'] != 1:
-        return (1, '', 'package {} not found'.format(package))
+        return (1, '', f'package {package} not found')
     result = result['results'][0]
     f = open_url('https://aur.archlinux.org/{}'.format(result['URLPath']))
     current_path = os.getcwd()
@@ -237,7 +234,7 @@ def main():
             },
         },
         required_one_of=[['name', 'upgrade']],
-        supports_check_mode=True
+        supports_check_mode=True,
     )
 
     params = module.params

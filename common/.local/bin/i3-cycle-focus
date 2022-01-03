@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 #
 # provides alt+tab functionality between windows, switching
 # between n windows; example i3 conf to use:
 #     exec_always --no-startup-id i3-cycle-focus.py --history 2
 #     bindsym $mod1+Tab exec --no-startup-id i3-cycle-focus.py --switch
-
-import os
 import asyncio
-from argparse import ArgumentParser
 import logging
+import os
+from argparse import ArgumentParser
 
 from i3ipc.aio import Connection
 
@@ -48,12 +46,12 @@ class FocusWatcher:
             del self.window_list[MAX_WIN_HISTORY:]
 
         self.window_index = 1
-        logging.info('new window list: {}'.format(self.window_list))
+        logging.info(f'new window list: {self.window_list}')
 
     async def get_valid_windows(self):
         tree = await self.i3.get_tree()
         if args.active_workspace:
-            return set(w.id for w in tree.find_focused().workspace().leaves())
+            return {w.id for w in tree.find_focused().workspace().leaves()}
         elif args.visible_workspaces:
             ws_list = []
             w_set = set()
@@ -67,12 +65,14 @@ class FocusWatcher:
                         w_set.add(w.id)
             return w_set
         else:
-            return set(w.id for w in tree.leaves())
+            return {w.id for w in tree.leaves()}
 
     async def on_window_focus(self, i3conn, event):
         logging.info('got window focus event')
-        if args.ignore_float and (event.container.floating == "user_on"
-                                  or event.container.floating == "auto_on"):
+        if args.ignore_float and (
+            event.container.floating == "user_on"
+            or event.container.floating == "auto_on"
+        ):
             logging.info('not handling this floating window')
             return
 
@@ -85,11 +85,11 @@ class FocusWatcher:
     async def run(self):
         async def handle_switch(reader, writer):
             data = await reader.read(1024)
-            logging.info('received data: {}'.format(data))
+            logging.info(f'received data: {data}')
             if data == b'switch':
                 logging.info('switching window')
                 windows = await self.get_valid_windows()
-                logging.info('valid windows = {}'.format(windows))
+                logging.info(f'valid windows = {windows}')
                 for window_id in self.window_list[self.window_index:]:
                     if window_id not in windows:
                         self.window_list.remove(window_id)
@@ -98,8 +98,8 @@ class FocusWatcher:
                             self.window_index += 1
                         else:
                             self.window_index = 0
-                        logging.info('focusing window id={}'.format(window_id))
-                        await self.i3.command('[con_id={}] focus'.format(window_id))
+                        logging.info(f'focusing window id={window_id}')
+                        await self.i3.command(f'[con_id={window_id}] focus')
                         break
 
         server = await asyncio.start_unix_server(handle_switch, SOCKET_FILE)
@@ -110,7 +110,7 @@ async def send_switch():
     reader, writer = await asyncio.open_unix_connection(SOCKET_FILE)
 
     logging.info('sending switch message')
-    writer.write('switch'.encode())
+    writer.write(b'switch')
     await writer.drain()
 
     logging.info('closing the connection')
@@ -125,8 +125,9 @@ async def run_server():
 
 
 if __name__ == '__main__':
-    parser = ArgumentParser(prog='i3-cycle-focus.py',
-                            description="""
+    parser = ArgumentParser(
+        prog='i3-cycle-focus.py',
+        description="""
         Cycle backwards through the history of focused windows (aka Alt-Tab).
         This script should be launched from ~/.xsession or ~/.xinitrc.
         Use the `--history` option to set the maximum number of windows to be
@@ -142,35 +143,48 @@ if __name__ == '__main__':
         only when cycling the focus history.
 
         To trigger focus switching, execute the script from a keybinding with
-        the `--switch` option.""")
-    parser.add_argument('--history',
-                        dest='history',
-                        help='Maximum number of windows in the focus history',
-                        type=int)
-    parser.add_argument('--delay',
-                        dest='delay',
-                        help='Delay before updating focus history',
-                        type=float)
-    parser.add_argument('--ignore-floating',
-                        dest='ignore_float',
-                        action='store_true',
-                        help='Ignore floating windows '
-                        'when cycling and updating the focus history')
-    parser.add_argument('--visible-workspaces',
-                        dest='visible_workspaces',
-                        action='store_true',
-                        help='Include windows on visible '
-                        'workspaces only when cycling the focus history')
-    parser.add_argument('--active-workspace',
-                        dest='active_workspace',
-                        action='store_true',
-                        help='Include windows on the '
-                        'active workspace only when cycling the focus history')
-    parser.add_argument('--switch',
-                        dest='switch',
-                        action='store_true',
-                        help='Switch to the previous window',
-                        default=False)
+        the `--switch` option.""",
+    )
+    parser.add_argument(
+        '--history',
+        dest='history',
+        help='Maximum number of windows in the focus history',
+        type=int,
+    )
+    parser.add_argument(
+        '--delay',
+        dest='delay',
+        help='Delay before updating focus history',
+        type=float,
+    )
+    parser.add_argument(
+        '--ignore-floating',
+        dest='ignore_float',
+        action='store_true',
+        help='Ignore floating windows '
+        'when cycling and updating the focus history',
+    )
+    parser.add_argument(
+        '--visible-workspaces',
+        dest='visible_workspaces',
+        action='store_true',
+        help='Include windows on visible '
+        'workspaces only when cycling the focus history',
+    )
+    parser.add_argument(
+        '--active-workspace',
+        dest='active_workspace',
+        action='store_true',
+        help='Include windows on the '
+        'active workspace only when cycling the focus history',
+    )
+    parser.add_argument(
+        '--switch',
+        dest='switch',
+        action='store_true',
+        help='Switch to the previous window',
+        default=False,
+    )
     parser.add_argument('--debug', dest='debug', action='store_true', help='Turn on debug logging')
     args = parser.parse_args()
 
