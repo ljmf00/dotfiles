@@ -57,8 +57,11 @@ install_group_packages:
     # WOL
     - wol
     - ethtool
+    # Browser-related apps
     - qutebrowser
     - bitwarden
+    - python-adblock
+    - pdfjs
   aur:
     # Xorg related apps
     - picom-git
