@@ -26,6 +26,21 @@ settings:
     # Twitter
     '*://*.twitter.com/*': true
     '*://twitter.com/*': true
+    # Sourcegraph
+    '*://*.sourcegraph.com/*': true
+    '*://sourcegraph.com/*': true
+    # Jitsi
+    '*://meet.jit.si/*': true
+    # Matrix/Element
+    '*://app.element.io/*': true
+    # My mastodon network
+    '*://*.mastodon.social/*': true
+    '*://mastodon.social/*': true
+    # Gitlab
+    '*://gitlab.com/*': true
+    '*://*.gitlab.com/*': true
+    '*://gitlab.org/*': true
+    '*://*.gitlab.org/*': true
     # Disable Javascript by default
     global: false
   content.media.audio_capture:
