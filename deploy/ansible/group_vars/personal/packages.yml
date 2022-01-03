@@ -57,6 +57,8 @@ install_group_packages:
     # WOL
     - wol
     - ethtool
+    - qutebrowser
+    - bitwarden
   aur:
     # Xorg related apps
     - picom-git
@@ -66,4 +68,4 @@ install_group_packages:
     - polybar
     - dstask
     - nerd-fonts-dejavu-complete
-    - brave-bin
+    - chromium-widevine

@@ -1,0 +1,31 @@
+config_version: 2
+settings:
+  auto_save.session:
+    global: true
+  scrolling.smooth:
+    global: true
+  input.insert_mode.auto_load:
+    global: true
+  content.javascript.enabled:
+    # Discord
+    '*://*.discord.com/*': true
+    '*://discord.com/*': true
+    # Youtube
+    '*://*.youtube.com/*': true
+    '*://youtube.com/*': true
+    # Duckduckgo
+    '*://*.duckduckgo.com/*': true
+    '*://duckduckgo.com/*': true
+    # Spotify
+    '*://open.spotify.com/*': true
+    # Twitter
+    '*://*.twitter.com/*': true
+    '*://twitter.com/*': true
+    global: false
+  content.media.audio_capture:
+    https://discord.com: true
+  content.notifications.enabled:
+    https://www.reddit.com: false
+  url.searchengines:
+    global:
+      DEFAULT: https://duckduckgo.com/?q={}
