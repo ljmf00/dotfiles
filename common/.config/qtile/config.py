@@ -1,20 +1,24 @@
-# -*- coding: utf-8 -*-
-from typing import List  # noqa: F401
-
+import logging
 import os
 import platform
-import logging
+import subprocess
+from typing import List  # noqa: F401
 
-from libqtile import layout, hook, bar, widget
-from libqtile.config import Click, Drag, Group, Key, Match, Screen
+import pyudev
+from libqtile import bar
+from libqtile import hook
+from libqtile import layout
+from libqtile import widget
+from libqtile.backend.x11.xkeysyms import keysyms
+from libqtile.config import Click
+from libqtile.config import Drag
+from libqtile.config import Group
+from libqtile.config import Key
+from libqtile.config import Match
+from libqtile.config import Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-from libqtile.backend.x11.xkeysyms import keysyms
-
 from Xlib import display as xdisplay
-import pyudev
-
-import subprocess
 
 HOME = os.path.expanduser('~')
 
@@ -108,10 +112,14 @@ terminal = guess_terminal()
 keys = [
     # Navigation
     # ----------
-    Key([k.SUPER], k.TAB, lazy.layout.next(),
-        desc="Move window focus to next window"),
-    Key([k.SUPER, k.SHIFT], k.TAB, lazy.layout.previous(),
-        desc="Move window focus to previous window"),
+    Key(
+        [k.SUPER], k.TAB, lazy.layout.next(),
+        desc="Move window focus to next window",
+    ),
+    Key(
+        [k.SUPER, k.SHIFT], k.TAB, lazy.layout.previous(),
+        desc="Move window focus to previous window",
+    ),
 
 
     # Appearance
@@ -126,8 +134,10 @@ keys = [
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
-    Key([k.SUPER], "g", lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack"),
+    Key(
+        [k.SUPER], "g", lazy.layout.toggle_split(),
+        desc="Toggle between split and unsplit sides of stack",
+    ),
 
 
     Key([k.SUPER, k.CONTROL], "F11", lazy.restart(), desc="Restart Qtile"),
@@ -147,27 +157,41 @@ keys = [
 
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
-    Key([k.SUPER, k.SHIFT], k.LEFT, lazy.layout.shuffle_left(),
-        desc="Move window to the left"),
-    Key([k.SUPER, k.SHIFT], k.RIGHT, lazy.layout.shuffle_right(),
-        desc="Move window to the right"),
-    Key([k.SUPER, k.SHIFT], k.DOWN, lazy.layout.shuffle_down(),
-        desc="Move window down"),
+    Key(
+        [k.SUPER, k.SHIFT], k.LEFT, lazy.layout.shuffle_left(),
+        desc="Move window to the left",
+    ),
+    Key(
+        [k.SUPER, k.SHIFT], k.RIGHT, lazy.layout.shuffle_right(),
+        desc="Move window to the right",
+    ),
+    Key(
+        [k.SUPER, k.SHIFT], k.DOWN, lazy.layout.shuffle_down(),
+        desc="Move window down",
+    ),
     Key([k.SUPER, k.SHIFT], k.UP, lazy.layout.shuffle_up(), desc="Move window up"),
 
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
-    Key([k.SUPER, k.CONTROL], k.LEFT, lazy.layout.grow_left(),
-        desc="Grow window to the left"),
-    Key([k.SUPER, k.CONTROL], k.RIGHT, lazy.layout.grow_right(),
-        desc="Grow window to the right"),
-    Key([k.SUPER, k.CONTROL], k.DOWN, lazy.layout.grow_down(),
-        desc="Grow window down"),
+    Key(
+        [k.SUPER, k.CONTROL], k.LEFT, lazy.layout.grow_left(),
+        desc="Grow window to the left",
+    ),
+    Key(
+        [k.SUPER, k.CONTROL], k.RIGHT, lazy.layout.grow_right(),
+        desc="Grow window to the right",
+    ),
+    Key(
+        [k.SUPER, k.CONTROL], k.DOWN, lazy.layout.grow_down(),
+        desc="Grow window down",
+    ),
     Key([k.SUPER, k.CONTROL], k.UP, lazy.layout.grow_up(), desc="Grow window up"),
 
     # Floating windows
-    Key([k.SUPER, k.SHIFT], k.SPACE, lazy.window.toggle_floating(),
-        desc="Toggle focused window to/from floating mode"),
+    Key(
+        [k.SUPER, k.SHIFT], k.SPACE, lazy.window.toggle_floating(),
+        desc="Toggle focused window to/from floating mode",
+    ),
 
 
     # Spawn applications
@@ -177,31 +201,31 @@ keys = [
     Key(
         [k.ALT, k.CONTROL], "t",
         lazy.spawn(terminal),
-        desc="Launch terminal"
+        desc="Launch terminal",
     ),
 
     # File manager
     Key(
         [k.ALT, k.CONTROL], "f",
         lazy.spawn("nautilus -w"),
-        desc="Launch file manager"
+        desc="Launch file manager",
     ),
 
     # Rofi
     Key(
         [k.SUPER], "d",
         lazy.spawn("rofi -show run -theme menu-bar"),
-        desc="Quick command runner"
+        desc="Quick command runner",
     ),
     Key(
         [k.SUPER, k.SHIFT], "d",
         lazy.spawn("rofi -show drun -show-icons -theme menu-center"),
-        desc="Quick application launcher"
+        desc="Quick application launcher",
     ),
     Key(
         [k.SUPER, k.SHIFT], "e",
         lazy.spawn("rofimoji"),
-        desc="Quick emoji picker"
+        desc="Quick emoji picker",
     ),
 ]
 
@@ -219,12 +243,16 @@ for i in groups:
 
     keys.extend([
         # mod1 + letter of group = switch to group
-        Key([mod], i_key, lazy.group[i.name].toscreen(toggle=False),
-            desc="Switch to group {}".format(i.name)),
+        Key(
+            [mod], i_key, lazy.group[i.name].toscreen(toggle=False),
+            desc=f"Switch to group {i.name}",
+        ),
 
         # mod1 + shift + letter of group = switch to & move focused window to group
-        Key([mod, "shift"], i_key, lazy.window.togroup(i.name, switch_group=True),
-            desc="Switch to & move focused window to group {}".format(i.name)),
+        Key(
+            [mod, "shift"], i_key, lazy.window.togroup(i.name, switch_group=True),
+            desc=f"Switch to & move focused window to group {i.name}",
+        ),
         # Or, use below if you prefer not to switch to that group.
         # # mod1 + shift + letter of group = move focused window to group
         # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
@@ -258,11 +286,15 @@ extension_defaults = widget_defaults.copy()
 
 # Drag floating layouts.
 mouse = [
-    Drag([k.SUPER], "Button1", lazy.window.set_position_floating(),
-         start=lazy.window.get_position()),
-    Drag([k.SUPER], "Button3", lazy.window.set_size_floating(),
-         start=lazy.window.get_size()),
-    Click([k.SUPER], "Button2", lazy.window.bring_to_front())
+    Drag(
+        [k.SUPER], "Button1", lazy.window.set_position_floating(),
+        start=lazy.window.get_position(),
+    ),
+    Drag(
+        [k.SUPER], "Button3", lazy.window.set_size_floating(),
+        start=lazy.window.get_size(),
+    ),
+    Click([k.SUPER], "Button2", lazy.window.bring_to_front()),
 ]
 
 dgroups_key_binder = None
@@ -271,32 +303,35 @@ follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
 
-floating_types = ["notification", "toolbar", "splash", "dialog",
-                  "utility", "menu", "dropdown_menu", "popup_menu", "tooltip,dock",
-                  ]
-floating_layout = layout.Floating(float_rules=[
-    # Run the utility of `xprop` to see the wm class and name of an X client.
-    *layout.Floating.default_float_rules,
-    Match(wm_class='confirmreset'),  # gitk
-    Match(wm_class='makebranch'),  # gitk
-    Match(wm_class='maketag'),  # gitk
-    Match(title='branchdialog'),  # gitk
-    Match(wm_class='ssh-askpass'),  # ssh-askpass
+floating_types = [
+    "notification", "toolbar", "splash", "dialog",
+    "utility", "menu", "dropdown_menu", "popup_menu", "tooltip,dock",
+]
+floating_layout = layout.Floating(
+    float_rules=[
+        # Run the utility of `xprop` to see the wm class and name of an X client.
+        *layout.Floating.default_float_rules,
+        Match(wm_class='confirmreset'),  # gitk
+        Match(wm_class='makebranch'),  # gitk
+        Match(wm_class='maketag'),  # gitk
+        Match(title='branchdialog'),  # gitk
+        Match(wm_class='ssh-askpass'),  # ssh-askpass
 
-    # GPG key password entry
-    Match(title='pinentry'),
-    Match(wm_class='pinentry-gtk-2'),
+        # GPG key password entry
+        Match(title='pinentry'),
+        Match(wm_class='pinentry-gtk-2'),
 
-    # Generic WM classes
-    {'wmclass': 'confirm'},
-    {'wmclass': 'dialog'},
-    {'wmclass': 'download'},
-    {'wmclass': 'error'},
-    {'wmclass': 'file_progress'},
-    {'wmclass': 'notification'},
-    {'wmclass': 'splash'},
-    {'wmclass': 'toolbar'},
-])
+        # Generic WM classes
+        {'wmclass': 'confirm'},
+        {'wmclass': 'dialog'},
+        {'wmclass': 'download'},
+        {'wmclass': 'error'},
+        {'wmclass': 'file_progress'},
+        {'wmclass': 'notification'},
+        {'wmclass': 'splash'},
+        {'wmclass': 'toolbar'},
+    ],
+)
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
@@ -319,7 +354,7 @@ wmname = "LG3D"
 # SCREEN
 # =============================================================================
 
-screens: List[Screen] = []
+screens: list[Screen] = []
 
 additional_widgets_right = {
         'deimos': [
@@ -327,10 +362,10 @@ additional_widgets_right = {
                 energy_now_file='charge_now',
                 energy_full_file='charge_full',
                 power_now_file='current_now',
-                **widget_defaults
+                **widget_defaults,
             ),
-        ]
-    }.get(hostname, [])
+        ],
+}.get(hostname, [])
 
 # To save time and machine resources instanciate widgets only one time to share
 # values across multiple Bar instances
@@ -344,7 +379,7 @@ resources_widgets = [
          line_width=1,
          frequency=5,
          samples=50,
-        ),
+    ),
     # Network Usage
     widget.TextBox('\U0001F310'),
     widget.NetGraph(
@@ -384,7 +419,7 @@ resources_widgets = [
          frequency=5,
          samples=50,
          fill_color="F9BC16",
-     ),
+    ),
 ]
 
 # Shared Clock widget collection
@@ -425,7 +460,7 @@ def setup_screens(num_screens: int = 1) -> None:
                     display_map={
                         'us': '\U0001F1FA\U0001F1F8',
                         'pt': '\U0001F1F5\U0001F1F9',
-                    }
+                    },
                 ),
             ],
             18,
@@ -508,8 +543,10 @@ def restart_on_randr(qtile, ev):
 
 @hook.subscribe.client_new
 def new_client(client):
-    if (client.window.get_wm_transient_for()
-            or client.window.get_wm_type() in floating_types):
+    if (
+        client.window.get_wm_transient_for()
+        or client.window.get_wm_type() in floating_types
+    ):
         client.floating = True
 
 

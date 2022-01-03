@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 """
 This script emulates "unique application" functionality on Linux. When starting
 playback with this script, it will try to reuse an already running instance of
@@ -26,13 +24,12 @@ Note: you can supply custom mpv path and options with the MPV environment
       _if_ the script starts mpv. If mpv is not started by the script (i.e. mpv
       is already running), this will be ignored.
 """
-
-import sys
+import errno
 import os
 import socket
-import errno
-import subprocess
 import string
+import subprocess
+import sys
 
 files = sys.argv[1:]
 
@@ -59,7 +56,7 @@ sock = None
 try:
     sock = socket.socket(socket.AF_UNIX)
     sock.connect(SOCK)
-except socket.error as e:
+except OSError as e:
     if e.errno == errno.ECONNREFUSED:
         sock = None
         pass  # abandoned socket
@@ -80,8 +77,10 @@ else:
     # Let mpv recreate socket if it doesn't already exist.
 
     opts = (os.getenv("MPV") or "mpv").split()
-    opts.extend(["--no-terminal", "--force-window", "--input-ipc-server=" + SOCK,
-                 "--"])
+    opts.extend([
+        "--no-terminal", "--force-window", "--input-ipc-server=" + SOCK,
+        "--",
+    ])
     opts.extend(files)
 
     subprocess.check_call(opts)

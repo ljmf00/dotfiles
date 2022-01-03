@@ -1,10 +1,8 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 import pathlib
+import statistics
 import subprocess
 import time
-import statistics
 
 # paired with fan speed (0-255) and temp (degrees C)
 f_low_speed = 0
