@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Discord Web (Chromium)
+Exec=chromium --app=https://discord.com/app/ --create-new
+Terminal=false
+Type=Application
