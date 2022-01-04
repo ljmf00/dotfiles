@@ -47,6 +47,15 @@ settings:
     # Godbolt
     '*://*.godbolt.org/*': true
     '*://godbolt.org/*': true
+    # Codecov
+    '*://*.codecov.io/*': true
+    '*://codecov.io/*': true
+    # D
+    '*://run.dlang.org/*': true
+    # Wakatime
+    '*://*.wakatime.com/*': true
+    '*://wakatime.com/*': true
+
     # Disable Javascript by default
     global: false
   content.media.audio_capture:
