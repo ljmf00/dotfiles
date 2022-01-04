@@ -3,6 +3,13 @@ Hopefully my last decent and simple dotfiles
 
 ---
 
+## Minimal dependencies
+
+To apply my dotfiles, you will need the following dependencies on Arch Linux:
+```
+bind-tools xdg-utils git rsync
+```
+
 ## Additional steps
 
 ### Remarkable 2
