@@ -62,6 +62,9 @@ install_group_packages:
     - bitwarden
     - python-adblock
     - pdfjs
+    # Chat
+    - weechat
+    - weechat-matrix
   aur:
     # Xorg related apps
     - picom-git
