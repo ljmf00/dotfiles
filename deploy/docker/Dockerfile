@@ -4,7 +4,8 @@ LABEL maintainer="Luís Ferreira <contact at lsferreira.net>"
 
 # Install base-devel, git and lib32- libs for gcc runtime and glibc
 RUN pacman -Syyu --noprogressbar --needed --noconfirm \
-	base-devel git lib32-gcc-libs lib32-glibc openssh python rsync ansible
+        base-devel git lib32-gcc-libs lib32-glibc openssh python rsync ansible \
+        bind-tools xdg-utils
 
 # Overwrite systemctl to work without systemd daemon
 COPY deploy/docker/docker-systemctl /usr/bin/systemctl
