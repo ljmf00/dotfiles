@@ -25,7 +25,7 @@ return require('packer').startup(function()
   }
 
   -- Wakatime
-  use { 'wakatime/vim-wakatime', tag = '8.0.0' }
+  use { 'wakatime/vim-wakatime', tag = '9.0.1' }
 
   -- Misc settings
 
