@@ -11,6 +11,21 @@ done
 DOTFILES_FOLDER="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 unset SOURCE
 
+if ! hash dig 2> /dev/null; then
+  echo "!!! Please install bind-tools"
+  exit 1
+fi
+
+if ! hash git 2> /dev/null; then
+  echo "!!! Please install git"
+  exit 1
+fi
+
+if ! hash xdg-settings 2> /dev/null; then
+  echo "!!! Please install xdg-utils"
+  exit 1
+fi
+
 # check for internet availability
 if curl -sf 1.1.1.1 > /dev/null 2>&1; then
   SENDEMAIL_SMTP_SERVER="$(dig +short smtp.lsferreira.net | head -n1 | sed 's/\.[^.]*$//')"
@@ -20,6 +35,8 @@ fi
 
 mkdir -p ~/.ssh/
 cp "$DOTFILES_FOLDER/pubkeys/ssh_luis.pub" ~/.ssh/authorized_keys
+
+mkdir -p "$HOME/.weechat/python/"
 ln -sf /usr/share/weechat/python/weechat-matrix.py "$HOME/.weechat/python/weechat-matrix.py"
 ln -sf ../matrix.py "$HOME/.weechat/python/autoload"
 

@@ -12,6 +12,11 @@ DOTFILES_FOLDER="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 DOTFILES_FOLDER="$(dirname "$DOTFILES_FOLDER")"
 unset SOURCE
 
+if ! hash rsync 2> /dev/null; then
+  echo "!!! Please install rsync"
+  exit 1
+fi
+
 echo "Apply common dotfiles..."
 rsync -avh --progress "$DOTFILES_FOLDER/common/" "$HOME/"
 
