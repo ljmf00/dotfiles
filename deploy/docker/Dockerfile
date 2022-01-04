@@ -30,11 +30,12 @@ RUN passwd -d luis
 
 # Copy current context to dotfiles folder
 RUN mkdir -p /home/luis/dotfiles/
-ADD . /home/luis/dotfiles/
+COPY . /home/luis/dotfiles/
 
 RUN chown -R luis:wheel /home/luis/
 
 # Run dotfiles, deploy ansible locally and clean dotfiles git repo
+# hadolint ignore=DL3003,DL3004,SC2164
 RUN : \
     && sudo -u luis ./dotfiles/configure.sh \
     && (cd dotfiles/deploy/ansible; \
@@ -48,9 +49,11 @@ RUN : \
         git gc --aggressive --auto; \
     )
 
+# hadolint ignore=DL3059
 RUN sed -i 's/^\(session.*\)required\(.*pam_limits.so\)/\1optional\2/' /etc/pam.d/system-auth
 
 # Remove unrequired dependencies
+# hadolint ignore=SC2086
 RUN (unused_pkgs="$(pacman -Qqdt)"; \
     if [ "$unused_pkgs" != "" ]; then \
         pacman -Rns $unused_pkgs --noprogressbar --noconfirm; \
