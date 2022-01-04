@@ -44,7 +44,7 @@ RUN : \
         ) \
     && (cd dotfiles; \
         rm -rf private/; \
-        git checkout .; \
+        git checkout -- .; \
         git reset origin/master --hard; \
         git clean -fd; \
         git gc --aggressive --auto; \
