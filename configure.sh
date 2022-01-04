@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# set safe failures
+set -euxo pipefail
+
 SOURCE="${BASH_SOURCE[0]}"
 # resolve $SOURCE until the file is no longer a symlink
 while [ -h "$SOURCE" ]; do
