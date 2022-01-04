@@ -20,6 +20,8 @@ fi
 
 mkdir -p ~/.ssh/
 cp "$DOTFILES_FOLDER/pubkeys/ssh_luis.pub" ~/.ssh/authorized_keys
+ln -sf /usr/share/weechat/python/weechat-matrix.py "$HOME/.weechat/python/weechat-matrix.py"
+ln -sf ../matrix.py "$HOME/.weechat/python/autoload"
 
 if [ "$(xdg-settings get default-web-browser)" != "org.qutebrowser.qutebrowser.desktop" ]; then
   xdg-settings set default-web-browser org.qutebrowser.qutebrowser.desktop

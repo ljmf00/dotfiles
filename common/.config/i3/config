@@ -35,7 +35,7 @@ floating_modifier $mod
 bindsym ctrl+Mod1+t exec kitty
 
 # start chat
-bindsym ctrl+Mod1+c exec kitty tmux -L weechat attach
+bindsym ctrl+Mod1+c exec kitty tmux attach -t weechat
 # start file manager
 bindsym ctrl+Mod1+f exec nautilus -w
 
