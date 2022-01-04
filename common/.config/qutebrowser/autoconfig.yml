@@ -9,6 +9,9 @@ settings:
   content.webgl:
     # Disable WebGL to prevent fingerprinting
     global: false
+  qt.process_model:
+    # Use process per website rather than per website instance
+    global: process-per-site
   input.insert_mode.auto_load:
     global: true
   content.javascript.enabled:
