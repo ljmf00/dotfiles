@@ -1,0 +1,22 @@
+name: dotfiles
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  configure:
+    runs-on: ubuntu-latest
+    container: ljmf00/archlinux
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run dotfiles configuration script w/ minimal installation
+      run: |
+        pacman -Syy bind-tools xdg-utils git rsync --needed --noconfirm --noprogressbar
+        useradd -g users -G wheel -m luis
+        sudo -u luis ./configure.sh
