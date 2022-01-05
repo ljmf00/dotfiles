@@ -20,6 +20,9 @@ shopt -s histappend
 # ingore duplicate entries on the history
 export HISTCONTROL="ignoredups,ignorespace"
 
+# history size
+export HISTSIZE=50000
+
 # Enable autocd, when no cd is provided witha valid path
 shopt -s autocd 2> /dev/null
 # Correct spelling errors during tab-completion
