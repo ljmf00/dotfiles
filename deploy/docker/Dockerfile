@@ -38,10 +38,10 @@ RUN chown -R luis:wheel /home/luis/
 # Run dotfiles, deploy ansible locally and clean dotfiles git repo
 # hadolint ignore=DL3003,DL3004,SC2164
 RUN : \
-    && sudo -u luis ./dotfiles/configure.sh \
     && (cd dotfiles/deploy/ansible; \
         ansible-playbook playbooks/setup-box.yml; \
         ) \
+    && sudo -u luis ./dotfiles/configure.sh \
     && (cd dotfiles; \
         rm -rf private/; \
         git checkout -- .; \
