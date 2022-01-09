@@ -26,9 +26,9 @@ get_default_sink_name() {
 # Get the volume as a percentage.
 get_volume() {
     if $opt_use_amixer; then
-        get_volume_amixer $card
+        get_volume_amixer "$card"
     else
-        get_volume_pulseaudio $sink
+        get_volume_pulseaudio "$sink"
     fi
 }
 
@@ -40,7 +40,7 @@ get_volume_pulseaudio() {
     local sink="$1"
 
     pacmd list-sinks |
-        awk -W posix '/^[ \t]+name: /{insink = $2 == "<'$sink'>"}
+        awk -W posix '/^[ \t]+name: /{insink = $2 == "<'"$sink"'>"}
                       /^[ \t]+volume: / && insink {gsub("%", ""); print $5; exit}'
 }
 
@@ -58,7 +58,7 @@ get_volume_amixer() {
         volume=$(amixer sget Master)
     fi
 
-    echo $volume | awk -W posix -F'[][]' '/dB/ { gsub("%", ""); print $2 }'
+    echo "$volume" | awk -W posix -F'[][]' '/dB/ { gsub("%", ""); print $2 }'
 }
 
 # Increase volume relative to current volume.
@@ -66,7 +66,7 @@ get_volume_amixer() {
 # Arguments:
 #   Step        (integer) Percentage to increase by.
 raise_volume() {
-	vol=`printf '%d' "$(get_volume)"`
+    vol=$(printf '%d' "$(get_volume)")
     if [[ "$max_volume" -ge "0" && "$vol" -ge "$max_volume" ]];then
         return 0;
     fi
@@ -106,7 +106,7 @@ raise_volume_amixer() {
 # Arguments:
 #   Step        (integer) Percentage to decrease by.
 lower_volume() {
-    if [ $(get_volume) -le "0" ];then
+    if [ "$(get_volume)" -le "0" ];then
         return 0;
     fi
     if $opt_use_amixer; then
@@ -216,9 +216,9 @@ toggle_mute_amixer() {
 # Check if muted.
 is_muted() {
     if $opt_use_amixer; then
-        return $(is_muted_amixer "$card")
+        return "$(is_muted_amixer "$card")"
     else
-        return $(is_muted_pulseaudio "$sink")
+        return "$(is_muted_pulseaudio "$sink")"
     fi
 }
 
@@ -233,7 +233,7 @@ is_muted_pulseaudio() {
     local sink="$1"
 
     muted=$(pacmd list-sinks |
-                   awk -W posix '/^[ \t]+name: /{insink = $2 == "<'$sink'>"}
+                   awk -W posix '/^[ \t]+name: /{insink = $2 == "<'"$sink"'>"}
                                  /^[ \t]+muted: / && insink {print $2; exit}')
     [ "$muted" = "yes" ]
 }
@@ -255,7 +255,7 @@ is_muted_amixer() {
         output=$(amixer sget Master)
     fi
 
-    status=$(echo $output | awk -W posix -F'[][]' '/dB/ { print $6 }')
+    status=$(echo "$output" | awk -W posix -F'[][]' '/dB/ { print $6 }')
 
     [ "$status" = "off" ]
 }
@@ -283,27 +283,29 @@ get_volume_icon() {
 # Display a notification indicating the volume is muted.
 notify_muted() {
     if $opt_use_dunstify; then
-        dunstify -i audio-volume-muted -t $expires -h int:value:0 -h string:synchronous:volume "Volume muted" -r 1000
+        dunstify -i audio-volume-muted -t "$expires" -h int:value:0 -h string:synchronous:volume "Volume muted" -r 1000
     else
-        notify-send -i audio-volume-muted -t $expires -h int:value:0 -h string:synchronous:volume "Volume muted"
+        notify-send -i audio-volume-muted -t "$expires" -h int:value:0 -h string:synchronous:volume "Volume muted"
     fi
 }
 
 # Display a notification indicating the current volume.
 notify_volume() {
-    local vol=$(get_volume)
-    local icon=$(get_volume_icon "$vol")
-    local text=$(printf "Volume     %3d%%" "$vol")
+    local vol='' icon='' text=''
+    vol="$(get_volume)"
+    icon="$(get_volume_icon "$vol")"
+    text="$(printf "Volume     %3d%%" "$vol")"
 
     if $opt_show_volume_progress; then
-        local progress=$(get_progress_bar "$vol")
+        local progress=''
+        progress="$(get_progress_bar "$vol")"
         text="$text $progress"
     fi
 
     if $opt_use_dunstify; then
-        dunstify -i "$icon" -t $expires -h int:value:"$vol" -h string:synchronous:volume "$text" -r 1000
+        dunstify -i "$icon" -t "$expires" -h int:value:"$vol" -h string:synchronous:volume "$text" -r 1000
     else
-        notify-send -i "$icon" -t $expires -h int:value:"$vol" -h string:synchronous:volume "$text"
+        notify-send -i "$icon" -t "$expires" -h int:value:"$vol" -h string:synchronous:volume "$text"
     fi
 }
 
@@ -331,10 +333,10 @@ get_progress_bar() {
     local percent="$1"
     local max_percent=${2:-100}
     local divisor=${3:-5}
-    local progress=$((($percent > $max_percent ? $max_percent : $percent) / $divisor))
+    local progress=$(((percent > max_percent ? max_percent : percent) / divisor))
 
     if [ "$percent" -gt "0" ]; then
-        printf '█%.0s' $(eval echo "{1..$progress}")
+        printf '█%.0s' "$(eval echo "{1..$progress}")"
     fi
 }
 
@@ -435,25 +437,25 @@ done
 shift $((OPTIND-1)) # Shift off options and optional --
 
 if ! $opt_use_amixer; then
-    if [ -z $sink ]; then
+    if [ -z "$sink" ]; then
         sink="$(get_default_sink_name)"
     fi
 fi
 
 if ${opt_increase_volume}; then
-    raise_volume $volume
+    raise_volume "$volume"
 fi
 
 if ${opt_decrease_volume}; then
-    lower_volume $volume
+    lower_volume "$volume"
 fi
 
 if ${opt_set_volume}; then
-    set_volume $volume
+    set_volume "$volume"
 fi
 
 if ${opt_mute_volume}; then
-    toggle_mute $sink
+    toggle_mute "$sink"
 fi
 
 # The options below this line must be last

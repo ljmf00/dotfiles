@@ -14,10 +14,17 @@ done
 DOTFILES_FOLDER="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 unset SOURCE
 
+#shellcheck disable=SC2031
 (source "$DOTFILES_FOLDER/scripts/apply-dotfiles.sh")
+#shellcheck disable=SC2031
 # source "$DOTFILES_FOLDER/scripts/get-micro.sh"
+#shellcheck disable=SC2031
 # source "$DOTFILES_FOLDER/scripts/configure-micro.sh"
+#shellcheck disable=SC2031
 (source "$DOTFILES_FOLDER/scripts/configure-bash.sh")
+#shellcheck disable=SC2031
 (source "$DOTFILES_FOLDER/scripts/configure-qutebrowser.sh")
+#shellcheck disable=SC2031
 # source "$DOTFILES_FOLDER/scripts/configure-vscode.sh"
+#shellcheck disable=SC2031
 (source "$DOTFILES_FOLDER/scripts/fix-permissions.sh")
