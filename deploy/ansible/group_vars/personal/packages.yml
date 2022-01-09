@@ -65,6 +65,10 @@ install_group_packages:
     # Chat
     - weechat
     - weechat-matrix
+    # Tor
+    - tor
+    - torsocks
+    - nyx
   aur:
     # Xorg related apps
     - picom-git
