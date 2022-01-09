@@ -21,6 +21,7 @@ ssh -q "$remote_server" mkdir -p "$remote_workdir"
 
 pkg_install_deps () {
 	echo "--> Copying packages to the remote"
+	#shellcheck disable=SC2068
 	for pkg in ${package_deps[@]}; do
 		scp "$(pwd)/$(basename "$(find . -name "$pkg-*.pkg.tar.zst" -print -quit)")" "$remote_server:$remote_workdir"
 	done
@@ -28,13 +29,15 @@ pkg_install_deps () {
 
 pkg_try_remove_deps() {
 	echo "--> Removing packages from the remote"
+	#shellcheck disable=SC2068
 	for pkg in ${package_deps[@]}; do
-		ssh -q "$remote_server" rm "$remote_workdir/\$(basename \"\$(find "$remote_workdir" -name \"$pkg-*.pkg.tar.zst\" -print -quit)\")"
+		ssh -q "$remote_server" rm "$remote_workdir/\$(basename \"\$(find \"$remote_workdir\" -name \"$pkg-*.pkg.tar.zst\" -print -quit)\")"
 	done
 }
 
 OFFLOAD_ARGS="-- --"
 
+#shellcheck disable=SC2068
 for pkg in ${package_deps[@]}; do
 	OFFLOAD_ARGS+=" -I $remote_workdir/$(basename "$(find . -name "$pkg-*.pkg.tar.zst" -print -quit)")"
 done
@@ -44,4 +47,5 @@ pkg_install_deps
 trap pkg_try_remove_deps EXIT
 
 echo "--> Running offload build"
+#shellcheck disable=SC2086
 offload-build -s "$remote_server" $OFFLOAD_ARGS

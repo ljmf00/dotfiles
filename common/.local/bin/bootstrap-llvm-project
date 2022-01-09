@@ -3,12 +3,14 @@
 BOOTSTRAP_DEFAULT_ARGS="release-all-wasm-development"
 
 if [[ "$1" == "." ]]; then
-	$1="$BOOTSTRAP_DEFAULT_ARGS"
+	set -- "$BOOTSTRAP_DEFAULT_ARGS"
 fi
 
 if [ "$1" == "git" ]; then
 	# LLVM doesn't use sign-off
-	[ -f .git/hooks/prepare-commit-msg ] && rm .git/hooks/prepare-commit-msg || :
+	if [ -f .git/hooks/prepare-commit-msg ]; then
+		rm .git/hooks/prepare-commit-msg
+	fi
 	exit
 else
 	if [[ "$1" == "clean" || "$2" == "clean" ]]; then

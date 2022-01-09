@@ -44,7 +44,8 @@ fi
 # ===============================
 
 # GPG
-export GPG_TTY=$(tty)
+GPG_TTY=$(tty)
+export GPG_TTY
 
 if hash gpgconf 2> /dev/null; then
 	if ! pgrep -u "$USER" gpg-agent > /dev/null; then
@@ -64,7 +65,8 @@ if [ -z ${SSH_AUTH_SOCK+x} ]; then
 		GNUPG_AGENT_ENABLED=1
 		unset SSH_AGENT_PID
 		if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-			export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+			SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+			export SSH_AUTH_SOCK
 		fi
 	fi
 
@@ -235,7 +237,7 @@ install_archpkg_prompt() {
 		install_archpkg "$1" "$2"
 	elif [ "$NON_INTERACTIVE_INSTALL" == "0" ]; then
 		while true; do
-		    read -p "Do you wish to install '$2' program? [ynaq]" yn
+		    read -rp "Do you wish to install '$2' program? [ynaq]" yn
 		    echo
 		    case $yn in
 		        [Yy]* ) install_archpkg "$1" "$2"; break;;
@@ -369,7 +371,7 @@ if test -n "$ncolors" && test $ncolors -ge 8; then
 	fi
 fi
 
-if [ ! -z ${COLORTERM+x} ] && [ "$COLORTERM" == "truecolor" ] && hash micro 2> /dev/null; then
+if [ -n "${COLORTERM+x}" ] && [ "$COLORTERM" == "truecolor" ] && hash micro 2> /dev/null; then
 	MICRO_TRUECOLOR=1
 	export MICRO_TRUECOLOR
 fi
@@ -531,7 +533,7 @@ function prompt_settitle () {
 		HISTTIMEFORMAT='' builtin history 1 | sed '1 s/^ *[0-9][0-9]*[* ] //'
 	)"
 
-	if [[ "$title_cmd" == *\=* ]]; then
+	if [[ "$title_cmd" == *=* ]]; then
 		title_cmd="$(echo "$title_cmd" | awk '{ print substr($0, 1, 20) }')"
 	else
 		# get first executable name
@@ -553,7 +555,7 @@ function prompt_settitle () {
 	title=""
 
 	if [[ "$PROMPT_TITLE" -gt 0 ]]; then
-		if [ ! -z ${PROMPT_PRE_TITLE+x} ]; then
+		if [ -n "${PROMPT_PRE_TITLE+x}" ]; then
 			title+="$PROMPT_PRE_TITLE"
 		fi
 		title+="($title_cmd) "
@@ -574,7 +576,7 @@ function prompt_timer_start {
 }
 
 function prompt_timer_stop {
-    local delta_us=$((($(prompt_timer_now) - $prompt_timer_start_var) / 1000))
+    local delta_us="$((($(prompt_timer_now) - prompt_timer_start_var) / 1000))"
     local us=$((delta_us % 1000))
     local ms=$(((delta_us / 1000) % 1000))
     local s=$(((delta_us / 1000000) % 60))
@@ -623,6 +625,7 @@ xterm*|rxvt*|Eterm|aterm|kterm|gnome*|linux*|tmux*)
 	# left-side definition
 
 	# set window title
+	#shellcheck disable=SC2025
 	PS1+='\[\e]2;'
 	if [[ -n ${SSH_CLIENT+x} || -n ${SSH_TTY+x} ]]; then
 		PROMPT_PRE_TITLE+='[ssh] '

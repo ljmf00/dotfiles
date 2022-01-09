@@ -168,6 +168,7 @@ bootstrap-ssh() {
 }
 
 download-music() {
+	# shellcheck disable=SC2068
 	youtube-dl \
 		-f bestaudio \
 		--extract-audio \

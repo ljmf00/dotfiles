@@ -63,7 +63,7 @@ exec 9>"${lock}"
 flock -n 9 || exit
 
 rsync_cmd() {
-	local -a cmd=(rsync -rtlH --safe-links --delete-after ${VERBOSE} "--timeout=600" "--contimeout=60" -p \
+	local -a cmd=(rsync -rtlH --safe-links --delete-after "${VERBOSE}" "--timeout=600" "--contimeout=60" -p \
 		--delay-updates --no-motd "--temp-dir=${tmp}")
 
 	if stty &>/dev/null; then
@@ -93,4 +93,4 @@ rsync_cmd "${source_url}" "${target}"
 #	--exclude='/sources' \
 #	--exclude='/iso' \
 
-echo "Last sync was $(date -d @$(cat ${target}/lastsync))"
+echo "Last sync was $(date -d @"$(cat ${target}/lastsync)")"
