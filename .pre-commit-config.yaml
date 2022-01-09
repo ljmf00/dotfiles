@@ -90,6 +90,10 @@ repos:
           common/.local/bin/project-tmux|
           common/.local/bin/ssh-vnc-machine|
         )$
+- repo: https://github.com/asottile/yesqa
+  rev: v1.3.0
+  hooks:
+    - id: yesqa
 ci:
   autofix_prs: false
   autoupdate_commit_msg: 'pre-commit: bump repositories'
