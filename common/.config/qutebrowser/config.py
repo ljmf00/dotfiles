@@ -1,11 +1,11 @@
 """Qutebrowser configuration."""
 from os.path import expanduser
 
-from qutebrowser.config.config import ConfigContainer  # noqa: F401
-from qutebrowser.config.configfiles import ConfigAPI  # noqa: F401
+from qutebrowser.config.config import ConfigContainer
+from qutebrowser.config.configfiles import ConfigAPI
 # pylint: disable=C0111
-config: ConfigAPI = config  # noqa: F821 pylint: disable=E0601,E0602,C0103
-c: ConfigContainer = c  # noqa: F821 pylint: disable=E0601,E0602,C0103
+config: ConfigAPI = config  # pylint: disable=E0601,E0602,C0103
+c: ConfigContainer = c  # pylint: disable=E0601,E0602,C0103
 
 config.load_autoconfig(True)
 

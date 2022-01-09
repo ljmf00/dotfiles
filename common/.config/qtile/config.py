@@ -2,7 +2,7 @@ import logging
 import os
 import platform
 import subprocess
-from typing import List  # noqa: F401
+from typing import List
 
 import pyudev
 from libqtile import bar
