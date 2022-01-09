@@ -94,6 +94,11 @@ repos:
   rev: v1.3.0
   hooks:
     - id: yesqa
+repos:
+- repo: https://github.com/PyCQA/bandit
+  rev: '1.7.1'
+  hooks:
+  - id: bandit
 ci:
   autofix_prs: false
   autoupdate_commit_msg: 'pre-commit: bump repositories'
