@@ -58,6 +58,14 @@ repos:
   rev: v1.20.0
   hooks:
   - id: setup-cfg-fmt
+- repo: https://github.com/sirosen/check-jsonschema
+  rev: 0.9.1
+  hooks:
+    - id: check-github-workflows
+    - id: check-github-actions
+    - id: check-azure-pipelines
+    - id: check-readthedocs
+    - id: check-travis
 ci:
   autofix_prs: false
   autoupdate_commit_msg: 'pre-commit: bump repositories'
