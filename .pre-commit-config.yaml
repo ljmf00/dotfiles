@@ -73,6 +73,23 @@ repos:
       args:
         - '--ignore'
         - 'DL3059'
+- repo: https://github.com/shellcheck-py/shellcheck-py
+  rev: v0.8.0.3
+  hooks:
+    - id: shellcheck
+      args:
+        - "--exclude=1071,1090,1091,2001"
+      #FIXME: Remove this files
+      exclude: >
+        (?x)^(
+          common/.local/bin/remarkable2-pull|
+          common/.local/bin/remarkable2-push|
+          common/.local/bin/remarkable2-snapshot|
+          common/.local/bin/remarkable2-exportnotebook|
+          common/.local/bin/remarkable2-clean|
+          common/.local/bin/project-tmux|
+          common/.local/bin/ssh-vnc-machine|
+        )$
 ci:
   autofix_prs: false
   autoupdate_commit_msg: 'pre-commit: bump repositories'
