@@ -24,6 +24,8 @@ settings:
     # Duckduckgo
     '*://*.duckduckgo.com/*': true
     '*://duckduckgo.com/*': true
+    '*://*.duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion/*': true
+    '*://duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion/*': true
     # Spotify
     '*://open.spotify.com/*': true
     # Twitter
@@ -61,6 +63,9 @@ settings:
 
     # Disable Javascript by default
     global: false
+  content.proxy:
+    # Use Privoxy by default
+    global: http://192.168.1.2:8118/
   content.media.audio_capture:
     https://discord.com: true
   content.notifications.enabled:
@@ -75,4 +80,4 @@ settings:
     - pt-PT
   url.searchengines:
     global:
-      DEFAULT: https://duckduckgo.com/?q={}
+      DEFAULT: https://duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion/?q={}
