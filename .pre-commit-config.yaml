@@ -66,6 +66,13 @@ repos:
     - id: check-azure-pipelines
     - id: check-readthedocs
     - id: check-travis
+- repo: https://github.com/AleksaC/hadolint-py
+  rev: v2.8.0
+  hooks:
+    - id: hadolint
+      args:
+        - '--ignore'
+        - 'DL3059'
 ci:
   autofix_prs: false
   autoupdate_commit_msg: 'pre-commit: bump repositories'
