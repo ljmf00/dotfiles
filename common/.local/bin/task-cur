@@ -1,0 +1,7 @@
+#!/bin/sh -i
+
+if [ -f "$HOME/Sync/CUR_TASK_SCOPE.txt" ]; then
+	dstask "$(cat "$HOME/Sync/CUR_TASK_SCOPE.txt")"
+else
+	dstask
+fi
