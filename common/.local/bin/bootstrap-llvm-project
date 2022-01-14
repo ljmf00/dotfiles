@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 BOOTSTRAP_DEFAULT_ARGS="release-all-wasm-development"
 BOOTSTRAP_SANITIZE_ARGS="debug-all-wasm-sanitize"
 
