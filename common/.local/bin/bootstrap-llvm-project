@@ -130,8 +130,15 @@ else
 	_LLVM_LINK_LLVM_DYLIB="ON"
 fi
 
+_LLVM_ENABLE_PROJECTS="clang-tools-extra;clang;llvm;lldb;lld"
+
+# Runtime libraries
+if [[ "$1" == *"-crt"* ]]; then
+	_LLVM_ENABLE_PROJECTS+=";compiler-rt"
+fi
+
 cmake -S llvm -B build -G Ninja \
-	-DLLVM_ENABLE_PROJECTS="clang-tools-extra;clang;llvm;lldb;lld" \
+	-DLLVM_ENABLE_PROJECTS="${_LLVM_ENABLE_PROJECTS}" \
 	-DCMAKE_BUILD_TYPE="${_CMAKE_BUILD_TYPE}" \
 	-DLLDB_EXPORT_ALL_SYMBOLS=OFF \
 	-DLLVM_LIT_ARGS="-v -vv" \
