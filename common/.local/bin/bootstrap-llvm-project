@@ -34,7 +34,12 @@ else
 	_LLVM_ENABLE_LLD="OFF"
 fi
 
-if hash clang 2>/dev/null; then
+if [[ -n "$CC" && -n "$CXX" ]]; then
+	export CC="$CC"
+	export CXX="$CXX"
+	_CMAKE_C_COMPILER="$CC"
+	_CMAKE_CXX_COMPILER="$CXX"
+elif hash clang 2>/dev/null; then
 	echo "--> Clang found, let's use it"
 	export CC=clang
 	export CXX=clang++
