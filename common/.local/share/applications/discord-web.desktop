@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Discord Web (Chromium)
+Name=Discord Web
 Exec=chromium --disable-canvas-aa --disable-extensions --disable-webgl --force-gpu-rasterization --aggressive-cache-discard --aggressive-tab-discard --single-process --no-startup-window --noerrordialogs --disable-features=InfiniteSessionRestore --disable-session-crashed-bubble --disable-restore-session-state --app=https://discord.com/app/ --create-new
 Terminal=false
 Type=Application
