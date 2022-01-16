@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+if [ -z "${1+x}" ] || [ -z "${2+x}" ]; then
+  echo "Usage: chromium-app-launcher normal|tor <url>"
+fi
+
+if [[ -n "${1+x}" && "$1" == "tor" ]]; then
+  if ! systemctl is-active --quiet tor; then
+    # Ensure tor is started
+    systemctl start tor
+  fi
+  EXTRA_ARGS_CHROMIUM=("--proxy-server=socks5://127.0.0.1:9050")
+fi
+
+APP_DIR_ESCAPED="$(echo "$2" | sed 's/^https\?:\/\///' | tr '?/:.' '-')"
+mkdir -p "$HOME/.chromium-app-launcher"
+
+chromium \
+  --disable-canvas-aa \
+  --disable-extensions \
+  --disable-webgl \
+  --force-gpu-rasterization \
+  --aggressive-cache-discard \
+  --aggressive-tab-discard \
+  --single-process \
+  --no-startup-window \
+  --noerrordialogs \
+  --disable-features=InfiniteSessionRestore \
+  --disable-session-crashed-bubble \
+  --disable-restore-session-state \
+  --create-new \
+  --new-window \
+  --force-dark-mode \
+  --enable-features=WebUIDarkMode \
+  --disable-sync-preferences \
+  --app="$2" \
+  --user-data-dir="$HOME/.chromium-app-launcher/$APP_DIR_ESCAPED" \
+  "${EXTRA_ARGS_CHROMIUM[@]}"
