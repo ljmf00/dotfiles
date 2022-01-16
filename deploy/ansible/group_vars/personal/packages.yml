@@ -30,6 +30,7 @@ install_group_packages:
     - noto-fonts
     - noto-fonts-cjk
     - noto-fonts-emoji
+    - ttf-font-awesome
       lib32-fontconfig
       ttf-liberation
       wqy-zenhei
