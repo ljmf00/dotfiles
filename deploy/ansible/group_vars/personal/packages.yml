@@ -31,9 +31,9 @@ install_group_packages:
     - noto-fonts-cjk
     - noto-fonts-emoji
     - ttf-font-awesome
-      lib32-fontconfig
-      ttf-liberation
-      wqy-zenhei
+    - lib32-fontconfig
+    - ttf-liberation
+    - wqy-zenhei
     # Git sendmail dependencies
     - perl-io-socket-ssl
     - perl-authen-sasl
