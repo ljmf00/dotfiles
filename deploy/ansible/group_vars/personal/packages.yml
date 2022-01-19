@@ -11,12 +11,26 @@ install_group_packages:
     - python
     - python-pip
     - polkit
+    - pkgfile
     # Network management
+    - networkmanager
     - network-manager-applet
     - nm-connection-editor
     # X.org and related utility
     - xorg
+    - xorg-apps
+    - xorg-fonts
+    - xsel
+    - xclip
+    - xss-lock
+    - xautolock
     - i3-gaps
+    - lightdm
+    - lightdm-gtk-greeter
+    - lightdm-gtk-greeter-settings
+    - gtk3
+    - papirus-icon-theme
+    - wayland
     # GUI Applications
     - kitty
     - clipmenu
@@ -25,7 +39,22 @@ install_group_packages:
     - scrot
     - evolution
     - rofi
+    - rofimoji
+    - nautilus
+    - speedcrunch
     - steam
+    - gimp
+    - krita
+    - inkscape
+    - xournalpp
+    - calligra
+    - firefox
+    - chromium
+    - dunst
+    - feh
+    - filezilla
+    - audacity
+    - lmms
     # Fonts
     - noto-fonts
     - noto-fonts-cjk
@@ -33,6 +62,14 @@ install_group_packages:
     - ttf-font-awesome
     - lib32-fontconfig
     - ttf-liberation
+    - ttf-inconsolata
+    - ttf-droid
+    - ttf-dejavu
+    - ttf-freefont
+    - ttf-ubuntu-font-family
+    - ttf-croscore
+    - ttf-opensans
+    - ttf-roboto
     - wqy-zenhei
     # Git sendmail dependencies
     - perl-io-socket-ssl
@@ -42,9 +79,14 @@ install_group_packages:
     - evolution-on
     - highlight
     # Drivers
+    - xf86-input-libinput
+    - xf86-video-intel
+    - vulkan-intel
     - libva-mesa-driver
     - mesa-vdpau
     - libva-vdpau-driver
+    - intel-media-driver
+    - libva-intel-driver
     - libvdpau-va-gl
     - libva-utils
     - vdpauinfo
@@ -53,6 +95,8 @@ install_group_packages:
     - python-unidiff
     - python-gitpython
     # Neovim plugins dependencies
+    - neovim
+    - neovim-qt
     - go
     - python-neovim
     # WOL
@@ -80,3 +124,8 @@ install_group_packages:
     - dstask
     - nerd-fonts-dejavu-complete
     - chromium-widevine
+    - betterlockscreen
+    - captain-frank-cursors-git
+    - i3-battery-popup-git
+    - ttf-wps-fonts
+    - ttf-ms-fonts
