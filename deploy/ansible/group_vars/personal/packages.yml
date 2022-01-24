@@ -12,6 +12,7 @@ install_group_packages:
     - python-pip
     - polkit
     - pkgfile
+    - diff-so-fancy
     # Network management
     - networkmanager
     - network-manager-applet
