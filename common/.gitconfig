@@ -35,6 +35,7 @@
 	ff = only
 [alias]
 	c = commit -s
+	ca-sign = commit -s --amend --no-edit
 	s = status
 	b = branch
 	co = checkout
