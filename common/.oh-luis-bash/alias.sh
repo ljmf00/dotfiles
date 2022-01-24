@@ -82,6 +82,12 @@ alias gstl='git stash list'
 alias gstp='git stash pop'
 alias gswc='git switch -c'
 
+# Videos
+alias view-video-144p='mpv --ytdl-format="bestvideo[height<=?144][fps<=?30][vcodec!=?vp9]+bestaudio/best"'
+alias view-video-480p='mpv --ytdl-format="bestvideo[height<=?480][fps<=?30][vcodec!=?vp9]+bestaudio/best"'
+alias view-video-720p='mpv --ytdl-format="bestvideo[height<=?720][fps<=?60][vcodec!=?vp9]+bestaudio/best"'
+alias view-video-1080p='mpv --ytdl-format="bestvideo[height<=?1080][fps<=?60][vcodec!=?vp9]+bestaudio/best"'
+
 # Misc
 alias waka='npx waka'
 alias v='nvim'
