@@ -38,6 +38,11 @@ if ! [[ -n "$2" && "$2" == "video" ]]; then
 	PLAYER_EXTRA_ARGS+=("--no-video")
 fi
 
+if [[ -n "$2" && "$2" == "tmux" ]]; then
+	tmux new -s ear-live-music bash -c "ear-live-music $1"
+	exit
+fi
+
 mpv \
 	"${PLAYER_EXTRA_ARGS[@]}" \
 	--cache=yes \
