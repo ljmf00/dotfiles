@@ -22,6 +22,11 @@ if [ -n "$1" ]; then
 		exit 0
 	fi
 
+	if [[ "$1" == "tmux" ]]; then
+		tmux attach -t ear-live-music
+		exit 0
+	fi
+
 	if [ -n "${musiclist[$1]}" ]; then
 		MUSIC_PLAY_LINK="${musiclist[$1]}"
 	else
