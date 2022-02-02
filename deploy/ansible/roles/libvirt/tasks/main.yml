@@ -24,11 +24,18 @@
       - dnsmasq
       - bridge-utils
       - dmidecode
-      - edk2-ovmf
       - swtpm
     state: present
   tags:
     - libvirt
+
+- name: install libvirt UEFI support
+  pacman:
+    name: edk2-ovmf
+    state: present
+  tags:
+    - libvirt
+  when: inventory_hostname != 'pie'
 
 - name: add libvirt group
   group:
