@@ -115,6 +115,8 @@ install_group_packages:
     - tor
     - torsocks
     - nyx
+    # I2P
+    - i2pd
   aur:
     # Xorg related apps
     - picom-git
