@@ -43,8 +43,9 @@ function FindProxyForURL(url, host) {
     dnsDomainIs(host, "youtube.com") ||
     dnsDomainIs(host, "google.com") ||
     dnsDomainIs(host, "google.pt") ||
-    dnsDomainIs(host, "stackexchange.com")
-    )
+    dnsDomainIs(host, "stackexchange.com") ||
+    dnsDomainIs(host, "serverfault.com") ||
+    dnsDomainIs(host, "stackoverflow.com"))
     return "DIRECT";
 
   // Avoid using proxy config with servers requiring a strict secure connection
