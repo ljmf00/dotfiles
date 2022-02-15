@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  anchore-build-scan:
+  docker-build-scan:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout the code
@@ -20,14 +20,17 @@ jobs:
       run: |
         cd deploy/docker;
         docker build ../../ --file Dockerfile --tag localbuild/testimage:latest
-    - name: Run the Anchore scan action itself with GitHub Advanced Security code scanning integration enabled
+    - name: Run the Anchore scan
+      continue-on-error: true
       uses: anchore/scan-action@v3.2.0
       with:
         image: "localbuild/testimage:latest"
         debug: true
         fail-build: false
+        severity-cutoff: critical
         acs-report-enable: true
     - name: Upload Anchore Scan Report
       uses: github/codeql-action/upload-sarif@v1
+      continue-on-error: true
       with:
         sarif_file: results.sarif
