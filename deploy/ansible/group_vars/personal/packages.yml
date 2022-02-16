@@ -117,6 +117,8 @@ install_group_packages:
     - nyx
     # I2P
     - i2pd
+    # Isolation
+    - firejail
   aur:
     # Xorg related apps
     - picom-git
