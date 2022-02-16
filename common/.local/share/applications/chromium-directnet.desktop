@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Chromium (Direct Network)
+Exec=bash -c "$HOME/.local/bin/exec-directnet chromium"
+Terminal=false
+Type=Application
