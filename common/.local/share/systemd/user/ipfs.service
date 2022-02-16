@@ -9,18 +9,20 @@ ExecStartPre=-/usr/bin/ipfs init --profile=lowpower
 ExecStartPre=-/usr/bin/ipfs key rm old-self
 ExecStartPre=/usr/bin/ipfs key rotate -t ed25519 -o old-self
 ExecStartPre=/usr/bin/ipfs config --json Swarm.DisableBandwidthMetrics true
-ExecStartPre=/usr/bin/ipfs config --json Swarm.DisableNatPortMap true
+ExecStartPre=/usr/bin/ipfs config --json Swarm.DisableNatPortMap false
 ExecStartPre=/usr/bin/ipfs config --json Swarm.Transports.Network.Relay false
-ExecStartPre=/usr/bin/ipfs config --json AutoNAT.ServiceMode \"disabled\"
+ExecStartPre=/usr/bin/ipfs config --json AutoNAT.ServiceMode \"enabled\"
 ExecStartPre=/usr/bin/ipfs config --json Datastore.StorageMax \"30GB\"
 ExecStartPre=/usr/bin/ipfs config --json Datastore.StorageGCWatermark 90
 ExecStartPre=/usr/bin/ipfs config --json Discovery.MDNS.Enabled false
-ExecStartPre=/usr/bin/ipfs config --json Routing.Type \"dhtclient\"
+ExecStartPre=/usr/bin/ipfs config --json Routing.Type \"dht\"
+; ExecStartPre=/usr/bin/ipfs config --json Addresses.Swarm [\"/ip4/127.0.0.1/tcp/4001\",\"/ip6/::1/tcp/4001\",\"/ip4/127.0.0.1/udp/4001/quic\",\"/ip6/::1/udp/4001/quic\"]
+; ExecStartPre=/usr/bin/ipfs config --json Addresses.Swarm [\"/ip4/0.0.0.0/tcp/4001\",\"/ip6/::/tcp/4001\",\"/ip4/0.0.0.0/udp/4001/quic\",\"/ip6/::/udp/4001/quic\"]
 ExecStartPre=/usr/bin/ipfs config --json Addresses.Swarm []
 ExecStartPre=/usr/bin/ipfs config --json Pubsub.Router \"gossipsub\"
 ExecStartPre=/usr/bin/ipfs config Addresses.Gateway /ip4/127.0.0.1/tcp/8080
 ExecStartPre=/usr/bin/ipfs config Addresses.API /ip4/127.0.0.1/tcp/5002
-ExecStart=/usr/bin/ipfs daemon --enable-gc --enable-mplex-experiment --enable-pubsub-experiment --enable-namesys-pubsub
+ExecStart=/usr/bin/firejail /usr/bin/torsocks /usr/bin/ipfs daemon --enable-gc
 Restart=on-failure
 
 [Install]
