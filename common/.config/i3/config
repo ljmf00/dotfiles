@@ -326,6 +326,7 @@ exec_always --no-startup-id betterlockscreen -u /home/current.jpg
 
 # Autostart scripts
 exec_always --no-startup-id $HOME/.local/bin/i3-cycle-focus
+exec_always --no-startup-id $HOME/.local/bin/dotfiles-display-notouch
 exec_always --no-startup-id $HOME/.local/bin/dotfiles-polybar-relaunch
 exec --no-startup-id tmux new -s weechat weechat
 exec --no-startup-id nm-applet
