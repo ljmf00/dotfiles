@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Element Web (Tor)
+Exec=bash -c "$HOME/.local/bin/chromium-app-launcher tor https://app.element.io/"
+Terminal=false
+Type=Application
