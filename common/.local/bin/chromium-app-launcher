@@ -22,7 +22,7 @@ chromium \
   --force-gpu-rasterization \
   --aggressive-cache-discard \
   --aggressive-tab-discard \
-  --single-process \
+  --process-per-site \
   --no-startup-window \
   --noerrordialogs \
   --disable-features=InfiniteSessionRestore \
