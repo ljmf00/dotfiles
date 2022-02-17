@@ -15,6 +15,9 @@ fi
 APP_DIR_ESCAPED="$(echo "$2" | sed 's/^https\?:\/\///' | tr '?/:.' '-')"
 mkdir -p "$HOME/.chromium-app-launcher"
 
+firejail \
+  --noblacklist="$HOME/.chromium-app-launcher/$APP_DIR_ESCAPED" \
+  --whitelist="$HOME/.chromium-app-launcher/$APP_DIR_ESCAPED" \
 chromium \
   --disable-canvas-aa \
   --disable-extensions \
