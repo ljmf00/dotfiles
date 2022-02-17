@@ -420,8 +420,6 @@ export GPG_TTY
 if [ "$TERM" == "xterm-kitty" ] && hash kitty 2> /dev/null; then
 	# shellcheck disable=SC1090
 	source <(kitty + complete setup bash)
-
-	alias ssh='kitty kitten ssh'
 fi
 
 
