@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Firefox (Direct Network, Private & Safe)
+Exec=bash -c "$HOME/.local/bin/exec-directnet firefox --new-instance --private-window -P safe"
+Terminal=false
+Type=Application
