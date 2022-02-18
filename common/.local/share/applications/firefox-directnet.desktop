@@ -1,5 +1,5 @@
 [Desktop Entry]
 Name=Firefox (Direct Network)
-Exec=bash -c "$HOME/.local/bin/exec-directnet firefox --new-instance"
+Exec=bash -c "$HOME/.local/bin/exec-directnet firefox --new-instance -P directnet"
 Terminal=false
 Type=Application
