@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     container: ljmf00/archlinux
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Run dotfiles configuration script w/ minimal installation
       run: |
         pacman -Syy --needed --noconfirm --noprogressbar \
