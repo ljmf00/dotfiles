@@ -22,6 +22,19 @@
     - packages
     - official-packages
 
+- name: Check for ungoogled-chromium package
+  shell: pacman -Qi ungoogled-chromium
+  register: ungoogled_chromium_installed
+  ignore_errors: True
+  check_mode: False
+  changed_when: False
+
+- name: Install chromium package
+  package:
+    name: chromium
+    state: present
+  when: "'personal' in group_names and ungoogled_chromium_installed.rc != 0"
+
 - name: Install official host packages
   package:
     name: "{{ item }}"
