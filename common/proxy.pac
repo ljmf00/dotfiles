@@ -60,7 +60,7 @@ function FindProxyForURL(url, host) {
     dnsDomainIs(host, "stripe.com") ||
     dnsDomainIs(host, "gov.pt") ||
     dnsDomainIs(host, ".gov"))
-    return "DIRECT";
+    return null;
 
   // Cloudflare doesn't understand the TOR concept, lets pipe it out of the
   // network.
