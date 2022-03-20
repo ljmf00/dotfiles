@@ -13,7 +13,7 @@ if [[ -n "${1+x}" && "$1" == "tor" ]]; then
 fi
 
 APP_DIR_ESCAPED="$(echo "$2" | sed 's/^https\?:\/\///' | tr '?/:.' '-')"
-mkdir -p "$HOME/.chromium-app-launcher"
+mkdir -p "$HOME/.chromium-app-launcher/$APP_DIR_ESCAPED"
 
 firejail \
   --noblacklist="$HOME/.chromium-app-launcher/$APP_DIR_ESCAPED" \
