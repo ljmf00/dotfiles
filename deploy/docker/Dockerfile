@@ -27,9 +27,11 @@ RUN : \
 RUN chmod 4755 /bin/ping
 
 # Unset password to allow reset it
+# hadolint ignore=DL3059
 RUN passwd -d luis
 
 # Copy current context to dotfiles folder
+# hadolint ignore=DL3059
 RUN mkdir -p /home/luis/dotfiles/
 COPY . /home/luis/dotfiles/
 
