@@ -48,6 +48,7 @@
 	gcc-mklog = "!f() { \"`git rev-parse --show-toplevel`/contrib/mklog.py\" $@; } ; f"
 	gcc-commit-mklog = "!f() { \"`git rev-parse --show-toplevel`/contrib/git-commit-mklog.py\" \"$@\"; }; f -s"
 	gcc-verify = "!f() { \"`git rev-parse --show-toplevel`/contrib/gcc-changelog/git_check_commit.py\" $@; } ; f"
+	recommit = "!git commit -F \"$(git rev-parse --git-dir)/COMMIT_EDITMSG\" --edit"
 [gpg]
 	program = gpg2
 [commit]
