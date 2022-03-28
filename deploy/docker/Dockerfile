@@ -1,5 +1,5 @@
 # hadolint ignore=DL3007
-FROM ljmf00/archlinux:latest
+FROM docker.io/ljmf00/archlinux:latest
 LABEL maintainer="Luís Ferreira <contact at lsferreira.net>"
 
 # Install base-devel, git and lib32- libs for gcc runtime and glibc
