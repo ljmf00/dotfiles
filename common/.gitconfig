@@ -18,6 +18,8 @@
 	old = red bold
 	new = green bold
 	whitespace = red reverse
+[diff]
+	wsErrorHighlight = all
 [user]
 	email = contact@lsferreira.net
 	name = Luís Ferreira
