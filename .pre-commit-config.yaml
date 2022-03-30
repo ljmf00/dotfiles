@@ -8,11 +8,12 @@ repos:
   - id: mixed-line-ending
   - id: fix-byte-order-marker
   - id: check-merge-conflict
+  - id: check-builtin-literals
+  - id: check-case-conflict
   - id: check-json
   - id: check-yaml
   - id: sort-simple-yaml
   - id: check-xml
-  - id: check-merge-conflict
   - id: check-ast
   - id: check-executables-have-shebangs
     exclude: >
@@ -54,6 +55,16 @@ repos:
   hooks:
   - id: pyupgrade
     args: [--py39-plus]
+- repo: https://github.com/pre-commit/pygrep-hooks
+  rev: v1.9.0
+  hooks:
+    - id: python-check-blanket-noqa
+    - id: python-check-blanket-type-ignore
+    - id: python-check-mock-methods
+    - id: python-no-eval
+    - id: python-no-log-warn
+    - id: python-use-type-annotations
+    - id: text-unicode-replacement-char
 - repo: https://github.com/asottile/setup-cfg-fmt
   rev: v1.20.0
   hooks:
