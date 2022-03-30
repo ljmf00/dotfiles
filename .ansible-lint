@@ -1,0 +1,14 @@
+---
+exclude_paths:
+  - .github/
+  - common/
+
+use_default_rules: true
+
+enable_list:
+  - empty-string-compare
+  - no-log-password
+  - no-same-owner
+  - yaml
+
+offline: false
