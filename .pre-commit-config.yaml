@@ -1,110 +1,112 @@
+---
+
 fail_fast: true
 repos:
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.1.0
-  hooks:
-  - id: trailing-whitespace
-  - id: end-of-file-fixer
-  - id: mixed-line-ending
-  - id: fix-byte-order-marker
-  - id: check-merge-conflict
-  - id: check-builtin-literals
-  - id: check-case-conflict
-  - id: check-json
-  - id: check-yaml
-  - id: sort-simple-yaml
-  - id: check-xml
-  - id: check-ast
-  - id: check-executables-have-shebangs
-    exclude: >
-      (?x)^(
-        .*\.desktop|
-      )$
-  - id: check-shebang-scripts-are-executable
-    exclude: '^.*\.j2$'
-  - id: check-toml
-  - id: check-added-large-files
-  - id: check-symlinks
-  - id: destroyed-symlinks
-  - id: detect-private-key
-  - id: fix-encoding-pragma
-    args: [--remove]
-  - id: no-commit-to-branch
-    args: [--branch, master]
-  - id: requirements-txt-fixer
-- repo: https://github.com/pre-commit-ci/pre-commit-ci-config
-  rev: v1.5.1
-  hooks:
-  - id: check-pre-commit-ci-config
-- repo: https://github.com/pre-commit/pre-commit
-  rev: v2.17.0
-  hooks:
-  - id: validate_manifest
-- repo: https://github.com/asottile/reorder_python_imports
-  rev: v3.0.1
-  hooks:
-  - id: reorder-python-imports
-    args: [--py39-plus]
-- repo: https://github.com/asottile/add-trailing-comma
-  rev: v2.2.1
-  hooks:
-  - id: add-trailing-comma
-    args: [--py36-plus]
-- repo: https://github.com/asottile/pyupgrade
-  rev: v2.31.1
-  hooks:
-  - id: pyupgrade
-    args: [--py39-plus]
-- repo: https://github.com/pre-commit/pygrep-hooks
-  rev: v1.9.0
-  hooks:
-    - id: python-check-blanket-noqa
-    - id: python-check-blanket-type-ignore
-    - id: python-check-mock-methods
-    - id: python-no-eval
-    - id: python-no-log-warn
-    - id: python-use-type-annotations
-    - id: text-unicode-replacement-char
-- repo: https://github.com/asottile/setup-cfg-fmt
-  rev: v1.20.0
-  hooks:
-  - id: setup-cfg-fmt
-- repo: https://github.com/sirosen/check-jsonschema
-  rev: 0.14.1
-  hooks:
-    - id: check-github-workflows
-    - id: check-github-actions
-    - id: check-azure-pipelines
-    - id: check-readthedocs
-    - id: check-travis
-- repo: https://github.com/AleksaC/hadolint-py
-  rev: v2.9.3
-  hooks:
-    - id: hadolint
-      args:
-        - '--ignore'
-        - 'DL3059'
-- repo: https://github.com/shellcheck-py/shellcheck-py
-  rev: v0.8.0.4
-  hooks:
-    - id: shellcheck
-      args:
-        - "--exclude=1071,1090,1091,2001"
-      #FIXME: Remove this files
-      exclude: >
-        (?x)^(
-          common/.local/bin/remarkable2-pull|
-          common/.local/bin/remarkable2-push|
-          common/.local/bin/remarkable2-snapshot|
-          common/.local/bin/remarkable2-exportnotebook|
-          common/.local/bin/remarkable2-clean|
-          common/.local/bin/project-tmux|
-          common/.local/bin/ssh-vnc-machine|
-        )$
-- repo: https://github.com/asottile/yesqa
-  rev: v1.3.0
-  hooks:
-    - id: yesqa
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.1.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: fix-byte-order-marker
+      - id: check-merge-conflict
+      - id: check-builtin-literals
+      - id: check-case-conflict
+      - id: check-json
+      - id: check-yaml
+      - id: sort-simple-yaml
+      - id: check-xml
+      - id: check-ast
+      - id: check-executables-have-shebangs
+        exclude: >
+          (?x)^(
+            .*\.desktop|
+          )$
+      - id: check-shebang-scripts-are-executable
+        exclude: '^.*\.j2$'
+      - id: check-toml
+      - id: check-added-large-files
+      - id: check-symlinks
+      - id: destroyed-symlinks
+      - id: detect-private-key
+      - id: fix-encoding-pragma
+        args: [--remove]
+      - id: no-commit-to-branch
+        args: [--branch, master]
+      - id: requirements-txt-fixer
+  - repo: https://github.com/pre-commit-ci/pre-commit-ci-config
+    rev: v1.5.1
+    hooks:
+      - id: check-pre-commit-ci-config
+  - repo: https://github.com/pre-commit/pre-commit
+    rev: v2.17.0
+    hooks:
+      - id: validate_manifest
+  - repo: https://github.com/asottile/reorder_python_imports
+    rev: v3.0.1
+    hooks:
+      - id: reorder-python-imports
+        args: [--py39-plus]
+  - repo: https://github.com/asottile/add-trailing-comma
+    rev: v2.2.1
+    hooks:
+      - id: add-trailing-comma
+        args: [--py36-plus]
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v2.31.1
+    hooks:
+      - id: pyupgrade
+        args: [--py39-plus]
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.9.0
+    hooks:
+      - id: python-check-blanket-noqa
+      - id: python-check-blanket-type-ignore
+      - id: python-check-mock-methods
+      - id: python-no-eval
+      - id: python-no-log-warn
+      - id: python-use-type-annotations
+      - id: text-unicode-replacement-char
+  - repo: https://github.com/asottile/setup-cfg-fmt
+    rev: v1.20.0
+    hooks:
+      - id: setup-cfg-fmt
+  - repo: https://github.com/sirosen/check-jsonschema
+    rev: 0.14.1
+    hooks:
+      - id: check-github-workflows
+      - id: check-github-actions
+      - id: check-azure-pipelines
+      - id: check-readthedocs
+      - id: check-travis
+  - repo: https://github.com/AleksaC/hadolint-py
+    rev: v2.9.3
+    hooks:
+      - id: hadolint
+        args:
+          - '--ignore'
+          - 'DL3059'
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.8.0.4
+    hooks:
+      - id: shellcheck
+        args:
+          - "--exclude=1071,1090,1091,2001"
+        #FIXME: Remove this files
+        exclude: >
+          (?x)^(
+            common/.local/bin/remarkable2-pull|
+            common/.local/bin/remarkable2-push|
+            common/.local/bin/remarkable2-snapshot|
+            common/.local/bin/remarkable2-exportnotebook|
+            common/.local/bin/remarkable2-clean|
+            common/.local/bin/project-tmux|
+            common/.local/bin/ssh-vnc-machine|
+          )$
+  - repo: https://github.com/asottile/yesqa
+    rev: v1.3.0
+    hooks:
+      - id: yesqa
 ci:
   autofix_prs: false
   autoupdate_commit_msg: 'chore(pre-commit): bump repositories'
