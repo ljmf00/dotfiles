@@ -26,7 +26,7 @@ jobs:
         git config --global color.diff.whitespace "red reverse"
 
         git config --global diff.wsErrorHighlight "all"
-    - uses: actions/setup-python@v3.1.0
+    - uses: actions/setup-python@v3.1.1
     - uses: pre-commit/action@v2.0.3
 
   hadolint-deploy:
