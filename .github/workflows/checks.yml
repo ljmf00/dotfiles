@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  pre-commit:
+  before-commit:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
@@ -27,7 +27,7 @@ jobs:
 
         git config --global diff.wsErrorHighlight "all"
     - uses: actions/setup-python@v3.1.2
-    - uses: pre-commit/action@v2.0.3
+    - uses: before-commit/run-action@v2.0.3
 
   hadolint-deploy:
     runs-on: ubuntu-latest
