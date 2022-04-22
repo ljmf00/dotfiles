@@ -48,6 +48,7 @@ bindsym $mod+Shift+d exec rofi -show drun -show-icons -theme menu-center
 bindsym $mod+e exec rofimoji
 bindsym $mod+shift+c exec clipmenu
 bindsym $mod+Mod1+c exec ~/.local/bin/dotfiles-del-clipboard
+bindsym $mod+Shift+p exec passmenu
 
 # split in horizontal orientation
 bindsym $mod+h split h
