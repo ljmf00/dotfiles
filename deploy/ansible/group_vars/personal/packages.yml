@@ -41,6 +41,7 @@ install_group_packages:
     - evolution
     - rofi
     - rofimoji
+    - dmenu
     - nautilus
     - speedcrunch
     - steam
