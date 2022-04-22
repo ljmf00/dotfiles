@@ -46,10 +46,10 @@ RUN : \
     && sudo -u luis ./dotfiles/configure.sh \
     && (cd dotfiles; \
         rm -rf private/; \
-        git checkout -- .; \
-        git reset origin/master --hard; \
-        git clean -fd; \
-        git gc --aggressive --auto; \
+        sudo -u luis git checkout -- .; \
+        sudo -u luis git reset origin/master --hard; \
+        sudo -u luis git clean -fd; \
+        sudo -u luis git gc --aggressive --auto; \
     )
 
 # hadolint ignore=DL3059
