@@ -11,6 +11,7 @@
     - { role: sudo, tags: ['sudo']}
     - { role: sshd, tags: ['sshd'] }
     - { role: base, tags: ['base'] }
+    - { role: locale, tags: ['locale'] }
 
     # Packaging
     - { role: yay, tags: ['yay'] }
