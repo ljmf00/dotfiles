@@ -1,0 +1,14 @@
+---
+
+- name: Ensure a locale exists
+  community.general.locale_gen:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ list_machine_locales }}"
+  when: list_machine_locales
+  tags: locale
+
+- name: Set default locale
+  template: src=locale.conf.j2 dest=/etc/locale.conf owner=root group=root mode=0644
+  tags: locale
