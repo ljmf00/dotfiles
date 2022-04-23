@@ -1,0 +1,15 @@
+---
+
+install_host_packages:
+  official:
+    # Bluetooth
+    - blueman
+    - bluez
+    - bluez-utils
+    - pipewire-pulse
+    # Intel integrated graphics
+    - intel-media-driver
+    - libva-intel-driver
+  aur:
+    # Intel integrated graphics
+    - intel-hybrid-codec-driver

@@ -1,0 +1,15 @@
+---
+
+install_group_packages:
+  official:
+    # DE
+    - gnome
+    - gnome-extra
+    - gdm
+    # Email
+    - geary
+    # Browser
+    - chromium
+    # Isolation
+    - firejail
+  aur:

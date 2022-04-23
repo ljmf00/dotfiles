@@ -1,0 +1,21 @@
+---
+
+- name: Setup enterprise machines
+  hosts:
+    - phobos
+  remote_user: root
+  roles:
+    # Basic
+    - { role: facts, tags: ['facts'] }
+    - { role: users, tags: ['users'] }
+    - { role: sudo, tags: ['sudo']}
+    - { role: sshd, tags: ['sshd'] }
+    - { role: base, tags: ['base'] }
+
+    # Packaging
+    - { role: yay, tags: ['yay'] }
+    - { role: packages, tags: ['packages'] }
+
+    # Misc
+    - { role: kvm, tags: ['kvm'] }
+    - { role: libvirt, tags: ['libvirt'] }
