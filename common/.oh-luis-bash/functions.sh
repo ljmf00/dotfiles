@@ -180,3 +180,22 @@ download-music() {
 		-o "%(uploader)s - %(title)s.%(ext)s" \
 		$@
 }
+
+random-strong-password() {
+  < /dev/random tr -dc '!'"_-{}()[]@#\$%^&*=+;:?/.~\`,\"|\\'A-Za-z0-9-" | head -c"${1:-16}"
+  echo
+}
+
+random-alphanum-password() {
+  echo -e "!! Only use this if random-strong-password or random-password doesn't work!\n"
+
+  < /dev/random tr -dc "A-Za-z0-9" | head -c"${1:-16}"
+  echo
+}
+
+random-password() {
+  echo -e "!! Only use this if random-strong-password doesn't work!\n"
+
+  < /dev/random tr -dc '!'"_{}[]()@#\$&%A-Za-z0-9" | head -c"${1:-16}"
+  echo
+}
