@@ -1,0 +1,24 @@
+---
+
+user_groups:
+  - users
+
+system_groups:
+  - wheel
+  - libvirt
+
+users:
+  luis:
+    name: 'Luís Ferreira'
+    ssh_key: luis.pub
+    shell: /bin/bash
+    groups:
+      - users
+      - wheel
+      - libvirt
+  cornucopia:
+    name: 'Cornucópiazul, Lda'
+    shell: /bin/bash
+    groups:
+      - users
+      - libvirt
