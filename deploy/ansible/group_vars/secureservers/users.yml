@@ -1,0 +1,15 @@
+---
+
+user_groups:
+  - users
+
+system_groups:
+  - wheel
+
+users:
+  user:
+    ssh_key: luis.pub
+    shell: /bin/bash
+    groups:
+      - users
+      - wheel

@@ -1,0 +1,25 @@
+---
+
+install_common_packages:
+  official:
+    - htop
+    - bash
+    - git
+    - rsync
+    - neovim
+    - tmux
+    - wget
+    - tree
+    - nmap
+    - inetutils
+    - bind-tools
+    - speedtest-cli
+  aur:
+
+install_group_packages:
+  official:
+  aur:
+
+install_host_packages:
+  official:
+  aur:
