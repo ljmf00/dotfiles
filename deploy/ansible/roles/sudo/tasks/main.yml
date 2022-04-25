@@ -29,7 +29,7 @@
     append: yes
     groups: wheel
   with_dict: '{{ users }}'
-  when: '"admin" in item.value.groups'
+  when: '"wheel" in item.value.groups'
   tags:
     - sudo
     - users

@@ -1,6 +1,6 @@
 #jinja2: lstrip_blocks: True
 {% for uid, user in users.items() %}
-	{% if 'admin' in user.groups %}
+	{% if 'wheel' in user.groups %}
 {{ lookup('file', '../../../pubkeys/ssh_' + user.ssh_key) }}
 	{% endif %}
 {% endfor %}
