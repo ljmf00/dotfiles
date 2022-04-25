@@ -1,0 +1,15 @@
+---
+
+- name: Setup private machines
+  hosts:
+    - tor-exit-node1
+  remote_user: root
+  roles:
+    - { role: facts, tags: ['facts'] }
+    - { role: users, tags: ['users'] }
+    - { role: sudo, tags: ['sudo']}
+    - { role: sshd, tags: ['sshd'] }
+    - { role: base, tags: ['base'] }
+    - { role: locale, tags: ['locale'] }
+    - { role: packages, tags: ['packages'] }
+    - { role: hardening, tags: ['hardening'] }

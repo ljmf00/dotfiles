@@ -1,0 +1,6 @@
+---
+
+list_machine_locales:
+  - en_US.UTF-8
+
+default_machine_locale: en_US.UTF-8
