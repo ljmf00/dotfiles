@@ -1,12 +1,13 @@
 ---
 
 user_groups:
-  - user
+  - users
   - dev
-  - admin
 
 system_groups:
   - docker
+  - libvirt
+  - wheel
 
 users:
   luis:
@@ -14,7 +15,8 @@ users:
     ssh_key: luis.pub
     shell: /bin/bash
     groups:
-      - user
+      - users
       - dev
-      - admin
+      - wheel
       - docker
+      - libvirt

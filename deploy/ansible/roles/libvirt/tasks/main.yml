@@ -37,29 +37,6 @@
     - libvirt
   when: inventory_hostname != 'pie'
 
-- name: add libvirt group
-  group:
-    name: libvirt
-    state: present
-  tags:
-    - libvirt
-
-# https://github.com/ansible/ansible/issues/11024
-- name: remove all users from libvirt group
-  command: groupmems -g libvirt --purge
-  tags:
-    - libvirt
-
-- name: add admin users to libvirt
-  user:
-    name: '{{ item.key }}'
-    append: yes
-    groups: libvirt
-  with_dict: '{{ users }}'
-  when: '"admin" in item.value.groups'
-  tags:
-    - libvirt
-
 - name: install libvirt configs
   template:
     src: '{{ item }}'
