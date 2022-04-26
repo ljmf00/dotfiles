@@ -8,6 +8,7 @@ system_groups:
 
 users:
   user:
+    name: 'User'
     ssh_key: luis.pub
     shell: /bin/bash
     groups:
