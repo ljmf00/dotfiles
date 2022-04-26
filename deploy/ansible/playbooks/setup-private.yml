@@ -2,7 +2,7 @@
 
 - name: Setup private machines
   hosts:
-    - tor-exit-node1
+    - torexit
   remote_user: root
   roles:
     - { role: facts, tags: ['facts'] }
