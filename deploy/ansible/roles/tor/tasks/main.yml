@@ -110,6 +110,19 @@
   template: src=torrc.j2 dest=/etc/tor/torrc owner=root group=root mode=0644
   tags: tor
 
+- name: Allow dir and or port connections
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  with_items:
+    - 9001
+    - 9030
+  when: tor_relaying is defined and tor_relaying
+  tags:
+    - tor
+    - firewall
+
 - name: activate tor service
   service:
     name: tor

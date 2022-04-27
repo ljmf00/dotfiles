@@ -13,6 +13,7 @@
     - { role: locale, tags: ['locale'] }
     - { role: packages, tags: ['packages'] }
     - { role: hardening, tags: ['hardening'] }
+    - { role: firewall, tags: ['firewall'] }
 
     - role: tor
       tags: ['tor']
