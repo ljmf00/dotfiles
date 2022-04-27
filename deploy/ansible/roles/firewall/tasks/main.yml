@@ -1,0 +1,52 @@
+---
+
+- name: Install 'ufw'
+  pacman: name=ufw state=present
+  tags: firewall
+
+- name: Install 'ufw-extras'
+  pacman: name=ufw-extras state=present
+  tags: firewall
+
+- name: Allow ssh connections
+  ufw:
+    rule: allow
+    port: ssh
+    proto: tcp
+  tags: firewall
+
+- name: add sysctl configuration
+  template:
+    dest: /etc/ufw/sysctl.conf
+    src: sysctl.conf.j2
+  tags: firewall
+
+- name: Enable UFW
+  ufw:
+    state: enabled
+  tags: firewall
+
+- name: Set deny default policy
+  ufw:
+    policy: deny
+  tags: firewall
+
+- name: Set allow default policy for forwarding
+  lineinfile:
+    path: /etc/default/ufw
+    regexp: '^DEFAULT_FORWARD_POLICY='
+    line: DEFAULT_FORWARD_POLICY="ACCEPT"
+  when: firewall_forward_packets == true
+  tags: firewall
+
+- name: Set logging
+  ufw:
+    logging: 'on'
+  tags: firewall
+
+- name: enable and start ufw service
+  systemd:
+    name: ufw
+    state: restarted
+    enabled: yes
+  tags: firewall
