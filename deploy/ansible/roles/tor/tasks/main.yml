@@ -1,0 +1,118 @@
+---
+
+- name: install tor and nyx
+  pacman:
+    name:
+      - tor
+      - nyx
+    state: present
+  tags: tor
+
+- name: Copy tor fingerprint
+  ansible.builtin.copy:
+    content: '{{ tor_fingerprint }}'
+    dest: /var/lib/tor/fingerprint
+    owner: tor
+    group: tor
+  when: tor_fingerprint is defined
+  tags: tor
+
+- name: Copy tor ed25519 fingerprint
+  ansible.builtin.copy:
+    content: '{{ tor_fingerprint_ed25519 }}'
+    dest: /var/lib/tor/fingerprint-ed25519
+    owner: tor
+    group: tor
+  when: tor_fingerprint_ed25519 is defined
+  tags: tor
+
+- name: Copy tor hashed fingerprint
+  ansible.builtin.copy:
+    content: '{{ tor_hashed_fingerprint }}'
+    dest: /var/lib/tor/hashed-fingerprint
+    owner: tor
+    group: tor
+  when: tor_hashed_fingerprint is defined
+  tags: tor
+
+- name: Create tor keys directory
+  file:
+    path: /var/lib/tor/keys/
+    owner: tor
+    group: tor
+    state: directory
+  tags: tor
+
+- name: Copy tor ed25519 master public key
+  ansible.builtin.copy:
+    content: '{{ tor_ed25519_master_id_public_key }}'
+    dest: /var/lib/tor/keys/ed25519_master_id_public_key
+    owner: tor
+    group: tor
+  when: tor_ed25519_master_id_public_key is defined
+  tags: tor
+
+- name: Copy tor ed25519 master secret key
+  ansible.builtin.copy:
+    content: '{{ tor_ed25519_master_id_secret_key }}'
+    dest: /var/lib/tor/keys/ed25519_master_id_secret_key
+    owner: tor
+    group: tor
+  when: tor_ed25519_master_id_secret_key is defined
+  tags: tor
+
+- name: Copy tor ed25519 signing cert
+  ansible.builtin.copy:
+    content: '{{ tor_ed25519_signing_cert }}'
+    dest: /var/lib/tor/keys/ed25519_signing_cert
+    owner: tor
+    group: tor
+  when: tor_ed25519_signing_cert is defined
+  tags: tor
+
+- name: Copy tor ed25519 signing secret key
+  ansible.builtin.copy:
+    content: '{{ tor_ed25519_signing_secret_key }}'
+    dest: /var/lib/tor/keys/ed25519_signing_secret_key
+    owner: tor
+    group: tor
+  when: tor_ed25519_signing_secret_key is defined
+  tags: tor
+
+- name: Copy tor secret id key
+  ansible.builtin.copy:
+    content: '{{ tor_secret_id_key }}'
+    dest: /var/lib/tor/keys/secret_id_key
+    owner: tor
+    group: tor
+  when: tor_secret_id_key is defined
+  tags: tor
+
+- name: Copy tor secret onion key
+  ansible.builtin.copy:
+    content: '{{ tor_secret_onion_key }}'
+    dest: /var/lib/tor/keys/secret_onion_key
+    owner: tor
+    group: tor
+  when: tor_secret_onion_key is defined
+  tags: tor
+
+- name: Copy tor secret onion key ntor
+  ansible.builtin.copy:
+    content: '{{ tor_secret_onion_key_ntor }}'
+    dest: /var/lib/tor/keys/secret_onion_key_ntor
+    owner: tor
+    group: tor
+  when: tor_secret_onion_key_ntor is defined
+  tags: tor
+
+- name: install torrc
+  template: src=torrc.j2 dest=/etc/tor/torrc owner=root group=root mode=0644
+  tags: tor
+
+- name: activate tor service
+  service:
+    name: tor
+    enabled: yes
+    state: restarted
+  tags: tor
