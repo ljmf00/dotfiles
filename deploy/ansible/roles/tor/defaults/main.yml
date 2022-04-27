@@ -1,0 +1,8 @@
+---
+
+tor_relaying: false
+tor_private_bridge: false
+tor_relay_mode: none
+
+tor_relay_bandwidth_rate: 1000
+tor_relay_bandwidth_burst: 1000
