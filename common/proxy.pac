@@ -40,6 +40,7 @@ function FindProxyForURL(url, host) {
     dnsDomainIs(host, "web3.storage") ||
     dnsDomainIs(host, "magic.link") ||
     dnsDomainIs(host, "sourcegraph.com") ||
+    dnsDomainIs(host, "docs.github.com") ||
     dnsDomainIs(host, "youtube.com") ||
     dnsDomainIs(host, "google.com") ||
     dnsDomainIs(host, "google.pt") ||
