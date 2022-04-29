@@ -29,12 +29,3 @@ jobs:
     - uses: before-commit/run-action@v2.0.3
       env:
         SKIP: no-commit-to-branch
-
-  hadolint-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Run Hadolint on deploy docker
-        uses: hadolint/hadolint-action@v2.1.0
-        with:
-          dockerfile: deploy/docker/Dockerfile
