@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+read -rp "Enter the website: " WEBSITE
+read -rsp "Enter the totp key: " TOTP_KEY
+
+echo "otpauth://totp/$WEBSITE?secret=$TOTP_KEY"
