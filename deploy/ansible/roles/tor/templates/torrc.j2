@@ -15,7 +15,11 @@
 ## Tor opens a socks proxy on port 9050 by default -- even if you don't
 ## configure one below. Set "SocksPort 0" if you plan to run Tor only
 ## as a relay, and not make any local application connections yourself.
-#SocksPort 9050 # Default: Bind to localhost:9050 for local connections.
+{% if tor_socks %}
+SocksPort 9050 # Default: Bind to localhost:9050 for local connections.
+{% else %}
+SocksPort 0
+{% endif %}
 #SocksPort 192.168.0.1:9100 # Bind to this address:port too.
 
 ## Entry policies to allow/deny SOCKS requests based on IP address.
@@ -112,10 +116,10 @@ Nickname {{ tor_nickname }}
 ## per second, and that prefixes are binary prefixes, i.e. 2^10, 2^20, etc.
 
 # Throttle traffic to 100KB/s (800Kbps)
-RelayBandwidthRate {{ tor_relay_bandwidth_rate }} MB
+RelayBandwidthRate {{ tor_relay_bandwidth_rate }} MBits
 
 # But allow bursts up to 200KB/s (1600Kbps)
-RelayBandwidthBurst {{ tor_relay_bandwidth_burst }} MB
+RelayBandwidthBurst {{ tor_relay_bandwidth_burst }} MBits
 
 ## Use these to restrict the maximum traffic per day, week, or month.
 ## Note that this threshold applies separately to sent and received bytes,
@@ -192,7 +196,7 @@ DisableDebuggerAttachment 0
 
 HardwareAccel 1
 AvoidDiskWrites 1
-NumCPUs 1
+NumCPUs 2
 
 {% if tor_relay_mode == "exit" %}
 ExitRelay 1

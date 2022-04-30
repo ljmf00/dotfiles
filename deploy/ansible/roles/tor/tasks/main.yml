@@ -123,6 +123,52 @@
     - tor
     - firewall
 
+- name: Create tor service override configs directory
+  file:
+    path: '/etc/systemd/system/tor.service.d/'
+    owner: tor
+    group: tor
+    state: directory
+  tags: tor
+
+- name: add config files to override tor service
+  copy:
+    src: '{{ item }}'
+    dest: '/etc/systemd/system/tor.service.d/{{ item }}'
+    mode: 0644
+    owner: root
+    group: root
+  with_items:
+    - increase-file-limits.conf
+    - start-as-root.conf
+    - restart-service-everyday.conf
+  tags:
+    - tor
+
+- name: Modify nofile soft limit for the user/group tor
+  community.general.pam_limits:
+    domain: '{{ item }}'
+    limit_type: soft
+    limit_item: nofile
+    value: 32768
+  with_items:
+    - 'tor'
+    - '@tor'
+  tags:
+    - tor
+
+- name: Modify nofile hard limit for the user/group tor
+  community.general.pam_limits:
+    domain: '{{ item }}'
+    limit_type: hard
+    limit_item: nofile
+    value: 32768
+  with_items:
+    - 'tor'
+    - '@tor'
+  tags:
+    - tor
+
 - name: activate tor service
   service:
     name: tor
