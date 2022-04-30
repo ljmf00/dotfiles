@@ -39,9 +39,31 @@
   when: firewall_forward_packets == true
   tags: firewall
 
-- name: Set logging
+- name: Set drop default policy for forwarding
+  lineinfile:
+    path: /etc/default/ufw
+    regexp: '^DEFAULT_FORWARD_POLICY='
+    line: DEFAULT_FORWARD_POLICY="DROP"
+  when: firewall_forward_packets == false
+  tags: firewall
+
+- name: set restricted access to kernel pointers in proc fs
+  template: src=40-increase-nf_conntrack.conf.j2 dest=/etc/sysctl.d/40-increase-nf_conntrack.conf
+  when: firewall_nf_conntrack_max is defined
+  notify:
+    - apply sysctl settings
+  tags: firewall
+
+- name: Set logging to on
   ufw:
     logging: 'on'
+  when: firewall_logging == true
+  tags: firewall
+
+- name: Set logging to off
+  ufw:
+    logging: 'off'
+  when: firewall_logging == false
   tags: firewall
 
 - name: enable and start ufw service
