@@ -1,0 +1,7 @@
+---
+
+firewall_source_verification: false
+firewall_logging: false
+
+# ram-in-gb * 1024 * 1024 * 1024 / 16384 / 2
+firewall_nf_conntrack_max: 32768
