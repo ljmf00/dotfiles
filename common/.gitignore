@@ -1,2 +1,3 @@
 /Session.vim
 *.git-local.patch
+.gdb_history
