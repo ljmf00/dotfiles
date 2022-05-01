@@ -1,5 +1,5 @@
 resource "cloudflare_zone_settings_override" "lsferreira_net" {
-    zone_id = "${var.cloudflare_zone_id}"
+    zone_id = var.cloudflare_zone_id
 
     settings {
         # SSL/TLS
