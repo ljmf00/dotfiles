@@ -18,6 +18,10 @@ function FindProxyForURL(url, host) {
   if (dnsDomainIs(host, ".gov"))
     return null;
 
+  // TODO: Use local proxy
+  if (dnsDomainIs(host, "sourcegraph.com"))
+    return "DIRECT";
+
   // Local addresses and probably local hosts or loopback aliases
   if (
     isInNet(host, "169.254.0.0", "255.255.0.0") || /* link-local */
