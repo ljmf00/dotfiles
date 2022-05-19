@@ -11,15 +11,6 @@ done
 DOTFILES_FOLDER="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 unset SOURCE
 
-cat >> "$HOME/.ssh/config" << EOF
-
-Host github.com bitbucket.org *.archlinux.org *.onion
-    ProxyCommand ncat --proxy-type socks5 --proxy 127.0.0.1:9050 %h %p
-
-Host *.i2p
-    ProxyCommand ncat --proxy-type socks5 --proxy 127.0.0.1:4447 %h %p
-EOF
-
 cat >> "$HOME/.bashrc" << EOF
 
 export IPFS_PATH=/mnt/ipfs
