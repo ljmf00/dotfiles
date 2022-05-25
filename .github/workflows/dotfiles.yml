@@ -15,6 +15,13 @@ jobs:
     container: ljmf00/archlinux
     steps:
     - uses: actions/checkout@v3
+    - name: Checkout submodules
+      run: |
+        # inside the container git --global configuration isn't set
+        git config --global --add safe.directory "$(pwd)"
+
+        git submodule sync
+        git -c protocol.version=2 submodule update --init --force --depth=1 3rdparty/
     - name: Run dotfiles configuration script w/ minimal installation
       run: |
         pacman -Syy --needed --noconfirm --noprogressbar \
