@@ -161,12 +161,6 @@ return require('packer').startup(function()
   use { 'ms-jpq/coq.artifacts', branch = "artifacts" }
   use { 'ms-jpq/coq.thirdparty', branch = "3p" }
 
-  -- Snippets
-  use 'SirVer/ultisnips'
-  use { 'kiith-sa/DSnips', event = "InsertEnter" }
-  use { "hrsh7th/vim-vsnip", event = "InsertEnter" }
-  use { "rafamadriz/friendly-snippets", event = "InsertEnter" }
-
   -- Treesitter
   use 'nvim-treesitter/nvim-treesitter'
 
