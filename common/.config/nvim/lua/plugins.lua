@@ -10,12 +10,11 @@ end
 
 return require('packer').startup(function()
   -- Packer
-  use 'wbthomason/packer.nvim'
+  use '~/dotfiles/3rdparty/vim/packer.nvim'
 
   -- Theme
   use {
-    'sainnhe/sonokai',
-    commit = '995c6d30ac2846c8230488246057c1ad1aa0b908',
+    '~/dotfiles/3rdparty/vim/sonokai',
     requires = {
       'neomake/neomake',
       'nvim-treesitter/nvim-treesitter',
@@ -25,7 +24,7 @@ return require('packer').startup(function()
   }
 
   -- Wakatime
-  use { 'wakatime/vim-wakatime', tag = '9.0.1' }
+  use { '~/dotfiles/3rdparty/vim/wakatime' }
 
   -- Misc settings
 
