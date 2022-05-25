@@ -46,6 +46,7 @@ RUN : \
     && sudo -u luis ./dotfiles/configure.sh \
     && (cd dotfiles; \
         rm -rf private/; \
+        rm -rf .git/modules/private/; \
         sudo -u luis git checkout -- .; \
         sudo -u luis git reset origin/master --hard; \
         sudo -u luis git clean -fd; \
