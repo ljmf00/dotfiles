@@ -28,8 +28,6 @@ return require('packer').startup(function()
 
   -- Misc settings
 
-  --  Auto relative number toggle
-  use { 'jeffkreeftmeijer/vim-numbertoggle', tag = '2.1.2' }
   --  Move lines around
   use { 'zirrostig/vim-schlepp', tag = 'v1.0.1' }
   --  File number on vim startup
