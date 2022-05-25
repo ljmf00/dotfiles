@@ -4,3 +4,6 @@
 [submodule "3rdparty/vim/packer.nvim"]
 	path = 3rdparty/vim/packer.nvim
 	url = https://github.com/devtty63/packer.nvim
+[submodule "3rdparty/vim/sonokai"]
+	path = 3rdparty/vim/sonokai
+	url = https://github.com/devtty63/sonokai
