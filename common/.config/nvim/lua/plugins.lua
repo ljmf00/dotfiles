@@ -192,14 +192,6 @@ return require('packer').startup(function()
     end,
   }
 
-  -- vim-rooter
-  -- use {
-  --   "airblade/vim-rooter",
-  --   config = function()
-  --     require 'pconfig.c-vrooter'
-  --   end,
-  -- }
-
   -- Icons
   use {
     'yamatsum/nvim-nonicons',
