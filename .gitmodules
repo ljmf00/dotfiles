@@ -1,3 +1,6 @@
 [submodule "private"]
 	path = private
 	url = git@github.com:ljmf00/dotfiles-private.git
+[submodule "3rdparty/vim/packer.nvim"]
+	path = 3rdparty/vim/packer.nvim
+	url = https://github.com/devtty63/packer.nvim
