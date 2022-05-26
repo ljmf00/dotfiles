@@ -162,7 +162,13 @@ return require('packer').startup(function()
   use { 'ms-jpq/coq.thirdparty', branch = "3p" }
 
   -- Treesitter
-  use 'nvim-treesitter/nvim-treesitter'
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = ":TSUpdate",
+    config = function()
+      require 'pconfig.c-treesitter'
+    end,
+  }
 
   -- NvimTree
   use {
