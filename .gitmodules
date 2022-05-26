@@ -25,3 +25,6 @@
 [submodule "3rdparty/vim/sleuth"]
 	path = 3rdparty/vim/sleuth
 	url = https://github.com/devtty63/vim-sleuth
+[submodule "3rdparty/vim/obsession"]
+	path = 3rdparty/vim/obsession
+	url = https://github.com/devtty63/vim-obsession
