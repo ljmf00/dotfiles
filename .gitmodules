@@ -10,3 +10,6 @@
 [submodule "3rdparty/vim/wakatime"]
 	path = 3rdparty/vim/wakatime
 	url = https://github.com/devtty63/vim-wakatime
+[submodule "3rdparty/vim/schlepp"]
+	path = 3rdparty/vim/schlepp
+	url = https://github.com/devtty63/vim-schlepp
