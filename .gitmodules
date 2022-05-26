@@ -22,3 +22,6 @@
 [submodule "3rdparty/vim/surround"]
 	path = 3rdparty/vim/surround
 	url = https://github.com/devtty63/vim-surround
+[submodule "3rdparty/vim/sleuth"]
+	path = 3rdparty/vim/sleuth
+	url = https://github.com/devtty63/vim-sleuth
