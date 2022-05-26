@@ -9,4 +9,4 @@
 	url = https://github.com/devtty63/sonokai
 [submodule "3rdparty/vim/wakatime"]
 	path = 3rdparty/vim/wakatime
-	url = https://github.com/wakatime/vim-wakatime
+	url = https://github.com/devtty63/vim-wakatime
