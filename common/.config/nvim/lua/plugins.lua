@@ -29,17 +29,17 @@ return require('packer').startup(function()
   -- Misc settings
 
   --  Move lines around
-  use { 'zirrostig/vim-schlepp', tag = 'v1.0.1' }
+  use { '~/dotfiles/3rdparty/vim/schlepp' }
   --  File number on vim startup
-  use { 'bogado/file-line', tag = '1.0' }
+  use { '~/dotfiles/3rdparty/vim/file-line' }
   --  Sensible default configs
-  use { 'tpope/vim-sensible', tag = 'v1.2' }
+  use { '~/dotfiles/3rdparty/vim/sensible' }
   --  Surround fast change
-  use { 'tpope/vim-surround', tag = 'v2.1' }
+  use { '~/dotfiles/3rdparty/vim/surround' }
   --  Auto indentation
-  use { 'tpope/vim-sleuth', tag = 'v1.2' }
+  use { '~/dotfiles/3rdparty/vim/sleuth' }
   --  Session manager
-  use { 'tpope/vim-obsession', commit = '82c9ac5e130c92a46e043dd9cd9e5b48d15e286d' }
+  use { '~/dotfiles/3rdparty/vim/obsession' }
   --  Color code highlighter
   use {
     'rrethy/vim-hexokinase',
