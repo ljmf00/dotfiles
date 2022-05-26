@@ -16,3 +16,6 @@
 [submodule "3rdparty/vim/file-line"]
 	path = 3rdparty/vim/file-line
 	url = https://github.com/devtty63/file-line
+[submodule "3rdparty/vim/sensible"]
+	path = 3rdparty/vim/sensible
+	url = https://github.com/devtty63/vim-sensible
