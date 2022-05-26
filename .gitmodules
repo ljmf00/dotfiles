@@ -19,3 +19,6 @@
 [submodule "3rdparty/vim/sensible"]
 	path = 3rdparty/vim/sensible
 	url = https://github.com/devtty63/vim-sensible
+[submodule "3rdparty/vim/surround"]
+	path = 3rdparty/vim/surround
+	url = https://github.com/devtty63/vim-surround
