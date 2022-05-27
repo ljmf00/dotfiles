@@ -45,7 +45,7 @@ vim.o.hidden = true
 vim.o.showmode = false
 
 -- Completion settings
-vim.o.completeopt = "menuone,noselect"
+vim.o.completeopt = "menuone,noselect,longest"
 
 -- Clipboard support
 vim.cmd 'set clipboard+=unnamedplus'
