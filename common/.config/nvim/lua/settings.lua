@@ -9,6 +9,10 @@ vim.o.ttyfast = true
 -- Terminal colors
 vim.opt.termguicolors = true
 
+-- Float termina
+vim.g['floaterm_height'] = 0.95
+vim.g['floaterm_width'] = 0.95
+
 -- Theme
 vim.g['sonokai_style'] = 'default'
 vim.g['sonokai_enable_italic'] = 1
