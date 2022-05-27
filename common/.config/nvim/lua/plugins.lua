@@ -136,6 +136,9 @@ return require('packer').startup(function()
     cmd = "Telescope"
   }
 
+  -- Float terminal
+  use 'voldikss/vim-floaterm'
+
   -- Autopairs
   use {
     "windwp/nvim-autopairs",

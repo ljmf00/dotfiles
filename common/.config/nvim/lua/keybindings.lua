@@ -91,6 +91,8 @@ local mappings = {
     { "<F5>", "<cmd>make<cr>" },
     -- Toogle Tagbar
     { "<F8>", "<cmd>TagbarToggle<CR>" },
+    -- Float Terminal
+    { "<F12>", "<cmd>FloatermToggle<cr><esc>" },
 
     -- Make d(elete) and similar actually delete
     { "\\d", "\"_d" },
@@ -186,6 +188,10 @@ local mappings = {
     -- Keep visual mode on Tab and S-Tab
     { "<Tab>", ">gv" },
     { "<S-Tab>", "<gv" },
+  },
+  t = {
+    -- Toggle float terminal
+    { "<F12>", "<C-\\><C-n><cmd>FloatermToggle<cr><esc>" },
   },
   [""] = {
     -- Toggle the QuickFix window
