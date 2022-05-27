@@ -150,9 +150,9 @@ local mappings = {
     --  Symbols
     { "<leader>fds", "<cmd>Telescope lsp_document_symbols<cr>" },
     { "<leader>fws", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>" },
-    { "<leader>fdd", "<cmd>Telescope lsp_document_diagnostics<cr>" },
+    { "<leader>fdd", "<cmd>Telescope diagnostics bufnr=0<cr>" },
     { "<leader>fdl", "<cmd>Telescope loclist<cr>" },
-    { "<leader>fwd", "<cmd>Telescope lsp_workspace_diagnostics<cr>" },
+    { "<leader>fwd", "<cmd>Telescope diagnostics<cr>" },
     --  Files
     { "<leader>ff", "<cmd>Telescope find_files<cr>" },
     { "<leader>fg", "<cmd>Telescope live_grep<cr>" },
