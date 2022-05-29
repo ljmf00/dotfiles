@@ -92,7 +92,7 @@ local mappings = {
     -- Toogle Tagbar
     { "<F8>", "<cmd>TagbarToggle<CR>" },
     -- Float Terminal
-    { "<F12>", "<cmd>FloatermToggle<cr><esc>" },
+    { "<F12>", "<cmd>FloatermToggle<cr>", { silent = true, noremap = true } },
 
     -- Make d(elete) and similar actually delete
     { "\\d", "\"_d" },
@@ -191,7 +191,7 @@ local mappings = {
   },
   t = {
     -- Toggle float terminal
-    { "<F12>", "<C-\\><C-n><cmd>FloatermToggle<cr><esc>" },
+    { "<F12>", "<C-\\><C-n><cmd>FloatermToggle<cr>", { silent = true, noremap = true } },
   },
   [""] = {
     -- Toggle the QuickFix window
