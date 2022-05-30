@@ -26,7 +26,7 @@ jobs:
         docker build ../../ --file Dockerfile --tag localbuild/testimage:latest
     - name: Run the Anchore scan
       # continue-on-error: true
-      uses: anchore/scan-action@v3.2.4
+      uses: anchore/scan-action@v3.2.5
       with:
         image: "localbuild/testimage:latest"
         debug: true
