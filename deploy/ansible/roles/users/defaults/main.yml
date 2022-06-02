@@ -7,6 +7,7 @@ user_groups:
 system_groups:
   - docker
   - libvirt
+  - nix-users
   - wheel
 
 users:
@@ -20,3 +21,4 @@ users:
       - wheel
       - docker
       - libvirt
+      - nix-users
