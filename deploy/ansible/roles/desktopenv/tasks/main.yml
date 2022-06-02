@@ -9,10 +9,12 @@
   tags:
     - desktopenv
 
-- name: activate libvirtd service
-  service:
-    name: lightdm
-    enabled: yes
-    state: started
-  tags:
-    - desktopenv
+# FIXME: Check for lightdm-plymouth
+
+# - name: activate lightdm service
+#   service:
+#     name: lightdm
+#     enabled: yes
+#     state: started
+#   tags:
+#     - desktopenv
