@@ -23,7 +23,19 @@ else
 	fi
 fi
 
-if hash lld 2>/dev/null; then
+if [[ "$1" == *"-prebuilt"* ]]; then
+	curl -s https://raw.githubusercontent.com/chromium/chromium/master/tools/clang/scripts/update.py \
+		| python - --output-dir build-prebuilt
+	CC="$PWD/build-prebuilt/bin/clang"
+	CXX="$PWD/build-prebuilt/bin/clang++"
+	export CC
+	export CXX
+fi
+
+if [[ "$1" == *"-prebuilt"* ]]; then
+	_CLANG_DEFAULT_LINKER="$PWD/build-prebuilt/bin/ld.lld"
+	_LLVM_ENABLE_LLD="ON"
+elif hash lld 2>/dev/null; then
 	echo "--> LLD found, let's use it"
 	_CLANG_DEFAULT_LINKER='lld'
 	_LLVM_ENABLE_LLD="ON"
