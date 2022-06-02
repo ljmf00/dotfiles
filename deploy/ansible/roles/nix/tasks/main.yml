@@ -1,0 +1,17 @@
+---
+
+- name: install nix package
+  pacman:
+    name: nix
+    state: present
+  tags: nix
+
+- name: start and enable nix-daemon
+  service: name=nix-daemon enabled=yes state=started
+  when: ansible_connection != 'local'
+  tags: nix
+
+- name: only enable nix-daemon
+  service: name=nix-daemon enabled=yes
+  when: ansible_connection == 'local'
+  tags: nix

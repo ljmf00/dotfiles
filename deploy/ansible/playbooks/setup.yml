@@ -47,3 +47,5 @@
     - role: desktopenv
       tags: ['desktopenv']
       when: ansible_hostname in ['mars', 'deimos']
+
+    - { role: nix, tags: ['nix'] }
