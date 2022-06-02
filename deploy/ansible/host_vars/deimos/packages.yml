@@ -6,7 +6,6 @@ install_host_packages:
     - blueman
     - bluez
     - bluez-utils
-    - pulseaudio-bluetooth
     # Intel integrated graphics
     - intel-media-driver
     - libva-intel-driver
