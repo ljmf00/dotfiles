@@ -92,6 +92,13 @@ install_group_packages:
     - libva-utils
     - vdpauinfo
     - pass
+    # Audio
+    - pipewire
+    - lib32-pipewire
+    - pipewire-alsa
+    # - pipewire-jack
+    # - lib32-pipewire-jack
+    - pipewire-pulse
     # Python packages
     - python-unidiff
     - python-gitpython
