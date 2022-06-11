@@ -340,5 +340,7 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id i3-battery-popup
 #exec --no-startup-id riseup-vpn
 exec --no-startup-id flameshot
+exec --no-startup-id protonvpn-cli c -f
+exec --no-startup-id bash -c 'PASSWORD_STORE_DIR=/dev/null protonmail-bridge --no-window'
 #exec --no-startup-id steam -silent
 #exec --no-startup-id remmina -i
