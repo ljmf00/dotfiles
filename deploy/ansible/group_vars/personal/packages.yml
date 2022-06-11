@@ -141,3 +141,6 @@ install_group_packages:
     - i3-battery-popup-git
     - ttf-wps-fonts
     - ttf-ms-fonts
+    - protonvpn-gui
+    - protonvpn-cli
+    - protonmail-bridge
