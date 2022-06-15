@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-NET_DEV_DIRECT="$(ip r | grep "^default via" | sed 's/^default via .* dev \(.*\)/\1'/ | cut -d' ' -f1 | grep -v "^tun.*" | head -n1)"
+NET_DEV_DIRECT="$(ip r | grep "^default via" | sed 's/^default via .* dev \(.*\)/\1'/ | cut -d' ' -f1 | grep -vP "^(tun|proton|pvpn).*" | head -n1)"
 #shellcheck disable=SC2068
 /usr/bin/firejail --dns=1.1.1.1 --net="$NET_DEV_DIRECT" --ip=dhcp $@
