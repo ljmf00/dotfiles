@@ -45,3 +45,10 @@ if hash chromium 2>/dev/null; then
     xdg-settings set default-web-browser chromium.desktop
   fi
 fi
+
+# ln -sfT ~/dotfiles/nixpkgs ~/.config/nixpkgs
+
+if hash nix 2> /dev/null; then
+  nix-channel --add https://nixos.org/channels/nixpkgs-unstable
+  nix-channel --update
+fi

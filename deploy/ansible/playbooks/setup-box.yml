@@ -11,4 +11,3 @@
     - { role: sshd, tags: ['sshd'] }
     - { role: base, tags: ['base'] }
     - { role: packages, tags: ['official-packages'] }
-    - { role: nix, tags: ['nix'] }
