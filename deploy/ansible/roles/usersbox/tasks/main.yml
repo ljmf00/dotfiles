@@ -50,7 +50,7 @@
 
 - name: Copy docker box image
   ansible.builtin.copy:
-    src: ../../docker/local-userimage-luis.tar
+    src: ../../docker/userbox/local-userimage-luis.tar
     dest: "{{ tempfolder.path }}"
     owner: root
     group: root
