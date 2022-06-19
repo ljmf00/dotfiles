@@ -2,17 +2,17 @@ all: build test-network run
 dist: build
 dist:
 	rm -rf local-userimage-luis.tar
-	docker save local-userimage-luis -o local-userimage-luis.tar
+	docker save ljmf00/userbox:latest -o local-userimage-luis.tar
 
 build: build-devbox build-userbox
 
 build-devbox:
-	docker build -t local-devimage-luis $(DOCKER_BUILD_ARGS) \
+	docker build -t ljmf00/devbox:latest $(DOCKER_BUILD_ARGS) \
 		-f devbox/Dockerfile \
 		../../
 
 build-userbox:
-	docker build -t local-userimage-luis $(DOCKER_BUILD_ARGS) \
+	docker build -t ljmf00/userbox:latest $(DOCKER_BUILD_ARGS) \
 		-f userbox/Dockerfile \
 		../../
 
@@ -31,4 +31,4 @@ run:
 		--tmpfs /run --tmpfs /tmp \
 		--name local-usercontainer-luis \
 		-h tornado-box \
-		-it local-userimage-luis
+		-it ljmf00/userbox:latest
