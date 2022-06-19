@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+#shellcheck disable=SC2015
+(docker container inspect devbox-container && \
+	docker stop devbox-container && \
+	docker rm devbox-container && \
+	: || :) >/dev/null 2>&1
+
+#shellcheck disable=SC2015
+(docker volume inspect devbox-vol && \
+	docker volume rm devbox-vol && \
+	: || :) >/dev/null 2>&1
+
+devbox-create
