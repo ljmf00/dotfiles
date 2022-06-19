@@ -99,13 +99,13 @@ repos:
         #FIXME: Remove this files
         exclude: >
           (?x)^(
-            common/.local/bin/remarkable2-pull|
-            common/.local/bin/remarkable2-push|
-            common/.local/bin/remarkable2-snapshot|
-            common/.local/bin/remarkable2-exportnotebook|
-            common/.local/bin/remarkable2-clean|
-            common/.local/bin/project-tmux|
-            common/.local/bin/ssh-vnc-machine|
+            workspace_personal/.local/bin/remarkable2-pull|
+            workspace_personal/.local/bin/remarkable2-push|
+            workspace_personal/.local/bin/remarkable2-snapshot|
+            workspace_personal/.local/bin/remarkable2-exportnotebook|
+            workspace_personal/.local/bin/remarkable2-clean|
+            workspace_personal/.local/bin/project-tmux|
+            workspace_personal/.local/bin/ssh-vnc-machine|
           )$
   - repo: https://github.com/asottile/yesqa
     rev: v1.3.0
