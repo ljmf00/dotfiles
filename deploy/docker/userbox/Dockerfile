@@ -1,5 +1,5 @@
 # hadolint ignore=DL3007,DL3026
-FROM local-devimage-luis:latest
+FROM ljmf00/devbox:latest
 LABEL maintainer="Luís Ferreira <contact at lsferreira.net>"
 
 # Overwrite systemctl to work without systemd daemon
