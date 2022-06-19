@@ -11,23 +11,33 @@ on:
 
 jobs:
   before-commit:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v3
-    - name: Configure Git
-      run: |
-        git config --global color.diff.meta       "11"
-        git config --global color.diff.frag       "magenta bold"
-        git config --global color.diff.func       "146 bold"
-        git config --global color.diff.commit     "yellow bold"
-        git config --global color.diff.old        "red bold"
-        git config --global color.diff.new        "green bold"
-        git config --global color.diff.whitespace "red reverse"
+      - name: Disable auto CRLF on git clone
+        if: startsWith(matrix.os, 'windows')
+        run: |
+          git config --global core.autocrlf "false"
+      - uses: actions/checkout@v3.0.2
+      - name: Configure Git
+        run: |
+          git config --global color.diff.meta       "11"
+          git config --global color.diff.frag       "magenta bold"
+          git config --global color.diff.func       "146 bold"
+          git config --global color.diff.commit     "yellow bold"
+          git config --global color.diff.old        "red bold"
+          git config --global color.diff.new        "green bold"
+          git config --global color.diff.whitespace "red reverse"
 
-        git config --global diff.wsErrorHighlight "all"
-    - uses: actions/setup-python@v4.0.0
-      with:
-        python-version: '3.x'
-    - uses: before-commit/run-action@v2.0.3
-      env:
-        SKIP: no-commit-to-branch
+          git config --global diff.wsErrorHighlight "all"
+      - uses: actions/setup-python@v4.0.0
+        with:
+          python-version: '3.x'
+      - uses: before-commit/run-action@v2.0.3
+        env:
+          SKIP: no-commit-to-branch
