@@ -8,7 +8,8 @@ RUN pacman -Syyu --noprogressbar --needed --noconfirm \
         bind-tools xdg-utils
 
 # Add user
-RUN /usr/sbin/useradd -m -G wheel -g users luis
+RUN /usr/sbin/usermod -u 1001 docker && \
+    /usr/sbin/useradd -u 1000 -m -G wheel -g users luis
 
 WORKDIR /home/luis/
 
