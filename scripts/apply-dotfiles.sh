@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+shopt -s lastpipe
+
 SOURCE="${BASH_SOURCE[0]}"
 # resolve $SOURCE until the file is no longer a symlink
 while [ -h "$SOURCE" ]; do
@@ -23,6 +25,44 @@ rsync -avh --progress "$DOTFILES_FOLDER/common/" "$HOME/"
 echo "Run common script..."
 #shellcheck disable=SC2031
 (source "$DOTFILES_FOLDER/common.sh")
+
+if [ -z "${DOTFILES_WORKSPACE+x}" ]; then
+	WORKSPACE=""
+
+	#shellcheck disable=SC2031,SC2094
+	find "$DOTFILES_FOLDER/workspaces/" -maxdepth 1 -mindepth 1 -type f |
+	  while IFS= read -r workspace_file; do
+		while IFS= read -r machine
+		do
+			if [ "$(cat /etc/hostname)" == "$machine" ]; then
+				#shellcheck disable=SC2094
+				WORKSPACE="$(basename "$workspace_file")"
+				break 1
+			fi
+		done < "$workspace_file"
+	  done
+else
+	WORKSPACE="$DOTFILES_WORKSPACE"
+fi
+
+if [ "$WORKSPACE" != "" ]; then
+	echo "Apply workspace '$WORKSPACE' dotfiles..."
+	# FIXME: Bug on shellcheck, fixed in new versions
+	#shellcheck disable=SC2031
+	rsync -avh --progress "$DOTFILES_FOLDER/workspace_$WORKSPACE/" "$HOME/"
+
+	# FIXME: Bug on shellcheck, fixed in new versions
+	#shellcheck disable=SC2031
+	if [ -f "$DOTFILES_FOLDER/workspace_$WORKSPACE.sh" ]; then
+		echo "Run workspace $WORKSPACE script..."
+		#shellcheck disable=SC2031
+		(source "$DOTFILES_FOLDER/workspace_$WORKSPACE.sh")
+	fi
+else
+	echo "Required to have a workspace!"
+	exit 1
+fi
+
 
 #shellcheck disable=SC2031
 find "$DOTFILES_FOLDER/" -maxdepth 1 -mindepth 1 -type d -iname 'machine_*' |

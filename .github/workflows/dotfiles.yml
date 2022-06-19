@@ -11,6 +11,11 @@ on:
 
 jobs:
   configure:
+    strategy:
+      matrix:
+        workspace:
+          - personal
+          - work
     runs-on: ubuntu-latest
     container: ljmf00/archlinux
     steps:
@@ -27,8 +32,9 @@ jobs:
         pacman -Syy --needed --noconfirm --noprogressbar \
           bind-tools xdg-utils git rsync
         useradd -g users -G wheel -m luis
-        sudo -u luis ./configure.sh
+        sudo -u luis bash -c 'DOTFILES_WORKSPACE="${{ matrix.workspace }}" ./configure.sh'
     - name: Install neovim dependencies
+      if: matrix.workspace == 'personal'
       run: |
         pacman -Syy --needed --noconfirm --noprogressbar \
           neovim go python python-pip
@@ -39,6 +45,7 @@ jobs:
         sudo -u luis bash -c 'cd ~/.local/share/nvim/site/pack/packer/start/coq_nvim && python -m coq deps'
         sudo -u luis bash -c 'echo -e "[settings]\napi_key = 00000000-0000-0000-0000-000000000000" > ~/.wakatime.cfg'
     - name: Install neovim extensions and try to start it
+      if: matrix.workspace == 'personal'
       timeout-minutes: 15
       run: |
         # Packer install and sync
