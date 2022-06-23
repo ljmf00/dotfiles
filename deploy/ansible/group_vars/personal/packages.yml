@@ -106,6 +106,7 @@ install_group_packages:
     - neovim
     - neovim-qt
     - go
+    - nodejs
     - python-neovim
     # WOL
     - wol
