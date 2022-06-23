@@ -1,4 +1,4 @@
 #!/bin/sh -i
 
 devbox-create
-docker exec -it devbox-container bash
+docker exec -it -e TERM="$TERM" devbox-container bash
