@@ -16,7 +16,7 @@ repos:
       - id: check-yaml
         exclude: >
           (?x)^(
-            ^deploy/ansible/host_vars/torexit/tor\.yml|
+            ^deploy/ansible/host_vars/tortoise/tor\.yml|
           )$
       - id: sort-simple-yaml
       - id: check-xml

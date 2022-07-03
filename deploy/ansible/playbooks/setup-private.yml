@@ -2,7 +2,7 @@
 
 - name: Setup private machines
   hosts:
-    - torexit
+    - tortoise
   remote_user: root
   roles:
     - { role: facts, tags: ['facts'] }
@@ -17,4 +17,4 @@
 
     - role: tor
       tags: ['tor']
-      when: ansible_hostname == 'torexit'
+      when: ansible_hostname == 'tortoise'

@@ -1,5 +1,6 @@
 ---
 
 firewall_forward_packets: false
+firewall_logging: true
 firewall_source_verification: true
 firewall_ignore_all_icmp_echos: true
