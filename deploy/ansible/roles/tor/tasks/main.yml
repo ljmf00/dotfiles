@@ -141,7 +141,7 @@
   with_items:
     - increase-file-limits.conf
     - start-as-root.conf
-    - restart-service-everyday.conf
+    - restart-service.conf
   tags:
     - tor
 
