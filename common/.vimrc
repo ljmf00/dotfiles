@@ -1,12 +1,6 @@
 set number
 set mouse-=a
 
-if exists('g:loaded_sensible') || &compatible
-  finish
-else
-  let g:loaded_sensible = 'yes'
-endif
-
 if has('autocmd')
   filetype plugin indent on
 endif
