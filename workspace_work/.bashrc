@@ -7,6 +7,18 @@
 # ~/.bashrc
 #
 
+# Setup PATH
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# Add .local/bin/ to PATH
+export PATH="$HOME/.local/bin:$PATH"
+
+if [ -z "$SSH_AUTH_SOCK" ] ; then
+    eval "$(ssh-agent -s)"
+fi
+
 # To enable the settings / commands in this file for login shells as well,
 # this file has to be sourced in /etc/profile.
 
