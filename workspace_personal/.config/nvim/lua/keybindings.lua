@@ -90,7 +90,7 @@ local mappings = {
     -- Build
     { "<F5>", "<cmd>make<cr>" },
     -- Toogle Tagbar
-    { "<F8>", "<cmd>TagbarToggle<CR>" },
+    { "<F8>", "<cmd>TagbarToggle<cr>" },
     -- Float Terminal
     { "<F12>", "<cmd>FloatermToggle<cr>", { silent = true, noremap = true } },
 
