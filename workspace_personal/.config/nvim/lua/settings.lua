@@ -13,6 +13,8 @@ vim.opt.termguicolors = true
 vim.g['floaterm_height'] = 0.95
 vim.g['floaterm_width'] = 0.95
 
+vim.g['tagbar_autofocus'] = 1
+
 -- Theme
 vim.g['sonokai_style'] = 'default'
 vim.g['sonokai_enable_italic'] = 1
