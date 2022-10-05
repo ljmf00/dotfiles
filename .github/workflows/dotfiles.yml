@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     container: ljmf00/archlinux
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v3.1.0
     - name: Checkout submodules
       run: |
         # inside the container git --global configuration isn't set
