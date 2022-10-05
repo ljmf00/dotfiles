@@ -59,16 +59,4 @@ RUN rm -rf /var/cache/pacman/pkg/* && \
     rm -rf /tmp/* && \
     trust extract-compat
 
-# TODO: Add sshd_config statically
-RUN ssh-keygen -A \
-    && mkdir /var/run/sshd \
-    && mkdir /root/.ssh \
-    && chmod 700 /root/.ssh \
-    && mkdir /home/luis/.ssh \
-    && chmod 700 /home/luis/.ssh \
-    && sed -i "s/^.*PasswordAuthentication.*$/PasswordAuthentication no/" /etc/ssh/sshd_config \
-    && sed -i "s/^.*X11Forwarding.*$/X11Forwarding yes/" /etc/ssh/sshd_config \
-    && sed -i "s/^.*X11UseLocalhost.*$/X11UseLocalhost no/" /etc/ssh/sshd_config \
-    && grep "^X11UseLocalhost" /etc/ssh/sshd_config || echo "X11UseLocalhost no" >> /etc/ssh/sshd_config
-
-ENTRYPOINT ["sh", "-c", "/usr/sbin/sshd && tail -f /dev/null"]
+ENTRYPOINT ["/usr/sbin/sh", "-c", "/usr/sbin/tail -f /dev/null"]
