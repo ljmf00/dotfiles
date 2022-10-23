@@ -5,7 +5,7 @@
 resource "cloudflare_record" "mx1" {
   zone_id = var.cloudflare_zone_id
   name = "lsferreira.net"
-  value = "mx1.improvmx.com"
+  value = "mail.protonmail.ch"
   priority = 10
   type = "MX"
 }
@@ -13,7 +13,7 @@ resource "cloudflare_record" "mx1" {
 resource "cloudflare_record" "mx2" {
   zone_id = var.cloudflare_zone_id
   name = "lsferreira.net"
-  value = "mx2.improvmx.com"
+  value = "mailsec.protonmail.ch"
   priority = 20
   type = "MX"
 }
@@ -26,7 +26,7 @@ resource "cloudflare_record" "mx2" {
 resource "cloudflare_record" "spf" {
   zone_id = var.cloudflare_zone_id
   name = "lsferreira.net"
-  value = "v=spf1 include:mx.ovh.com include:spf.improvmx.com ~all"
+  value = "v=spf1 include:mx.ovh.com include:_spf.protonmail.ch mx ~all"
   type = "TXT"
 }
 
@@ -37,6 +37,33 @@ resource "cloudflare_record" "dmarc" {
   type = "TXT"
 }
 
+# =============================================================================
+# DKIM
+# =============================================================================
+
+resource "cloudflare_record" "dkim1" {
+  zone_id = var.cloudflare_zone_id
+  name = "protonmail._domainkey"
+  value = "protonmail.domainkey.d3o6sspqrfqz73aqmw6ghj2f22kp3ob77j72axb34nj3dnhp4aqxa.domains.proton.ch"
+  proxied = false
+  type = "CNAME"
+}
+
+resource "cloudflare_record" "dkim2" {
+  zone_id = var.cloudflare_zone_id
+  name = "protonmail2._domainkey"
+  value = "protonmail2.domainkey.d3o6sspqrfqz73aqmw6ghj2f22kp3ob77j72axb34nj3dnhp4aqxa.domains.proton.ch"
+  proxied = false
+  type = "CNAME"
+}
+
+resource "cloudflare_record" "dkim3" {
+  zone_id = var.cloudflare_zone_id
+  name = "protonmail3._domainkey"
+  value = "protonmail3.domainkey.d3o6sspqrfqz73aqmw6ghj2f22kp3ob77j72axb34nj3dnhp4aqxa.domains.proton.ch"
+  proxied = false
+  type = "CNAME"
+}
 
 # =============================================================================
 # MANUAL CONFIGURATION
