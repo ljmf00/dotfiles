@@ -54,7 +54,7 @@ return require('packer').startup(function()
   -- Smooth scroll
   use {
       "karb94/neoscroll.nvim",
-      commit = '2b0d9b2db68995bf3fd280523dc192ca602e8367',
+      commit = '54c5c419f6ee2b35557b3a6a7d631724234ba97a',
       event = "WinScrolled",
       config = function()
           require("neoscroll").setup()
@@ -88,7 +88,7 @@ return require('packer').startup(function()
   use { 'tpope/vim-fugitive', tag = 'v3.4' }
   use {
     'lewis6991/gitsigns.nvim',
-    tag = 'v0.2',
+    tag = 'v0.5',
     requires = {
       'nvim-lua/plenary.nvim'
     },
