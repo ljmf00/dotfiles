@@ -28,3 +28,6 @@
 [submodule "3rdparty/vim/obsession"]
 	path = 3rdparty/vim/obsession
 	url = https://github.com/devtty63/vim-obsession
+[submodule "3rdparty/scripts/flamegraph"]
+	path = 3rdparty/scripts/flamegraph
+	url = https://github.com/brendangregg/FlameGraph.git
