@@ -50,7 +50,7 @@ return require('packer').startup(function()
     end,
   }
   --  Highlight similar words
-  use { 'RRethy/vim-illuminate', commit = '8fe150bd775f659da7e40ea2d3ad7473e6d29494' }
+  use { 'RRethy/vim-illuminate', commit = 'fb83d835eac50baeef49aac20c524a80727db0ac' }
   -- Smooth scroll
   use {
       "karb94/neoscroll.nvim",
@@ -78,7 +78,7 @@ return require('packer').startup(function()
   -- Indent guidelines
   use {
     "lukas-reineke/indent-blankline.nvim",
-    commit = '1b852dcb92fbef837ff6a0ef0f9269e4fd234370',
+    commit = 'db7cbcb40cc00fc5d6074d7569fb37197705e7f6',
     config = function()
       require 'pconfig.c-indent'
     end
@@ -142,7 +142,7 @@ return require('packer').startup(function()
   -- Autopairs
   use {
     "windwp/nvim-autopairs",
-    commit = 'e599e15f9400e6b587e3160d2dff83764cb4ab7d',
+    commit = '6b6e35fc9aca1030a74cc022220bc22ea6c5daf4',
     config = function()
       require 'pconfig.c-autopairs'
     end
@@ -175,11 +175,11 @@ return require('packer').startup(function()
 
   -- NvimTree
   use {
-    "kyazdani42/nvim-tree.lua",
+    "nvim-tree/nvim-tree.lua",
     config = function()
       require 'pconfig.c-nvimtree'
     end,
-    commit = "2e33b1654384921ec1cc9656a2018744f3f1ce81",
+    commit = "7e892767bdd9660b7880cf3627d454cfbc701e9b",
   }
 
   -- Comments
@@ -205,7 +205,7 @@ return require('packer').startup(function()
   -- FIXME: Find a better line
    use {
     "itchyny/lightline.vim",
-    commit = "b06d921023cf6536bcbee5754071d122296e8942",
+    commit = "b1e91b41f5028d65fa3d31a425ff21591d5d957f",
     config = function ()
       require 'pconfig.c-lightline'
     end
