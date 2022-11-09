@@ -1,15 +1,13 @@
-vim.g['nvim_tree_quit_on_open'] = 1
-
 require'nvim-tree'.setup {
   disable_netrw       = true,
   hijack_netrw        = true,
   open_on_setup       = false,
   ignore_ft_on_setup  = {},
-  auto_close          = true,
+  -- auto_close          = true,
   open_on_tab         = false,
   hijack_cursor       = false,
   update_cwd          = false,
-  update_to_buf_dir   = {
+  hijack_directories  = {
     enable = true,
     auto_open = true,
   },
@@ -26,6 +24,11 @@ require'nvim-tree'.setup {
     enable      = false,
     update_cwd  = false,
     ignore_list = {}
+  },
+  actions = {
+    open_file = {
+      quit_on_open = true,
+    },
   },
   system_open = {
     cmd  = nil,
