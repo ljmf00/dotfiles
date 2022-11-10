@@ -30,7 +30,7 @@ cmp.setup({
     ['<C-p>'] = cmp.mapping.select_prev_item(select_opts),
     ['<C-n>'] = cmp.mapping.select_next_item(select_opts),
     ['<C-Space>'] = cmp.mapping.complete(),
-    ['<esc>'] = cmp.mapping.abort(),
+    ['<C-e>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     ['<Tab>'] = cmp.mapping(function(fallback)
       local col = vim.fn.col('.') - 1
