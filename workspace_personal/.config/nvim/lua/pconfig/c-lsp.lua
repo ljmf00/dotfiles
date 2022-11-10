@@ -1,13 +1,11 @@
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
+local capabilities = require('cmp_nvim_lsp').default_capabilities({
+  snippetSupport = true
+})
 
 local lspc = require('lspconfig')
-local coq = require "coq"
 
-lspc.vimls.setup(coq.lsp_ensure_capabilities({}))
-lspc.clangd.setup(coq.lsp_ensure_capabilities({}))
-lspc.tsserver.setup(coq.lsp_ensure_capabilities({}))
-lspc.serve_d.setup(coq.lsp_ensure_capabilities({}))
-lspc.jedi_language_server.setup(coq.lsp_ensure_capabilities({}))
-
-vim.cmd('COQnow -s')
+lspc.vimls.setup({ capabilities = capabilities })
+lspc.clangd.setup({ capabilities = capabilities })
+lspc.tsserver.setup({ capabilities = capabilities })
+lspc.serve_d.setup({ capabilities = capabilities })
+lspc.jedi_language_server.setup({ capabilities = capabilities })
