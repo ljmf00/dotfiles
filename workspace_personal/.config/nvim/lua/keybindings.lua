@@ -64,13 +64,6 @@ vmap <unique> <C-l>    <Plug>SchleppDupRight
 local mappings = {
   i = { -- Insert mode
 
-    -- Autocomplete
-    -- FIXME: Doesn't work
-    { '<esc>', [[pumvisible() ? "<c-e><esc>" : "<esc>"]], { expr = true, silent = true, noremap = true }},
-    { '<c-c>', [[pumvisible() ? "<c-e><c-c>" : "<c-c>"]], { expr = true, silent = true, noremap = true }},
-    { '<Tab>', [[pumvisible() ? "<c-n>" : "<Tab>"]], { expr = true, silent = true, noremap = true}},
-    { '<S-Tab>', [[pumvisible() ? "<c-p>" : "<bs>"]], { expr = true, silent = true, noremap = true}},
-
     { "<A-j>", "<ESC><cmd>m .+1<CR>==gi" },
     { "<A-k>", "<ESC><cmd>m .-2<CR>==gi" },
 
