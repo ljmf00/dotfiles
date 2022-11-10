@@ -73,14 +73,6 @@ return require('packer').startup(function()
     end,
   }
 
-  -- LSP Support
-  use {
-    'neovim/nvim-lspconfig',
-    config = function()
-      require 'pconfig.c-lsp'
-    end,
-  }
-
   -- Tagbar
   use {
     'preservim/tagbar',
@@ -124,21 +116,37 @@ return require('packer').startup(function()
     end
   }
 
-  -- Autocomplete
+  -- LSP Support
   use {
-    'ms-jpq/coq_nvim',
-    branch = "coq",
-    config = function()
-      require 'pconfig.c-coq'
-    end,
-    requires = {
-      'ms-jpq/coq.artifacts',
-      'ms-jpq/coq.thirdparty',
-      'neovim/nvim-lspconfig'
-    }
+    'neovim/nvim-lspconfig',
   }
-  use { 'ms-jpq/coq.artifacts', branch = "artifacts" }
-  use { 'ms-jpq/coq.thirdparty', branch = "3p" }
+  use {
+    'hrsh7th/cmp-nvim-lsp',
+    requires = {
+      'neovim/nvim-lspconfig',
+    },
+    config = function()
+      require 'pconfig.c-lsp'
+    end,
+  }
+
+  -- Autocomplete
+  use { 'hrsh7th/cmp-buffer' }
+  use { 'hrsh7th/cmp-path' }
+  use { 'hrsh7th/cmp-cmdline' }
+
+  use {
+    'hrsh7th/nvim-cmp',
+    requires = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+    },
+    config = function()
+      require 'pconfig.c-cmp'
+    end,
+  }
 
   -- Treesitter
   use {
