@@ -51,30 +51,6 @@ return require('packer').startup(function()
   }
   --  Highlight similar words
   use { 'RRethy/vim-illuminate', commit = 'fb83d835eac50baeef49aac20c524a80727db0ac' }
-  -- Smooth scroll
-  use {
-      "karb94/neoscroll.nvim",
-      commit = '54c5c419f6ee2b35557b3a6a7d631724234ba97a',
-      event = "WinScrolled",
-      config = function()
-          require("neoscroll").setup()
-      end
-  }
-  --  Custom dashboard
-  use {
-      "glepnir/dashboard-nvim",
-      commit = 'ba98ab86487b8eda3b0934b5423759944b5f7ebd',
-      cmd = {
-          "Dashboard",
-          "DashboardNewFile",
-          "DashboardJumpMarks",
-          "SessionLoad",
-          "SessionSave"
-      },
-      setup = function()
-          require("pconfig.c-dashboard").config()
-      end
-  }
   -- Indent guidelines
   use {
     "lukas-reineke/indent-blankline.nvim",
