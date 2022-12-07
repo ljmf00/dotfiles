@@ -56,6 +56,7 @@ install_group_packages:
     - filezilla
     - audacity
     - lmms
+    - redshift
     # Fonts
     - noto-fonts
     - noto-fonts-cjk
@@ -76,7 +77,6 @@ install_group_packages:
     - perl-io-socket-ssl
     - perl-authen-sasl
     # Evolution plugins
-    - evolution-rss
     - evolution-on
     - highlight
     # Drivers
@@ -132,7 +132,6 @@ install_group_packages:
     - picom-git
     # FIXME: Don't install this package explicitly (dependency of fluxgui)
     - gnome-python
-    - fluxgui
     - polybar
     - dstask
     - nerd-fonts-dejavu-complete
