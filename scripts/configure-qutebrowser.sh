@@ -6,8 +6,10 @@ if hash qutebrowser 2>/dev/null; then
   # fi
 
   if [ ! -d "$HOME/.local/share/qutebrowser/qtwebengine_dictionaries/" ]; then
-    /usr/share/qutebrowser/scripts/dictcli.py install en-US
-    /usr/share/qutebrowser/scripts/dictcli.py install en-GB
-    /usr/share/qutebrowser/scripts/dictcli.py install pt-PT
+    # FIXME: Use https://github.com/qutebrowser/qutebrowser/commit/fab192597a16b5ac3cc3d34f80ca86cb10437e98
+    # /usr/share/qutebrowser/scripts/dictcli.py install en-US
+    # /usr/share/qutebrowser/scripts/dictcli.py install en-GB
+    # /usr/share/qutebrowser/scripts/dictcli.py install pt-PT
+    :
   fi
 fi
