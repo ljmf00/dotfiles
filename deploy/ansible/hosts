@@ -6,7 +6,7 @@ pie ansible_host=192.168.1.2
 localhost ansible_host=127.0.0.1 ansible_connection=local
 mars ansible_host=192.168.1.103
 deimos ansible_host=192.168.1.105
-thinker ansible_host=10.10.10.249
+thinker ansible_host=192.168.1.208
 
 [enterprise]
 phobos ansible_host=192.168.1.132
