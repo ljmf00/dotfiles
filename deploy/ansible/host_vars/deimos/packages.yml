@@ -9,6 +9,8 @@ install_host_packages:
     # Intel integrated graphics
     - intel-media-driver
     - libva-intel-driver
+    - xf86-video-intel
+    - vulkan-intel
   aur:
     - i3-battery-popup
     # Intel integrated graphics
