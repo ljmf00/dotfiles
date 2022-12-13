@@ -58,6 +58,7 @@ install_group_packages:
     - lmms
     - redshift
     - pass
+    - nvtop
     # Fonts
     - noto-fonts
     - noto-fonts-cjk
