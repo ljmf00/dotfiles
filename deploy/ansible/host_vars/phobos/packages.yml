@@ -10,6 +10,8 @@ install_host_packages:
     # Intel integrated graphics
     - intel-media-driver
     - libva-intel-driver
+    - xf86-video-intel
+    - vulkan-intel
   aur:
     # Intel integrated graphics
     - intel-hybrid-codec-driver

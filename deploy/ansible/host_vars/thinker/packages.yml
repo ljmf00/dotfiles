@@ -1,0 +1,16 @@
+---
+
+install_host_packages:
+  official:
+    # Bluetooth
+    - blueman
+    - bluez
+    - bluez-utils
+    # AMDGPU
+    - xf86-video-amdgpu
+    - vulkan-radeon
+    - lib32-vulkan-radeon
+    - radeontop
+  aur:
+    - i3-battery-popup
+    - zenpower3-dkms

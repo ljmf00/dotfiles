@@ -8,4 +8,10 @@ install_host_packages:
     - cuda
     - libvdpau
     - opencl-nvidia
+    - xf86-video-intel
+    - vulkan-intel
+    - intel-media-driver
+    - libva-intel-driver
   aur:
+    # Intel integrated graphics
+    - intel-hybrid-codec-driver
