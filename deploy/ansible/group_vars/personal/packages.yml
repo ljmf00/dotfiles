@@ -17,6 +17,7 @@ install_group_packages:
     - networkmanager
     - network-manager-applet
     - nm-connection-editor
+    - wireguard-tools
     # X.org and related utility
     - xorg
     - xorg-apps
