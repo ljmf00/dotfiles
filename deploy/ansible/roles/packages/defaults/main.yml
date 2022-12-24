@@ -17,6 +17,7 @@ install_common_packages:
     - ccache
     - speedtest-cli
     - perf
+    - ripgrep
   aur:
     - hw-probe
 
