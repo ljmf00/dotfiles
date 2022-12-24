@@ -27,4 +27,6 @@ unset SOURCE
 #shellcheck disable=SC2031
 # source "$DOTFILES_FOLDER/scripts/configure-vscode.sh"
 #shellcheck disable=SC2031
+(source "$DOTFILES_FOLDER/scripts/configure-gsettings.sh")
+#shellcheck disable=SC2031
 (source "$DOTFILES_FOLDER/scripts/fix-permissions.sh")
