@@ -16,7 +16,9 @@ install_common_packages:
     - bind-tools
     - ccache
     - speedtest-cli
+    - perf
   aur:
+    - hw-probe
 
 install_group_packages:
   official:

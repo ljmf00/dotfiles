@@ -32,6 +32,11 @@ install_group_packages:
     - lightdm-gtk-greeter-settings
     - gtk3
     - papirus-icon-theme
+    # wayland
+    - gnome
+    - gnome-extra
+    - qt5-wayland
+    - qt6-wayland
     - wayland
     # GUI Applications
     - kitty
