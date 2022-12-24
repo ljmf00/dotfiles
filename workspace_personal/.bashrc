@@ -68,8 +68,6 @@ if [ -z ${SSH_AUTH_SOCK+x} ]; then
 			SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 			export SSH_AUTH_SOCK
 		fi
-
-		gpg-connect-agent updatestartuptty /bye > /dev/null
 	fi
 
 	# Fallback to SSH Agent
@@ -85,9 +83,9 @@ if [ -z ${SSH_AUTH_SOCK+x} ]; then
 			source "$HOME/.ssh-agent-env" > /dev/null
 		fi
 	fi
-
-
 fi
+
+gpg-connect-agent updatestartuptty /bye > /dev/null
 
 # Add .local/bin/ to PATH
 export PATH="$HOME/.local/bin:$PATH"
