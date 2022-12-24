@@ -11,6 +11,8 @@ install_host_packages:
     - vulkan-radeon
     - lib32-vulkan-radeon
     - radeontop
+    - modemmanager
+    - libqmi
   aur:
     - i3-battery-popup
     - zenpower3-dkms
