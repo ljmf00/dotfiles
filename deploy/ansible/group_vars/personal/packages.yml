@@ -74,6 +74,7 @@ install_group_packages:
     - redshift
     - pass
     - nvtop
+    - libreoffice-fresh
     # Fonts
     - noto-fonts
     - noto-fonts-cjk
