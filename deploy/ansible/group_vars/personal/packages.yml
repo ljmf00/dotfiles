@@ -46,6 +46,8 @@ install_group_packages:
     - qt6-wayland
     - wayland
     # GUI Applications
+    - gnome-firmware
+    - gnome-software
     - kitty
     - clipmenu
     - polkit-gnome

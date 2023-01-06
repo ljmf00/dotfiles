@@ -18,6 +18,7 @@ install_common_packages:
     - speedtest-cli
     - perf
     - ripgrep
+    - fwupd
   aur:
     - hw-probe
 
