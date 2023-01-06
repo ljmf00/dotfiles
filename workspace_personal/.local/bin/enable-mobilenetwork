@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+sudo mbimcli --device-open-proxy --device="/dev/cdc-wdm0" --quectel-set-radio-state=on
+MODEM_NUM="$(mmcli -L | grep -o '/Modem/[0-9]*[[:space:]]' | grep -o '[0-9]*')"
+
+mmcli -m "$MODEM_NUM"
+mmcli -m "$MODEM_NUM" -e
+mmcli -m "$MODEM_NUM" --simple-connect="apn=internet"
