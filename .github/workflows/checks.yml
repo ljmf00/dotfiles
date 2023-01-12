@@ -35,7 +35,7 @@ jobs:
           git config --global color.diff.whitespace "red reverse"
 
           git config --global diff.wsErrorHighlight "all"
-      - uses: actions/setup-python@v4.4.0
+      - uses: actions/setup-python@v4.5.0
         with:
           python-version: '3.x'
       - uses: before-commit/run-action@v2.0.3
