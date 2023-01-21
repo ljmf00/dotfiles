@@ -21,6 +21,9 @@ if ! docker container inspect devbox-container >/dev/null 2>&1; then
 		--user luis \
 		--volume devbox-vol:/home/luis/ \
 		--volume /:/mnt \
+		--cap-add SYS_PTRACE \
+		--cap-add IPC_LOCK \
+		--security-opt=apparmor:unconfined \
 		ljmf00/devbox \
 		>/dev/null 2>&1
 fi
