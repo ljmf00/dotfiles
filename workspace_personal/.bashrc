@@ -512,6 +512,8 @@ prompt_exitstatus()
     fi
 }
 
+PROMPT_COMMAND=""
+
 function prompt_settitle () {
 	# return on tab completion
 	[[ -n "${COMP_LINE:-}" ]] && return || :
@@ -603,7 +605,7 @@ prompt_command () {
 	PROMPT_SPWD="$(spwd)"
 }
 
-if [[ "$TERM" != linux* && "$TERM" != screen* ]]; then
+if [[ "$TERM" != linux* && "$TERM" != screen* && "$TERM" != tmux* ]]; then
 	PROMPT_TITLE=0
 	export PROMPT_TITLE
 	trap 'prompt_debug_cb' DEBUG
