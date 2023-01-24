@@ -1,5 +1,8 @@
 #!/bin/sh -i
 
 devbox-create
-docker exec -it -e TERM="$TERM" \
-	devbox-container bash
+if [ "$#" -gt 1 ]; then
+        docker exec -it -e TERM="$TERM" devbox-container "$@"
+else
+        docker exec -it -e TERM="$TERM" devbox-container "${1-bash}"
+fi
