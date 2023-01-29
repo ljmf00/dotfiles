@@ -10,3 +10,6 @@ thinker ansible_host=192.168.1.208
 
 [enterprise]
 phobos ansible_host=192.168.1.132
+
+[router]
+trex ansible_host=10.10.10.1
