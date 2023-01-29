@@ -1,0 +1,8 @@
+---
+
+- name: Setup workspace router
+  hosts:
+    - trex
+  remote_user: root
+  roles:
+    - { role: openwrt, tags: ['openwrt'] }

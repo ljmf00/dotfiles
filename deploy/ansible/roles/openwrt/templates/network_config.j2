@@ -1,0 +1,66 @@
+config interface 'loopback'
+	option device 'lo'
+	option proto 'static'
+	option ipaddr '127.0.0.1'
+	option netmask '255.0.0.0'
+
+config globals 'globals'
+	option ula_prefix 'fd7c:ae2a:149f::/48'
+
+config device
+	option name 'br-lan'
+	option type 'bridge'
+	list ports 'lan1'
+	list ports 'lan2'
+	list ports 'lan3'
+	option bridge_empty '1'
+
+config device
+	option name 'br-guest'
+	option type 'bridge'
+	option bridge_empty '1'
+
+config interface 'lan'
+	option device 'br-lan'
+	option proto 'static'
+	option ipaddr '10.10.10.1'
+	option netmask '255.255.255.0'
+	option ip6assign '64'
+	option ip6hint 10
+
+config interface 'guest'
+	option device 'br-guest'
+	option proto 'static'
+	option ipaddr '10.10.20.1'
+	option netmask '255.255.255.0'
+	option ip6assign '64'
+	option ip6hint 20
+
+config device
+	option name 'wan'
+	option macaddr '3c:cd:57:21:f9:3f'
+
+config interface 'wan'
+	option device 'wan'
+	option proto 'dhcp'
+
+config interface 'wan6'
+	option device 'wan'
+	option proto 'dhcpv6'
+
+config interface 'vpn'
+	option proto 'none'
+	option delegate '0'
+	option device 'tun0'
+
+config route
+	option target '10.10.1.0/24'
+	option gateway '10.10.1.1'
+
+config route
+	option target '10.10.11.0/24'
+	option gateway '10.10.11.1'
+
+config route
+	option target '10.10.20.0/24'
+	option gateway '10.10.20.1'

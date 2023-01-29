@@ -1,0 +1,47 @@
+# The OpenVPN configuration file
+
+port 1194
+proto udp
+dev tun
+
+ca ca.crt
+cert server.crt
+key server.key
+dh dh.pem
+
+topology subnet
+server 10.10.11.0 255.255.255.0
+ifconfig-pool-persist /var/openvpn/persist.leases
+status /var/openvpn/status.log
+
+push "route 10.10.1.0 255.255.255.0"
+push "route 10.10.10.0 255.255.255.0"
+push "route 10.10.11.0 255.255.255.0"
+push "route 10.10.20.0 255.255.255.0"
+push "redirect-gateway def1 bypass-dhcp"
+push "dhcp-option DNS 10.10.10.1"
+push "dhcp-option DOMAIN lan"
+
+client-to-client
+duplicate-cn
+max-clients 254
+
+keepalive 10 120
+persist-key
+persist-tun
+
+cipher AES-256-GCM
+auth SHA384
+
+tls-auth ta.key 0
+tls-version-min 1.2
+tls-cipher TLS-ECDHE-RSA-WITH-AES-256-GCM-SHA384
+
+user nobody
+group nogroup
+
+verb 3  # verbosity levels range from 0-low 3-default 9-devel
+mute 10 # quite repeating logs after 20 messages
+
+# Only used this option in UDP mode.
+explicit-exit-notify 1
