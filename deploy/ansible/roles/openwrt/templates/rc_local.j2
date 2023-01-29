@@ -1,0 +1,10 @@
+# Put your custom commands here that should be executed once
+# the system init finished. By default this file does nothing.
+
+if [ -x "/usr/sbin/openvpn" ]; then
+	if [ ! -d "/tmp/openvpn" ]; then
+		mkdir -p /tmp/openvpn >& /dev/null
+	fi
+fi
+
+exit 0

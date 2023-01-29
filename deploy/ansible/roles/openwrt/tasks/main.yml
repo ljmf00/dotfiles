@@ -1,0 +1,186 @@
+---
+
+- name: Update cache and install python
+  community.general.opkg:
+    name: python3
+    state: present
+    update_cache: true
+  tags: openwrt
+
+- name: Install maintenance utility
+  community.general.opkg:
+    name: '{{ item }}'
+    state: present
+  tags: openwrt
+  with_items:
+    - vim-full
+    - kitty-terminfo
+
+# =============================================================================
+# SSH
+# =============================================================================
+
+- name: Install required packages for ssh
+  community.general.opkg:
+    name: '{{ item }}'
+    state: present
+  tags: openwrt
+  with_items:
+    - dropbear
+    - openssh-sftp-server
+
+- name: create .ssh directory for root user
+  file:
+    path: /root/.ssh
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+  tags:
+    - openwrt
+
+- name: add authorized keys for root
+  template:
+    src: authorized_keys.j2
+    dest: '{{ item }}'
+    mode: 0600
+    owner: root
+    group: root
+  tags:
+    - openwrt
+  with_items:
+    - /root/.ssh/authorized_keys
+    - /etc/dropbear/authorized_keys
+
+- name: Install required packages for openvpn
+  community.general.opkg:
+    name: '{{ item }}'
+    state: present
+  tags: openwrt
+  with_items:
+    - openvpn-openssl
+    - openvpn-easy-rsa
+    - luci-app-openvpn
+
+- name: create openvpn folder
+  file:
+    path: /etc/openvpn
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+  tags:
+    - openwrt
+
+- name: Copy openvpn ca.crt
+  ansible.builtin.copy:
+    content: '{{ openvpn_ca_crt }}'
+    dest: /etc/openvpn/ca.crt
+    owner: root
+    group: root
+  when: openvpn_ca_crt is defined
+  tags: openwrt
+
+- name: Copy openvpn server.crt
+  ansible.builtin.copy:
+    content: '{{ openvpn_server_crt }}'
+    dest: /etc/openvpn/server.crt
+    owner: root
+    group: root
+  when: openvpn_server_crt is defined
+  tags: openwrt
+
+- name: Copy openvpn server.key
+  ansible.builtin.copy:
+    content: '{{ openvpn_server_key }}'
+    dest: /etc/openvpn/server.key
+    owner: root
+    group: root
+  when: openvpn_server_key is defined
+  tags: openwrt
+
+- name: Copy openvpn dh.pem
+  ansible.builtin.copy:
+    content: '{{ openvpn_dh_pem }}'
+    dest: /etc/openvpn/dh.pem
+    owner: root
+    group: root
+  when: openvpn_dh_pem is defined
+  tags: openwrt
+
+- name: Copy openvpn ta.key
+  ansible.builtin.copy:
+    content: '{{ openvpn_ta_key }}'
+    dest: /etc/openvpn/ta.key
+    owner: root
+    group: root
+  when: openvpn_ta_key is defined
+  tags: openwrt
+
+- name: add openvpn config
+  template:
+    src: 'openvpn.j2'
+    dest: '/etc/openvpn/server.conf'
+    mode: 0600
+    owner: root
+    group: root
+  tags: openwrt
+
+- name: Install required packages for qos
+  community.general.opkg:
+    name: '{{ item }}'
+    state: present
+  tags: openwrt
+  with_items:
+    - qos-scripts
+    - luci-app-qos
+
+- name: add configs
+  template:
+    src: '{{ item }}_config.j2'
+    dest: '/etc/config/{{ item }}'
+    mode: 0600
+    owner: root
+    group: root
+  tags: openwrt
+  with_items:
+    - system
+    - dropbear
+    - luci
+    - rpcd
+    - ubootenv
+    - ucitrack
+    - network
+    - firewall
+    - uhttpd
+    - wireless
+    - dhcp
+    - qos
+
+- name: add rc.local file
+  template:
+    src: 'rc_local.j2'
+    dest: '/etc/rc.local'
+    mode: 0600
+    owner: root
+    group: root
+  tags: openwrt
+
+- name: Make sure system service is restarted
+  ansible.builtin.sysvinit:
+      name: '{{ item }}'
+      state: restarted
+      enabled: yes
+  tags: openwrt
+  with_items:
+    - ucitrack
+    - system
+    - openvpn
+    - network
+    - wpad
+    - qos
+    - rpcd
+    - uhttpd
+    - odhcpd
+    - dropbear
+    - firewall
