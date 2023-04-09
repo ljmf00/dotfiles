@@ -15,6 +15,34 @@
   with_items:
     - vim-full
     - kitty-terminfo
+    - nmap-full
+    - luci-app-statistics
+    - luci-app-commands
+
+- name: Install other utility
+  community.general.opkg:
+    name: '{{ item }}'
+    state: present
+  tags: openwrt
+  with_items:
+    - luci-app-ddns
+    - luci-app-https-dns-proxy
+    - luci-app-clamav
+    - luci-app-upnp
+    - luci-app-wol
+
+
+# =============================================================================
+# Permissions
+# =============================================================================
+
+- name: Install permissions utility
+  community.general.opkg:
+    name: '{{ item }}'
+    state: present
+  tags: openwrt
+  with_items:
+    - luci-app-acl
 
 # =============================================================================
 # SSH
