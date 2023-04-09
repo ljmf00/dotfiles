@@ -51,4 +51,5 @@ fi
 if hash nix 2> /dev/null; then
   nix-channel --add https://nixos.org/channels/nixpkgs-unstable
   nix-channel --update
+  nix-collect-garbage
 fi
