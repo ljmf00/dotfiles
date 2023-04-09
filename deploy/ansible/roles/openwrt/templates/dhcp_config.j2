@@ -16,6 +16,8 @@ config dnsmasq
 	option nonwildcard '1'
 	option localservice '1'
 	option ednspacket_max '1232'
+	option dnsforwardmax '300'
+	option cachesize '500'
 
 config dhcp 'lan'
 	option interface 'lan'
