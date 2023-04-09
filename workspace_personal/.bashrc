@@ -143,7 +143,7 @@ set_windowtitle ".bashrc: init"
 #       COLORS DEFINITION
 # ===============================
 
-if test -n "$ncolors" && test $ncolors -ge 8; then
+if test -n "$ncolors" && test "$ncolors" -ge 8; then
 	fg_bold="\e[1m"
 	reset_fg_bold="\e[21m"
 
@@ -355,7 +355,7 @@ source "$HOME/.oh-luis-bash/binds.sh"
 #         CONFIGURATIONS
 # ===============================
 
-if test -n "$ncolors" && test $ncolors -ge 8; then
+if test -n "$ncolors" && test "$ncolors" -ge 8; then
 	# add termcap for less when colors are available
 	export LESS=-R
 	export LESS_TERMCAP_mb=$'\E[1;31m'     # begin blink
@@ -385,7 +385,7 @@ if hash nvim 2> /dev/null; then
 	EDITOR='nvim'
 	VISUAL='nvim'
 # fallback to micro
-elif hash micro 2> /dev/null && test -n "$ncolors" && test $ncolors -ge 8; then
+elif hash micro 2> /dev/null && test -n "$ncolors" && test "$ncolors" -ge 8; then
 	EDITOR='micro'
 	VISUAL='micro'
 # fallback to nano text editor
@@ -428,7 +428,7 @@ fi
 # ===============================
 
 # Improved commands
-if test -n "$ncolors" && test $ncolors -ge 8; then
+if test -n "$ncolors" && test "$ncolors" -ge 8; then
 	alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}'
 	if ! hash lsd 2> /dev/null; then
 		alias ls='ls --color=tty'
