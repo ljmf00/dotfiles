@@ -20,6 +20,7 @@ if ! docker container inspect devbox-container >/dev/null 2>&1; then
 		--hostname devbox \
 		--user luis \
 		--volume devbox-vol:/home/luis/ \
+		--volume /dev/shm:/dev/shm \
 		--volume /:/mnt \
 		--cap-add SYS_PTRACE \
 		--cap-add IPC_LOCK \
