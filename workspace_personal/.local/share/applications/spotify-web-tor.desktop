@@ -1,5 +1,0 @@
-[Desktop Entry]
-Name=Spotify Web (Tor)
-Exec=bash -c "$HOME/.local/bin/chromium-app-launcher tor https://open.spotify.com"
-Terminal=false
-Type=Application

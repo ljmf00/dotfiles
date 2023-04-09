@@ -1,5 +1,0 @@
-[Desktop Entry]
-Name=Cinny Web (Tor)
-Exec=bash -c "$HOME/.local/bin/chromium-app-launcher tor https://app.cinny.in"
-Terminal=false
-Type=Application
