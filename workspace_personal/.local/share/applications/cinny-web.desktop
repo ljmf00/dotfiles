@@ -1,5 +1,0 @@
-[Desktop Entry]
-Name=Cinny Web
-Exec=bash -c "$HOME/.local/bin/chromium-app-launcher normal https://app.cinny.in"
-Terminal=false
-Type=Application

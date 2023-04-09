@@ -1,5 +1,0 @@
-[Desktop Entry]
-Name=Discord Web
-Exec=bash -c "$HOME/.local/bin/chromium-app-launcher normal https://discord.com/app"
-Terminal=false
-Type=Application

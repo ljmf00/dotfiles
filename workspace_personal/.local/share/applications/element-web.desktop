@@ -1,5 +1,0 @@
-[Desktop Entry]
-Name=Element Web
-Exec=bash -c "$HOME/.local/bin/chromium-app-launcher normal https://app.element.io"
-Terminal=false
-Type=Application
