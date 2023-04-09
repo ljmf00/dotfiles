@@ -2,6 +2,15 @@
 # MX RECORDS
 # =============================================================================
 
+resource "cloudflare_email_routing_settings" "email_settings" {
+  zone_id = var.cloudflare_zone_id
+  enabled = "false"
+}
+
+# =============================================================================
+# MX RECORDS
+# =============================================================================
+
 resource "cloudflare_record" "mx1" {
   zone_id = var.cloudflare_zone_id
   name = "lsferreira.net"
@@ -129,9 +138,9 @@ resource "cloudflare_record" "srv_autodiscover" {
   type    = "SRV"
 
   data {
-    service  = "_autodiscover"
+    name     = "lsferreira.net"
+    service  = "_autodiscover._tcp._autodiscover"
     proto    = "_tcp"
-    name     = "_autodiscover._tcp"
     priority = 0
     weight   = 0
     port     = 443
@@ -145,9 +154,9 @@ resource "cloudflare_record" "srv_smtp" {
   type    = "SRV"
 
   data {
-    service  = "_submission"
+    name     = "lsferreira.net"
+    service  = "_submission._tcp._submission"
     proto    = "_tcp"
-    name     = "_submission._tcp"
     priority = 0
     weight   = 0
     port     = 465
@@ -161,9 +170,9 @@ resource "cloudflare_record" "srv_pop3" {
   type    = "SRV"
 
   data {
-    service  = "_pop3"
+    name     = "lsferreira.net"
+    service  = "_pop3._tcp._pop3"
     proto    = "_tcp"
-    name     = "_pop3._tcp"
     priority = 0
     weight   = 0
     port     = 110
@@ -177,9 +186,9 @@ resource "cloudflare_record" "srv_pop3s" {
   type    = "SRV"
 
   data {
-    service  = "_pop3s"
+    name     = "lsferreira.net"
+    service  = "_pop3s._tcp._pop3s"
     proto    = "_tcp"
-    name     = "_pop3s._tcp"
     priority = 0
     weight   = 0
     port     = 995
@@ -193,9 +202,9 @@ resource "cloudflare_record" "srv_imap" {
   type    = "SRV"
 
   data {
-    service  = "_imap"
+    name     = "lsferreira.net"
+    service  = "_imap._tcp._imap"
     proto    = "_tcp"
-    name     = "_imap._tcp"
     priority = 0
     weight   = 0
     port     = 143
@@ -209,9 +218,9 @@ resource "cloudflare_record" "srv_imaps" {
   type    = "SRV"
 
   data {
-    service  = "_imaps"
+    name     = "lsferreira.net"
+    service  = "_imaps._tcp._imaps"
     proto    = "_tcp"
-    name     = "_imaps._tcp"
     priority = 0
     weight   = 0
     port     = 993
