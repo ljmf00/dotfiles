@@ -2,15 +2,6 @@
 # MX RECORDS
 # =============================================================================
 
-resource "cloudflare_email_routing_settings" "email_settings" {
-  zone_id = var.cloudflare_zone_id
-  enabled = "false"
-}
-
-# =============================================================================
-# MX RECORDS
-# =============================================================================
-
 resource "cloudflare_record" "mx1" {
   zone_id = var.cloudflare_zone_id
   name = "lsferreira.net"
