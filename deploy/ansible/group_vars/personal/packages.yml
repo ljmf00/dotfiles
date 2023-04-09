@@ -13,10 +13,14 @@ install_group_packages:
     - polkit
     - pkgfile
     - diff-so-fancy
+    - dlang
+    - clang
+    - gcc
     # Audio
     - pipewire
     - lib32-pipewire
     - pipewire-alsa
+    - mpv
     # - pipewire-jack
     # - lib32-pipewire-jack
     - pipewire-pulse
@@ -34,47 +38,40 @@ install_group_packages:
     - xss-lock
     - xautolock
     - i3-gaps
-    - lightdm
-    - lightdm-gtk-greeter
-    - lightdm-gtk-greeter-settings
     - gtk3
     - papirus-icon-theme
     # wayland
-    - gnome
-    - gnome-extra
+    - gnome-shell
+    - gnome-backgrounds
+    - gnome-software
+    - gnome-control-center
+    - gvfs
+    - gvfs-smb
+    - gvfs-nfs
+    - gvfs-mtp
+    - gvfs-gphoto2
+    - gvfs-google
+    - gvfs-goa
+    - gvfs-afc
+    - gdm
     - qt5-wayland
     - qt6-wayland
     - wayland
     # GUI Applications
-    - gnome-firmware
-    - gnome-software
     - kitty
     - clipmenu
     - polkit-gnome
-    - flameshot
     - scrot
-    - evolution
     - rofi
     - rofimoji
     - dmenu
     - nautilus
-    - speedcrunch
-    - steam
-    - gimp
-    - krita
-    - inkscape
-    - xournalpp
     - calligra
-    - firefox
     - dunst
     - feh
-    - filezilla
-    - audacity
-    - lmms
     - redshift
     - pass
     - nvtop
-    - libreoffice-fresh
     # Fonts
     - noto-fonts
     - noto-fonts-cjk
@@ -95,7 +92,6 @@ install_group_packages:
     - perl-io-socket-ssl
     - perl-authen-sasl
     # Evolution plugins
-    - evolution-on
     - highlight
     # Drivers
     - mesa
@@ -113,8 +109,6 @@ install_group_packages:
     - python-unidiff
     - python-gitpython
     # Neovim plugins dependencies
-    - neovim
-    - neovim-qt
     - go
     - nodejs
     - python-neovim
@@ -123,7 +117,6 @@ install_group_packages:
     - ethtool
     # Browser-related apps
     - qutebrowser
-    - bitwarden
     - python-adblock
     - pdfjs
     # Chat
@@ -137,6 +130,18 @@ install_group_packages:
     - i2pd
     # Isolation
     - firejail
+    - flatpak
+    # Printer
+    - cups
+    - cups-filters
+    - cups-pdf
+    - foomatic-db
+    - foomatic-db-ppds
+    - foomatic-db-nonfree
+    - foomatic-db-engine
+    - foomatic-db-gutenprint-ppds
+    - foomatic-db-nonfree-ppds
+    - gutenprint
   aur:
     # Xorg related apps
     - picom-git
@@ -145,7 +150,6 @@ install_group_packages:
     - polybar
     - dstask
     - nerd-fonts-dejavu-complete
-    - chromium-widevine
     - betterlockscreen
     - captain-frank-cursors-git
     - i3-battery-popup-git
@@ -153,4 +157,94 @@ install_group_packages:
     - ttf-ms-fonts
     - protonvpn-gui
     - protonvpn-cli
-    - protonmail-bridge
+  flatpak:
+    - us.zoom.Zoom
+    - com.usebottles.bottles
+    - com.github.tchx84.Flatseal
+    - com.valvesoftware.Steam
+    - com.github.Eloston.UngoogledChromium
+    - com.mojang.Minecraft
+    - com.bitwarden.desktop
+    - md.obsidian.Obsidian
+    - org.fritzing.Fritzing
+    - org.citra_emu.citra
+    - org.libretro.RetroArch
+    - org.libreoffice.LibreOffice
+    - org.qbittorrent.qBittorrent
+    - org.gimp.GIMP
+    - com.obsproject.Studio
+    - ch.protonmail.protonmail-bridge
+    - org.openscad.OpenSCAD
+    - org.blender.Blender
+    - org.kde.kdenlive
+    - sh.ppy.osu
+    - com.authy.Authy
+    - org.gnome.baobab
+    - org.gnome.Firmware
+    - org.kde.okular
+    - com.uploadedlobster.peek
+    - org.gnome.gitlab.YaLTeR.VideoTrimmer
+    - org.audacityteam.Audacity
+    - org.gnome.Evolution
+    - org.speedcrunch.SpeedCrunch
+    - com.github.xournalpp.xournalpp
+    - org.filezillaproject.Filezilla
+    - org.kde.krita
+    - org.inkscape.Inkscape
+    - io.lmms.LMMS
+    - com.stremio.Stremio
+    - org.mozilla.firefox
+    - nl.hjdskes.gcolor3
+    - net.daase.journable
+    - org.gnome.Solanum
+    - org.gnome.Connections
+    - org.gnome.gitlab.somas.Apostrophe
+    - org.gnome.Builder
+    - org.gabmus.gfeeds
+    - com.belmoussaoui.Obfuscate
+    - com.rafaelmardojai.Blanket
+    - nl.v0yd.Capsule
+    - com.adrienplazas.Metronome
+    - com.github.tenderowl.frog
+    - org.keepassxc.KeePassXC
+    - org.gnome.TextEditor
+    - org.gnome.Extensions
+    - org.gnome.Cheese
+    - org.gnome.Maps
+    - org.gnome.seahorse.Application
+    - org.gnome.Calendar
+    - org.gnome.Calls
+    - org.gnome.Boxes
+    - org.gnome.Chess
+    - org.gnome.GHex
+    - org.gnome.Crosswords
+    - org.gnome.Characters
+    - org.gnome.Dictionary
+    - org.gnome.Glade
+    - io.github.nate_xyz.Paleta
+    - io.github.alexkdeveloper.radio
+    - org.kicad.KiCad
+    - org.gnucash.GnuCash
+    - com.github.iwalton3.jellyfin-media-player
+    - me.kozec.syncthingtk
+    - org.freedesktop.Piper
+    - com.valvesoftware.SteamLink
+    - org.gnome.clocks
+    - org.gnome.Weather
+    - org.gnome.design.Palette
+    - org.gnome.font-viewer
+    - org.gnome.eog
+    - org.gnome.Podcasts
+    - org.gnome.Mines
+    - org.gnome.Photos
+    - rest.insomnia.Insomnia
+    - com.google.AndroidStudio
+    - io.gitlab.zehkira.Monophony
+    - com.mattjakeman.ExtensionManager
+    - com.jetbrains.IntelliJ-IDEA-Community
+    - com.jetbrains.Rider
+    - com.jetbrains.PyCharm-Community
+    - com.musixmatch.Musixmatch
+    - org.yuzu_emu.yuzu
+    - com.anydesk.Anydesk
+    - io.github.nate_xyz.Chromatic
