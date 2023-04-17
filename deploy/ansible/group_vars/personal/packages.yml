@@ -76,6 +76,7 @@ install_group_packages:
     - noto-fonts
     - noto-fonts-cjk
     - noto-fonts-emoji
+    - noto-fonts-extra
     - ttf-font-awesome
     - lib32-fontconfig
     - ttf-liberation
@@ -84,9 +85,14 @@ install_group_packages:
     - ttf-dejavu
     - ttf-freefont
     - ttf-ubuntu-font-family
+    - ttf-bitstream-vera
     - ttf-croscore
     - ttf-opensans
     - ttf-roboto
+    - gnu-free-fonts
+    - tex-gyre-fonts
+    - gsfonts
+    - libertinus-font
     - wqy-zenhei
     # Git sendmail dependencies
     - perl-io-socket-ssl
