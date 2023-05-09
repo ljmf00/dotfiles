@@ -2,7 +2,7 @@
     background-color:   #000000;
     border-color:       #a1b0b8;
     text-color:         #a1b0b8;
-    font:               "DejaVu Sans Mono Nerd Font Mono 11";
+    font:               "DejaVuSansM Nerd Font Mono 11";
 }
 
 #window {

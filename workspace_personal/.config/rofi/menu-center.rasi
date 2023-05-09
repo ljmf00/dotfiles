@@ -10,7 +10,7 @@
     anchor: north;
     location: center;
 
-    font: "DejaVu Sans Mono Nerd Font Mono 11";
+    font: "DejaVuSansM Nerd Font Mono 11";
 }
 
 #window {
