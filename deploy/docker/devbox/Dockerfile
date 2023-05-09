@@ -34,7 +34,7 @@ RUN chown -R luis:wheel /home/luis/
 # hadolint ignore=DL3003,DL3004,SC2164
 RUN : \
     && (cd dotfiles/deploy/ansible; \
-        ansible-playbook playbooks/setup-box.yml; \
+        ansible-playbook playbooks/setup-box.yml --inventory-file box_hosts; \
         ) \
     && sudo -u luis bash -c 'DOTFILES_WORKSPACE=personal ./dotfiles/configure.sh' \
     && (cd dotfiles; \

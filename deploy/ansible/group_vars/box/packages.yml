@@ -1,0 +1,16 @@
+---
+
+install_group_packages:
+  official:
+    - bash-completion
+    - python-pygments
+    - thefuck
+    - clang
+    - dlang
+    - llvm
+    - gdb
+    - gcc
+    - lldb
+    - meson
+    - ninja
+  aur:
