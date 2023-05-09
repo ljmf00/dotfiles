@@ -1,11 +1,13 @@
+# syntax=docker/dockerfile:1.4
 # hadolint ignore=DL3007,DL3026
 FROM ljmf00/archlinux:latest AS base
 LABEL maintainer="Luís Ferreira <contact at lsferreira.net>"
 
 # Install base-devel, git and lib32- libs for gcc runtime and glibc
-RUN pacman -Syyu --noprogressbar --needed --noconfirm \
-        base-devel git lib32-gcc-libs lib32-glibc openssh python rsync ansible \
-        bind-tools xdg-utils
+RUN pacman -Syyu --noprogressbar --noconfirm \
+        base-devel multilib-devel \
+        git lib32-gcc-libs lib32-glibc openssh python rsync \
+        ansible bind-tools xdg-utils sudo
 
 # Add user
 RUN /usr/sbin/usermod -u 1001 docker && \
@@ -26,7 +28,7 @@ RUN passwd -d luis
 # Copy current context to dotfiles folder
 # hadolint ignore=DL3059
 RUN mkdir -p /home/luis/dotfiles/
-COPY . /home/luis/dotfiles/
+COPY --link . /home/luis/dotfiles/
 
 RUN chown -R luis:wheel /home/luis/
 
@@ -48,20 +50,23 @@ RUN : \
 
 # Remove unrequired dependencies
 # hadolint ignore=SC2086
-RUN (unused_pkgs="$(pacman -Qqdt)"; \
+RUN pacman -Rcsun --noprogressbar --noconfirm ansible && \
+    (unused_pkgs="$(pacman -Qqdt)"; \
     if [ "$unused_pkgs" != "" ]; then \
-        pacman -Rns $unused_pkgs --noprogressbar --noconfirm; \
+        pacman -Rcsun $unused_pkgs --noprogressbar --noconfirm; \
     fi )
 
 # Remove cache and update trusted certs
 RUN rm -rf /var/cache/pacman/pkg/* && \
     rm -rf /var/lib/pacman/sync/* && \
     rm -rf /tmp/* && \
-    trust extract-compat
+    trust extract-compat && \
+    update-ca-trust
 
 ENTRYPOINT ["/usr/sbin/sh", "-c", "/usr/sbin/tail -f /dev/null"]
 
 # Remove docker layers with multi-stage build
+# hadolint ignore=DL3007,DL3026
 FROM scratch
 LABEL maintainer="Luís Ferreira <contact at lsferreira dot net>"
 ENV LC_CTYPE 'en_US.UTF-8'
