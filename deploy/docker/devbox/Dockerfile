@@ -1,5 +1,5 @@
 # hadolint ignore=DL3007,DL3026
-FROM ljmf00/archlinux:latest
+FROM ljmf00/archlinux:latest AS base
 LABEL maintainer="Luís Ferreira <contact at lsferreira.net>"
 
 # Install base-devel, git and lib32- libs for gcc runtime and glibc
@@ -60,3 +60,11 @@ RUN rm -rf /var/cache/pacman/pkg/* && \
     trust extract-compat
 
 ENTRYPOINT ["/usr/sbin/sh", "-c", "/usr/sbin/tail -f /dev/null"]
+
+# Remove docker layers with multi-stage build
+FROM scratch
+LABEL maintainer="Luís Ferreira <contact at lsferreira dot net>"
+ENV LC_CTYPE 'en_US.UTF-8'
+ENV SHELL=/bin/bash
+COPY --from=base / /
+WORKDIR /home/luis/
