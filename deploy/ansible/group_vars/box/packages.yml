@@ -9,6 +9,8 @@ install_group_packages:
     - thefuck
     - clang
     - dlang
+    - go
+    - nodejs
     - llvm
     - gdb
     - gcc
