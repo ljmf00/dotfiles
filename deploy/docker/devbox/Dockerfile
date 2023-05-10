@@ -63,13 +63,15 @@ RUN rm -rf /var/cache/pacman/pkg/* && \
     trust extract-compat && \
     update-ca-trust
 
-ENTRYPOINT ["/usr/sbin/sh", "-c", "/usr/sbin/tail -f /dev/null"]
-
 # Remove docker layers with multi-stage build
 # hadolint ignore=DL3007,DL3026
 FROM scratch
 LABEL maintainer="Luís Ferreira <contact at lsferreira dot net>"
+COPY --from=base / /
+
+WORKDIR /home/luis/
+
 ENV LC_CTYPE 'en_US.UTF-8'
 ENV SHELL=/bin/bash
-COPY --from=base / /
-WORKDIR /home/luis/
+
+ENTRYPOINT ["/usr/sbin/sh", "-c", "/usr/sbin/tail -f /dev/null"]
