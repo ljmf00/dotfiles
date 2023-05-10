@@ -3,7 +3,9 @@
 install_group_packages:
   official:
     - bash-completion
+    - python
     - python-pygments
+    - python-pip
     - thefuck
     - clang
     - dlang
@@ -12,5 +14,10 @@ install_group_packages:
     - gcc
     - lldb
     - meson
+    - cmake
+    - make
     - ninja
+    - neovim
+    - jedi-language-server
   aur:
+    - serve-d-git
