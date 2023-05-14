@@ -30,7 +30,7 @@ services:
     restart: unless-stopped
     image: ljmf00/service-tor:latest
     build:
-      context: tor
+      context: services/tor
     networks:
       - tor
     cap_drop:
@@ -52,7 +52,7 @@ services:
     container_name: services-i2p
     restart: unless-stopped
     build:
-      context: i2p
+      context: services/i2p
     networks:
       - i2p
     tmpfs:
@@ -64,7 +64,7 @@ services:
     restart: unless-stopped
     image: ljmf00/service-ipfs:latest
     build:
-      context: ipfs
+      context: services/ipfs
     networks:
       - ipfs
     cap_drop:
