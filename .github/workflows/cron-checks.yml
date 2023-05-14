@@ -41,15 +41,13 @@ jobs:
           image=moby/buildkit:latest
     - name: Build the Docker image
       run: |
-        cd deploy/docker/devbox
-        docker build ../../../ --file Dockerfile --tag ljmf00/devbox:latest
-        cd ../userbox
-        docker build ../../../ --file Dockerfile --tag ljmf00/userbox:latest
+        cd deploy/docker/box
+        docker build ../../../ --file Dockerfile --tag ljmf00/box:latest
     - name: Run the Anchore scan
       # continue-on-error: true
       uses: anchore/scan-action@v3.3.5
       with:
-        image: "ljmf00/userbox:latest"
+        image: "ljmf00/box:latest"
         debug: true
         fail-build: false
         severity-cutoff: critical
@@ -62,5 +60,4 @@ jobs:
     - if: github.event_name != 'pull_request'
       name: Push docker images
       run: |
-        docker push ljmf00/devbox:latest
-        docker push ljmf00/userbox:latest
+        docker push ljmf00/box:latest
