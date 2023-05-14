@@ -102,3 +102,7 @@ source "$HOME/.oh-luis-bash/shopt.sh"
 source "$HOME/.oh-luis-bash/binds.sh"
 # shellcheck disable=SC1090
 source "$HOME/.oh-luis-bash/goto-command.sh"
+
+if [ -f "$HOME/.bashrc-work" ]; then
+    source "$HOME/.bashrc-work"
+fi
