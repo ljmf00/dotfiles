@@ -3,7 +3,7 @@ version: "3.9"
 services:
   box:
     container_name: mybox-container
-    restart: no
+    restart: 'no'
     image: ljmf00/box:latest
     dns:
       - 1.1.1.1
