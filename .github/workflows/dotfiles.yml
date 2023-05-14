@@ -17,10 +17,8 @@ jobs:
           - personal
           - work
     runs-on: ubuntu-latest
-    container: ljmf00/archlinux
+    container: ghcr.io/ljmf00/archlinux:aur
     steps:
-    - name: Install git
-      run: pacman -Syy --needed --noconfirm --noprogressbar git
     - uses: actions/checkout@v3.5.2
     - name: Checkout submodules
       run: |
