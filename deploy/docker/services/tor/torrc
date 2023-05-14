@@ -1,0 +1,16 @@
+User tor
+SOCKSPort 9050
+Log notice syslog
+DataDirectory /var/lib/tor
+
+ControlPort 9051
+CookieAuthentication 1
+
+DNSPort 9053
+AutomapHostsOnResolve 1
+AutomapHostsSuffixes .exit,.onion
+
+AvoidDiskWrites 1
+DisableAllSwap 1
+HardwareAccel 1
+NumCPUs 2
