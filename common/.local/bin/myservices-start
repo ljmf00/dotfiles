@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+docker-compose -f ~/dotfiles/deploy/docker/services/compose.yaml up -d --remove-orphans "$@"

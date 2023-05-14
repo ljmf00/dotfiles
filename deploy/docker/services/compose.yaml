@@ -1,0 +1,100 @@
+version: "3.9"
+
+services:
+  box:
+    container_name: mybox-container
+    restart: no
+    image: ljmf00/box:latest
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
+      - 2606:4700:4700::1111
+      - 2606:4700:4700::1001
+    tmpfs:
+      - /run
+      - /tmp
+    cap_add:
+      - SYS_PTRACE
+      - IPC_LOCK
+    security_opt:
+      - apparmor:unconfined
+    hostname: mybox
+    volumes:
+      - '/dev/shm:/dev/shm'
+      - '/:/mnt'
+      - '/tmp/.X11-unix:/tmp/.X11-unix'
+      - 'mybox:/home/luis/'
+
+  tor:
+    container_name: services-tor
+    restart: unless-stopped
+    image: ljmf00/service-tor:latest
+    build:
+      context: tor
+    networks:
+      - tor
+    cap_drop:
+      - ALL
+    cap_add:
+      - CAP_SETGID
+      - CAP_SETUID
+      - CAP_SYS_RESOURCE
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
+      - 2606:4700:4700::1111
+      - 2606:4700:4700::1001
+    tmpfs:
+      - /run
+      - /tmp
+
+  i2p:
+    container_name: services-i2p
+    restart: unless-stopped
+    build:
+      context: i2p
+    networks:
+      - i2p
+    tmpfs:
+      - /run
+      - /tmp
+
+  ipfs:
+    container_name: services-ipfs
+    restart: unless-stopped
+    image: ljmf00/service-ipfs:latest
+    build:
+      context: ipfs
+    networks:
+      - ipfs
+    cap_drop:
+      - ALL
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
+      - 2606:4700:4700::1111
+      - 2606:4700:4700::1001
+    tmpfs:
+      - /run
+      - /tmp
+    healthcheck:
+      test: ["CMD", "/usr/bin/wget", "http://127.0.0.1:8080/ipfs/bafkreig24ijzqxj3cxdp6yh6ia2ysxzvxsfnd6rzahxxjv6ofcuix52wtq"]
+
+networks:
+  ipfs:
+    name: services-ipfs
+  tor:
+    name: services-tor
+  i2p:
+    name: services-i2p
+  proxy:
+    name: services-proxy
+
+volumes:
+  mybox:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: $HOME/.mybox
+    name: mybox
