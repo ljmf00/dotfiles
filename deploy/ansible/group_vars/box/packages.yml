@@ -20,6 +20,7 @@ install_group_packages:
     - make
     - ninja
     - neovim
+    - lsd
     - jedi-language-server
   aur:
     - serve-d-git
