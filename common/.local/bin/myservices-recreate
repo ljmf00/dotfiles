@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
+export DOCKER_BUILDKIT=1
+
 myservices-drop "$@"
 myservices-start "$@"
