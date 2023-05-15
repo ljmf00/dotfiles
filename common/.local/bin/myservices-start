@@ -2,4 +2,4 @@
 
 export DOCKER_BUILDKIT=1
 
-docker-compose -f ~/dotfiles/deploy/docker/compose.yaml up -d --remove-orphans "$@"
+docker compose -f ~/dotfiles/deploy/docker/compose.yaml up -d --remove-orphans "$@"
