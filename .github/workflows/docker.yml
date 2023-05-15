@@ -1,4 +1,4 @@
-name: cron-checks
+name: docker
 
 on:
   push:
@@ -14,7 +14,7 @@ env:
   DOCKER_BUILDKIT: '1'
 
 jobs:
-  docker-build-scan:
+  build-scan:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout the code
