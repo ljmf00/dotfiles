@@ -9,9 +9,3 @@ variable "cloudflare_token" {
   type        = string
   sensitive   = true
 }
-
-variable "cloudflare_zone_id" {
-  description = "The DNS zone ID to add the record to."
-  type        = string
-  sensitive   = true
-}
