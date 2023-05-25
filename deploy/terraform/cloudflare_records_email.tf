@@ -2,19 +2,43 @@
 # MX RECORDS
 # =============================================================================
 
-resource "cloudflare_record" "mx1" {
-  zone_id = var.cloudflare_zone_id
+resource "cloudflare_record" "lsferreira_net_mx1" {
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name = "lsferreira.net"
   value = "mail.protonmail.ch"
   priority = 10
   type = "MX"
 }
 
-resource "cloudflare_record" "mx2" {
-  zone_id = var.cloudflare_zone_id
+resource "cloudflare_record" "lsferreira_net_mx2" {
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name = "lsferreira.net"
   value = "mailsec.protonmail.ch"
   priority = 20
+  type = "MX"
+}
+
+resource "cloudflare_record" "luisf_eu_org_mx1" {
+  zone_id = data.cloudflare_zones.luisf_eu_org.zones[0].id
+  name = "luisf.eu.org"
+  value = "route1.mx.cloudflare.net"
+  priority = 36
+  type = "MX"
+}
+
+resource "cloudflare_record" "luisf_eu_org_mx2" {
+  zone_id = data.cloudflare_zones.luisf_eu_org.zones[0].id
+  name = "luisf.eu.org"
+  value = "route2.mx.cloudflare.net"
+  priority = 34
+  type = "MX"
+}
+
+resource "cloudflare_record" "luisf_eu_org_mx3" {
+  zone_id = data.cloudflare_zones.luisf_eu_org.zones[0].id
+  name = "luisf.eu.org"
+  value = "route3.mx.cloudflare.net"
+  priority = 3
   type = "MX"
 }
 
@@ -23,17 +47,31 @@ resource "cloudflare_record" "mx2" {
 # SPF / DMARC
 # =============================================================================
 
-resource "cloudflare_record" "spf" {
-  zone_id = var.cloudflare_zone_id
+resource "cloudflare_record" "lsferreira_net_spf" {
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name = "lsferreira.net"
   value = "v=spf1 include:mx.ovh.com include:_spf.protonmail.ch mx ~all"
   type = "TXT"
 }
 
-resource "cloudflare_record" "dmarc" {
-  zone_id = var.cloudflare_zone_id
+resource "cloudflare_record" "luisf_eu_org_spf" {
+  zone_id = data.cloudflare_zones.luisf_eu_org.zones[0].id
+  name = "luisf.eu.org"
+  value = "v=spf1 include:_spf.mx.cloudflare.net ~all"
+  type = "TXT"
+}
+
+resource "cloudflare_record" "lsferreira_net_dmarc" {
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name = "_dmarc"
   value = "v=DMARC1; p=reject; sp=reject; pct=100; rua=mailto:dmarc@lsferreira.net; ruf=mailto:dmarc@lsferreira.net; fo=1:s:d; adkim=r; aspf=r"
+  type = "TXT"
+}
+
+resource "cloudflare_record" "luisf_eu_org_dmarc" {
+  zone_id = data.cloudflare_zones.luisf_eu_org.zones[0].id
+  name = "_dmarc"
+  value = "v=DMARC1; p=reject; sp=reject; pct=100; rua=mailto:dmarc@luisf.eu.org; ruf=mailto:dmarc@luisf.eu.org; fo=1:s:d; adkim=r; aspf=r"
   type = "TXT"
 }
 
