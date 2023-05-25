@@ -16,7 +16,7 @@ if hash gpgconf 2> /dev/null; then
 		gpgconf --launch dirmngr
 	fi
 
-    if [ -z ${SSH_AUTH_SOCK+x} ]; then
+    if [[ -z ${SSH_AUTH_SOCK+x} && -f "$HOME/.gnupg/sshcontrol" ]]; then
         export SSH_AGENT_PID=
         SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
         export SSH_AUTH_SOCK

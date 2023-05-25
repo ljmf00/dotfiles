@@ -8,6 +8,8 @@
 #
 
 # shellcheck disable=SC1090
+source "$HOME/.oh-luis-bash/os.sh"
+# shellcheck disable=SC1090
 source "$HOME/.oh-luis-bash/env.sh"
 
 # If not running interactively, don't do anything!
@@ -37,6 +39,8 @@ trap _bashrc_akey_continue EXIT
 source "$HOME/.oh-luis-bash/ienv.sh"
 # shellcheck disable=SC1090
 source "$HOME/.oh-luis-bash/gpg.sh"
+# shellcheck disable=SC1090
+source "$HOME/.oh-luis-bash/ssh.sh"
 # shellcheck disable=SC1090
 source "$HOME/.oh-luis-bash/alias.sh"
 # shellcheck disable=SC1090

@@ -22,6 +22,14 @@ else
 fi
 export JAVA_HOME
 
+# Python
+export PYENV_ROOT="$HOME/.pyenv"
+
+if hash pyenv 2>/dev/null; then
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init -)"
+fi
+
 # Android
 export ANDROID_HOME=/opt/android-sdk
 
