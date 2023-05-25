@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+# shellcheck disable=SC1090
+source "$HOME/.oh-luis-bash/env.sh"
+
+# Editor configurations
+if hash nvim 2> /dev/null; then
+    EDITOR='nvim'
+    VISUAL='nvim'
+# fallback to vim
+elif hash vim 2> /dev/null; then
+    EDITOR='vim'
+    VISUAL='vim'
+# fallback to vi if none found
+else
+    EDITOR='vi'
+    VISUAL='vi'
+fi
+
+export EDITOR
+export VISUAL
+
+# If not running interactively, don't do anything!
+if [[ ! -t 0 ]]; then
+    # shellcheck disable=SC2116
+    "$EDITOR" "${@:-$(echo <(echo))}"
+    exit 0
+fi
+
+if [ "$TERM" == "xterm-kitty" ]; then
+    # shellcheck disable=SC1090
+    source "$HOME/.oh-luis-bash/term.sh"
+
+    if alias edit-in-kitty >/dev/null 2>&1; then
+        edit-in-kitty --type os-window "${@:-/dev/null}"
+    elif hash kitten 2> /dev/null; then
+        kitten edit-in-kitty --type os-window "${@:-/dev/null}"
+    else
+        # shellcheck disable=SC2116
+        "$EDITOR" "${@:-$(echo <(echo))}"
+    fi
+else
+    # shellcheck disable=SC2116
+    "$EDITOR" "${@:-$(echo <(echo))}"
+fi

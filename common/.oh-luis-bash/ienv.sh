@@ -3,9 +3,7 @@
 # shellcheck disable=SC2034
 # shellcheck disable=SC2015
 
-#
-# ~/.bashrc
-#
-
-# shellcheck disable=SC1090
-source "$HOME/.oh-luis-bash/common.sh"
+# set $TERM variable if not set
+if [ -z ${TERM+x} ]; then
+    export TERM=xterm
+fi
