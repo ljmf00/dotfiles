@@ -8,6 +8,7 @@ resource "cloudflare_record" "lsferreira_net_mx1" {
   value = "mail.protonmail.ch"
   priority = 10
   type = "MX"
+  allow_overwrite = true
 }
 
 resource "cloudflare_record" "lsferreira_net_mx2" {
@@ -16,6 +17,7 @@ resource "cloudflare_record" "lsferreira_net_mx2" {
   value = "mailsec.protonmail.ch"
   priority = 20
   type = "MX"
+  allow_overwrite = true
 }
 
 resource "cloudflare_record" "luisf_eu_org_mx1" {
@@ -24,6 +26,7 @@ resource "cloudflare_record" "luisf_eu_org_mx1" {
   value = "route1.mx.cloudflare.net"
   priority = 36
   type = "MX"
+  allow_overwrite = true
 }
 
 resource "cloudflare_record" "luisf_eu_org_mx2" {
@@ -32,6 +35,7 @@ resource "cloudflare_record" "luisf_eu_org_mx2" {
   value = "route2.mx.cloudflare.net"
   priority = 34
   type = "MX"
+  allow_overwrite = true
 }
 
 resource "cloudflare_record" "luisf_eu_org_mx3" {
@@ -40,6 +44,7 @@ resource "cloudflare_record" "luisf_eu_org_mx3" {
   value = "route3.mx.cloudflare.net"
   priority = 3
   type = "MX"
+  allow_overwrite = true
 }
 
 
@@ -52,6 +57,7 @@ resource "cloudflare_record" "lsferreira_net_spf" {
   name = "lsferreira.net"
   value = "v=spf1 include:mx.ovh.com include:_spf.protonmail.ch mx ~all"
   type = "TXT"
+  allow_overwrite = true
 }
 
 resource "cloudflare_record" "luisf_eu_org_spf" {
@@ -59,6 +65,7 @@ resource "cloudflare_record" "luisf_eu_org_spf" {
   name = "luisf.eu.org"
   value = "v=spf1 include:_spf.mx.cloudflare.net ~all"
   type = "TXT"
+  allow_overwrite = true
 }
 
 resource "cloudflare_record" "lsferreira_net_dmarc" {
@@ -66,6 +73,7 @@ resource "cloudflare_record" "lsferreira_net_dmarc" {
   name = "_dmarc"
   value = "v=DMARC1; p=reject; sp=reject; pct=100; rua=mailto:dmarc@lsferreira.net; ruf=mailto:dmarc@lsferreira.net; fo=1:s:d; adkim=r; aspf=r"
   type = "TXT"
+  allow_overwrite = true
 }
 
 resource "cloudflare_record" "luisf_eu_org_dmarc" {
@@ -73,6 +81,7 @@ resource "cloudflare_record" "luisf_eu_org_dmarc" {
   name = "_dmarc"
   value = "v=DMARC1; p=none; rua=mailto:e2275650eefe4c569fcc378083e6f5ea@dmarc-reports.cloudflare.net;"
   type = "TXT"
+  allow_overwrite = true
 }
 
 # =============================================================================
@@ -85,6 +94,7 @@ resource "cloudflare_record" "lsferreira_net_dkim1" {
   value = "protonmail.domainkey.d3o6sspqrfqz73aqmw6ghj2f22kp3ob77j72axb34nj3dnhp4aqxa.domains.proton.ch"
   proxied = false
   type = "CNAME"
+  allow_overwrite = true
 }
 
 resource "cloudflare_record" "lsferreira_net_dkim2" {
@@ -93,6 +103,7 @@ resource "cloudflare_record" "lsferreira_net_dkim2" {
   value = "protonmail2.domainkey.d3o6sspqrfqz73aqmw6ghj2f22kp3ob77j72axb34nj3dnhp4aqxa.domains.proton.ch"
   proxied = false
   type = "CNAME"
+  allow_overwrite = true
 }
 
 resource "cloudflare_record" "lsferreira_net_dkim3" {
@@ -101,6 +112,7 @@ resource "cloudflare_record" "lsferreira_net_dkim3" {
   value = "protonmail3.domainkey.d3o6sspqrfqz73aqmw6ghj2f22kp3ob77j72axb34nj3dnhp4aqxa.domains.proton.ch"
   proxied = false
   type = "CNAME"
+  allow_overwrite = true
 }
 
 # =============================================================================
