@@ -90,14 +90,20 @@ alias view-video-1080p='mpv --ytdl-format="bestvideo[height<=?1080][fps<=?60][vc
 
 # Misc
 alias waka='npx waka'
-alias v='nvim'
-alias bashconfig='$EDITOR ~/.bashrc'
+alias v='"$EDITOR"'
+alias bashconfig='"$EDITOR" ~/.bashrc'
 alias cls='printf "\033c"'
 alias ccat='pygmentize -g'
 alias lccat='pygmentize -g -O style=colorful,linenos=1'
 alias please='sudo'
 alias task='dstask'
 alias t='dstask'
+
+if hash lsd 2>/dev/null; then
+  alias ls='lsd'
+else
+  alias ls='ls --color'
+fi
 
 # Fancy dir alias
 function d () {
