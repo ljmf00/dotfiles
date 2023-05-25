@@ -1,12 +1,13 @@
-format = "$username[@](cyan bold)$hostname [$directory](bold green) [$cmd_duration](bold gray) $status $character"
+format = "$username[@](cyan bold)$hostname [$directory](bold green)$cmd_duration $status$git_status$git_commit$git_branch$character"
 right_format = ""
 add_newline = false
 scan_timeout = 50
 command_timeout = 500
+continuation_prompt = "[>](bold purple) "
 
 [character]
-success_symbol = "[►](bold green)"
-error_symbol = "[►](bold red)"
+success_symbol = "[\\$](bold purple)"
+error_symbol = "[\\$](bold red)"
 
 [username]
 style_user = "cyan bold"
@@ -27,6 +28,25 @@ truncation_symbol = "…/"
 
 [status]
 style = "bold red"
-format = '[\[$symbol $common_meaning$signal_name$maybe_int\]]($style) '
+format = '[$common_meaning$signal_name$maybe_int]($style) '
 map_symbol = true
 disabled = false
+
+[cmd_duration]
+min_time = 0
+format = '[$duration](bold dimmed bright-black)'
+
+[git_branch]
+style = 'bold blue'
+format = '[\[$branch(:$remote_branch)\]]($style) '
+always_show_remote = false
+truncation_length = 32
+
+[git_commit]
+style = 'bold blue'
+format = '[\[$hash\]]($style) '
+
+[git_status]
+style = 'bold blue'
+format = '[$modified]($style)'
+modified = '*'

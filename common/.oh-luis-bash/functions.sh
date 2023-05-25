@@ -7,6 +7,23 @@
 #      FUNCTION DEFINITIONS
 # ===============================
 
+# wait for user input
+_bashrc_akey_continue() { read -n 1 -s -r -p "Press any key to continue"; }
+
+# define set_windowtitle and ncolors as early as possible
+case "$TERM" in
+    xterm*|rxvt*|Eterm|aterm|kterm|gnome*|linux*|tmux*)
+        _bashrc_set_windowtitle() {
+            echo -ne "\033]0;$*\007"
+        }
+        ;;
+    *)
+        _bashrc_set_windowtitle() {
+            :
+        }
+        ;;
+esac
+
 task-statistics() {
 	task burndown.monthly
 	task ghistory
