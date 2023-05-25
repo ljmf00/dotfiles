@@ -22,5 +22,6 @@ install_group_packages:
     - neovim
     - lsd
     - jedi-language-server
+    - starship
   aur:
     - serve-d-git
