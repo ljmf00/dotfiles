@@ -5,7 +5,7 @@ data "cloudflare_zones" "lsferreira_net" {
 }
 
 resource "cloudflare_zone_settings_override" "lsferreira_net_settings" {
-    zone_id = data.cloudflare_zones.lsferreira_net.id
+    zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
 
     settings {
         # SSL/TLS
