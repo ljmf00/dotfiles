@@ -1,5 +1,5 @@
 resource "cloudflare_page_rule" "page_rule_1" {
-  zone_id = data.cloudflare_zones.lsferreira_net.id
+  zone_id = var.cloudflare_zone_id
   target = "http://*.lsferreira.net/*"
   priority = 1
 
@@ -9,7 +9,7 @@ resource "cloudflare_page_rule" "page_rule_1" {
 }
 
 resource "cloudflare_page_rule" "page_rule_2" {
-  zone_id = data.cloudflare_zones.lsferreira_net.id
+  zone_id = var.cloudflare_zone_id
   target = "http://lsferreira.net/*"
   priority = 2
 
@@ -19,7 +19,7 @@ resource "cloudflare_page_rule" "page_rule_2" {
 }
 
 resource "cloudflare_page_rule" "page_rule_3" {
-  zone_id = data.cloudflare_zones.lsferreira_net.id
+  zone_id = var.cloudflare_zone_id
   target = "lsferreira.net/*"
   priority = 3
 
