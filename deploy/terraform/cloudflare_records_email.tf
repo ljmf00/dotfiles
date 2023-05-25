@@ -8,7 +8,6 @@ resource "cloudflare_record" "mx1" {
   value = "mail.protonmail.ch"
   priority = 10
   type = "MX"
-  allow_overwrite = true
 }
 
 resource "cloudflare_record" "mx2" {
@@ -17,7 +16,6 @@ resource "cloudflare_record" "mx2" {
   value = "mailsec.protonmail.ch"
   priority = 20
   type = "MX"
-  allow_overwrite = true
 }
 
 
@@ -49,7 +47,6 @@ resource "cloudflare_record" "dkim1" {
   value = "protonmail.domainkey.d3o6sspqrfqz73aqmw6ghj2f22kp3ob77j72axb34nj3dnhp4aqxa.domains.proton.ch"
   proxied = false
   type = "CNAME"
-  allow_overwrite = true
 }
 
 resource "cloudflare_record" "dkim2" {
@@ -58,7 +55,6 @@ resource "cloudflare_record" "dkim2" {
   value = "protonmail2.domainkey.d3o6sspqrfqz73aqmw6ghj2f22kp3ob77j72axb34nj3dnhp4aqxa.domains.proton.ch"
   proxied = false
   type = "CNAME"
-  allow_overwrite = true
 }
 
 resource "cloudflare_record" "dkim3" {
@@ -67,7 +63,6 @@ resource "cloudflare_record" "dkim3" {
   value = "protonmail3.domainkey.d3o6sspqrfqz73aqmw6ghj2f22kp3ob77j72axb34nj3dnhp4aqxa.domains.proton.ch"
   proxied = false
   type = "CNAME"
-  allow_overwrite = true
 }
 
 # =============================================================================
