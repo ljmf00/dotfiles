@@ -71,7 +71,7 @@ resource "cloudflare_record" "lsferreira_net_dmarc" {
 resource "cloudflare_record" "luisf_eu_org_dmarc" {
   zone_id = data.cloudflare_zones.luisf_eu_org.zones[0].id
   name = "_dmarc"
-  value = "v=DMARC1; p=reject; sp=reject; pct=100; rua=mailto:dmarc@luisf.eu.org; ruf=mailto:dmarc@luisf.eu.org; fo=1:s:d; adkim=r; aspf=r"
+  value = "v=DMARC1; p=none; rua=mailto:e2275650eefe4c569fcc378083e6f5ea@dmarc-reports.cloudflare.net;"
   type = "TXT"
 }
 
