@@ -1,4 +1,4 @@
 resource "cloudflare_argo" "lsferreira_net" {
-  zone_id = data.cloudflare_zones.lsferreira_net.id
+  zone_id = var.cloudflare_zone_id
   tiered_caching = "on"
 }
