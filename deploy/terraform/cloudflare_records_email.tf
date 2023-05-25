@@ -79,24 +79,24 @@ resource "cloudflare_record" "luisf_eu_org_dmarc" {
 # DKIM
 # =============================================================================
 
-resource "cloudflare_record" "dkim1" {
-  zone_id = var.cloudflare_zone_id
+resource "cloudflare_record" "lsferreira_net_dkim1" {
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name = "protonmail._domainkey"
   value = "protonmail.domainkey.d3o6sspqrfqz73aqmw6ghj2f22kp3ob77j72axb34nj3dnhp4aqxa.domains.proton.ch"
   proxied = false
   type = "CNAME"
 }
 
-resource "cloudflare_record" "dkim2" {
-  zone_id = var.cloudflare_zone_id
+resource "cloudflare_record" "lsferreira_net_dkim2" {
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name = "protonmail2._domainkey"
   value = "protonmail2.domainkey.d3o6sspqrfqz73aqmw6ghj2f22kp3ob77j72axb34nj3dnhp4aqxa.domains.proton.ch"
   proxied = false
   type = "CNAME"
 }
 
-resource "cloudflare_record" "dkim3" {
-  zone_id = var.cloudflare_zone_id
+resource "cloudflare_record" "lsferreira_net_dkim3" {
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name = "protonmail3._domainkey"
   value = "protonmail3.domainkey.d3o6sspqrfqz73aqmw6ghj2f22kp3ob77j72axb34nj3dnhp4aqxa.domains.proton.ch"
   proxied = false
