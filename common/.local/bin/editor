@@ -19,8 +19,8 @@ function usage()
     echo
     echo "  -h --help         Print help"
     echo "  -g --goto <alias> Goto specified alias before edit"
-    echo "     --nodetached   Don't try to run in a detached window"
-    echo "     --nosession    Don't try to attach to a tmux session"
+    echo "  -n --nodetached   Don't try to run in a detached window"
+    echo "  -s --session      Attach to a tmux session"
     echo
     echo "Report bugs to: <https://github.com/ljmf00/dotfiles/issues>"
 }
@@ -28,11 +28,11 @@ function usage()
 function main()
 {
     local galias='' gpath=.
-    local insession=true detached=true
+    local insession=false detached=true
 
     local paths=()
     local args=
-    args=$(getopt -o hg:                                  \
+    args=$(getopt -o hnsg:                                \
                    --long goto:,nodetached,nosession,help \
                    -n 'editor' -- "$@"                    \
           )
@@ -45,8 +45,8 @@ function main()
 
     while true; do
         case "$1" in
-            --nosession )
-                insession=false
+            --session | -s )
+                insession=true
                 shift ;;
             --goto | -g    )
                 galias="$2"
@@ -61,7 +61,7 @@ function main()
                 fi
 
                 shift 2 ;;
-            --nodetached )
+            --nodetached | -n )
                 detached=false
                 shift ;;
             --help | -h     ) usage; return 0 ;;
@@ -114,6 +114,13 @@ function main()
 
     cd "$gpath"
 
+    local edit_args=('-S' 'Session.vim')
+
+    if [ -f "${paths:-.}" ] || [ "${#paths[@]}" -gt 1 ]; then
+        edit_args=()
+    fi
+    edit_args+=( "${paths:-.}" )
+
     if [ "$insession" = true ]; then
         if [ "$detached" = false ] && [ -n "${TMUX+x}" ]; then
             # shellcheck disable=SC2016
@@ -135,15 +142,15 @@ function main()
         done
 
         if [ "$detached" = true ]; then
-            exec sensible-terminal tmux new -s "$edithash" "$EDITOR" -S Session.vim "${paths:-.}"
+            exec sensible-terminal tmux new -s "$edithash" "$EDITOR" "${edit_args[@]}"
         fi
-        exec tmux new -s "$edithash" "$EDITOR" -S Session.vim "${paths:-.}"
+        exec tmux new -s "$edithash" "$EDITOR" "${edit_args[@]}"
     fi
 
     if [ "$detached" = true ]; then
-        exec sensible-terminal "$EDITOR" -S Session.vim "${paths:-.}"
+        exec sensible-terminal "$EDITOR" "${edit_args[@]}"
     fi
-    exec "$EDITOR" -S Session.vim "${paths:-.}"
+    exec "$EDITOR" "${edit_args[@]}"
 }
 
 main "$@"
