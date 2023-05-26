@@ -8,5 +8,9 @@ if [[ -z ${SSH_AUTH_SOCK+x} ]]; then
         ssh-agent -t 15m > "$XDG_RUNTIME_DIR/ssh-agent.env"
     fi
 
-    source "$XDG_RUNTIME_DIR/ssh-agent.env" >/dev/null
+    if [ -f "$XDG_RUNTIME_DIR/ssh-agent.env" ]; then
+        source "$XDG_RUNTIME_DIR/ssh-agent.env" >/dev/null
+    else
+        eval "$(ssh-agent -t 15m | tee "$XDG_RUNTIME_DIR/ssh-agent.env")"
+    fi
 fi
