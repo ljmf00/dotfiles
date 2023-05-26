@@ -26,7 +26,9 @@ export JAVA_HOME
 if ! hash pyenv 2>/dev/null; then
     export PYENV_ROOT="$HOME/.pyenv"
     export PATH="$PYENV_ROOT/bin:$PATH"
+fi
 
+if hash pyenv 2>/dev/null; then
     eval "$(pyenv init -)"
 fi
 
