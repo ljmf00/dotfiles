@@ -87,8 +87,6 @@ networks:
     name: services-tor
   i2p:
     name: services-i2p
-  proxy:
-    name: services-proxy
 
 volumes:
   mybox:
