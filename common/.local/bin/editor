@@ -135,15 +135,15 @@ function main()
         done
 
         if [ "$detached" = true ]; then
-            exec sensible-terminal tmux new -s "$edithash" "$EDITOR" "${paths:-.}"
+            exec sensible-terminal tmux new -s "$edithash" "$EDITOR" -S Session.vim "${paths:-.}"
         fi
-        exec tmux new -s "$edithash" "$EDITOR" "${paths:-.}"
+        exec tmux new -s "$edithash" "$EDITOR" -S Session.vim "${paths:-.}"
     fi
 
     if [ "$detached" = true ]; then
-        exec sensible-terminal "$EDITOR" "${paths:-.}"
+        exec sensible-terminal "$EDITOR" -S Session.vim "${paths:-.}"
     fi
-    exec "$EDITOR" "${paths:-.}"
+    exec "$EDITOR" -S Session.vim "${paths:-.}"
 }
 
 main "$@"
