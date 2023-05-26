@@ -123,7 +123,7 @@ function main()
         unset TMUX
 
         local edithash=
-        edithash="editor-$(echo "$(pwd) ${paths:-.}" | sha224sum - | cut -d' ' -f1)"
+        edithash="editor-$(echo "$(pwd) $(readlink -f "${paths:-.}")" | sha224sum - | cut -d' ' -f1)"
 
         for ts in $(tmux ls | cut -d: -f1); do
             if [ "$ts" == "$edithash" ]; then
