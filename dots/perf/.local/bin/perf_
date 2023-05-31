@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SYSCTL_KPTR_RESTRICT="$(sysctl -n kernel.kptr_restrict)"
+SYSCTL_PERF_PARANOID="$(sysctl -n kernel.perf_event_paranoid)"
+
+if [ "$SYSCTL_KPTR_RESTRICT" -ne 0 ]; then sudo sysctl -w kernel.kptr_restrict=0; fi
+if [ "$SYSCTL_PERF_PARANOID" -ne -1 ]; then sudo sysctl -w kernel.perf_event_paranoid=-1; fi
+
+function cleanup {
+    if [ "$SYSCTL_KPTR_RESTRICT" -ne 0 ]; then sudo sysctl -w kernel.kptr_restrict="$SYSCTL_KPTR_RESTRICT"; fi
+    if [ "$SYSCTL_PERF_PARANOID" -ne 1 ]; then sudo sysctl -w kernel.perf_event_paranoid="$SYSCTL_PERF_PARANOID"; fi
+}
+
+trap cleanup EXIT
+
+if [ "${1:-}" == "flamegraph" ]; then
+    perf script \
+        | ~/dotfiles/3rdparty/scripts/flamegraph/stackcollapse-perf.pl \
+        | ~/dotfiles/3rdparty/scripts/flamegraph/flamegraph.pl > "${2-flamegraph.xml}"
+
+    exit "$?"
+fi
+
+exec perf "$@"

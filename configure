@@ -1,1 +1,43 @@
-configure.sh
+#!/usr/bin/env bash
+
+# set safe failures
+set -euxo pipefail
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  DOTFILES_FOLDER="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DOTFILES_FOLDER/$SOURCE"
+done
+DOTFILES_FOLDER="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+unset SOURCE
+
+###############################################################################
+
+function main()
+{
+  (cd "$DOTFILES_FOLDER" && git worktree add dist HEAD -fdq 2>/dev/null) || :
+
+  mkdir -p "$DOTFILES_FOLDER/dist"
+  (cd "$DOTFILES_FOLDER/dist" && git checkout HEAD -f 2>/dev/null) || :
+
+  rsync -av --exclude dist --exclude .git --delete \
+    "$DOTFILES_FOLDER/" "$DOTFILES_FOLDER/dist/"
+
+  local machine_path=
+  machine_path="$DOTFILES_FOLDER/dist/machines/$(cat /etc/hostname)"
+  if [ ! -f "$machine_path" ]; then
+    machine_path="$DOTFILES_FOLDER/dist/machines/generic"
+  fi
+
+  grep '^d ' < "$machine_path" | cut -d' ' -f2 | \
+    xargs -I{} stow --target="$HOME" -v -d "$DOTFILES_FOLDER/dist/dots" -R {}
+
+  grep '^s ' < "$machine_path" | cut -d' ' -f2 | \
+    xargs -I{} bash -c "$DOTFILES_FOLDER/dist/scripts/{}"
+
+  grep '^S ' < "$machine_path" | cut -d' ' -f2 | \
+    xargs -I{} service create {}
+}
+
+main "$@"

@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-export DOCKER_BUILDKIT=1
-
-docker compose -f ~/dotfiles/deploy/docker/compose.yaml logs -tf "$@"

@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+function docker_service()
+{
+    # needed for old docker cli
+    export DOCKER_BUILDKIT=1
+
+    if ! docker buildx inspect dotservices >/dev/null 2>&1; then
+        docker buildx create \
+            --driver docker-container \
+            --name dotservices \
+            --bootstrap
+    fi
+
+    export BUILDX_BUILDER=dotservices
+
+    case "$1" in
+        start)
+            docker compose -f ~/dotfiles/dist/deploy/compose.yaml up -d --remove-orphans "${@:2}"
+            ;;
+        stop)
+            docker compose -f ~/dotfiles/dist/deploy/compose.yaml stop "${@:2}"
+            ;;
+        create)
+            docker compose -f ~/dotfiles/dist/deploy/compose.yaml create "${@:2}"
+            ;;
+        recreate)
+            docker_service drop "${@:2}"
+            docker_service start "${@:2}"
+            ;;
+        drop)
+            docker compose -f ~/dotfiles/dist/deploy/compose.yaml rm -svf "${@:2}"
+            ;;
+        status)
+            docker compose -f ~/dotfiles/dist/deploy/compose.yaml ps "${@:2}"
+            ;;
+        logs)
+            docker compose -f ~/dotfiles/dist/deploy/compose.yaml logs -tf "${@:2}"
+            ;;
+        build)
+            docker compose -f ~/dotfiles/dist/deploy/compose.yaml build --pull --progress plain "${@:2}"
+            ;;
+        *)
+            echo "Unknown service command" >&2
+            exit 1
+            ;;
+    esac
+}
+
+function sys_service()
+{
+    case "$1" in
+        drop | build | logs | recreate)
+            echo "Unknown service command" >&2
+            exit 1
+            ;;
+        *)
+            systemctl "$1" "$2"
+            ;;
+    esac
+}
+
+function main()
+{
+    local avail_services=()
+    # shellcheck disable=SC2207
+    avail_services=( $(docker compose -f "$HOME/dotfiles/deploy/compose.yaml" config --services) )
+
+    if [ -z "${2+x}" ]; then
+        docker_service "$1"
+        exit 0
+    fi
+
+    for service in "${@:2}"; do
+        if [[ " ${avail_services[*]} " == *" $service "* ]]; then
+            docker_service "$1" "$service"
+        else
+            sys_service "$1" "$service"
+        fi
+    done
+}
+
+main "$@"

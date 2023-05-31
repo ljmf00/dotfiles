@@ -1,0 +1,18 @@
+d core
+
+d perf
+d tmux
+d nvim
+d helix
+d htop
+d wm-common
+d wm-i3
+d wm-qtile
+
+s touch-files
+s config-busybox
+s config-gnome
+s fix-permissions
+
+S dns
+S box

@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-perf script \
-    | ~/dotfiles/3rdparty/scripts/flamegraph/stackcollapse-perf.pl \
-    | ~/dotfiles/3rdparty/scripts/flamegraph/flamegraph.pl > "${1-flamegraph.xml}"

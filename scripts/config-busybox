@@ -1,0 +1,5 @@
+#!/bin/sh
+
+if type busybox >/dev/null 2>&1; then
+    busybox --install -s "$HOME/.local/bin/"
+fi
