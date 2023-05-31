@@ -1,12 +1,12 @@
 User tor
-SOCKSPort 9050
+SOCKSPort 172.99.1.2:9050
 Log notice syslog
 DataDirectory /var/lib/tor
 
 ControlPort 9051
 CookieAuthentication 1
 
-DNSPort 9053
+DNSPort 172.99.1.2:9053
 AutomapHostsOnResolve 1
 AutomapHostsSuffixes .exit,.onion
 
