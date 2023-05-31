@@ -1,0 +1,107 @@
+(snip) {
+    prometheus
+    log
+    errors
+}
+
+. {
+    import snip
+
+    health
+    cache
+
+    minimal
+    any
+
+    template ANY ANY test example invalid localhost {
+      rcode NXDOMAIN
+    }
+
+    forward . 172.99.1.2:9053
+    alternate SERVFAIL,NOTIMP,REFUSED . 127.0.0.1:2053
+}
+
+onion tor exit {
+    import snip
+
+    health
+    cache
+
+    minimal
+    any
+
+    forward . 172.99.1.2:9053
+}
+
+eth.link {
+    import snip
+
+    rewrite stop {
+        name regex (.*)\.eth\.link {1}.eth
+        answer name (.*)\.eth {1}.eth.link
+    }
+}
+
+eth {
+    import snip
+
+    health
+    cache
+
+    minimal
+    any
+
+    template ANY ANY test example invalid localhost {
+      rcode NXDOMAIN
+    }
+
+    ens {
+      connection https://ethereum.publicnode.com
+
+      ethlinknameservers ns1.ethdns.xyz ns2.ethdns.xyz
+
+      ipfsgatewaya 209.94.90.1
+      ipfsgatewayaaaa 2602:fea2:2::1
+    }
+}
+
+
+.:2053 {
+    import snip
+    bind lo
+
+    health
+
+    forward . tls://1.1.1.1 tls://1.0.0.1 {
+        tls_servername cloudflare-dns.com
+        health_check 5s
+    }
+
+    forward . tls://8.8.8.8 tls://8.8.4.4 {
+        tls_servername dns.google
+        health_check 5s
+    }
+
+    alternate SERVFAIL,NOTIMP,REFUSED . 127.0.0.1:3053
+}
+
+.:3053 {
+    import snip
+    bind lo
+
+    health
+
+    forward . 103.196.38.38 103.196.38.39 103.196.38.40
+    alternate SERVFAIL,NOTIMP,REFUSED . 127.0.0.1:9953
+
+}
+
+.:9953 {
+    import snip
+    bind lo
+
+    health
+
+    local
+    forward . /etc/resolv.conf
+}

@@ -1,5 +1,6 @@
 version: "3.9"
 
+name: dotservices
 services:
   box:
     container_name: mybox-container
@@ -23,16 +24,19 @@ services:
       - '/dev/shm:/dev/shm'
       - '/:/mnt'
       - '/tmp/.X11-unix:/tmp/.X11-unix'
-      - 'mybox:/home/luis/'
+      - 'box:/home/luis/'
 
   tor:
     container_name: services-tor
     restart: unless-stopped
     image: ljmf00/service-tor:latest
     build:
-      context: services/tor
+      context: docker/services/tor
     networks:
-      - tor
+      tor:
+      dns:
+        ipv4_address: 172.99.1.2
+        ipv6_address: fd99:1::2
     cap_drop:
       - ALL
     cap_add:
@@ -52,7 +56,7 @@ services:
     container_name: services-i2p
     restart: unless-stopped
     build:
-      context: services/i2p
+      context: docker/services/i2p
     networks:
       - i2p
     tmpfs:
@@ -64,7 +68,7 @@ services:
     restart: unless-stopped
     image: ljmf00/service-ipfs:latest
     build:
-      context: services/ipfs
+      context: docker/services/ipfs
     networks:
       - ipfs
     cap_drop:
@@ -80,6 +84,40 @@ services:
     healthcheck:
       test: ["CMD", "/usr/bin/wget", "http://127.0.0.1:8080/ipfs/bafkreig24ijzqxj3cxdp6yh6ia2ysxzvxsfnd6rzahxxjv6ofcuix52wtq"]
 
+  dns:
+    container_name: services-dns
+    restart: unless-stopped
+    image: ljmf00/service-dns:latest
+    build:
+      context: docker/services/dns
+    command: -dns.port=1053
+    volumes:
+      - ./docker/services/dns/Corefile:/Corefile:ro
+    depends_on:
+      - tor
+    networks:
+      dns:
+        ipv4_address: 172.99.1.3
+        ipv6_address: fd99:1::3
+    cap_drop:
+      - ALL
+    ports:
+      - 53:1053/tcp
+      - 53:1053/udp
+    dns:
+      # only needed for ens public resolution
+      - 1.1.1.1
+      - 1.0.0.1
+      - 2606:4700:4700::1111
+      - 2606:4700:4700::1001
+    tmpfs:
+      - /run
+      - /tmp
+
+  http:
+    container_name: services-http
+    image: docker.io/library/traefik:v3.0
+
 networks:
   ipfs:
     name: services-ipfs
@@ -87,12 +125,19 @@ networks:
     name: services-tor
   i2p:
     name: services-i2p
+  dns:
+    name: services-dns
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.99.1.0/24
+        - subnet: fd99:1::/64
 
 volumes:
-  mybox:
+  box:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: $HOME/.mybox
-    name: mybox
+      device: $HOME/.local/share/dotfiles/mybox
+    name: dotservices-box
