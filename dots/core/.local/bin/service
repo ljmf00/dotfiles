@@ -2,6 +2,11 @@
 
 function docker_service()
 {
+    if ! hash docker 2>/dev/null; then
+        echo "No 'docker' found. Skipping '$1' on '$2'"
+        return
+    fi
+
     # needed for old docker cli
     export DOCKER_BUILDKIT=1
 
@@ -62,6 +67,11 @@ function sys_service()
 
 function main()
 {
+    if ! hash docker 2>/dev/null; then
+        echo "No 'docker' found. Skipping $* for now."
+        return
+    fi
+
     local avail_services=()
     # shellcheck disable=SC2207
     avail_services=( $(docker compose -f "$HOME/dotfiles/deploy/compose.yaml" config --services) )
