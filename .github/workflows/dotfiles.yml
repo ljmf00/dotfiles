@@ -31,7 +31,7 @@ jobs:
     - name: Run dotfiles configuration script w/ minimal installation
       run: |
         pacman -Syy --needed --noconfirm --noprogressbar \
-          bind-tools xdg-utils rsync sudo
+          bind-tools xdg-utils rsync sudo stow
         useradd -g users -G wheel -m luis
         echo "${{ matrix.workspace }}" > /etc/hostname
         chown -R luis:users .
