@@ -24,7 +24,7 @@ jobs:
     - name: Checkout submodules
       run: |
         # inside the container git --global configuration isn't set
-        git config --global --add safe.directory "$(pwd)"
+        git config --global --add safe.directory '*'
 
         git submodule sync
         git -c protocol.version=2 submodule update --init --force --depth=1 3rdparty/
