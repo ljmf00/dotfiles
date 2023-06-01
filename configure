@@ -16,18 +16,23 @@ unset SOURCE
 
 function main()
 {
-  pushd "$DOTFILES_FOLDER"
+  (
+    pushd "$DOTFILES_FOLDER"
 
-  local git_hash=
-  git_hash="$(git rev-parse HEAD)"
-  git worktree add --detach dist "$git_hash" -fdq 2>/dev/null || :
+    local git_hash=
+    git_hash="$(git rev-parse HEAD)"
+    git worktree add --detach dist "$git_hash" -fdq 2>/dev/null || :
 
-  mkdir -p "$DOTFILES_FOLDER/dist"
-  (cd "$DOTFILES_FOLDER/dist" && git checkout "$git_hash" -f 2>/dev/null) || :
+    mkdir -p "$DOTFILES_FOLDER/dist"
+    (cd "$DOTFILES_FOLDER/dist" && git checkout "$git_hash" -f 2>/dev/null) || :
 
-  popd
+    popd
+  )
 
-  rsync -av --exclude dist --exclude .git --delete \
+  rsync -av \
+    --exclude dist \
+    --exclude .git \
+    --delete \
     "$DOTFILES_FOLDER/" "$DOTFILES_FOLDER/dist/"
 
   local machine_path=
@@ -36,13 +41,16 @@ function main()
     machine_path="$DOTFILES_FOLDER/dist/machines/generic"
   fi
 
-  grep '^d ' < "$machine_path" | cut -d' ' -f2 | \
+  (grep '^d ' < "$machine_path" | cut -d' ' -f2 || :) | \
     xargs -I{} stow --target="$HOME" -v -d "$DOTFILES_FOLDER/dist/dots" -R {}
 
-  grep '^s ' < "$machine_path" | cut -d' ' -f2 | \
+  (grep '^C ' < "$machine_path" | cut -d' ' -f2 || :) | \
+    xargs -I{} rsync -av "$DOTFILES_FOLDER/dist/dots/{}/" "$HOME/"
+
+  (grep '^s ' < "$machine_path" | cut -d' ' -f2 || :) | \
     xargs -I{} bash -c "$DOTFILES_FOLDER/dist/scripts/{}"
 
-  grep '^S ' < "$machine_path" | cut -d' ' -f2 | \
+  (grep '^S ' < "$machine_path" | cut -d' ' -f2 || :) | \
     xargs -I{} service create {}
 }
 

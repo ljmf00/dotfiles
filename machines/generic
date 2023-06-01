@@ -2,7 +2,7 @@ d core
 
 d perf
 d tmux
-d nvim
+C nvim
 d helix
 d htop
 d wm-common
