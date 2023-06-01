@@ -19,6 +19,7 @@ install_common_packages:
     - perf
     - ripgrep
     - fwupd
+    - stow
   aur:
     - hw-probe
 

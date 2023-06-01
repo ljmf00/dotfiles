@@ -23,5 +23,7 @@ install_group_packages:
     - lsd
     - jedi-language-server
     - starship
+    - kitty-terminfo
+    - kitty
   aur:
     - serve-d-git
