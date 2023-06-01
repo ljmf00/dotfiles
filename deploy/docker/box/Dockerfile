@@ -37,6 +37,7 @@ RUN passwd -d luis
 # hadolint ignore=DL3059
 RUN mkdir -p  /home/luis/dotfiles/
 COPY --link . /home/luis/dotfiles/
+COPY ./deploy/.gitconfig /home/luis/dotfiles/.git/config
 
 RUN chown -R luis:wheel /home/luis/
 
@@ -52,6 +53,9 @@ RUN : \
     && (cd dotfiles; \
         rm -rf private/; \
         rm -rf .git/modules/private/; \
+        rm -rf .git/objects/*; \
+        sudo -u luis git submodule deinit --all; \
+        sudo -u luis git fetch origin; \
         sudo -u luis git checkout -- .; \
         sudo -u luis git reset origin/master --hard; \
         sudo -u luis git clean -fd; \
