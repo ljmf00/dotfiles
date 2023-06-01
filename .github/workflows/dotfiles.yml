@@ -14,6 +14,7 @@ jobs:
     strategy:
       matrix:
         workspace:
+          - generic
           - personal
           - work
     runs-on: ubuntu-latest
@@ -32,7 +33,8 @@ jobs:
         pacman -Syy --needed --noconfirm --noprogressbar \
           bind-tools xdg-utils rsync sudo
         useradd -g users -G wheel -m luis
-        sudo -u luis bash -c 'DOTFILES_WORKSPACE="${{ matrix.workspace }}" ./configure.sh'
+        echo "${{ matrix.workspace }}" > /etc/hostname
+        sudo -u luis ./configure
     - name: Install neovim dependencies
       if: matrix.workspace == 'personal'
       run: |
