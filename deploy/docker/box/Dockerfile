@@ -8,7 +8,7 @@ RUN pacman-key --init && \
 # Install base-devel, git and lib32- libs for gcc runtime and glibc
 RUN pacman -Syyu --noprogressbar --noconfirm                                  \
         base-devel multilib-devel git lib32-gcc-libs lib32-glibc openssh      \
-        python rsync ansible bind-tools xdg-utils sudo supervisor
+        python rsync ansible bind-tools xdg-utils sudo supervisor stow
 
 # Add user
 RUN --network=none                                    : && \
