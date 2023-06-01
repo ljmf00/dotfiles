@@ -46,7 +46,7 @@ RUN : \
     && (cd dotfiles/deploy/ansible; \
         ansible-playbook playbooks/setup-box.yml --inventory-file box_hosts; \
         ) \
-    && sudo -u luis bash -c 'DOTFILES_WORKSPACE=personal ./dotfiles/configure.sh' \
+    && sudo -u luis bash -c './dotfiles/configure' \
     && (cd dotfiles; \
         rm -rf private/; \
         rm -rf .git/modules/private/; \
