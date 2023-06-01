@@ -35,6 +35,7 @@ jobs:
         useradd -g users -G wheel -m luis
         echo "${{ matrix.workspace }}" > /etc/hostname
         chown -R luis:users .
+        sudo -u luis bash -c 'rm -rf ~/.bash*'
         sudo -u luis ./configure
     - name: Install neovim dependencies
       if: matrix.workspace == 'personal'
@@ -44,8 +45,6 @@ jobs:
         sudo -u luis pip install --user neovim
         # Required by coq.nvim
         sudo -u luis bash -c 'mkdir -p ~/.local/share/nvim/site/pack/packer/start/'
-        sudo -u luis bash -c 'git clone https://github.com/ms-jpq/coq_nvim.git ~/.local/share/nvim/site/pack/packer/start/coq_nvim'
-        sudo -u luis bash -c 'cd ~/.local/share/nvim/site/pack/packer/start/coq_nvim && python -m coq deps'
         sudo -u luis bash -c 'echo -e "[settings]\napi_key = 00000000-0000-0000-0000-000000000000" > ~/.wakatime.cfg'
     - name: Install neovim extensions and try to start it
       if: matrix.workspace == 'personal'
