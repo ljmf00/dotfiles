@@ -1,0 +1,13 @@
+d core
+
+d perf
+d tmux
+C nvim
+d helix
+d htop
+
+s touch-files
+s config-gnome
+s fix-permissions
+
+S box
