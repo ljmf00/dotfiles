@@ -16,10 +16,16 @@ unset SOURCE
 
 function main()
 {
-  (cd "$DOTFILES_FOLDER" && git worktree add dist HEAD -fdq 2>/dev/null) || :
+  pushd "$DOTFILES_FOLDER"
+
+  local git_hash=
+  git_hash="$(git rev-parse HEAD)"
+  git worktree add --detach dist "$git_hash" -fdq 2>/dev/null || :
 
   mkdir -p "$DOTFILES_FOLDER/dist"
-  (cd "$DOTFILES_FOLDER/dist" && git checkout HEAD -f 2>/dev/null) || :
+  (cd "$DOTFILES_FOLDER/dist" && git checkout "$git_hash" -f 2>/dev/null) || :
+
+  popd
 
   rsync -av --exclude dist --exclude .git --delete \
     "$DOTFILES_FOLDER/" "$DOTFILES_FOLDER/dist/"
