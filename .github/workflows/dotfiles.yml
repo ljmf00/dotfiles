@@ -34,6 +34,7 @@ jobs:
           bind-tools xdg-utils rsync sudo
         useradd -g users -G wheel -m luis
         echo "${{ matrix.workspace }}" > /etc/hostname
+        chown -R luis:users .
         sudo -u luis ./configure
     - name: Install neovim dependencies
       if: matrix.workspace == 'personal'
