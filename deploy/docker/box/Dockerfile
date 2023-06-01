@@ -46,6 +46,7 @@ RUN : \
     && (cd dotfiles/deploy/ansible; \
         ansible-playbook playbooks/setup-box.yml --inventory-file box_hosts; \
         ) \
+    && echo "mybox" > /etc/hostname \
     && sudo -u luis bash -c './dotfiles/configure' \
     && (cd dotfiles; \
         rm -rf private/; \
