@@ -3,8 +3,8 @@
         excludesfile = ~/.gitignore
         commitGraph = true
 [pull]
-	rebase = true
+        rebase = true
 
 [user]
-	name = Luís Ferreira
-	email = luis.ferreira@weka.io
+        name = Luís Ferreira
+        email = luis.ferreira@weka.io
