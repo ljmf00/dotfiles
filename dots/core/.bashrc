@@ -24,7 +24,7 @@ if [ -d "$HOME/.local/share/dotfiles/busybox/bin" ]; then
 fi
 
 if \hash npm 2>/dev/null; then
-    export NODE_PATH="$HOME/.local/share/dotfiles/node_modules:/usr/lib/node_modules"
+    export NODE_PATH="$HOME/.local/share/dotfiles/node_modules:/usr/local/lib/node_modules:/usr/lib/node_modules"
     mkdir -p "$HOME/.local/share/dotfiles/node_modules/.bin" || :
 
     export PATH="$HOME/.local/share/dotfiles/node_modules/.bin:$PATH"
