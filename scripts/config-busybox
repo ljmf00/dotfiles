@@ -1,5 +1,6 @@
 #!/bin/sh
 
 if type busybox >/dev/null 2>&1; then
-    busybox --install -s "$HOME/.local/bin/"
+    mkdir -p "$HOME/.local/share/dotfiles/busybox/bin"
+    busybox --install -s "$HOME/.local/share/dotfiles/busybox/bin"
 fi
