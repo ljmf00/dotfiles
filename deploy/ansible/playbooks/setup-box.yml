@@ -10,4 +10,5 @@
     - { role: sudo, tags: ['sudo']}
     - { role: sshd, tags: ['sshd'] }
     - { role: base, tags: ['base'] }
-    - { role: packages, tags: ['official-packages'] }
+    - { role: yay, tags: ['yay'] }
+    - { role: packages, tags: ['packages'] }

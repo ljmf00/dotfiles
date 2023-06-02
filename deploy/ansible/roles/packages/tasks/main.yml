@@ -54,7 +54,7 @@
   become: yes
   become_user: aur_builder
   with_items: '{{ install_host_packages.aur }}'
-  when: install_host_packages.aur and inventory_hostname != 'localhost'
+  when: install_host_packages.aur
   tags:
     - packages
     - aur-packages
@@ -67,7 +67,7 @@
   become: yes
   become_user: aur_builder
   with_items: '{{ install_group_packages.aur }}'
-  when: install_group_packages.aur and inventory_hostname != 'localhost'
+  when: install_group_packages.aur
   tags:
     - packages
     - aur-packages
