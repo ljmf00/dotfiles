@@ -18,8 +18,17 @@ if [ -d "$HOME/.local/bin" ]; then
     export PATH="$HOME/.local/bin:$PATH"
 fi
 
-# Aims to fix busybox incompatibility
-[ -f /bin/pgrep ] && alias pgrep='/bin/pgrep' || :
+if [ -d "$HOME/.local/share/dotfiles/busybox/bin" ]; then
+    # Add busybox tools
+    export PATH="$PATH:$HOME/.local/share/dotfiles/busybox/bin"
+fi
+
+if \hash npm 2>/dev/null; then
+    export NODE_PATH="$HOME/.local/share/dotfiles/node_modules:/usr/lib/node_modules"
+    mkdir -p "$HOME/.local/share/dotfiles/node_modules/.bin" || :
+
+    export PATH="$HOME/.local/share/dotfiles/node_modules/.bin:$PATH"
+fi
 
 # ccache configurations
 export USE_CCACHE=1
