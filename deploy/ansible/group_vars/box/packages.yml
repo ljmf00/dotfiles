@@ -25,5 +25,6 @@ install_group_packages:
     - starship
     - kitty-terminfo
     - kitty
+    - ctags
   aur:
     - serve-d-git
