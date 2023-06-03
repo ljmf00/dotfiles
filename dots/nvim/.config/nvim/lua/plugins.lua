@@ -20,7 +20,7 @@ return require('packer').startup(function(use)
     '~/dotfiles/3rdparty/vim/sonokai',
     requires = {
       'neomake/neomake',
-      'nvim-treesitter/nvim-treesitter',
+      '~/dotfiles/3rdparty/vim/nvim-treesitter',
       'yamatsum/nvim-nonicons',
       'itchyny/lightline.vim'
     },
@@ -153,7 +153,7 @@ return require('packer').startup(function(use)
 
   -- Treesitter
   use {
-    'nvim-treesitter/nvim-treesitter',
+    '~/dotfiles/3rdparty/vim/nvim-treesitter',
     run = ":TSUpdate",
     config = function()
       require 'pconfig.c-treesitter'

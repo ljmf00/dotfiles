@@ -31,3 +31,7 @@
 [submodule "3rdparty/scripts/flamegraph"]
 	path = 3rdparty/scripts/flamegraph
 	url = https://github.com/brendangregg/FlameGraph.git
+[submodule "3rdparty/vim/nvim-treesitter"]
+	path = 3rdparty/vim/nvim-treesitter
+	url = https://github.com/ljmf00/nvim-treesitter.git
+	pushurl = git@github.com:ljmf00/nvim-treesitter.git
