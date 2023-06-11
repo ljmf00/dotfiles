@@ -19,7 +19,7 @@ function usage()
     echo
     echo "  -h --help         Print help"
     echo "  -g --goto <alias> Goto specified alias before edit"
-    echo "  -n --nodetached   Don't try to run in a detached window"
+    echo "  -d --detached     Try to run in a detached window"
     echo "  -s --session      Attach to a tmux session"
     echo
     echo "Report bugs to: <https://github.com/ljmf00/dotfiles/issues>"
@@ -28,13 +28,13 @@ function usage()
 function main()
 {
     local galias='' gpath=.
-    local insession=false detached=true
+    local insession=false detached=false
 
     local paths=()
     local args=
-    args=$(getopt -o hnsg:                                \
-                   --long goto:,nodetached,nosession,help \
-                   -n 'editor' -- "$@"                    \
+    args=$(getopt -o hdsg:                              \
+                   --long goto:,detached,session,help   \
+                   -n 'editor' -- "$@"                  \
           )
 
     # shellcheck disable=SC2181
@@ -61,8 +61,8 @@ function main()
                 fi
 
                 shift 2 ;;
-            --nodetached | -n )
-                detached=false
+            --detached | -d )
+                detached=true
                 shift ;;
             --help | -h     ) usage; return 0 ;;
             --              ) shift; break    ;;
@@ -116,7 +116,7 @@ function main()
 
     local edit_args=('-S' 'Session.vim')
 
-    if [ -f "${paths:-.}" ] || [ "${#paths[@]}" -gt 1 ]; then
+    if [ -f "${paths:-.}" ] || [ "${#paths[@]}" -gt 1 ] || [ ! -d "${paths:-.}" ]; then
         edit_args=()
     fi
     edit_args+=( "${paths:-.}" )
