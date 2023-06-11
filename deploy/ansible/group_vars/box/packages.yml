@@ -27,4 +27,4 @@ install_group_packages:
     - kitty
     - ctags
   aur:
-    - serve-d-git
+    # - serve-d-git
