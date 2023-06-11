@@ -47,14 +47,16 @@ function main()
   (grep '^C ' < "$machine_path" | cut -d' ' -f2 || :) | \
     xargs -I{} rsync -av "$DOTFILES_FOLDER/dist/dots/{}/" "$HOME/"
 
-source "$DOTFILES_FOLDER/lib/pkexec.sh"
-source "$DOTFILES_FOLDER/lib/installpkgs.sh"
+  source "$DOTFILES_FOLDER/lib/pkexec.sh"
+  source "$DOTFILES_FOLDER/dist/dots/core/.local/bin/service"
 
-source "$DOTFILES_FOLDER/dist/dots/core/.local/bin/service"
+  if [ "${1:-}" == "install" ]; then
+    source "$DOTFILES_FOLDER/lib/installpkgs.sh"
 
-  for appfile in $(grep '^A ' < "$machine_path" | cut -d' ' -f2 || :); do
-    installpkgs_appfile "$DOTFILES_FOLDER/dist/apps/$appfile" || :
-  done
+    for appfile in $(grep '^A ' < "$machine_path" | cut -d' ' -f2 || :); do
+      installpkgs_appfile "$DOTFILES_FOLDER/dist/apps/$appfile" || :
+    done
+  fi
 
   (grep '^s ' < "$machine_path" | cut -d' ' -f2 || :) | \
     xargs -I{} bash -c "$DOTFILES_FOLDER/dist/scripts/{}"

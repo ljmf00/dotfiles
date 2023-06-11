@@ -13,7 +13,6 @@ s touch-files
 s config-busybox
 s config-gnome
 s fix-permissions
-s clean-cache
 
 S docker
 S libvirtd
