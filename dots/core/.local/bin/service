@@ -1,6 +1,24 @@
 #!/usr/bin/env bash
 
-function docker_service()
+# set safe failures
+set -euo pipefail
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  SCRIPT_FOLDER="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$SCRIPT_FOLDER/$SOURCE"
+done
+SCRIPT_FOLDER="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+unset SOURCE
+
+[ -n "${_dotfiles_dots_core_local_bin_service_source_guard+x}" ] \
+    && return                                   \
+    || _dotfiles_dots_core_local_bin_service_source_guard=
+
+###############################################################################
+
+function _service_docker_service()
 {
     if ! hash docker 2>/dev/null; then
         echo "No 'docker' found. Skipping '$1' on '$2'"
@@ -26,12 +44,12 @@ function docker_service()
         stop)
             docker compose -f ~/dotfiles/dist/deploy/compose.yaml stop "${@:2}"
             ;;
-        create)
+        create | enable)
             docker compose -f ~/dotfiles/dist/deploy/compose.yaml create "${@:2}"
             ;;
         recreate)
-            docker_service drop "${@:2}"
-            docker_service start "${@:2}"
+            _service_docker_service drop "${@:2}"
+            _service_docker_service start "${@:2}"
             ;;
         drop)
             docker compose -f ~/dotfiles/dist/deploy/compose.yaml rm -svf "${@:2}"
@@ -52,20 +70,33 @@ function docker_service()
     esac
 }
 
-function sys_service()
+function _service_sys_service()
 {
     case "$1" in
-        drop | build | logs | recreate)
+        drop | build | logs | create | recreate)
             echo "Unknown service command" >&2
             exit 1
             ;;
+        enable)
+            local is_enabled=
+            is_enabled="$(systemctl is-enabled "$2")"
+            if [ "$is_enabled" == "not-found" ]; then
+                echo "Unknown service name" >&2
+                exit 1
+            fi
+
+            if [ "$is_enabled" == "disabled" ]; then
+                pkexec systemctl enable "$2"
+            fi
+            ;;
+
         *)
-            systemctl "$1" "$2"
+            pkexec systemctl "$1" "$2"
             ;;
     esac
 }
 
-function main()
+function service()
 {
     if ! hash docker 2>/dev/null; then
         echo "No 'docker' found. Skipping $* for now."
@@ -77,17 +108,18 @@ function main()
     avail_services=( $(docker compose -f "$HOME/dotfiles/deploy/compose.yaml" config --services) )
 
     if [ -z "${2+x}" ]; then
-        docker_service "$1"
-        exit 0
+        _service_docker_service "${1:-status}"
+        return
     fi
 
-    for service in "${@:2}"; do
-        if [[ " ${avail_services[*]} " == *" $service "* ]]; then
-            docker_service "$1" "$service"
+    for s in "${@:2}"; do
+        if [[ " ${avail_services[*]} " == *" $s "* ]]; then
+            _service_docker_service "$1" "$s"
         else
-            sys_service "$1" "$service"
+            _service_sys_service "$1" "$s"
         fi
     done
 }
 
-main "$@"
+#shellcheck disable=SC2015
+(return 0 2>/dev/null) && : || service "$@"

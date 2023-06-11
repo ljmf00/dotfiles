@@ -13,6 +13,14 @@ s touch-files
 s config-busybox
 s config-gnome
 s fix-permissions
+s clean-cache
 
+A desktop
+A personal
+A devtools
+A work
+
+S docker
+S libvirtd
 S dns
 S box

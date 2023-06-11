@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2015
+
+\set -euxo pipefail
+
+export LC_ALL=C
+
+[ -z "${XDG_CONFIG_HOME+x}" ] && export XDG_CONFIG_HOME="$HOME/.config" || :
+[ -z "${XDG_CACHE_HOME+x}" ] && export XDG_CACHE_HOME="$HOME/.cache" || :
+[ -z "${XDG_DATA_HOME+x}" ] && export XDG_DATA_HOME="$HOME/.local/share" || :
+[ -z "${XDG_STATE_HOME+x}" ] && export XDG_STATE_HOME="$HOME/.local/state" || :
+
+if ! pgrep -u "$USER" wine >/dev/null && ! pgrep -u "$USER" winetricks >/dev/null; then
+    rm -rf "$XDG_CACHE_HOME/wine"
+fi
+
+if ! pgrep -u "$USER" tracker-store && ! pgrep -u "$USER" tracker-miner-f >/dev/null; then
+    rm -rf "$XDG_CACHE_HOME/tracker3"
+fi
+
+if ! pgrep -u "$USER" vlc >/dev/null; then rm -rf "$XDG_CACHE_HOME/vlc"; fi
+if ! pgrep -u "$USER" ccache >/dev/null; then rm -rf "$XDG_CACHE_HOME/ccache"; fi
+if ! pgrep -u "$USER" firefox >/dev/null; then rm -rf "$XDG_CACHE_HOME/mozilla/firefox"; fi
+if ! pgrep -u "$USER" chromium >/dev/null; then rm -rf "$XDG_CACHE_HOME/chromium"; fi
+if ! pgrep -u "$USER" pre-commit >/dev/null; then rm -rf "$XDG_CACHE_HOME/pre-commit"; fi
+if ! pgrep -u "$USER" poetry >/dev/null; then rm -rf "$XDG_CACHE_HOME/pypoetry"; fi
+
+rm -rf "$XDG_CACHE_HOME/thumbnails" || :
+
+if ! pgrep -u "$USER" go >/dev/null; then rm -rf "$HOME/go"; fi
+if ! pgrep -u "$USER" dub >/dev/null; then rm -rf "$HOME/.dub"; fi
+
+if \hash pip 2>/dev/null; then pip cache purge || :; fi
+if \hash npm 2>/dev/null && ! pgrep -u "$USER" npm >/dev/null; then npm cache clean --force || :; fi
+if \hash yarn 2>/dev/null && ! pgrep -u "$USER" yarn >/dev/null; then yarn cache clean --force || :; fi
+
+if \hash docker 2>/dev/null; then
+    docker image prune -a -f || :
+    docker volume prune -a -f || :
+    docker network prune -f || :
+fi
+
+if \hash flatpak 2>/dev/null; then
+    flatpak uninstall --unused || :
+fi
+
+if \hash nix-collect-garbage 2>/dev/null; then
+    nix-collect-garbage || :
+fi
+
+if ! pgrep -u "$USER" yay >/dev/null; then
+    rm -rf "$XDG_CACHE_HOME/yay"
+
+    if \hash yay 2>/dev/null; then
+        yay -Scc --aur --noconfirm
+    fi
+fi
+
+if [ "$(id -u)" -eq 0 ]; then
+    if ! pgrep pacman >/dev/null && \hash pacman 2>/dev/null; then
+        pacman -Qtdq | pacman -Rns --noconfirm - || :
+        pacman -Qqd | pacman -Rsu --noconfirm - || :
+
+        pacman -Scc --noconfirm || :
+        journalctl --rotate
+    fi
+
+    if ! pgrep pkgfile >/dev/null; then
+        rm -rf "/var/cache/pkgfile" || :
+    fi
+fi

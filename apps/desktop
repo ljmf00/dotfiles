@@ -1,0 +1,24 @@
+sys-package-ubuntu ubuntu-desktop-minimal
+sys-package gnome-shell
+sys-package gnome-shell-extensions
+
+flatpak-remote gnome-nightly https://nightly.gnome.org/gnome-nightly.flatpakrepo
+flatpak-app flathub org.gnome.Boxes
+flatpak-app flathub org.gnome.Calendar
+flatpak-app gnome-nightly org.gnome.Builder
+flatpak-app gnome-nightly org.gnome.Calls
+flatpak-app gnome-nightly org.gnome.Characters
+flatpak-app gnome-nightly org.gnome.Dictionary
+
+sys-package-ubuntu gnome-software-plugin-flatpak
+
+flatpak-remote kdeapps https://distribute.kde.org/kdeapps.flatpakrepo
+
+flatpak-app org.kde.krita
+flatpak-app org.kde.okular
+flatpak-app org.kde.kdenlive
+flatpak-app org.kde.digikam
+
+flatpak-app org.gimp.GIMP
+flatpak-app org.inkscape.Inkscape
+flatpak-app org.libreoffice.LibreOffice
