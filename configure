@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # set safe failures
-set -euxo pipefail
+set -euo pipefail
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do
@@ -47,11 +47,21 @@ function main()
   (grep '^C ' < "$machine_path" | cut -d' ' -f2 || :) | \
     xargs -I{} rsync -av "$DOTFILES_FOLDER/dist/dots/{}/" "$HOME/"
 
+source "$DOTFILES_FOLDER/lib/pkexec.sh"
+source "$DOTFILES_FOLDER/lib/installpkgs.sh"
+
+source "$DOTFILES_FOLDER/dist/dots/core/.local/bin/service"
+
+  for appfile in $(grep '^A ' < "$machine_path" | cut -d' ' -f2 || :); do
+    installpkgs_appfile "$DOTFILES_FOLDER/dist/apps/$appfile" || :
+  done
+
   (grep '^s ' < "$machine_path" | cut -d' ' -f2 || :) | \
     xargs -I{} bash -c "$DOTFILES_FOLDER/dist/scripts/{}"
 
-  (grep '^S ' < "$machine_path" | cut -d' ' -f2 || :) | \
-    xargs -I{} "$DOTFILES_FOLDER/dist/dots/core/.local/bin/service" create {}
+  for s in $(grep '^S ' < "$machine_path" | cut -d' ' -f2 || :); do
+    service enable "$s"
+  done
 }
 
 main "$@"

@@ -1,0 +1,28 @@
+sys-package-ubuntu build-essential
+sys-package-ubuntu binutils
+sys-package-ubuntu binutils-dev
+sys-package-archlinux base-devel
+sys-package-archlinux devtools
+sys-package-archlinux pacman-contrib
+
+sys-package gcc
+sys-package clang
+
+sys-package-ubuntu-ppa git-core/ppa
+sys-package git
+
+flatpak-remote flathub https://flathub.org/repo/flathub.flatpakrepo
+
+flatpak-app com.google.AndroidStudio
+flatpak-app rest.insomnia.Insomnia
+flatpak-app io.neovim.nvim
+flatpak-app com.jetbrains.Rider
+flatpak-app com.jetbrains.PyCharm-Community
+flatpak-app com.jetbrains.IntelliJ-IDEA-Community
+
+sys-package python3
+sys-package-archlinux python-pip
+sys-package-ubuntu python3-pip
+
+pip-package meson
+pip-package pre-commit

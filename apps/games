@@ -1,0 +1,19 @@
+flatpak-remote flathub https://flathub.org/repo/flathub.flatpakrepo
+
+flatpak-app sh.ppy.osu
+flatpak-app com.mojang.Minecraft
+flatpak-app org.libretro.RetroArch
+
+flatpak-runtime org.winehq.Wine.mono
+flatpak-runtime org.winehq.Wine.gecko
+
+flatpak-runtime org.freedesktop.Platform.GL.default
+flatpak-runtime org.freedesktop.Platform.GL32.default
+flatpak-runtime org.freedesktop.Platform.VulkanLayer.vkBasalt
+flatpak-runtime org.freedesktop.Platform.VulkanLayer.MangoHud
+
+flatpak-app com.valvesoftware.Steam
+flatpak-app com.valvesoftware.SteamLink
+
+flatpak-remote gnome-nightly https://nightly.gnome.org/gnome-nightly.flatpakrepo
+flatpak-app org.gnome.Crosswords

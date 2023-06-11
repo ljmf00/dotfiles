@@ -1,0 +1,8 @@
+flatpak-remote flathub https://flathub.org/repo/flathub.flatpakrepo
+
+flatpak-app org.kicad.KiCad
+
+flatpak-runtime org.kicad.KiCad.Library.Footprints
+flatpak-runtime org.kicad.KiCad.Library.Packages3D
+flatpak-runtime org.kicad.KiCad.Library.Symbols
+flatpak-runtime org.kicad.KiCad.Library.Templates

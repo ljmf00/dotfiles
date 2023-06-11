@@ -1,0 +1,27 @@
+sys-package-ubuntu coreutils
+sys-package-archlinux base
+
+sys-package ca-certificates
+sys-package curl
+sys-package gnupg
+
+sys-package busybox
+
+sys-package-ubuntu ssh
+sys-package-ubuntu openssh-client
+sys-package-ubuntu openssh-server
+sys-package-archlinux openssh
+
+sys-package vim
+
+sys-package btop
+sys-package upower
+
+sys-package python3
+
+sys-package-ubuntu-ppa flatpak/stable
+sys-package flatpak
+
+flatpak-remote flathub https://flathub.org/repo/flathub.flatpakrepo
+
+sys-package-archlinux docker

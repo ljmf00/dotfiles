@@ -1,0 +1,3 @@
+flatpak-app org.telegram.desktop
+
+pip39-package openbb
