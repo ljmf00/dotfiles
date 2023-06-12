@@ -3,13 +3,21 @@ sys-package-ubuntu binutils
 sys-package-ubuntu binutils-dev
 sys-package-archlinux base-devel
 sys-package-archlinux devtools
+sys-package-archlinux pkgfile
 sys-package-archlinux pacman-contrib
 
 sys-package gcc
 sys-package clang
+sys-package ccache
+sys-package distcc
+
+sys-package-archlinux dlang
+sys-package-ubuntu ldc
 
 sys-package-ubuntu-ppa git-core/ppa
 sys-package git
+
+sys-package ripgrep
 
 flatpak-remote flathub https://flathub.org/repo/flathub.flatpakrepo
 
@@ -19,6 +27,10 @@ flatpak-app io.neovim.nvim
 flatpak-app com.jetbrains.Rider
 flatpak-app com.jetbrains.PyCharm-Community
 flatpak-app com.jetbrains.IntelliJ-IDEA-Community
+
+flatpak-app gnome-nightly org.gnome.Builder
+flatpak-app org.gnome.GHex
+flatpak-app org.gnome.Glade
 
 sys-package python3
 sys-package-archlinux python-pip
