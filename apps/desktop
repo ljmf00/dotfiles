@@ -1,14 +1,37 @@
+sys-package xorg
+
 sys-package-ubuntu ubuntu-desktop-minimal
 sys-package gnome-shell
 sys-package gnome-shell-extensions
 
+
+flatpak-app org.mozilla.firefox
+
 flatpak-remote gnome-nightly https://nightly.gnome.org/gnome-nightly.flatpakrepo
 flatpak-app flathub org.gnome.Boxes
 flatpak-app flathub org.gnome.Calendar
-flatpak-app gnome-nightly org.gnome.Builder
+
 flatpak-app gnome-nightly org.gnome.Calls
 flatpak-app gnome-nightly org.gnome.Characters
 flatpak-app gnome-nightly org.gnome.Dictionary
+
+flatpak-app org.gnome.Firmware
+flatpak-app org.gnome.Evolution
+flatpak-app org.gnome.Connections
+flatpak-app org.gnome.TextEditor
+flatpak-app org.gnome.Extensions
+flatpak-app org.gnome.Cheese
+flatpak-app org.gnome.Maps
+flatpak-app org.gnome.seahorse.Application
+flatpak-app org.gnome.Calls
+flatpak-app org.gnome.clocks
+flatpak-app org.gnome.Weather
+flatpak-app org.gnome.design.Palette
+flatpak-app org.gnome.font-viewer
+flatpak-app org.gnome.eog
+flatpak-app org.gnome.Podcasts
+flatpak-app org.gnome.Photos
+flatpak-app org.gnome.baobab
 
 sys-package-ubuntu gnome-software-plugin-flatpak
 
@@ -21,4 +44,3 @@ flatpak-app org.kde.digikam
 
 flatpak-app org.gimp.GIMP
 flatpak-app org.inkscape.Inkscape
-flatpak-app org.libreoffice.LibreOffice

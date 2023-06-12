@@ -1,0 +1,5 @@
+flatpak-app org.libreoffice.LibreOffice
+flatpak-app md.obsidian.Obsidian
+flatpak-app org.speedcrunch.SpeedCrunch
+flatpak-app com.github.xournalpp.xournalpp
+flatpak-app com.uploadedlobster.peek

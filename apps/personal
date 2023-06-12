@@ -1,3 +1,7 @@
 flatpak-app org.telegram.desktop
+flatpak-app ch.protonmail.protonmail-bridge
+flatpak-app org.keepassxc.KeePassXC
+flatpak-app com.github.Eloston.UngoogledChromium
+flatpak-app com.authy.Authy
 
 pip39-package openbb

@@ -6,3 +6,8 @@ flatpak-runtime org.kicad.KiCad.Library.Footprints
 flatpak-runtime org.kicad.KiCad.Library.Packages3D
 flatpak-runtime org.kicad.KiCad.Library.Symbols
 flatpak-runtime org.kicad.KiCad.Library.Templates
+
+flatpak-app org.fritzing.Fritzing
+flatpak-app org.blender.Blender
+flatpak-app org.openscad.OpenSCAD
+flatpak-app io.lmms.LMMS

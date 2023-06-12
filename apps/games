@@ -3,6 +3,7 @@ flatpak-remote flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak-app sh.ppy.osu
 flatpak-app com.mojang.Minecraft
 flatpak-app org.libretro.RetroArch
+flatpak-app org.citra_emu.citra
 
 flatpak-runtime org.winehq.Wine.mono
 flatpak-runtime org.winehq.Wine.gecko
@@ -16,4 +17,6 @@ flatpak-app com.valvesoftware.Steam
 flatpak-app com.valvesoftware.SteamLink
 
 flatpak-remote gnome-nightly https://nightly.gnome.org/gnome-nightly.flatpakrepo
+
 flatpak-app org.gnome.Crosswords
+flatpak-app org.gnome.Chess

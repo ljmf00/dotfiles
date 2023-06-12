@@ -1,0 +1,9 @@
+sys-package nmap
+
+sys-package-archlinux inetutils
+sys-package-archlinux bind-tools
+
+sys-package-archlinux ldns
+sys-package-ubuntu ldnsutils
+
+sys-package speedtest-cli

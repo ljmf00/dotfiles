@@ -2,24 +2,9 @@
 
 install_common_packages:
   official:
-    - htop
-    - bash
-    - git
-    - rsync
-    - neovim
-    - tmux
     - usbutils
-    - wget
-    - tree
-    - nmap
-    - inetutils
-    - bind-tools
-    - ccache
-    - speedtest-cli
     - perf
-    - ripgrep
     - fwupd
-    - stow
   aur:
     - hw-probe
 
