@@ -48,8 +48,16 @@ function _pkexec_close_pipe()
 function _pkexec_ensure_daemon()
 {
     if [ -z "${_pkexec_pkexec_pid+x}" ]; then
-        \command pkexec bash -rc "while read -r cmd; do \$cmd; done" <&4 &
-        _pkexec_pkexec_pid="$!"
+        if [ "${DISPLAY:-}" != "" ] && type -P pkexec; then
+            \command pkexec bash -rc "while read -r cmd; do \$cmd; done" <&4 &
+            _pkexec_pkexec_pid="$!"
+        elif type -P sudo; then
+            env -i sudo -kb -- bash -rc "while read -r cmd; do \$cmd; done" <&4
+            _pkexec_pkexec_pid="$!"
+        else
+            echo "No suitable su executor" >&1
+            exit 1
+        fi
 
         trap_add _pkexec_close_pipe EXIT
     fi
