@@ -14,6 +14,16 @@ s config-busybox
 s config-gnome
 s fix-permissions
 
+A core
+A network
+A desktop
+A personal
+A diy
+A games
+A productivity
+A devtools
+A work
+
 S docker
 S libvirtd
 S dns

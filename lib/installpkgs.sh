@@ -1,5 +1,74 @@
 #!/usr/bin/env bash
 
+unset ID
+
+if [ -f /etc/os-release ]; then
+    . /etc/os-release
+fi
+
+if [ -f /etc/lsb-release ]; then
+    . /etc/lsb-release
+fi
+
+if [ -n "${DISTRIB_ID+x}" ]; then
+    DISTRIB_IGNORE=0
+elif [ -n "${ID+x}" ]; then
+    case "$ID" in
+        arch   ) DISTRIB_ID=Arch      ;;
+        ubuntu ) DISTRIB_ID=Ubuntu    ;;
+        *      ) DISTRIB_ID="${ID,,}" ;;
+    esac
+    DISTRIB_IGNORE=0
+else
+    DISTRIB_IGNORE=1
+fi
+
+if [ -z "${_installpkgs_system_pkgs_list+x}" ]; then
+    declare -a _installpkgs_system_pkgs_list
+fi
+
+function _installpkgs_system_check()
+{
+    # shellcheck disable=SC2015
+    [ "$DISTRIB_IGNORE" -eq 1 ] && return || :
+
+    if [ "$1" != "autodetect" ] && [ "$1" != "$DISTRIB_ID" ]; then
+        return
+    fi
+
+    case "$DISTRIB_ID" in
+        Arch)
+            # shellcheck disable=SC2207
+            local list_pkgs=( $(pacman -Qgq "$2" 2>/dev/null || echo "$2") )
+
+            for pkg in "${list_pkgs[@]}"; do
+                if ! pacman -Qq "$pkg" >/dev/null 2>&1; then
+                    _installpkgs_system_pkgs_list+=("$pkg")
+                fi
+            done
+            ;;
+        *)
+            echo "Distro '$DISTRIB_ID' not yet supported" >&2
+            return 1
+            ;;
+    esac
+}
+
+function installpkgs_system_install()
+{
+    if [ "${_installpkgs_system_pkgs_list:-}" != "" ]; then
+        case "$DISTRIB_ID" in
+            Arch)
+                pkexec pacman -S --needed --noconfirm "${_installpkgs_system_pkgs_list[@]}"
+                ;;
+            *)
+                echo "Distro '$DISTRIB_ID' not yet supported" >&2
+                return 1
+                ;;
+        esac
+    fi
+}
+
 function installpkgs_appfile()
 {
     while read -r pkg_line; do
@@ -18,7 +87,18 @@ function installpkgs_appfile()
             flatpak-remote )
                 flatpak remote-add --if-not-exists "${pkg_lineargs[@]}"
                 ;;
+            sys-package )
+                _installpkgs_system_check autodetect "${pkg_lineargs[@]}"
+                ;;
+            sys-package-ubuntu )
+                _installpkgs_system_check Ubuntu "${pkg_lineargs[@]}"
+                ;;
+            sys-package-archlinux )
+                _installpkgs_system_check Arch "${pkg_lineargs[@]}"
+                ;;
+            '') ;;
             *)
+                echo "App command '$pkg_linecmd' not supported, ignoring" >&2
                 ;;
         esac
     done < "$1"
