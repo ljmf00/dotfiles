@@ -16,6 +16,12 @@ unset SOURCE
 
 function main()
 {
+  # Minimal required dependencies
+  hash git 2> /dev/null || (echo "Please install 'git'" >&2 && exit 1)
+  hash rsync 2> /dev/null || (echo "Please install 'rsync'" >&2 && exit 1)
+  hash xargs 2> /dev/null || (echo "Please install 'xargs'" >&2 && exit 1)
+  hash stow 2> /dev/null || (echo "Please install 'stow'" >&2 && exit 1)
+
   (
     pushd "$DOTFILES_FOLDER"
 

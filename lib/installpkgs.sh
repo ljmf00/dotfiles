@@ -38,6 +38,8 @@ function _installpkgs_system_check()
 
     case "$DISTRIB_ID" in
         Arch)
+            if ! \hash pacman 2>/dev/null; then return; fi
+
             # shellcheck disable=SC2207
             local list_pkgs=( $(pacman -Qgq "$2" 2>/dev/null || echo "$2") )
 
@@ -80,11 +82,15 @@ function installpkgs_appfile()
 
         case "$pkg_linecmd" in
             flatpak-app )
+                if ! \hash flatpak 2>/dev/null; then continue; fi
+
                 if ! flatpak info --arch="$(uname -m)" -r "${pkg_lineargs[${#pkg_lineargs[@]} - 1]}" >/dev/null 2>&1; then
                     flatpak install --app --assumeyes --noninteractive --arch="$(uname -m)" "${pkg_lineargs[@]}"
                 fi
                 ;;
             flatpak-remote )
+                if ! \hash flatpak 2>/dev/null; then continue; fi
+
                 flatpak remote-add --if-not-exists "${pkg_lineargs[@]}"
                 ;;
             sys-package )
