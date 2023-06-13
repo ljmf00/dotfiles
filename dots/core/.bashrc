@@ -11,6 +11,18 @@
 # NON INTERACTIVE ENVIRONMENT
 ###############################################################################
 
+# set $USER variable
+if [ -z "${USER+x}" ] || [ "$USER" == "" ]; then
+    USER="$(id -u -n)"
+    export USER
+fi
+
+# set $HOME variable
+if [ -z "${HOME+x}" ] || [ "$HOME" == "" ]; then
+    HOME="$(cd ~ && echo "$PWD")"
+    export HOME
+fi
+
 mkdir -p "$HOME/.local/bin/" || :
 
 if [ -d "$HOME/.local/bin" ]; then
