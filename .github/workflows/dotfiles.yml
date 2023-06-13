@@ -41,8 +41,7 @@ jobs:
       if: matrix.workspace == 'personal'
       run: |
         pacman -Syy --needed --noconfirm --noprogressbar \
-          neovim go python python-pip
-        sudo -u luis pip install --user neovim
+          neovim go python python-pip python-pynvim
         # Required by coq.nvim
         sudo -u luis bash -c 'mkdir -p ~/.local/share/nvim/site/pack/packer/start/'
         sudo -u luis bash -c 'echo -e "[settings]\napi_key = 00000000-0000-0000-0000-000000000000" > ~/.wakatime.cfg'
