@@ -56,6 +56,8 @@ function main()
     for appfile in $(grep '^A ' < "$machine_path" | cut -d' ' -f2 || :); do
       installpkgs_appfile "$DOTFILES_FOLDER/dist/apps/$appfile" || :
     done
+
+    installpkgs_system_install
   fi
 
   (grep '^s ' < "$machine_path" | cut -d' ' -f2 || :) | \

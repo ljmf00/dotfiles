@@ -14,10 +14,11 @@ s config-busybox
 s config-gnome
 s fix-permissions
 
+A core
+A network
+A productivity
 A desktop
-A personal
 A devtools
-A work
 
 S docker
 S libvirtd
