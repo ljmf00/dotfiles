@@ -1,1 +1,14 @@
 #!/usr/bin/env bash
+
+mkdir -p ~/.ssh/
+cp "$DOTFILES_FOLDER/dist/keys/ssh.pub" ~/.ssh/authorized_keys
+
+hash git 2> /dev/null || exit 0
+hash dig 2> /dev/null || exit 0
+
+# check for internet availability
+if curl -sf 1.1.1.1 > /dev/null 2>&1; then
+  SENDEMAIL_SMTP_SERVER="$(dig +short smtp.lsferreira.net | head -n1 | sed 's/\.[^.]*$//')"
+
+  git config --global sendemail.smtpServer "$SENDEMAIL_SMTP_SERVER"
+fi

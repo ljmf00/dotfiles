@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if type -P nix >/dev/null; then
+  nix-channel --add https://nixos.org/channels/nixpkgs-unstable
+  nix-channel --update
+  nix-collect-garbage
+fi
