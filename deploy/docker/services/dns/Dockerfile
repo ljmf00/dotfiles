@@ -1,4 +1,4 @@
-FROM docker.io/library/golang:1.20.4-alpine3.18 AS stage0
+FROM public.ecr.aws/docker/library/golang:1.20.4-alpine3.18 AS stage0
 
 WORKDIR /usr/src/app
 COPY --link ./src/ ./
