@@ -61,7 +61,7 @@ function installpkgs_system_install()
     if [ "${_installpkgs_system_pkgs_list:-}" != "" ]; then
         case "$DISTRIB_ID" in
             Arch)
-                pkexec pacman -S --needed --noconfirm "${_installpkgs_system_pkgs_list[@]}"
+                pkexec pacman -S --needed --noconfirm --noprogressbar "${_installpkgs_system_pkgs_list[@]}"
                 ;;
             *)
                 echo "Distro '$DISTRIB_ID' not yet supported" >&2
