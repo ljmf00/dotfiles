@@ -50,6 +50,7 @@ RUN : \
     && echo "mybox" > /etc/hostname \
     && sudo -u luis bash -c 'rm -rf ~/.bash*' \
     && sudo -u luis bash -c './dotfiles/configure' \
+    && sudo -u luis bash -c './dotfiles/configure install' \
     && (cd dotfiles; \
         rm -rf private/; \
         rm -rf .git/modules/private/; \
