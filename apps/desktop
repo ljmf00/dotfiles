@@ -10,10 +10,11 @@ flatpak-app org.mozilla.firefox
 flatpak-remote gnome-nightly https://nightly.gnome.org/gnome-nightly.flatpakrepo
 flatpak-app flathub org.gnome.Boxes
 flatpak-app flathub org.gnome.Calendar
+flatpak-app flathub org.gnome.Characters
+flatpak-app flathub org.gnome.Dictionary
 
 flatpak-app gnome-nightly org.gnome.Calls
-flatpak-app gnome-nightly org.gnome.Characters
-flatpak-app gnome-nightly org.gnome.Dictionary
+flatpak-app gnome-nightly org.gnome.Photos
 
 flatpak-app org.gnome.Firmware
 flatpak-app org.gnome.Evolution
@@ -23,24 +24,22 @@ flatpak-app org.gnome.Extensions
 flatpak-app org.gnome.Cheese
 flatpak-app org.gnome.Maps
 flatpak-app org.gnome.seahorse.Application
-flatpak-app org.gnome.Calls
 flatpak-app org.gnome.clocks
 flatpak-app org.gnome.Weather
 flatpak-app org.gnome.design.Palette
 flatpak-app org.gnome.font-viewer
 flatpak-app org.gnome.eog
 flatpak-app org.gnome.Podcasts
-flatpak-app org.gnome.Photos
 flatpak-app org.gnome.baobab
 
 sys-package-ubuntu gnome-software-plugin-flatpak
 
 flatpak-remote kdeapps https://distribute.kde.org/kdeapps.flatpakrepo
 
-flatpak-app org.kde.krita
-flatpak-app org.kde.okular
-flatpak-app org.kde.kdenlive
-flatpak-app org.kde.digikam
+flatpak-app kdeapps org.kde.krita
+flatpak-app kdeapps org.kde.okular
+flatpak-app kdeapps org.kde.kdenlive
+flatpak-app kdeapps org.kde.digikam
 
-flatpak-app org.gimp.GIMP
+flatpak-app gnome-nightly org.gimp.GIMP
 flatpak-app org.inkscape.Inkscape
