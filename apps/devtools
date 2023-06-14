@@ -28,7 +28,7 @@ flatpak-app com.jetbrains.Rider
 flatpak-app com.jetbrains.PyCharm-Community
 flatpak-app com.jetbrains.IntelliJ-IDEA-Community
 
-flatpak-app gnome-nightly org.gnome.Builder
+flatpak-app gnome-nightly org.gnome.Builder.Devel
 flatpak-app org.gnome.GHex
 flatpak-app org.gnome.Glade
 

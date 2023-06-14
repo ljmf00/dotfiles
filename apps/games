@@ -8,7 +8,7 @@ flatpak-app org.citra_emu.citra
 flatpak-runtime org.winehq.Wine.mono
 flatpak-runtime org.winehq.Wine.gecko
 
-flatpak-runtime org.freedesktop.Platform.GL.default
+flatpak-runtime gnome-nightly org.freedesktop.Platform.GL.default
 flatpak-runtime org.freedesktop.Platform.GL32.default
 flatpak-runtime org.freedesktop.Platform.VulkanLayer.vkBasalt
 flatpak-runtime org.freedesktop.Platform.VulkanLayer.MangoHud
@@ -18,5 +18,5 @@ flatpak-app com.valvesoftware.SteamLink
 
 flatpak-remote gnome-nightly https://nightly.gnome.org/gnome-nightly.flatpakrepo
 
-flatpak-app org.gnome.Crosswords
-flatpak-app org.gnome.Chess
+flatpak-app gnome-nightly org.gnome.Chess
+flatpak-app flathub org.gnome.Crosswords
