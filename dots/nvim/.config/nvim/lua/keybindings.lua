@@ -128,13 +128,16 @@ local mappings = {
 
     --  Goto symbol
     { "<leader>gD", "<cmd>lua vim.lsp.buf.declaration()<cr>" },
-    { "<leader>gd", "<cmd>Telescope lsp_definitions<cr>" },
+    { "<leader>gdd", "<cmd>Telescope lsp_definitions<cr>" },
+    { "<leader>gdt", "<cmd>Telescope lsp_type_definitions<cr>" },
     { "<leader>gi", "<cmd>Telescope lsp_implementations<cr>" },
     { "<leader>gr", "<cmd>Telescope lsp_references<cr>" },
-    { "<leader>ggl", "<cmd>Telescope git_commits<cr>" },
-    { "<leader>ggc", "<cmd>Telescope git_bcommits<cr>" },
-    { "<leader>ggb", "<cmd>Telescope git_branches<cr>" },
-    { "<leader>ggs", "<cmd>Telescope git_status<cr>" },
+
+    -- Git
+    { "<leader>GC", "<cmd>Telescope git_commits<cr>" },
+    { "<leader>Gc", "<cmd>Telescope git_bcommits<cr>" },
+    { "<leader>Gb", "<cmd>Telescope git_branches<cr>" },
+    { "<leader>Gs", "<cmd>Telescope git_status<cr>" },
 
     -- Document actions
     { "<leader>aa", "<cmd>lua vim.lsp.buf.code_action()<cr>" },
@@ -142,17 +145,15 @@ local mappings = {
     { "<leader>af", "<cmd>lua vim.lsp.buf.formatting()<cr>" },
 
     --  Find
-    --  Symbols
-    { "<leader>fds", "<cmd>Telescope lsp_document_symbols<cr>" },
-    { "<leader>fws", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>" },
-    { "<leader>fdd", "<cmd>Telescope diagnostics bufnr=0<cr>" },
-    { "<leader>fdl", "<cmd>Telescope loclist<cr>" },
-    { "<leader>fwd", "<cmd>Telescope diagnostics<cr>" },
-    --  Files
     { "<leader>ff", "<cmd>Telescope find_files<cr>" },
     { "<leader>fg", "<cmd>Telescope live_grep<cr>" },
+    { "<leader>fd", "<cmd>Telescope lsp_document_symbols<cr>" },
+    { "<leader>fw", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>" },
+    { "<leader>fs", "<cmd>Telescope grep_string<cr>" },
     { "<leader>fb", "<cmd>Telescope buffers<cr>" },
-    { "<leader>fh", "<cmd>Telescope help_tags<cr>" },
+    { "<leader>fp", "<cmd>Telescope diagnostics bufnr=0<cr>" },
+    { "<leader>fP", "<cmd>Telescope diagnostics<cr>" },
+    { "<leader>fH", "<cmd>Telescope help_tags<cr>" },
 
     { "<leader>1", "<cmd>BufferLineGoToBuffer 1<cr>" },
     { "<leader>2", "<cmd>BufferLineGoToBuffer 2<cr>" },
