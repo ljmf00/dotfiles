@@ -37,6 +37,7 @@ jobs:
         chown -R luis:users .
         sudo -u luis bash -c 'rm -rf ~/.bash*'
         sudo -u luis ./configure
+        sudo -u luis ./configure install
     - name: Install neovim dependencies
       if: matrix.workspace == 'personal'
       run: |
