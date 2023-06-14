@@ -65,11 +65,15 @@ function _pkexec_ensure_daemon()
 
 function pkexec()
 {
-    #shellcheck disable=SC2015
-    { :>&3; } 2> /dev/null && : || _pkexec_open_pipe
-    >&3 cat<<<"$@"
+    if { :>&3; } 2> /dev/null || _pkexec_open_pipe; then
+        >&3 cat<<<"$@"
+        _pkexec_ensure_daemon
 
-    _pkexec_ensure_daemon
+        return
+    fi
+
+    # use sudo normally otherwise
+    env -i sudo -- bash -rc "$*"
 }
 
 #shellcheck disable=SC2015
