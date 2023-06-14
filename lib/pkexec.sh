@@ -28,7 +28,7 @@ function _pkexec_open_pipe()
     local pid1=
     pid1="$(jobs -p %+)"
 
-    exec 3>"/proc/$pid1/fd/1" 4<"/proc/$pid2/fd/0"
+    exec 3>"/proc/$pid1/fd/1" 4<"/proc/$pid2/fd/0" || return 1
 
     disown "$pid2"
     kill "$pid1" "$pid2"
