@@ -1,5 +1,10 @@
 d core
 
+d desktop
+d kitty
+d nix
+d starship
+d personal
 d perf
 d tmux
 C nvim
@@ -12,6 +17,8 @@ d wm-qtile
 s touch-files
 s config-busybox
 s config-gnome
+s config-nix
+s config-personal
 s fix-permissions
 
 A core

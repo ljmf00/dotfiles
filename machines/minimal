@@ -4,9 +4,12 @@ d perf
 d tmux
 C nvim
 d helix
+d starship
+d nix
 
 s touch-files
 s config-busybox
+s config-nix
 s fix-permissions
 
 A core

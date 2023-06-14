@@ -4,6 +4,10 @@ d perf
 d tmux
 C nvim
 d helix
+d starship
+d kitty
+d desktop
+d nix
 d htop
 d wm-common
 d wm-i3
@@ -12,6 +16,7 @@ d wm-qtile
 s touch-files
 s config-busybox
 s config-gnome
+s config-nix
 s fix-permissions
 
 A core

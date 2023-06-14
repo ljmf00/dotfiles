@@ -2,14 +2,17 @@
 	editor = "nvim --clean"
 	excludesfile = ~/.gitignore
 	commitGraph = true
-	pager = diff-so-fancy | less --tabs=4 -RFX
+	pager = /bin/less -FSR
+
 [color]
 	ui = true
+
 [color "diff-highlight"]
 	oldNormal = red bold
 	oldHighlight = red bold 52
 	newNormal = green bold
 	newHighlight = green bold 22
+
 [color "diff"]
 	meta = 11
 	frag = magenta bold
@@ -18,23 +21,30 @@
 	old = red bold
 	new = green bold
 	whitespace = red reverse
+
 [diff]
 	wsErrorHighlight = all
+
 [user]
 	email = contact@lsferreira.net
 	name = Luís Ferreira
 	signingkey = 730750D54B7A9F66
+
 [log]
 	utf8 = true
+
 [init]
 	templatedir = ~/.git-templates
+
 [filter "lfs"]
+	required = true
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
-	required = true
 	clean = git-lfs clean -- %f
+
 [pull]
 	ff = only
+
 [alias]
 	c = commit -s
 	ca-sign = commit -s --amend --no-edit
@@ -49,16 +59,15 @@
 	gcc-commit-mklog = "!f() { \"`git rev-parse --show-toplevel`/contrib/git-commit-mklog.py\" \"$@\"; }; f -s"
 	gcc-verify = "!f() { \"`git rev-parse --show-toplevel`/contrib/gcc-changelog/git_check_commit.py\" $@; } ; f"
 	recommit = "!git commit -F \"$(git rev-parse --git-dir)/COMMIT_EDITMSG\" --edit"
+
 [gpg]
 	program = gpg2
+
 [commit]
 	gpgsign = true
+
 [sendemail]
 	smtpEncryption = tls
 	smtpServer = smtp.lsferreira.net
 	smtpUser = contact@lsferreira.net
 	smtpServerPort = 587
-[interactive]
-	diffFilter = diff-so-fancy --patch
-[diff-so-fancy]
-	markEmptyLines = false
