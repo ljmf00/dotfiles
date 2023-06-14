@@ -52,7 +52,7 @@ function _pkexec_ensure_daemon()
             \command pkexec bash -rc "while read -r cmd; do \$cmd; done" <&4 &
             _pkexec_pkexec_pid="$!"
         elif type -P sudo; then
-            env -i sudo -kb -- bash -rc "while read -r cmd; do \$cmd; done" <&4
+            env -i sudo -k -- bash -rc "while read -r cmd; do \$cmd; done" <&4 &
             _pkexec_pkexec_pid="$!"
         else
             echo "No suitable su executor" >&1
