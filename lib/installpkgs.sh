@@ -88,6 +88,13 @@ function installpkgs_appfile()
                     flatpak install --app --assumeyes --noninteractive --arch="$(uname -m)" "${pkg_lineargs[@]}"
                 fi
                 ;;
+            flatpak-runtime )
+                if ! \hash flatpak 2>/dev/null; then continue; fi
+
+                if ! flatpak info --arch="$(uname -m)" -r "${pkg_lineargs[${#pkg_lineargs[@]} - 1]}" >/dev/null 2>&1; then
+                    flatpak install --runtime --assumeyes --noninteractive --arch="$(uname -m)" "${pkg_lineargs[@]}"
+                fi
+                ;;
             flatpak-remote )
                 if ! \hash flatpak 2>/dev/null; then continue; fi
 
