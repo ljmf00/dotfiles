@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.4
-FROM docker.io/ljmf00/archlinux:base AS stage0
+FROM ghcr.io/ljmf00/archlinux:base AS stage0
 
 RUN pacman -Syyu --noprogressbar --noconfirm kubo
 RUN rm -rf /etc/pacman.d/gnupg/openpgp-revocs.d/*  && \

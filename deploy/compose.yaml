@@ -116,7 +116,7 @@ services:
 
   http:
     container_name: services-http
-    image: docker.io/library/traefik:v3.0
+    image: public.ecr.aws/docker/library/traefik:v3.0
 
 networks:
   ipfs:

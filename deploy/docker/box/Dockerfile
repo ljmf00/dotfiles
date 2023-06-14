@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.4
-FROM docker.io/ljmf00/archlinux:aur AS stage0
+FROM ghcr.io/ljmf00/archlinux:aur AS stage0
 
 # Init keyring
 RUN pacman-key --init && \
