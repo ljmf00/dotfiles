@@ -31,7 +31,7 @@ services:
     restart: unless-stopped
     image: ljmf00/service-tor:latest
     build:
-      context: docker/services/tor
+      context: docker/tor
     networks:
       tor:
       dns:
@@ -56,7 +56,7 @@ services:
     container_name: services-i2p
     restart: unless-stopped
     build:
-      context: docker/services/i2p
+      context: docker/i2p
     networks:
       - i2p
     tmpfs:
@@ -68,7 +68,7 @@ services:
     restart: unless-stopped
     image: ljmf00/service-ipfs:latest
     build:
-      context: docker/services/ipfs
+      context: docker/ipfs
     networks:
       - ipfs
     cap_drop:
@@ -89,10 +89,10 @@ services:
     restart: unless-stopped
     image: ljmf00/service-dns:latest
     build:
-      context: docker/services/dns
+      context: docker/dns
     command: -dns.port=1053
     volumes:
-      - ./docker/services/dns/Corefile:/Corefile:ro
+      - ./docker/dns/Corefile:/Corefile:ro
     depends_on:
       - tor
     networks:
