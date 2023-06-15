@@ -28,6 +28,10 @@ function _service_docker_service()
     # needed for old docker cli
     export DOCKER_BUILDKIT=1
 
+    if [ ! -f ~/dotfiles/dist/deploy/compose.yaml ]; then
+        return
+    fi
+
     if ! docker buildx inspect dotservices >/dev/null 2>&1; then
         docker buildx create \
             --driver docker-container \
