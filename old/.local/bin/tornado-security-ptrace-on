@@ -1,3 +1,0 @@
-#!/bin/sh -i
-
-ssh -t root@tornado "echo 2 | sudo tee /proc/sys/kernel/yama/ptrace_scope"

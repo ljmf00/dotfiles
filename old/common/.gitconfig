@@ -1,9 +1,0 @@
-[core]
-	editor = "nvim --clean"
-	excludesfile = ~/.gitignore
-	commitGraph = true
-[pull]
-	rebase = true
-
-[user]
-	name = Luís Ferreira
