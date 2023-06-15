@@ -37,7 +37,7 @@ RUN passwd -d luis
 # hadolint ignore=DL3059
 RUN mkdir -p  /home/luis/dotfiles/
 COPY --link . /home/luis/dotfiles/
-COPY ./deploy/.gitconfig /home/luis/dotfiles/.git/config
+COPY ./deploy/docker.gitconfig /home/luis/dotfiles/.git/config
 
 RUN chown -R luis:wheel /home/luis/
 
