@@ -47,6 +47,10 @@ function main()
     popd
   )
 
+  if [ "$(readlink -f "$DOTFILES_FOLDER/../")" != "$(readlink -f "$HOME")" ]; then
+    ln -sf "$DOTFILES_FOLDER" "$HOME/dotfiles"
+  fi
+
   rsync -av \
     --exclude dist \
     --exclude .git \
