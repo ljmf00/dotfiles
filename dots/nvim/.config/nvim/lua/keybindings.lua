@@ -145,7 +145,8 @@ local mappings = {
     { "<leader>af", "<cmd>lua vim.lsp.buf.formatting()<cr>" },
 
     --  Find
-    { "<leader>ff", "<cmd>lua require'pconfig.c-telescope-cmd'.project_files()<cr>" },
+    { "<leader>fF", "<cmd>lua require'pconfig.c-telescope-cmd'.project_files()<cr>" },
+    { "<leader>ff", "<cmd>Telescope find_files<cr>" },
     { "<leader>fg", "<cmd>Telescope live_grep<cr>" },
     { "<leader>fd", "<cmd>Telescope lsp_document_symbols<cr>" },
     { "<leader>fw", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>" },
