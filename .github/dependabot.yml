@@ -1,23 +1,17 @@
 ---
 version: 2
+enable-beta-ecosystems: true
 updates:
-  - package-ecosystem: "gomod"
+  - package-ecosystem: "beta-ecosystem"
     directory: "/"
     schedule:
       interval: "daily"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "daily"
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "daily"
   - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "daily"
-  - package-ecosystem: "docker"
     directory: "/"
     schedule:
       interval: "daily"
@@ -33,11 +27,42 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+
   - package-ecosystem: "gitsubmodule"
-    directory: "/"
+    directory: "/3rdparty/"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "docker"
+    directory: "/deploy/"
     schedule:
       interval: "daily"
   - package-ecosystem: "terraform"
-    directory: "/deploy/terraform/"
+    directory: "/deploy/"
     schedule:
       interval: "daily"
+    allow:
+      - dependency-type: "all"
+  - package-ecosystem: "gomod"
+    directory: "/deploy/docker/dns/src/"
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-type: "all"
+
+  - package-ecosystem: "beta-ecosystem"
+    directory: "/webapp"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "composer"
+    directory: "/webapp"
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-type: "all"
+  - package-ecosystem: "npm"
+    directory: "/webapp"
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-type: "all"
