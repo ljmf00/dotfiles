@@ -12,6 +12,18 @@ done
 DOTFILES_FOLDER="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 unset SOURCE
 
+# set $USER variable
+if [ -z "${USER+x}" ] || [ "$USER" == "" ]; then
+    USER="$(id -u -n)"
+    export USER
+fi
+
+# set $HOME variable
+if [ -z "${HOME+x}" ] || [ "$HOME" == "" ]; then
+    HOME="$(cd ~ && echo "$PWD")"
+    export HOME
+fi
+
 ###############################################################################
 
 function main()
