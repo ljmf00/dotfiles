@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-mkdir -p ~/.ssh/
-cp "$DOTFILES_FOLDER/dist/keys/ssh.pub" ~/.ssh/authorized_keys
+mkdir -p "$HOME/.ssh/"
+cp "$HOME/dotfiles/dist/keys/ssh.pub" "$HOME/.ssh/authorized_keys"
 
 hash git 2> /dev/null || exit 0
 hash dig 2> /dev/null || exit 0
