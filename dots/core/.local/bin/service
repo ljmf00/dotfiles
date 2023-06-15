@@ -28,7 +28,7 @@ function _service_docker_service()
     # needed for old docker cli
     export DOCKER_BUILDKIT=1
 
-    if [ ! -f ~/dotfiles/dist/deploy/compose.yaml ]; then
+    if [ ! -f "$HOME/dotfiles/dist/deploy/compose.yaml" ]; then
         return
     fi
 
@@ -43,29 +43,29 @@ function _service_docker_service()
 
     case "$1" in
         start)
-            docker compose -f ~/dotfiles/dist/deploy/compose.yaml up -d --remove-orphans "${@:2}"
+            docker compose -f "$HOME/dotfiles/dist/deploy/compose.yaml" up -d --remove-orphans "${@:2}"
             ;;
         stop)
-            docker compose -f ~/dotfiles/dist/deploy/compose.yaml stop "${@:2}"
+            docker compose -f "$HOME/dotfiles/dist/deploy/compose.yaml" stop "${@:2}"
             ;;
         create | enable)
-            docker compose -f ~/dotfiles/dist/deploy/compose.yaml create "${@:2}"
+            docker compose -f "$HOME/dotfiles/dist/deploy/compose.yaml" create "${@:2}"
             ;;
         recreate)
             _service_docker_service drop "${@:2}"
             _service_docker_service start "${@:2}"
             ;;
         drop)
-            docker compose -f ~/dotfiles/dist/deploy/compose.yaml rm -svf "${@:2}"
+            docker compose -f "$HOME/dotfiles/dist/deploy/compose.yaml" rm -svf "${@:2}"
             ;;
         status)
-            docker compose -f ~/dotfiles/dist/deploy/compose.yaml ps "${@:2}"
+            docker compose -f "$HOME/dotfiles/dist/deploy/compose.yaml" ps "${@:2}"
             ;;
         logs)
-            docker compose -f ~/dotfiles/dist/deploy/compose.yaml logs -tf "${@:2}"
+            docker compose -f "$HOME/dotfiles/dist/deploy/compose.yaml" logs -tf "${@:2}"
             ;;
         build)
-            docker compose -f ~/dotfiles/dist/deploy/compose.yaml build --pull --progress plain "${@:2}"
+            docker compose -f "$HOME/dotfiles/dist/deploy/compose.yaml" build --pull --progress plain "${@:2}"
             ;;
         *)
             echo "Unknown service command" >&2
