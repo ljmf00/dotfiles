@@ -28,7 +28,7 @@ function usage()
 function main()
 {
     local galias='' gpath=.
-    local insession=false detached=false
+    local insession=auto detached=false
 
     local paths=()
     local args=
@@ -114,7 +114,15 @@ function main()
 
     cd "$gpath"
 
-    local edit_args=('-S' 'Session.vim')
+    local edit_args=()
+
+    if [ -f "Session.vim" ]; then
+        if [ "$insession" == "auto" ]; then
+            insession=true
+        fi
+
+        edit_args+=('-S' 'Session.vim')
+    fi
 
     if [ -f "${paths:-.}" ] || [ "${#paths[@]}" -gt 1 ] || [ ! -d "${paths:-.}" ]; then
         edit_args=()
