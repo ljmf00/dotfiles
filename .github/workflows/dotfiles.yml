@@ -32,6 +32,9 @@ jobs:
       run: |
         pacman -Syy --needed --noconfirm --noprogressbar \
           bind-tools xdg-utils rsync sudo stow git
+
+        dbus-uuidgen --ensure=/etc/machine-id
+
         useradd -g users -G wheel -m luis
         echo "${{ matrix.workspace }}" > /etc/hostname
         chown -R luis:users .
