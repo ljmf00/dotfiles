@@ -13,11 +13,11 @@ local packer_bootstrap = ensure_packer()
 
 return require('packer').startup(function(use)
   -- Packer
-  use '~/dotfiles/3rdparty/vim/packer.nvim'
+  use '~/dotfiles/dist/3rdparty/vim/packer.nvim'
 
   -- Theme
   use {
-    '~/dotfiles/3rdparty/vim/sonokai',
+    '~/dotfiles/dist/3rdparty/vim/sonokai',
     requires = {
       'neomake/neomake',
       '~/dotfiles/dist/3rdparty/vim/nvim-treesitter',
@@ -27,22 +27,22 @@ return require('packer').startup(function(use)
   }
 
   -- Wakatime
-  use { '~/dotfiles/3rdparty/vim/wakatime' }
+  use { '~/dotfiles/dist/3rdparty/vim/wakatime' }
 
   -- Misc settings
 
   --  Move lines around
-  use { '~/dotfiles/3rdparty/vim/schlepp' }
+  use { '~/dotfiles/dist/3rdparty/vim/schlepp' }
   --  File number on vim startup
-  use { '~/dotfiles/3rdparty/vim/file-line' }
+  use { '~/dotfiles/dist/3rdparty/vim/file-line' }
   --  Sensible default configs
-  use { '~/dotfiles/3rdparty/vim/sensible' }
+  use { '~/dotfiles/dist/3rdparty/vim/sensible' }
   --  Surround fast change
-  use { '~/dotfiles/3rdparty/vim/surround' }
+  use { '~/dotfiles/dist/3rdparty/vim/surround' }
   --  Auto indentation
-  use { '~/dotfiles/3rdparty/vim/sleuth' }
+  use { '~/dotfiles/dist/3rdparty/vim/sleuth' }
   --  Session manager
-  use { '~/dotfiles/3rdparty/vim/obsession' }
+  use { '~/dotfiles/dist/3rdparty/vim/obsession' }
   --  Color code highlighter
   use {
     'rrethy/vim-hexokinase',
@@ -93,7 +93,11 @@ return require('packer').startup(function(use)
   -- Find: Telescope fuzzy finder
   use {
     'nvim-telescope/telescope.nvim',
-    requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+    requires = {
+      {'nvim-lua/popup.nvim'},
+      {'nvim-lua/plenary.nvim'},
+      {'BurntSushi/ripgrep'},
+    }
   }
   use {
     "nvim-telescope/telescope-fzf-native.nvim",
