@@ -2,6 +2,7 @@
 
 set -euxo pipefail
 
+[ -n "${DISPLAY+x}" ] || exit 0
 hash gsettings 2> /dev/null || exit 0
 
 # Disable annoying first-setup messages
