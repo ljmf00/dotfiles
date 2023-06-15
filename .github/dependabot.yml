@@ -2,11 +2,6 @@
 version: 2
 enable-beta-ecosystems: true
 updates:
-  - package-ecosystem: "beta-ecosystem"
-    directory: "/"
-    schedule:
-      interval: "daily"
-
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -50,10 +45,6 @@ updates:
     allow:
       - dependency-type: "all"
 
-  - package-ecosystem: "beta-ecosystem"
-    directory: "/webapp"
-    schedule:
-      interval: "daily"
   - package-ecosystem: "composer"
     directory: "/webapp"
     schedule:
