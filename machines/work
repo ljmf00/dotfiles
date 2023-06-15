@@ -20,6 +20,7 @@ s config-nix
 s fix-permissions
 
 A core
+A containers
 A network
 A desktop
 A productivity

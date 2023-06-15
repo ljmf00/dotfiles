@@ -24,11 +24,3 @@ sys-package upower
 sys-package tree
 
 sys-package python3
-
-sys-package-ubuntu-ppa flatpak/stable
-sys-package flatpak
-
-flatpak-remote flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak-app com.github.tchx84.Flatseal
-
-sys-package-archlinux docker
