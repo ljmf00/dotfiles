@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-# TODO: Add a simple reflog/cache for patches
-
-find . -mindepth 1 -maxdepth 1 -type f -name '*.git-local.patch' -delete
