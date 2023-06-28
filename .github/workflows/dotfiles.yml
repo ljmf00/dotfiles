@@ -40,8 +40,8 @@ jobs:
           image=moby/buildkit:latest
     - name: Run dotfiles configuration script w/ minimal installation
       run: |
-        pacman -Syy --needed --noconfirm --noprogressbar \
-          bind-tools xdg-utils rsync sudo stow git
+        pacman -Syyu --needed --noconfirm --noprogressbar \
+          bind-tools xdg-utils rsync sudo stow git docker
 
         dbus-uuidgen --ensure=/etc/machine-id
 
