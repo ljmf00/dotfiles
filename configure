@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # set safe failures
-set -euo pipefail
+set -euxo pipefail
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do
