@@ -28,6 +28,16 @@ jobs:
 
         git submodule sync
         git -c protocol.version=2 submodule update --init --force --depth=1 3rdparty/
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2.2.0
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v2.7.0
+      with:
+        version: 'latest'
+        driver-opts: |
+          network=host
+          image=moby/buildkit:latest
     - name: Run dotfiles configuration script w/ minimal installation
       run: |
         pacman -Syy --needed --noconfirm --noprogressbar \
