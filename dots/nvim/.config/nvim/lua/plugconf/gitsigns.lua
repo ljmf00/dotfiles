@@ -1,4 +1,4 @@
-require('gitsigns').setup({
+return {
   current_line_blame = true,
   current_line_blame_opts = {
     virt_text = true,
@@ -6,4 +6,4 @@ require('gitsigns').setup({
     delay = 1000,
     ignore_whitespace = false,
   },
-})
+}

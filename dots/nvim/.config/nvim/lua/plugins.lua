@@ -1,214 +1,246 @@
-local ensure_packer = function()
-  local fn = vim.fn
-  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-  if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-    vim.cmd [[packadd packer.nvim]]
-    return true
-  end
-  return false
-end
+return {
+  -- lazy nvim plugin
+  {
+    dir = '~/dotfiles/dist/3rdparty/nvim/lazy.nvim',
+    lazy = false,
+    priority = 1000,
+  },
 
-local packer_bootstrap = ensure_packer()
-
-return require('packer').startup(function(use)
-  -- Packer
-  use '~/dotfiles/dist/3rdparty/vim/packer.nvim'
-
-  -- Theme
-  use {
-    '~/dotfiles/dist/3rdparty/vim/sonokai',
-    requires = {
-      'neomake/neomake',
-      '~/dotfiles/dist/3rdparty/vim/nvim-treesitter',
+  -- theme
+  {
+    dir = '~/dotfiles/dist/3rdparty/vim/sonokai',
+    lazy = false,
+    priority = 999,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
       'yamatsum/nvim-nonicons',
-      'itchyny/lightline.vim'
+      'itchyny/lightline.vim',
     },
-  }
-
-  -- Wakatime
-  use { '~/dotfiles/dist/3rdparty/vim/wakatime' }
-
-  -- Misc settings
-
-  --  Move lines around
-  use { '~/dotfiles/dist/3rdparty/vim/schlepp' }
-  --  File number on vim startup
-  use { '~/dotfiles/dist/3rdparty/vim/file-line' }
-  --  Sensible default configs
-  use { '~/dotfiles/dist/3rdparty/vim/sensible' }
-  --  Surround fast change
-  use { '~/dotfiles/dist/3rdparty/vim/surround' }
-  --  Auto indentation
-  use { '~/dotfiles/dist/3rdparty/vim/sleuth' }
-  --  Session manager
-  use { '~/dotfiles/dist/3rdparty/vim/obsession' }
-  --  Color code highlighter
-  use {
-    'rrethy/vim-hexokinase',
-    commit = '62324b43ea858e268fb70665f7d012ae67690f43',
-    run = 'make hexokinase',
     config = function()
-      require 'pconfig.c-hexokinase'
+      vim.cmd 'silent! source ~/.config/nvim/lua/plugconf/sonokai.vim'
     end,
-  }
-  --  Highlight similar words
-  use { 'RRethy/vim-illuminate', commit = 'fb83d835eac50baeef49aac20c524a80727db0ac' }
+  },
+
+  -- alternative light theme
+  'folke/tokyonight.nvim',
+
+  -- icons
+  { "nvim-tree/nvim-web-devicons", lazy = true },
+  { 'yamatsum/nvim-nonicons', lazy = true },
+
+  -- buffer line
+  {
+    'akinsho/bufferline.nvim',
+    version = "*",
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    opts = function()
+      return require "plugconf/bufferline"
+    end,
+  },
+
+  -- light line
+  {
+    'itchyny/lightline.vim',
+    init = function()
+      require "plugconf/lightline"
+    end,
+  },
+
+  -- Tagbar
+  {
+    'preservim/tagbar',
+    cmd = "TagbarToggle",
+    tag = 'v3.0.0',
+    init = function()
+      require "plugconf/tagbar"
+    end,
+  },
+
+  -- Floating terminal
+  {
+    'voldikss/vim-floaterm',
+    cmd = "FloatermToggle",
+    init = function()
+      require "plugconf/floaterm"
+    end,
+  },
+
+  -- extra theme dressing
+  "stevearc/dressing.nvim",
+
+  -- wakatime
+  { dir = '~/dotfiles/dist/3rdparty/vim/wakatime' },
+
+  -- move lines around
+  {
+    dir = '~/dotfiles/dist/3rdparty/vim/schlepp',
+    init = function()
+      vim.cmd 'silent! source ~/.config/nvim/lua/plugconf/schlepp.vim'
+    end,
+  },
+
+  -- file number on vim startup
+  { dir = '~/dotfiles/dist/3rdparty/vim/file-line' },
+  -- surround fast change
+  { dir = '~/dotfiles/dist/3rdparty/vim/surround' },
+  -- auto indentation
+  { dir = '~/dotfiles/dist/3rdparty/vim/sleuth' },
+  -- session manager
+  { dir = '~/dotfiles/dist/3rdparty/vim/obsession' },
+
+  -- text colorizer
+  "NvChad/nvim-colorizer.lua",
+
+  -- comments
+  "numToStr/Comment.nvim",
+
   -- Indent guidelines
-  use {
+  {
     "lukas-reineke/indent-blankline.nvim",
-    commit = 'db7cbcb40cc00fc5d6074d7569fb37197705e7f6',
     config = function()
-      require 'pconfig.c-indent'
-    end
-  }
+      require('plugconf/indentblank')
+    end,
+  },
+
+  --  Highlight similar words
+  { 'RRethy/vim-illuminate', commit = 'fb83d835eac50baeef49aac20c524a80727db0ac' },
+
+  -- which keys popup plugin
+  {
+    'folke/which-key.nvim',
+    event = "VeryLazy",
+    opts = {},
+  },
+
+  {
+    "nvim-tree/nvim-tree.lua",
+    cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+    opts = function()
+      return require "plugconf/nvimtree"
+    end,
+    config = function(_, opts)
+      require("nvim-tree").setup(opts)
+      vim.g.nvimtree_side = opts.view.side
+    end,
+  },
+
+  -- Autopairs
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    opts = function()
+      return require('plugconf/autopairs')
+    end,
+  },
+
+  {
+    'neomake/neomake',
+    config = function()
+      require('plugconf/neomake')
+    end,
+  },
 
   -- Git Support
-  use { 'tpope/vim-fugitive', tag = 'v3.4' }
-  use {
+  { 'tpope/vim-fugitive', tag = 'v3.4' },
+
+  {
     'lewis6991/gitsigns.nvim',
+    ft = { "gitcommit", "diff" },
     tag = 'v0.5',
     requires = {
       'nvim-lua/plenary.nvim'
     },
-    config = function()
-      require 'pconfig.c-gitsigns'
+    init = function()
+      -- load gitsigns only when a git file is opened
+      vim.api.nvim_create_autocmd({ "BufRead" }, {
+        group = vim.api.nvim_create_augroup("GitSignsLazyLoad", { clear = true }),
+        callback = function()
+          vim.fn.system("git -C " .. '"' .. vim.fn.expand "%:p:h" .. '"' .. " rev-parse")
+          if vim.v.shell_error == 0 then
+            vim.api.nvim_del_augroup_by_name "GitSignsLazyLoad"
+            vim.schedule(function()
+              require("lazy").load { plugins = { "gitsigns.nvim" } }
+            end)
+          end
+        end,
+      })
     end,
-  }
-
-  -- Tagbar
-  use {
-    'preservim/tagbar',
-    tag = 'v3.0.0'
-  }
-
-  -- Better make command
-  use {
-    'neomake/neomake',
-    config = function()
-      require 'pconfig.c-neomake'
-    end
-  }
-
-  -- Find: Telescope fuzzy finder
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = {
-      {'nvim-lua/popup.nvim'},
-      {'nvim-lua/plenary.nvim'},
-      {'BurntSushi/ripgrep'},
-    }
-  }
-  use {
-    "nvim-telescope/telescope-fzf-native.nvim",
-    requires = { 'nvim-telescope/telescope.nvim' },
-    run = "make",
-    cmd = "Telescope"
-  }
-  use {
-    "nvim-telescope/telescope-media-files.nvim",
-    requires = { 'nvim-telescope/telescope.nvim' },
-    cmd = "Telescope"
-  }
-
-  -- Float terminal
-  use 'voldikss/vim-floaterm'
-
-  -- Autopairs
-  use {
-    "windwp/nvim-autopairs",
-    commit = '6b6e35fc9aca1030a74cc022220bc22ea6c5daf4',
-    config = function()
-      require 'pconfig.c-autopairs'
-    end
-  }
+    opts = function()
+      return require('plugconf/gitsigns')
+    end,
+  },
 
   -- LSP Support
-  use {
+  {
     'neovim/nvim-lspconfig',
-  }
-  use {
-    'hrsh7th/cmp-nvim-lsp',
-    requires = {
-      'neovim/nvim-lspconfig',
+    dependencies = {
+      'hrsh7th/cmp-nvim-lsp',
     },
     config = function()
-      require 'pconfig.c-lsp'
+      require('plugconf/lsp')
     end,
-  }
+  },
+
+  {
+      "williamboman/mason.nvim",
+      build = ":MasonUpdate",
+      opts = function()
+        return require('plugconf/mason')
+      end,
+  },
+
+  -- Lua snippet plugin
+  {
+    "L3MON4D3/LuaSnip",
+    dependencies = "rafamadriz/friendly-snippets",
+    config = function()
+      require("plugconf/luasnip")
+    end,
+  },
 
   -- Autocomplete
-  use { 'hrsh7th/cmp-buffer' }
-  use { 'hrsh7th/cmp-path' }
-  use { 'hrsh7th/cmp-cmdline' }
-
-  use {
-    'hrsh7th/nvim-cmp',
-    requires = {
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
+  {
+    "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
+    dependencies = {
+      "windwp/nvim-autopairs",
+      "saadparwaiz1/cmp_luasnip",
+      "hrsh7th/cmp-nvim-lua",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
     },
     config = function()
-      require 'pconfig.c-cmp'
+      require('plugconf/cmp')
     end,
-  }
+  },
 
   -- Treesitter
-  use {
-    '~/dotfiles/dist/3rdparty/vim/nvim-treesitter',
-    run = ":TSUpdate",
-    config = function()
-      require 'pconfig.c-treesitter'
+  {
+    dir = '~/dotfiles/dist/3rdparty/vim/nvim-treesitter',
+    cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
+    build = ":TSUpdate",
+    opts = function()
+      return require('plugconf/treesitter')
     end,
-  }
+  },
 
-  -- NvimTree
-  use {
-    "nvim-tree/nvim-tree.lua",
+  -- telescope fuzzy finder
+  {
+    'nvim-telescope/telescope.nvim', tag = '0.1.1',
+    cmd = "Telescope",
+
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-lua/popup.nvim',
+      'BurntSushi/ripgrep',
+
+      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+      { 'nvim-telescope/telescope-media-files.nvim' },
+    },
+
     config = function()
-      require 'pconfig.c-nvimtree'
+      require('plugconf/telescope')
     end,
-    commit = "7e892767bdd9660b7880cf3627d454cfbc701e9b",
-  }
-
-  -- Comments
-  use {
-    "terrortylor/nvim-comment",
-    event = "BufRead",
-    config = function()
-      local status_ok, nvim_comment = pcall(require, "nvim_comment")
-      if not status_ok then
-        return
-      end
-      nvim_comment.setup()
-    end,
-  }
-
-  -- Icons
-  use {
-    'yamatsum/nvim-nonicons',
-    requires = {'kyazdani42/nvim-web-devicons'}
-  }
-
-  -- Status Line and Bufferline
-  -- FIXME: Find a better line
-   use {
-    "itchyny/lightline.vim",
-    commit = "b1e91b41f5028d65fa3d31a425ff21591d5d957f",
-    config = function ()
-      require 'pconfig.c-lightline'
-    end
-   }
-  use {
-    'akinsho/bufferline.nvim',
-    commit = 'cebafb95622205a414a6c10bf0e40d197cc652b1',
-    config = function() require'pconfig.c-bufferline' end,
-    requires = {'kyazdani42/nvim-web-devicons', opt = true},
-  }
-
-  if packer_bootstrap then
-    require('packer').sync()
-  end
-end)
+  },
+}
