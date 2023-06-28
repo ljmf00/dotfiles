@@ -18,7 +18,7 @@ jobs:
     - name: Install dependencies
       run: |
         pacman -Syy --needed --noconfirm --noprogressbar \
-          nodejs npm composer php
+          nodejs npm composer php icu lib32-icu
     - name: Build
       run: |
         cd webapp
