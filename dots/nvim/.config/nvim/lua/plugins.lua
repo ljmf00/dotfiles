@@ -25,22 +25,29 @@ return {
   'folke/tokyonight.nvim',
 
   -- icons
-  { "nvim-tree/nvim-web-devicons", lazy = true },
-  { 'yamatsum/nvim-nonicons', lazy = true },
+  { "nvim-tree/nvim-web-devicons" },
+  { 'yamatsum/nvim-nonicons' },
 
   -- buffer line
   {
     'akinsho/bufferline.nvim',
-    version = "*",
-    dependencies = 'nvim-tree/nvim-web-devicons',
-    opts = function()
-      return require "plugconf/bufferline"
+    lazy = false,
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+      'yamatsum/nvim-nonicons',
+    },
+    init = function()
+      vim.opt.termguicolors = true
+    end,
+    config = function()
+      require "plugconf/bufferline"
     end,
   },
 
   -- light line
   {
     'itchyny/lightline.vim',
+    lazy = false,
     init = function()
       require "plugconf/lightline"
     end,
@@ -79,12 +86,16 @@ return {
     end,
   },
 
-  -- file number on vim startup
-  { dir = '~/dotfiles/dist/3rdparty/vim/file-line' },
   -- surround fast change
-  { dir = '~/dotfiles/dist/3rdparty/vim/surround' },
+  {
+    dir = '~/dotfiles/dist/3rdparty/vim/surround',
+    event = "InsertEnter",
+  },
   -- auto indentation
-  { dir = '~/dotfiles/dist/3rdparty/vim/sleuth' },
+  {
+    dir = '~/dotfiles/dist/3rdparty/vim/sleuth',
+    event = "BufRead",
+  },
   -- session manager
   { dir = '~/dotfiles/dist/3rdparty/vim/obsession' },
 
@@ -173,6 +184,7 @@ return {
   -- LSP Support
   {
     'neovim/nvim-lspconfig',
+    event = "BufRead",
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
     },
@@ -182,11 +194,21 @@ return {
   },
 
   {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = {
       "williamboman/mason.nvim",
-      build = ":MasonUpdate",
-      opts = function()
-        return require('plugconf/mason')
-      end,
+    },
+    cmd = { "LspInstall", "LspUninstall" },
+    lazy = true,
+  },
+
+  {
+    "williamboman/mason.nvim",
+    cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
+    build = ":MasonUpdate",
+    opts = function()
+      return require('plugconf/mason')
+    end,
   },
 
   -- Lua snippet plugin
@@ -219,9 +241,14 @@ return {
   {
     dir = '~/dotfiles/dist/3rdparty/vim/nvim-treesitter',
     cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
+    event = "BufRead",
     build = ":TSUpdate",
     opts = function()
       return require('plugconf/treesitter')
+    end,
+    config = function(_, opts)
+      require("nvim-treesitter.install").prefer_git = false
+      require'nvim-treesitter.configs'.setup(opts)
     end,
   },
 
