@@ -34,7 +34,7 @@ jobs:
     - name: Install dependencies
       run: |
         pacman -Syyu --needed --noconfirm --noprogressbar \
-          bind-tools xdg-utils rsync sudo stow git docker
+          bind-tools xdg-utils rsync sudo stow git docker docker-compose docker-buildx
 
         dbus-uuidgen --ensure=/etc/machine-id
     - name: Set up QEMU
