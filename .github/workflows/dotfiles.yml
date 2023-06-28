@@ -31,6 +31,12 @@ jobs:
 
         git submodule sync
         git -c protocol.version=2 submodule update --init --force --depth=1 3rdparty/
+    - name: Install dependencies
+      run: |
+        pacman -Syyu --needed --noconfirm --noprogressbar \
+          bind-tools xdg-utils rsync sudo stow git docker
+
+        dbus-uuidgen --ensure=/etc/machine-id
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2.2.0
     - name: Set up Docker Buildx
@@ -43,11 +49,6 @@ jobs:
           image=moby/buildkit:latest
     - name: Run dotfiles configuration script w/ minimal installation
       run: |
-        pacman -Syyu --needed --noconfirm --noprogressbar \
-          bind-tools xdg-utils rsync sudo stow git docker
-
-        dbus-uuidgen --ensure=/etc/machine-id
-
         useradd -g users -G wheel -m luis
         echo "${{ matrix.workspace }}" > /etc/hostname
         chown -R luis:users .
