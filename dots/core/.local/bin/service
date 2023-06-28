@@ -83,7 +83,7 @@ function _service_sys_service()
             ;;
         enable)
             local is_enabled=
-            is_enabled="$(systemctl is-enabled "$2")"
+            is_enabled="$(systemctl is-enabled "$2" || :)"
             if [ "$is_enabled" == "not-found" ]; then
                 echo "Unknown service name" >&2
                 exit 1
