@@ -31,6 +31,7 @@ return {
     "zig",
   },
   sync_install = false,
+  auto_install = true,
 
   autopairs = {
     enable = true,

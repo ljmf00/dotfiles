@@ -1,4 +1,4 @@
-return {
+require("bufferline").setup{
   options = {
     custom_areas = {
       right = function()
