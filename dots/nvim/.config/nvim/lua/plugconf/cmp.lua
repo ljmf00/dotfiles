@@ -1,6 +1,6 @@
 local cmp = require'cmp'
 
-cmp.setup({
+cmp.setup{
   sources = {
     {name = 'path'},
     {name = 'nvim_lsp', keyword_length = 3},
@@ -51,4 +51,8 @@ cmp.setup({
       end
     end, {'i', 's'}),
   }),
-})
+}
+
+-- setup cmp for autopairs
+local cmp_autopairs = require "nvim-autopairs.completion.cmp"
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())

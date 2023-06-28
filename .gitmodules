@@ -35,3 +35,6 @@
 	path = 3rdparty/vim/nvim-treesitter
 	url = https://github.com/ljmf00/nvim-treesitter.git
 	pushurl = git@github.com:ljmf00/nvim-treesitter.git
+[submodule "3rdparty/nvim/lazy.nvim"]
+	path = 3rdparty/nvim/lazy.nvim
+	url = https://github.com/folke/lazy.nvim.git

@@ -1,16 +1,3 @@
-
--- Remap leader key
-vim.cmd 'let mapleader=" "'
-
--- Set paste toggle
-vim.o.pastetoggle = '<F2>'
-
--- Smart Home key
-vim.cmd [[
-noremap  <expr> <Home> col('.') == match(getline('.'), '\S') + 1 ? "\<Home>" : "^"
-inoremap <expr> <Home> col('.') == match(getline('.'), '\S') + 1 ? "\<Home>" : "\<C-O>^"
-]]
-
 vim.cmd [[
   function! QuickFixToggle()
     if empty(filter(getwininfo(), 'v:val.quickfix'))
@@ -49,19 +36,7 @@ if hasnpairs then
   vim.api.nvim_set_keymap('i', '<bs>', 'v:lua.MUtils.BS()', { expr = true, noremap = true })
 end
 
--- Move lines around in visual mode
-vim.cmd [[
-vmap <unique> <A-k>    <Plug>SchleppUp
-vmap <unique> <A-j>    <Plug>SchleppDown
-vmap <unique> <A-h>    <Plug>SchleppLeft
-vmap <unique> <A-l>    <Plug>SchleppRight
-vmap <unique> <C-k>    <Plug>SchleppDupUp
-vmap <unique> <C-j>    <Plug>SchleppDupDown
-vmap <unique> <C-h>    <Plug>SchleppDupLeft
-vmap <unique> <C-l>    <Plug>SchleppDupRight
-]]
-
-local mappings = {
+return {
   i = { -- Insert mode
 
     { "<A-j>", "<ESC><cmd>m .+1<CR>==gi" },
@@ -145,7 +120,7 @@ local mappings = {
     { "<leader>af", "<cmd>lua vim.lsp.buf.formatting()<cr>" },
 
     --  Find
-    { "<leader>fF", "<cmd>lua require'pconfig.c-telescope-cmd'.project_files()<cr>" },
+    { "<leader>fF", "<cmd>lua require'plugconf/telescope'.project_files()<cr>" },
     { "<leader>ff", "<cmd>Telescope find_files<cr>" },
     { "<leader>fg", "<cmd>Telescope live_grep<cr>" },
     { "<leader>fd", "<cmd>Telescope lsp_document_symbols<cr>" },
@@ -193,15 +168,3 @@ local mappings = {
     { "<C-q>", "<cmd>call QuickFixToggle()<CR>" },
   },
 }
-
-local function register_mappings(mappings, default_options)
-  for mode, mode_mappings in pairs(mappings) do
-    for _, mapping in pairs(mode_mappings) do
-      local options = #mapping == 3 and table.remove(mapping) or default_options
-      local prefix, cmd = unpack(mapping)
-      pcall(vim.api.nvim_set_keymap, mode, prefix, cmd, options)
-    end
-  end
-end
-
-register_mappings(mappings, { silent = true, noremap = true })

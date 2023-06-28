@@ -1,8 +1,6 @@
--- Plugin setup
-require('plugins')
+-- bootstrap code
+local bootstrap = require('bootstrap')
 
--- Keybindings
-require('keybindings')
-
--- General settings
-require('settings')
+bootstrap.load_plugins()
+bootstrap.load_settings()
+bootstrap.load_keybindings()
