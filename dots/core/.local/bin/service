@@ -79,14 +79,14 @@ function _service_sys_service()
     case "$1" in
         drop | build | logs | create | recreate)
             echo "Unknown service command" >&2
-            exit 1
+            return 1
             ;;
         enable)
             local is_enabled=
             is_enabled="$(systemctl is-enabled "$2" || :)"
             if [ "$is_enabled" == "not-found" ]; then
                 echo "Unknown service name" >&2
-                exit 1
+                return 1
             fi
 
             if [ "$is_enabled" == "disabled" ]; then
