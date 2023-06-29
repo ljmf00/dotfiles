@@ -124,7 +124,9 @@ function main()
         edit_args+=('-S' 'Session.vim')
     fi
 
-    if [ -f "${paths:-.}" ] || [ "${#paths[@]}" -gt 1 ] || [ ! -d "${paths:-.}" ]; then
+    if [ "$(readlink -f "${paths:-.}")" == "$(readlink -f "$HOME")" ]; then
+        edit_args=()
+    elif [ -f "${paths:-.}" ] || [ "${#paths[@]}" -gt 1 ] || [ ! -d "${paths:-.}" ]; then
         edit_args=()
     fi
     edit_args+=( "${paths:-.}" )
