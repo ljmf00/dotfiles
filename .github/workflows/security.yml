@@ -17,16 +17,6 @@ on:
       - '!.pre-commit-config.yaml'
       - '!.github/workflows/*'
       - '.github/workflows/security.yml'
-  push:
-    branches:
-      - master
-    paths:
-      - '*/**'
-      - '!README.md'
-      - '!CONTRIBUTING.md'
-      - '!.pre-commit-config.yaml'
-      - '!.github/workflows/*'
-      - '.github/workflows/security.yml'
   workflow_dispatch:
 
 permissions:
