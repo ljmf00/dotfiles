@@ -4,9 +4,15 @@ on:
   pull_request:
     branches:
       - master
+    paths:
+    - 'webapp/**'
+    - '.github/workflows/webapp.yml'
   push:
     branches:
       - master
+    paths:
+    - 'webapp/**'
+    - '.github/workflows/webapp.yml'
   workflow_dispatch:
 
 jobs:
