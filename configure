@@ -86,7 +86,7 @@ function main()
     xargs -I{} bash -c "$DOTFILES_FOLDER/dist/scripts/{}"
 
   for s in $(grep '^S ' < "$machine_path" | cut -d' ' -f2 || :); do
-    service enable "$s"
+    service enable "$s" || :
   done
 }
 
