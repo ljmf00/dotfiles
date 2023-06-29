@@ -7,12 +7,14 @@ on:
     paths:
     - 'webapp/**'
     - '.github/workflows/webapp.yml'
+    - '.pre-commit-config.yaml'
   push:
     branches:
       - master
     paths:
     - 'webapp/**'
     - '.github/workflows/webapp.yml'
+    - '.pre-commit-config.yaml'
   workflow_dispatch:
 
 jobs:
