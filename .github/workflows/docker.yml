@@ -4,17 +4,27 @@ on:
   pull_request:
     branches:
       - master
-    paths-ignore:
-      - 'webapp/**'
-      - 'README.md'
-      - 'CONTRIBUTING.md'
+    paths:
+      - '*/**'
+      - '!webapp/**'
+      - '!README.md'
+      - '!CONTRIBUTING.md'
+      - '!.pre-commit-config.yaml'
+      - '!deploy/terraform/**'
+      - '!.github/workflows/*'
+      - '.github/workflows/docker.yml'
   push:
     branches:
       - master
-    paths-ignore:
-      - 'webapp/**'
-      - 'README.md'
-      - 'CONTRIBUTING.md'
+    paths:
+      - '*/**'
+      - '!webapp/**'
+      - '!README.md'
+      - '!CONTRIBUTING.md'
+      - '!.pre-commit-config.yaml'
+      - '!deploy/terraform/**'
+      - '!.github/workflows/*'
+      - '.github/workflows/docker.yml'
   schedule:
     # Every day
     - cron:  '0 0 * * *'

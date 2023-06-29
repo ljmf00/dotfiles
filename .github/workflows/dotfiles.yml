@@ -4,17 +4,29 @@ on:
   pull_request:
     branches:
       - master
-    paths-ignore:
-      - 'webapp/**'
-      - 'README.md'
-      - 'CONTRIBUTING.md'
+    paths:
+      - '*/**'
+      - '!webapp/**'
+      - '!README.md'
+      - '!CONTRIBUTING.md'
+      - '!.pre-commit-config.yaml'
+      - '!deploy/ansible/**'
+      - '!deploy/terraform/**'
+      - '!.github/workflows/*'
+      - '.github/workflows/dotfiles.yml'
   push:
     branches:
       - master
-    paths-ignore:
-      - 'webapp/**'
-      - 'README.md'
-      - 'CONTRIBUTING.md'
+    paths:
+      - '*/**'
+      - '!webapp/**'
+      - '!README.md'
+      - '!CONTRIBUTING.md'
+      - '!.pre-commit-config.yaml'
+      - '!deploy/ansible/**'
+      - '!deploy/terraform/**'
+      - '!.github/workflows/*'
+      - '.github/workflows/dotfiles.yml'
   workflow_dispatch:
 
 jobs:

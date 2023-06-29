@@ -10,15 +10,23 @@ on:
   pull_request:
     branches:
       - master
-    paths-ignore:
-      - 'README.md'
-      - 'CONTRIBUTING.md'
+    paths:
+      - '*/**'
+      - '!README.md'
+      - '!CONTRIBUTING.md'
+      - '!.pre-commit-config.yaml'
+      - '!.github/workflows/*'
+      - '.github/workflows/security.yml'
   push:
     branches:
       - master
-    paths-ignore:
-      - 'README.md'
-      - 'CONTRIBUTING.md'
+    paths:
+      - '*/**'
+      - '!README.md'
+      - '!CONTRIBUTING.md'
+      - '!.pre-commit-config.yaml'
+      - '!.github/workflows/*'
+      - '.github/workflows/security.yml'
   workflow_dispatch:
 
 permissions:
