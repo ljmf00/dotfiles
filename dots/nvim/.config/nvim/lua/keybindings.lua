@@ -73,6 +73,12 @@ return {
     --  Tree
     { "<leader>vt", "<cmd>NvimTreeToggle<cr>" },
 
+    -- Command palette
+    { "<leader>vp", "<cmd>Telescope<cr>" },
+    -- View Telekasten panel
+    { "<leader>vz", "<cmd>Telekasten panel<cr>" },
+
+
     -- View
     --  Reset view
     { "<leader>vr",
@@ -140,6 +146,16 @@ return {
     { "<leader>7", "<cmd>BufferLineGoToBuffer 7<cr>" },
     { "<leader>8", "<cmd>BufferLineGoToBuffer 8<cr>" },
     { "<leader>9", "<cmd>BufferLineGoToBuffer 9<cr>" },
+
+    -- Telekasten
+    { "<leader>zf", "<cmd>Telekasten find_notes<cr>" },
+    { "<leader>zg", "<cmd>Telekasten search_notes<cr>" },
+    { "<leader>zd", "<cmd>Telekasten goto_today<cr>" },
+    { "<leader>zn", "<cmd>Telekasten new_note<cr>" },
+    { "<leader>zc", "<cmd>Telekasten show_calendar<cr>" },
+    { "<leader>zb", "<cmd>Telekasten show_backlinks<cr>" },
+    { "<leader>zi", "<cmd>Telekasten insert_link<cr>" },
+    { "<leader>zI", "<cmd>Telekasten insert_img_link<cr>" },
 
     --  Move lines up and down
     { "<A-j>", "<cmd>m .+1<CR>=="},
