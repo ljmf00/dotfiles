@@ -101,6 +101,9 @@ return {
   -- comments
   "numToStr/Comment.nvim",
 
+  -- mkdir
+  'jghauser/mkdir.nvim',
+
   -- Indent guidelines
   {
     "lukas-reineke/indent-blankline.nvim",
