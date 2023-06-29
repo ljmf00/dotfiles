@@ -34,7 +34,7 @@ jobs:
     - name: Install dependencies
       run: |
         pacman -Syyu --needed --noconfirm --noprogressbar \
-          bind-tools xdg-utils rsync sudo stow git nix \
+          bind-tools xdg-utils rsync sudo stow git \
           docker docker-compose docker-buildx
 
         dbus-uuidgen --ensure=/etc/machine-id
@@ -50,10 +50,7 @@ jobs:
           image=moby/buildkit:latest
     - name: Run dotfiles configuration script w/ minimal installation
       run: |
-        useradd -g users -G wheel,docker,nix-users -m luis
-
-        nix-channel --add https://nixos.org/channels/nixpkgs-unstable
-        nix-channel --update
+        useradd -g users -G wheel,docker -m luis
 
         echo "${{ matrix.workspace }}" > /etc/hostname
         chown -R luis:users .
