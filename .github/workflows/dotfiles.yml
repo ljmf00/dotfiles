@@ -69,11 +69,7 @@ jobs:
       if: matrix.workspace == 'personal'
       timeout-minutes: 15
       run: |
-        # Packer install and sync
-        echo "--> Packer install"
-        sudo -u luis nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerInstall'
-        # FIXME: Sync doesn't work
-        # echo "--> Packer sync"
-        # sudo -u luis nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+        echo "--> Lazy update"
+        sudo -u luis nvim --headless "+Lazy! sync" +qa
         echo "--> Try to open and exit"
         sudo -u luis nvim --headless -c 'quitall'
