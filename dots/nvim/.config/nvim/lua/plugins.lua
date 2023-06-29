@@ -30,18 +30,14 @@ return {
 
   -- buffer line
   {
-    'akinsho/bufferline.nvim',
-    lazy = false,
+    'romgrk/barbar.nvim',
     dependencies = {
       'nvim-tree/nvim-web-devicons',
       'yamatsum/nvim-nonicons',
+      'lewis6991/gitsigns.nvim',
     },
-    init = function()
-      vim.opt.termguicolors = true
-    end,
-    config = function()
-      require "plugconf/bufferline"
-    end,
+    init = function() vim.g.barbar_auto_setup = false end,
+    opts = {},
   },
 
   -- light line
