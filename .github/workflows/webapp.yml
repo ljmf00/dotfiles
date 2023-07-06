@@ -26,11 +26,11 @@ jobs:
     - name: Install dependencies
       run: |
         pacman -Syyu --needed --noconfirm --noprogressbar \
-          nodejs npm composer php icu lib32-icu
+          nodejs yarn composer php
     - name: Build
       run: |
         cd webapp
 
         composer install
-        npm install
-        npm run build
+        yarn install
+        yarn run build
