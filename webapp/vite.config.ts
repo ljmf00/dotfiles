@@ -1,5 +1,7 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import { ViteMinifyPlugin } from 'vite-plugin-minify';
+import manifestSRI from 'vite-plugin-manifest-sri';
 
 export default defineConfig({
     plugins: [
@@ -8,5 +10,7 @@ export default defineConfig({
             buildDirectory: 'bundle',
             refresh: true,
         }),
+        manifestSRI(),
+        ViteMinifyPlugin({}),
     ],
 });
