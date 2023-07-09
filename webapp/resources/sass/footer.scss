@@ -1,0 +1,8 @@
+@import 'utils/text-style';
+
+footer {
+	@extend .mono;
+
+	margin: auto;
+	overflow: hidden;
+}

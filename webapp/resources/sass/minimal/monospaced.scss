@@ -1,0 +1,13 @@
+@import '../utils/text';
+
+.min-textbox {
+	@extend .mono;
+
+	display: block;
+	unicode-bidi: embed;
+	white-space: normal;
+}
+
+.min-textbox pre {
+	white-space: pre-wrap;
+}

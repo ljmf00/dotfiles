@@ -1,0 +1,23 @@
+/* small scale */
+
+.sm-1 { font-size: small; }
+.sm-2 { font-size: smaller; }
+.sm-3 { font-size: x-small; }
+.sm-4 { font-size: xx-small; }
+
+.sm { @extend .sm-1; }
+.smr { @extend .sm-2; }
+.x-sm { @extend .sm-3; }
+.xx-sm { @extend .sm-4; }
+
+/* large scale */
+
+.lg-1 { font-size: large; }
+.lg-2 { font-size: larger; }
+.lg-3 { font-size: x-large; }
+.lg-4 { font-size: xx-large; }
+
+.lg { @extend .lg-1; }
+.lgr { @extend .lg-2; }
+.x-lg { @extend .lg-3; }
+.xx-lg { @extend .lg-4; }
