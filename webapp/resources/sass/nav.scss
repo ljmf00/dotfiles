@@ -1,0 +1,27 @@
+@import 'utils/text-style';
+@import 'utils/alignment';
+@import 'utils/grid';
+
+nav ol {
+	@extend .row;
+	@extend .center;
+
+	flex-wrap: wrap;
+	list-style: none;
+	padding-inline: 0;
+}
+
+nav li {
+	@extend .col;
+
+	margin: 1rem;
+
+	list-style: none;
+}
+
+nav {
+	@extend .mono;
+
+	margin: auto;
+	overflow: hidden;
+}

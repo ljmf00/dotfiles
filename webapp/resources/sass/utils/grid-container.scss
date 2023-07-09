@@ -1,0 +1,45 @@
+@import 'sizes';
+
+.container-fluid,
+.container {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.container-fluid {
+	padding-bottom: 1rem;
+}
+
+@media (min-width: $normal-screen)
+{
+	.container-fluid {
+		padding-right: 2rem;
+		padding-left: 2rem;
+	}
+}
+
+@media (max-width: $normal-screen), print
+{
+	.container-fluid {
+		padding-right: 1rem;
+		padding-left: 1rem;
+	}
+}
+
+@media (--sm-viewport) {
+	.container {
+		width: $small-screen;
+	}
+}
+
+@media (--md-viewport) {
+	.container {
+		width: $normal-screen;
+	}
+}
+
+@media (--lg-viewport) {
+	.container {
+		width: $wide-screen;
+	}
+}

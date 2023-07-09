@@ -1,0 +1,23 @@
+.avatar {
+	max-width: 175px;
+	width: 100%;
+	height: auto;
+}
+
+@media (min-width: $small-screen)
+{
+	.right-avatar {
+		float: right;
+	}
+
+	.avatar {
+		padding: 1rem;
+	}
+}
+
+@media (max-width: $small-screen), print
+{
+	.right-avatar {
+		float:inherit;
+	}
+}

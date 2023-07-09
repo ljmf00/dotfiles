@@ -1,0 +1,26 @@
+@import 'minimal/container';
+@import 'minimal/monospaced';
+
+@import 'utils/text';
+@import 'utils/images';
+
+@import 'nav';
+@import 'footer';
+@import 'article';
+@import 'avatar';
+@import 'post';
+@import 'pagination';
+
+html, body {
+	margin: 0px;
+	padding: 0px;
+	background-color: #f4f4f4;
+	font-family: sans-serif;
+}
+
+#page {
+	@extend .min-container;
+
+	background-color: white;
+	border: solid 1px #ccc;
+}

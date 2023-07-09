@@ -1,0 +1,23 @@
+@import '../utils/sizes';
+@import '../utils/grid-container';
+
+.min-container {
+	@extend .container-fluid;
+}
+
+@media (min-width: $normal-screen)
+{
+	.min-container {
+		max-width: $normal-screen;
+		margin: 0px auto;
+		border-top: none;
+	}
+}
+
+@media (max-width: $small-screen), print
+{
+	.min-container {
+		margin: 0px auto;
+		border-top: none;
+	}
+}

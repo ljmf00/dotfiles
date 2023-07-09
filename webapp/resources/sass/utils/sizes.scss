@@ -1,0 +1,26 @@
+$small-screen: 48em;
+$normal-screen: 64em;
+$wide-screen: 75em;
+
+:root {
+	--gutter-width: 1rem;
+	--outer-margin: 2rem;
+	--gutter-compensation: calc((var(--gutter-width) * 0.5) * -1);
+	--half-gutter-width: calc((var(--gutter-width) * 0.5));
+}
+
+@custom-media --sm-viewport only screen and (min-width: $small-screen);
+@custom-media --md-viewport only screen and (min-width: $normal-screen);
+@custom-media --lg-viewport only screen and (min-width: $wide-screen);
+
+@mixin build-mixin-sizes($name)
+{
+	.#{$name} { @content; };
+	.#{$name}-xs { @content; };
+
+	@each $viewport-size in ('sm', 'md', 'lg') {
+		@media (--#{$viewport-size}-viewport) {
+			.#{$name}-#{$viewport-size} { @content; };
+		}
+	}
+}

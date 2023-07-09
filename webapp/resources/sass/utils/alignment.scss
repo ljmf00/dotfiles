@@ -1,0 +1,55 @@
+@import 'sizes';
+@import 'text-align';
+
+@include build-mixin-sizes('left') {
+	justify-content: left;
+	align-items: left;
+}
+
+@include build-mixin-sizes('center') {
+	justify-content: center;
+	align-items: center;
+}
+
+@include build-mixin-sizes('right') {
+	justify-content: right;
+	align-items: right;
+}
+
+@include build-mixin-sizes('start') {
+	justify-content: flex-start;
+	text-align: start;
+}
+
+@include build-mixin-sizes('end') {
+	justify-content: flex-end;
+	text-align: end;
+}
+
+@include build-mixin-sizes('top') {
+	align-items: flex-start;
+}
+
+@include build-mixin-sizes('middle') {
+	align-items: center;
+}
+
+@include build-mixin-sizes('bottom') {
+	align-items: flex-end;
+}
+
+@include build-mixin-sizes('around') {
+	justify-content: space-around;
+}
+
+@include build-mixin-sizes('between') {
+	justify-content: space-between;
+}
+
+@include build-mixin-sizes('first') {
+	order: -1;
+}
+
+@include build-mixin-sizes('last') {
+	order: 1;
+}
