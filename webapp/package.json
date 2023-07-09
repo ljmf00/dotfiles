@@ -2,15 +2,17 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "eslint && vite build"
     },
     "devDependencies": {
         "axios": "^1.1.2",
+        "eslint": "^8.44.0",
         "laravel-vite-plugin": "^0.7.2",
         "sass": "^1.63.6",
         "ts-loader": "^9.4.4",
         "typescript": "^5.1.6",
         "vite": "^4.4.2",
-        "vite-plugin-manifest-sri": "^0.1.0"
+        "vite-plugin-manifest-sri": "^0.1.0",
+        "vite-plugin-minify": "^1.5.2"
     }
 }
