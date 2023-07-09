@@ -7,6 +7,19 @@ M.echo = function(str)
   vim.api.nvim_echo({ { str, "Bold" } }, true, {})
 end
 
+function M.mkdir_run()
+  local dir = vim.fn.expand('<afile>:p:h')
+
+  -- This handles URLs using netrw. See ':help netrw-transparent' for details.
+  if dir:find('%l+://') == 1 then
+    return
+  end
+
+  if vim.fn.isdirectory(dir) == 0 then
+    vim.fn.mkdir(dir, 'p')
+  end
+end
+
 M.load_plugins = function()
   local install_path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
@@ -50,6 +63,15 @@ M.load_keybindings = function()
   end
 
   register_mappings(mappings, { silent = true, noremap = true })
+end
+
+M.load = function()
+  vim.cmd([[
+    augroup MkdirRun
+    autocmd!
+    autocmd BufWritePre * lua require('bootstrap').mkdir_run()
+    augroup END
+  ]])
 end
 
 return M

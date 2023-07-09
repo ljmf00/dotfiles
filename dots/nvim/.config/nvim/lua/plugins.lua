@@ -92,17 +92,12 @@ return {
     dir = '~/dotfiles/dist/3rdparty/vim/sleuth',
     event = "BufRead",
   },
-  -- session manager
-  { dir = '~/dotfiles/dist/3rdparty/vim/obsession' },
 
   -- text colorizer
   "NvChad/nvim-colorizer.lua",
 
   -- comments
   "numToStr/Comment.nvim",
-
-  -- mkdir
-  'jghauser/mkdir.nvim',
 
   -- Indent guidelines
   {
