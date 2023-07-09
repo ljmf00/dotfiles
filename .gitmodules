@@ -1,33 +1,21 @@
 [submodule "private"]
 	path = private
 	url = git@github.com:ljmf00/dotfiles-private.git
-[submodule "3rdparty/vim/packer.nvim"]
-	path = 3rdparty/vim/packer.nvim
-	url = https://github.com/devtty63/packer.nvim
 [submodule "3rdparty/vim/sonokai"]
 	path = 3rdparty/vim/sonokai
-	url = https://github.com/devtty63/sonokai
+	url = https://github.com/sainnhe/sonokai.git
 [submodule "3rdparty/vim/wakatime"]
 	path = 3rdparty/vim/wakatime
-	url = https://github.com/devtty63/vim-wakatime
+	url = https://github.com/wakatime/vim-wakatime.git
 [submodule "3rdparty/vim/schlepp"]
 	path = 3rdparty/vim/schlepp
-	url = https://github.com/devtty63/vim-schlepp
-[submodule "3rdparty/vim/file-line"]
-	path = 3rdparty/vim/file-line
-	url = https://github.com/devtty63/file-line
-[submodule "3rdparty/vim/sensible"]
-	path = 3rdparty/vim/sensible
-	url = https://github.com/devtty63/vim-sensible
+	url = https://github.com/zirrostig/vim-schlepp.git
 [submodule "3rdparty/vim/surround"]
 	path = 3rdparty/vim/surround
-	url = https://github.com/devtty63/vim-surround
+	url = https://github.com/tpope/vim-surround.git
 [submodule "3rdparty/vim/sleuth"]
 	path = 3rdparty/vim/sleuth
-	url = https://github.com/devtty63/vim-sleuth
-[submodule "3rdparty/vim/obsession"]
-	path = 3rdparty/vim/obsession
-	url = https://github.com/devtty63/vim-obsession
+	url = https://github.com/tpope/vim-sleuth.git
 [submodule "3rdparty/scripts/flamegraph"]
 	path = 3rdparty/scripts/flamegraph
 	url = https://github.com/brendangregg/FlameGraph.git
@@ -38,3 +26,24 @@
 [submodule "3rdparty/nvim/lazy.nvim"]
 	path = 3rdparty/nvim/lazy.nvim
 	url = https://github.com/folke/lazy.nvim.git
+[submodule "3rdparty/nvim/tokyonight.nvim"]
+	path = 3rdparty/nvim/tokyonight.nvim
+	url = https://github.com/folke/tokyonight.nvim.git
+[submodule "3rdparty/nvim/barbar.nvim"]
+	path = 3rdparty/nvim/barbar.nvim
+	url = https://github.com/romgrk/barbar.nvim.git
+[submodule "3rdparty/vim/neomake"]
+	path = 3rdparty/vim/neomake
+	url = https://github.com/neomake/neomake.git
+[submodule "3rdparty/vim/fugitive"]
+	path = 3rdparty/vim/fugitive
+	url = https://github.com/tpope/vim-fugitive.git
+[submodule "3rdparty/nvim/lspconfig"]
+	path = 3rdparty/nvim/lspconfig
+	url = https://github.com/neovim/nvim-lspconfig.git
+[submodule "3rdparty/nvim/telescope"]
+	path = 3rdparty/nvim/telescope
+	url = https://github.com/nvim-telescope/telescope.nvim.git
+[submodule "3rdparty/nvim/plenary"]
+	path = 3rdparty/nvim/plenary
+	url = https://github.com/nvim-lua/plenary.nvim.git

@@ -22,7 +22,7 @@ return {
   },
 
   -- alternative light theme
-  'folke/tokyonight.nvim',
+  { dir = '~/dotfiles/dist/3rdparty/nvim/tokyonight.nvim' },
 
   -- icons
   { "nvim-tree/nvim-web-devicons" },
@@ -30,7 +30,7 @@ return {
 
   -- buffer line
   {
-    'romgrk/barbar.nvim',
+    dir = '~/dotfiles/dist/3rdparty/nvim/barbar.nvim',
     dependencies = {
       'nvim-tree/nvim-web-devicons',
       'yamatsum/nvim-nonicons',
@@ -139,21 +139,21 @@ return {
   },
 
   {
-    'neomake/neomake',
+    '~/dotfiles/dist/3rdparty/vim/neomake',
     config = function()
       require('plugconf/neomake')
     end,
   },
 
   -- Git Support
-  { 'tpope/vim-fugitive', tag = 'v3.4' },
+  { dir = '~/dotfiles/dist/3rdparty/vim/fugitive' },
 
   {
     'lewis6991/gitsigns.nvim',
     ft = { "gitcommit", "diff" },
     tag = 'v0.5',
-    requires = {
-      'nvim-lua/plenary.nvim'
+    dependencies = {
+      { dir = '~/dotfiles/dist/3rdparty/nvim/plenary' },
     },
     init = function()
       -- load gitsigns only when a git file is opened
@@ -177,7 +177,7 @@ return {
 
   -- LSP Support
   {
-    'neovim/nvim-lspconfig',
+    dir = '~/dotfiles/dist/3rdparty/nvim/lspconfig',
     event = "BufRead",
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
@@ -248,11 +248,11 @@ return {
 
   -- telescope fuzzy finder
   {
-    'nvim-telescope/telescope.nvim', tag = '0.1.1',
+    dir = '~/dotfiles/dist/3rdparty/nvim/telescope',
     cmd = "Telescope",
 
     dependencies = {
-      'nvim-lua/plenary.nvim',
+      { dir = '~/dotfiles/dist/3rdparty/nvim/plenary' },
       'nvim-lua/popup.nvim',
       'BurntSushi/ripgrep',
 
