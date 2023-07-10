@@ -1,9 +1,6 @@
 /.phpunit.cache
 /node_modules
-/public/build
-/public/bundle
-/public/hot
-/public/storage
+/public/
 /storage/*.key
 /vendor
 .env
@@ -18,3 +15,5 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/.vitepress/cache/
+/.vitepress/dist/
