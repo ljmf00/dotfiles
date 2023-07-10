@@ -1,4 +1,7 @@
 {
+  "extends": [
+      "@vue/tsconfig/tsconfig.json"
+  ],
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
@@ -16,6 +19,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["resources/js"],
+  "include": ["resources/theme"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
