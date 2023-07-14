@@ -30,6 +30,10 @@ if has('syntax')
   syntax enable
 endif
 
+" set color scheme
+set background=dark
+colorscheme simple
+
 " Disable vi compatibility, if for some reason it's on.
 if &compatible
   set nocompatible
