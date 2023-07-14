@@ -6,38 +6,24 @@ return {
     priority = 1000,
   },
 
-  -- theme
-  {
-    dir = '~/dotfiles/dist/3rdparty/vim/sonokai',
-    lazy = false,
-    priority = 999,
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-      'yamatsum/nvim-nonicons',
-      'itchyny/lightline.vim',
-    },
-    config = function()
-      vim.cmd 'silent! source ~/.config/nvim/lua/plugconf/sonokai.vim'
-    end,
-  },
-
-  -- alternative light theme
-  { dir = '~/dotfiles/dist/3rdparty/nvim/tokyonight.nvim' },
-
-  -- icons
-  { "nvim-tree/nvim-web-devicons" },
-  { 'yamatsum/nvim-nonicons' },
-
   -- buffer line
   {
     dir = '~/dotfiles/dist/3rdparty/nvim/barbar.nvim',
     dependencies = {
-      'nvim-tree/nvim-web-devicons',
-      'yamatsum/nvim-nonicons',
       'lewis6991/gitsigns.nvim',
     },
     init = function() vim.g.barbar_auto_setup = false end,
-    opts = {},
+    opts = {
+      icons = {
+        button   = 'x',
+        inactive = { button = 'x' },
+        filetype = {
+          enabled = false,
+        },
+        separator = { left = '|', right = '' },
+        modified  = { button = '*' },
+      }
+    },
   },
 
   -- light line
