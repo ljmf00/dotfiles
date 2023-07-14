@@ -1,11 +1,20 @@
-<script setup>
+<script lang="ts" setup>
   import { useData } from 'vitepress'
-  const { page } = useData()
+  const { page, frontmatter } = useData()
+
+  import NotFoundPage from './pages/NotFoundPage.vue'
+
+  import HomePage from './pages/HomePage.vue'
+  import CustomPage from './pages/CustomPage.vue'
+
+  import ArticlePage from './pages/ArticlePage.vue'
 </script>
 
 <template>
-  <div v-if="page.isNotFound">
-    <pre>Not found.</pre>
-  </div>
-  <Content v-else />
+  <NotFoundPage v-if="page.isNotFound" />
+
+  <HomePage v-else-if="frontmatter.layout === 'home'" />
+  <CustomPage v-else-if="frontmatter.layout === 'custom'" />
+
+  <ArticlePage v-else />
 </template>
