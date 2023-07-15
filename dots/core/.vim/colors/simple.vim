@@ -300,4 +300,31 @@ call s:HL('GitSignsCurrentLineBlame', s:palette.grey)
 " Floaterm
 call s:HL('FloatermBorder', s:palette.grey)
 
+" NvimTree
+call s:HL('NvimTreeNormal', s:palette.fg, s:palette.bg)
+call s:HL('NvimTreeEndOfBuffer', s:palette.bg2, s:palette.bg2)
+call s:HL('NvimTreeVertSplit', s:palette.bg2, s:palette.bg)
+call s:HL('NvimTreeCursorLine', s:palette.none, s:palette.bg2)
+
+
+call s:HL('NvimTreeRootFolder', s:palette.grey, s:palette.none, 'bold,')
+call s:HL('NvimTreeFolderName', s:palette.cyan)
+highlight! link NvimTreeOpenedFolderName NvimTreeFolderName
+highlight! link NvimTreeSymlinkFolderName NvimTreeFolderName
+call s:HL('NvimTreeFolderIcon', s:palette.grey)
+highlight! link NvimTreeFileIcon NvimTreeFolderIcon
+highlight! link NvimTreeSymlinkIcon NvimTreeFolderIcon
+
+call s:HL('NvimTreeExecFile', s:palette.fg, s:palette.none, 'bold,')
+call s:HL('NvimTreeModifiedFile', s:palette.none, s:palette.none, 'italic,')
+call s:HL('NvimTreeSymlink', s:palette.fg)
+
+call s:HL('NvimTreeGitMerge', s:palette.magenta)
+call s:HL('NvimTreeGitNew', s:palette.green)
+call s:HL('NvimTreeGitStaged', s:palette.green)
+call s:HL('NvimTreeGitRenamed', s:palette.orange)
+call s:HL('NvimTreeGitDirty', s:palette.orange, s:palette.none, 'italic,')
+call s:HL('NvimTreeGitDeleted', s:palette.red)
+call s:HL('NvimTreeGitIgnored', s:palette.grey)
+
 " vim: set sw=2 ts=2 sts=2 et tw=80 ft=vim fdm=marker:
