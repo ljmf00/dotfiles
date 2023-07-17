@@ -294,6 +294,10 @@ alias please='sudo'
 alias task='dstask'
 alias t='dstask'
 
+alias ssh='TERM=xterm-256color ssh'
+alias mosh='TERM=xterm-256color mosh'
+alias tmux='TERM=xterm-256color tmux'
+
 if \hash perf_ 2>/dev/null; then
   alias perf='perf_'
 fi
