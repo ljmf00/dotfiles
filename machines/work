@@ -14,9 +14,9 @@ d wm-i3
 d wm-qtile
 
 s touch-files
-s config-busybox
 s config-gnome
-s config-nix
+s config-busybox
+is config-nix
 s fix-permissions
 
 A core

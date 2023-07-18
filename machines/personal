@@ -17,7 +17,7 @@ d wm-qtile
 s touch-files
 s config-busybox
 s config-gnome
-s config-nix
+is config-nix
 s config-personal
 s fix-permissions
 

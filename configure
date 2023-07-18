@@ -80,6 +80,9 @@ function main()
     done
 
     installpkgs_system_install
+
+    (grep '^is ' < "$machine_path" | cut -d' ' -f2 || :) | \
+      xargs -I{} bash -c "$DOTFILES_FOLDER/dist/scripts/{}"
   fi
 
   (grep '^s ' < "$machine_path" | cut -d' ' -f2 || :) | \
