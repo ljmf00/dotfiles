@@ -51,7 +51,7 @@ function main()
     ln -sf "$DOTFILES_FOLDER" "$HOME/dotfiles"
   fi
 
-  rsync -av \
+  rsync -avlK \
     --exclude dist \
     --exclude .git \
     --delete \
@@ -67,7 +67,7 @@ function main()
     xargs -I{} stow --target="$HOME" -v -d "$DOTFILES_FOLDER/dist/dots" -R {}
 
   (grep '^C ' < "$machine_path" | cut -d' ' -f2 || :) | \
-    xargs -I{} rsync -av "$DOTFILES_FOLDER/dist/dots/{}/" "$HOME/"
+    xargs -I{} rsync -avlK --force "$DOTFILES_FOLDER/dist/dots/{}/" "$HOME/"
 
   source "$DOTFILES_FOLDER/lib/pkexec.sh"
   source "$DOTFILES_FOLDER/dist/dots/core/.local/bin/service"
