@@ -46,7 +46,7 @@ endif
 let s:palette = {
   \ 'black':             ['#000000',    'black'],
   \ 'white':             ['#ffffff',    'white'],
-  \ 'darkgrey':          ['#151515', 'darkgrey'],
+  \ 'darkgrey':          ['#202020', 'darkgrey'],
   \ 'grey':              ['#a0a0a0',     'grey'],
   \ 'lightgrey':         ['#cccccc','lightgrey'],
   \ 'red':               ['#ff0000',      'red'],
