@@ -125,7 +125,7 @@ return {
   },
 
   {
-    '~/dotfiles/dist/3rdparty/vim/neomake',
+    dir = '~/dotfiles/dist/3rdparty/vim/neomake',
     config = function()
       require('plugconf/neomake')
     end,
