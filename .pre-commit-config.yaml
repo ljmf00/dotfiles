@@ -35,6 +35,7 @@ repos:
         exclude: >
           (?x)^(
             dots/nvim/.config/nvim/colors|
+            dots/nvim/.config/nvim/autoload|
           )$
       - id: destroyed-symlinks
       - id: detect-private-key
