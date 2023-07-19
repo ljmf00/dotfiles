@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+if [ -n "${TMUX+x}" ]; then
+    echo "Can't allow a session inside a session" >&2
+    exit 1
+fi
+
+sessionhash="session-$(basename "$(pwd)")-$(echo "$(pwd) $*" | gzip -1 -c | tail -c8 | hexdump -n4 -e '"%x"')"
+
+if ! tmux has-session -t "$sessionhash" 2>/dev/null; then
+    exec tmux new -s "$sessionhash" "$@"
+fi
+
+exec tmux attach -t "$sessionhash"
