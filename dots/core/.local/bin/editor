@@ -19,8 +19,7 @@ function usage()
     echo
     echo "  -h --help         Print help"
     echo "  -g --goto <alias> Goto specified alias before edit"
-    echo "  -d --detached     Try to run in a detached window"
-    echo "  -s --session      Attach to a tmux session"
+    echo "  -n --nosession    Don't attach to a tmux session"
     echo
     echo "Report bugs to: <https://github.com/ljmf00/dotfiles/issues>"
 }
@@ -28,13 +27,13 @@ function usage()
 function main()
 {
     local galias='' gpath=.
-    local insession=auto detached=false
+    local createsession=auto
 
     local paths=()
     local args=
-    args=$(getopt -o hdsg:                              \
-                   --long goto:,detached,session,help   \
-                   -n 'editor' -- "$@"                  \
+    args=$(getopt -o hng:                      \
+                   --long goto:,nosession,help \
+                   -n 'editor' -- "$@"         \
           )
 
     # shellcheck disable=SC2181
@@ -45,8 +44,8 @@ function main()
 
     while true; do
         case "$1" in
-            --session | -s )
-                insession=true
+            --nosession | -n )
+                createsession=false
                 shift ;;
             --goto | -g    )
                 galias="$2"
@@ -61,9 +60,6 @@ function main()
                 fi
 
                 shift 2 ;;
-            --detached | -d )
-                detached=true
-                shift ;;
             --help | -h     ) usage; return 0 ;;
             --              ) shift; break    ;;
             *               )        break    ;;
@@ -90,35 +86,17 @@ function main()
     export EDITOR
     export VISUAL
 
-    local inssh=false iskitty=false
-
-    if [ -n "${SSH_CLIENT+x}" ] || [ -n "${SSH_TTY+x}" ]; then
-        inssh=true
-        detached=false
-    fi
-
-    # Deactivate checks since we don't control dependencies of this script
-    set +eu
-
-    # shellcheck disable=SC1090
-    source "$HOME/.bash/_term"
-
-    set -eu
-
-    if [[ "$TERM" == "xterm-kitty" ]]; then
-        iskitty=true
-    fi
-
-    echo "$iskitty" >/dev/null
-    echo "$inssh" >/dev/null
-
     cd "$gpath"
 
     local edit_args=()
 
+    if [ "$createsession" == "auto" ] && [ -n "${TMUX+x}" ]; then
+        createsession=false
+    fi
+
     if [ -f "Session.vim" ]; then
-        if [ "$insession" == "auto" ]; then
-            insession=true
+        if [ "$createsession" == "auto" ]; then
+            createsession=true
         fi
 
         edit_args+=('-S' 'Session.vim')
@@ -131,35 +109,17 @@ function main()
     fi
     edit_args+=( "${paths:-.}" )
 
-    if [ "$insession" = true ]; then
-        if [ "$detached" = false ] && [ -n "${TMUX+x}" ]; then
+    if [ "$createsession" = true ]; then
+        if [ -n "${TMUX+x}" ]; then
             # shellcheck disable=SC2016
             echo 'sessions should be nested with care, unset $TMUX to force' >&2
             return 1
         fi
-        unset TMUX
 
-        local edithash=
-        edithash="editor-$(echo "$(pwd) $(readlink -f "${paths:-.}")" | sha224sum - | cut -d' ' -f1)"
+        exec session "$EDITOR" "${edit_args[@]}"
 
-        for ts in $(tmux ls | cut -d: -f1); do
-            if [ "$ts" == "$edithash" ]; then
-                if [ "$detached" = true ]; then
-                    exec sensible-terminal tmux attach -t "$ts"
-                fi
-                exec tmux attach -t "$ts"
-            fi
-        done
-
-        if [ "$detached" = true ]; then
-            exec sensible-terminal tmux new -s "$edithash" "$EDITOR" "${edit_args[@]}"
-        fi
-        exec tmux new -s "$edithash" "$EDITOR" "${edit_args[@]}"
     fi
 
-    if [ "$detached" = true ]; then
-        exec sensible-terminal "$EDITOR" "${edit_args[@]}"
-    fi
     exec "$EDITOR" "${edit_args[@]}"
 }
 
