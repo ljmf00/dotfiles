@@ -52,8 +52,9 @@ function main()
   fi
 
   rsync -avlK \
-    --exclude dist \
-    --exclude .git \
+    --exclude 'dist' \
+    --exclude '.git' \
+    --exclude '*.so' \
     --delete \
     "$DOTFILES_FOLDER/" "$DOTFILES_FOLDER/dist/"
 
