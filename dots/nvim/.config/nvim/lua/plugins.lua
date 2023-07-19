@@ -45,18 +45,6 @@ return {
     end,
   },
 
-  -- Floating terminal
-  {
-    'voldikss/vim-floaterm',
-    cmd = "FloatermToggle",
-    init = function()
-      require "plugconf/floaterm"
-    end,
-  },
-
-  -- extra theme dressing
-  "stevearc/dressing.nvim",
-
   -- wakatime
   { dir = '~/dotfiles/dist/3rdparty/vim/wakatime' },
 
