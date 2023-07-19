@@ -5,7 +5,7 @@ if [ -n "${TMUX+x}" ]; then
     exit 1
 fi
 
-sessionhash="session-$(basename "$(pwd)")-$(echo "$(pwd) $*" | gzip -1 -c | tail -c8 | hexdump -n4 -e '"%x"')"
+sessionhash="session-$(basename "$(pwd)")-$(echo "$(pwd) $*" | gzip -1 -c | tail -c8 | hexdump -n4 -e '"%x"')-default"
 
 if ! tmux has-session -t "$sessionhash" 2>/dev/null; then
     exec tmux new -s "$sessionhash" "$@"
