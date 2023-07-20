@@ -5,7 +5,6 @@ d kitty
 d nix
 d starship
 d perf
-d tmux
 C nvim
 d helix
 d htop

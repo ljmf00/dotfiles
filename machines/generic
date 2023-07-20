@@ -1,7 +1,6 @@
 d core
 
 d perf
-d tmux
 C nvim
 d helix
 d starship
