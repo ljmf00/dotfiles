@@ -6,7 +6,6 @@ d nix
 d starship
 d personal
 d perf
-d tmux
 C nvim
 d helix
 d htop
