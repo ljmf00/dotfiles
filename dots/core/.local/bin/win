@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
 
-if [ "$1" == "" ]; then
-    echo "Provide a window name" >&2
+if [ -z "${TMUX+x}" ]; then
+    if [ "$1" == "" ]; then
+        exec session
+    fi
+
+    echo "Need to be inside a tmux session" >&2
     exit 1
 fi
 
-tmux a -t "$1" || tmux new -t "$1"
+if [ "$1" == "" ]; then
+    exec tmux new-window
+fi
+
+exec tmux new-window -n "$1"
