@@ -37,6 +37,7 @@ jobs:
           - generic
           - personal
           - work
+          - minimal
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/ljmf00/archlinux:aur
