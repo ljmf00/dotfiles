@@ -24,7 +24,7 @@ updates:
       interval: "daily"
 
   - package-ecosystem: "gitsubmodule"
-    directory: "/3rdparty/"
+    directory: "/"
     schedule:
       interval: "daily"
 
