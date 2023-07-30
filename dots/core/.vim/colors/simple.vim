@@ -207,7 +207,15 @@ if version >= 700
 endif
 
 " Errors
-call s:HL('Error',          s:palette.red)
+call s:HL('Error', s:palette.red)
+call s:HL('ErrorText', s:palette.none, s:palette.none, 'undercurl,', s:palette.red)
+call s:HL('WarningText', s:palette.none, s:palette.none, 'undercurl,', s:palette.yellow)
+call s:HL('InfoText', s:palette.none, s:palette.none, 'undercurl,', s:palette.blue)
+call s:HL('HintText', s:palette.none, s:palette.none, 'undercurl,', s:palette.green)
+call s:HL('ErrorSign', s:palette.red, s:palette.bg2)
+call s:HL('WarningSign', s:palette.yellow, s:palette.bg2)
+call s:HL('InfoSign', s:palette.blue, s:palette.bg2)
+call s:HL('HintSign', s:palette.green, s:palette.bg2)
 
 " Cursor
 call s:HL('Cursor', s:palette.none, s:palette.none, 'reverse,')
@@ -326,5 +334,21 @@ call s:HL('NvimTreeGitRenamed', s:palette.orange)
 call s:HL('NvimTreeGitDirty', s:palette.orange, s:palette.none, 'italic,')
 call s:HL('NvimTreeGitDeleted', s:palette.red)
 call s:HL('NvimTreeGitIgnored', s:palette.grey)
+
+" Neomake
+highlight! link NeomakeError ErrorText
+highlight! link NeomakeWarning WarningText
+highlight! link NeomakeInfo InfoText
+highlight! link NeomakeMessage HintText
+
+highlight! link NeomakeErrorSign ErrorSign
+highlight! link NeomakeWarningSign WarningSign
+highlight! link NeomakeInfoSign InfoSign
+highlight! link NeomakeMessageSign HintSign
+
+highlight! link NeomakeVirtualtextError VirtualTextError
+highlight! link NeomakeVirtualtextWarning VirtualTextWarning
+highlight! link NeomakeVirtualtextInfo VirtualTextInfo
+highlight! link NeomakeVirtualtextMessag VirtualTextHint
 
 " vim: set sw=2 ts=2 sts=2 et tw=80 ft=vim fdm=marker:
