@@ -44,7 +44,7 @@ jobs:
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock
     steps:
-    - uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v4
     - name: Checkout submodules
       run: |
         # inside the container git --global configuration isn't set
