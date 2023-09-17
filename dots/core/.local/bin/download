@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # shellcheck disable=SC2068
-yt-dlp \
+yt-dlp -v \
     -f bestaudio \
     --audio-format best \
     --audio-quality 0 \
@@ -17,6 +17,7 @@ yt-dlp \
     --add-metadata \
     --audio-format mp3 \
     --yes-playlist \
+    --force-ipv4 \
     -N "$(nproc --all)" \
     -o "%(uploader)s - %(title)s.%(ext)s" \
     $@
