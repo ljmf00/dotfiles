@@ -8,7 +8,7 @@
   {
 
     imports = [
-      "${toString modulesPath}/installer/cd-dvd/installation-cd-graphical-gnome.nix"
+      "${toString modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix"
     ];
 
     isoImage.isoName = mkDefault "installer.iso";
@@ -21,25 +21,25 @@
     boot.loader.grub.memtest86.enable = true;
     boot.kernelPackages = mkDefault config.boot.zfs.package.latestCompatibleLinuxPackages;
 
-    documentation.enable = mkDefault false;
-    documentation.nixos.enable = mkDefault false;
-
     networking.networkmanager.enable = true;
     networking.wireless.enable = mkDefault true;
     networking.wireless.userControlled.enable = true;
     systemd.services.wpa_supplicant.wantedBy = mkOverride 50 [];
 
-    services.xserver.enable = true;
-    services.xserver.desktopManager.gnome.enable = true;
-    services.xserver.displayManager = {
-      gdm = {
-        enable = true;
-        autoSuspend = false;
-      };
+    services.xserver = {
+      enable = true;
 
-      autoLogin = {
-        enable = true;
-        user = "nixos";
+      desktopManager.gnome.enable = true;
+      displayManager = {
+        gdm = {
+          enable = true;
+          autoSuspend = false;
+        };
+
+        autoLogin = {
+          enable = true;
+          user = "nixos";
+        };
       };
     };
 
