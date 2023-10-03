@@ -70,36 +70,45 @@ function main()
     machine_path="$DOTFILES_FOLDER/dist/machines/generic"
   fi
 
-  nix run --impure home-manager -- switch --impure --flake .
+  if [[ "${1:-}" == "nix"* ]]; then
+    if [[ "${1:-}" == "nix-cached" ]]; then
+      OPTIONS_NIX_ARGS=()
+    else
+      OPTIONS_NIX_ARGS=(--option substitute "false")
+    fi
 
-  # (grep '^d ' < "$machine_path" | cut -d' ' -f2 || :) | \
-  #   xargs -I{} stow --target="$HOME" -v -d "$DOTFILES_FOLDER/dist/dots" -R {}
+    nix run "${OPTIONS_NIX_ARGS[@]}" --impure home-manager -- \
+      switch "${OPTIONS_NIX_ARGS[@]}" --impure --flake .
+  else
+    (grep '^d ' < "$machine_path" | cut -d' ' -f2 || :) | \
+      xargs -I{} stow --target="$HOME" -v -d "$DOTFILES_FOLDER/dist/dots" -R {}
 
-  # (grep '^C ' < "$machine_path" | cut -d' ' -f2 || :) | \
-  #   xargs -I{} rsync -avlK --force "$DOTFILES_FOLDER/dist/dots/{}/" "$HOME/"
+    (grep '^C ' < "$machine_path" | cut -d' ' -f2 || :) | \
+      xargs -I{} rsync -avlK --force "$DOTFILES_FOLDER/dist/dots/{}/" "$HOME/"
 
-  # source "$DOTFILES_FOLDER/lib/pkexec.sh"
-  # source "$DOTFILES_FOLDER/dist/dots/core/.local/bin/service"
+    source "$DOTFILES_FOLDER/lib/pkexec.sh"
+    source "$DOTFILES_FOLDER/dist/dots/core/.local/bin/service"
 
-  # if [ "${1:-}" == "install" ]; then
-  #   source "$DOTFILES_FOLDER/lib/installpkgs.sh"
+    if [ "${1:-}" == "install" ]; then
+      source "$DOTFILES_FOLDER/lib/installpkgs.sh"
 
-  #   for appfile in $(grep '^A ' < "$machine_path" | cut -d' ' -f2 || :); do
-  #     installpkgs_appfile "$DOTFILES_FOLDER/dist/apps/$appfile" || :
-  #   done
+      for appfile in $(grep '^A ' < "$machine_path" | cut -d' ' -f2 || :); do
+        installpkgs_appfile "$DOTFILES_FOLDER/dist/apps/$appfile" || :
+      done
 
-  #   installpkgs_system_install
+      installpkgs_system_install
 
-  #   (grep '^is ' < "$machine_path" | cut -d' ' -f2 || :) | \
-  #     xargs -I{} bash -c "$DOTFILES_FOLDER/dist/scripts/{}"
-  # fi
+      (grep '^is ' < "$machine_path" | cut -d' ' -f2 || :) | \
+        xargs -I{} bash -c "$DOTFILES_FOLDER/dist/scripts/{}"
+    fi
 
-  # (grep '^s ' < "$machine_path" | cut -d' ' -f2 || :) | \
-  #   xargs -I{} bash -c "$DOTFILES_FOLDER/dist/scripts/{}"
+    (grep '^s ' < "$machine_path" | cut -d' ' -f2 || :) | \
+      xargs -I{} bash -c "$DOTFILES_FOLDER/dist/scripts/{}"
 
-  # for s in $(grep '^S ' < "$machine_path" | cut -d' ' -f2 || :); do
-  #   service enable "$s" || :
-  # done
+    for s in $(grep '^S ' < "$machine_path" | cut -d' ' -f2 || :); do
+      service enable "$s" || :
+    done
+  fi
 }
 
 main "$@"
