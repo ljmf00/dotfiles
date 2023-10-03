@@ -6,3 +6,6 @@ dist/
 
 # Vim session
 Session.vim
+
+# nix result file
+result
