@@ -28,6 +28,7 @@
   outputs = { self, home-manager, nixpkgs, nixos-generators, nur, ... }@inputs:
     let
       system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
 
       mkSystem = pkgs: system: hostname:
         pkgs.lib.nixosSystem {
@@ -35,14 +36,14 @@
           modules = [
             { networking.hostName = hostname; }
             ./nixos/modules/configuration.nix
-            (./nixos + "/hosts/${hostname}/hardware-configuration.nix")
+            (./. + "/hosts/${hostname}/hardware-configuration.nix")
             home-manager.nixosModules.home-manager
             {
               home-manager = {
                 useUserPackages = true;
                 useGlobalPkgs = true;
                 extraSpecialArgs = { inherit inputs; };
-                users.notus = (./nixos + "/hosts/${hostname}/user.nix");
+                users.luis = (./home.nix);
               };
               nixpkgs.overlays = [
                 nur.overlay
@@ -63,6 +64,12 @@
 
       nixosConfigurations = {
         thinker = mkSystem inputs.nixpkgs "x86_64-linux" "thinker";
+      };
+
+      homeConfigurations."luis" = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [ ./home.nix ];
+        extraSpecialArgs = { inherit inputs; };
       };
     };
 }
