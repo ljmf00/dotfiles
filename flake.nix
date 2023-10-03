@@ -11,7 +11,6 @@
 
     nur = {
       url = "github:nix-community/NUR";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nixos-generators = {
@@ -27,16 +26,18 @@
 
   outputs = { self, home-manager, nixpkgs, nixos-generators, nur, ... }@inputs:
     let
-      system = "x86_64-linux";
+      system = if builtins ? currentSystem then builtins.currentSystem else "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+
+      hostname = let host = builtins.getEnv "HOSTNAME";
+        in if builtins.stringLength host != 0 then host else "generic";
 
       mkSystem = pkgs: system: hostname:
         pkgs.lib.nixosSystem {
           system = system;
           modules = [
             { networking.hostName = hostname; }
-            ./nixos/modules/system/configuration.nix
-            (./. + "/hosts/${hostname}/hardware-configuration.nix")
+            (./. + "/hosts/${hostname}/configuration.nix")
             home-manager.nixosModules.home-manager
             {
               home-manager = {
@@ -68,7 +69,9 @@
 
       homeConfigurations."luis" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        modules = [ ./home.nix ];
+        modules = [
+          ./hosts/${hostname}/home.nix
+        ];
         extraSpecialArgs = { inherit inputs; };
       };
     };
