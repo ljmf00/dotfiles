@@ -35,7 +35,7 @@
           system = system;
           modules = [
             { networking.hostName = hostname; }
-            ./nixos/modules/configuration.nix
+            ./nixos/modules/system/configuration.nix
             (./. + "/hosts/${hostname}/hardware-configuration.nix")
             home-manager.nixosModules.home-manager
             {

@@ -1,5 +1,1 @@
-{ config, lib, inputs, ...}:
-
-{
-    programs.bash.enable = true;
-}
+{ config, lib, inputs, ...}: {}
