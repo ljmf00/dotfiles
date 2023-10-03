@@ -16,6 +16,7 @@ jobs:
         attr:
           - nixosInstallerIso
           - nixosConfigurations.thinker
+          - homeConfigurations.luis
     runs-on: ubuntu-latest
     steps:
 
