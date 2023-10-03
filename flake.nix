@@ -24,11 +24,10 @@
     };
   };
 
-  outputs = { self, home-manager, nixpkgs, nixos-generators, nur, ... }@inputs:
+  outputs = { self, nixpkgs, ... }@inputs:
     let
       system = if builtins ? currentSystem then builtins.currentSystem else "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-
       hostname = let host = builtins.getEnv "HOSTNAME";
         in if builtins.stringLength host != 0 then host else "generic";
 
@@ -37,38 +36,42 @@
           system = system;
           modules = [
             { networking.hostName = hostname; }
-            (./. + "/hosts/${hostname}/configuration.nix")
-            home-manager.nixosModules.home-manager
+            ./hosts/${hostname}/configuration.nix
+            inputs.home-manager.nixosModules.home-manager
             {
               home-manager = {
                 useUserPackages = true;
                 useGlobalPkgs = true;
                 extraSpecialArgs = { inherit inputs; };
-                users.luis = (./home.nix);
+                users.luis = ./hosts/${hostname}/home.nix;
               };
-              nixpkgs.overlays = [
-                nur.overlay
-                (import ./nixos/overlays)
-              ];
             }
           ];
           specialArgs = { inherit inputs; };
         };
 
     in {
+      # include nixpkgs overlays
+      nixpkgs.overlays = [
+        inputs.nur.overlay
+        (import ./nixos/overlays)
+      ];
+
       # nixos installer iso
       nixosInstallerIso = (nixpkgs.lib.nixosSystem {
-        system = system;
+        inherit system;
+
         specialArgs = inputs;
         modules = [ ./nixos/installer/configuration.nix ];
       }).config.formats.iso;
 
       nixosConfigurations = {
-        thinker = mkSystem inputs.nixpkgs "x86_64-linux" "thinker";
+        thinker = mkSystem nixpkgs "x86_64-linux" "thinker";
       };
 
-      homeConfigurations."luis" = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations.luis = inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
+
         modules = [
           ./hosts/${hostname}/home.nix
         ];
