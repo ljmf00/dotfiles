@@ -9,23 +9,66 @@
 
     imports = [
       "${toString modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix"
+      "${toString modulesPath}/installer/cd-dvd/channel.nix"
+      "${toString modulesPath}/profiles/qemu-guest.nix"
     ];
 
-    isoImage.isoName = mkDefault "installer.iso";
+    # metadata
+    system.stateVersion = lib.mkDefault lib.trivial.release;
+    system.nixos.variant_id = lib.mkDefault "installer";
+
+    # iso image settings
+    isoImage.isoName = mkForce "installer.iso";
+    isoImage.squashfsCompression = "gzip -Xcompression-level 1";
     isoImage.volumeID = substring 0 11 "INSTALLISO";
     isoImage.makeEfiBootable = true;
     isoImage.makeUsbBootable = true;
 
-    system.stateVersion = lib.mkDefault lib.trivial.release;
+    # disk layout
+    swapDevices = mkImageMediaOverride [ ];
+    fileSystems = mkImageMediaOverride config.lib.isoFileSystems;
 
+    # documentation
+    documentation.enable = mkImageMediaOverride true;
+    documentation.nixos.enable = mkImageMediaOverride true;
+
+    # early boot-related settings
     boot.loader.grub.memtest86.enable = true;
-    boot.kernelPackages = mkDefault config.boot.zfs.package.latestCompatibleLinuxPackages;
 
+    # kernel and firmware settings
+    boot.swraid.enable = true;
+    hardware.enableRedistributableFirmware = true;
+    hardware.enableAllFirmware = true;
+    nixpkgs.config.allowUnfree = true;
+    boot.initrd.availableKernelModules =
+      [
+        "virtio_net" "virtio_pci" "virtio_mmio" "virtio_blk" "virtio_scsi"
+        "virtio_balloon" "virtio_console" "virtio_rng"
+        "9p" "9pnet_virtio"
+
+        "hv_balloon" "hv_netvsc" "hv_storvsc" "hv_utils" "hv_vmbus"
+        "hyperv_keyboard"
+      ];
+    boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+    boot.supportedFilesystems =
+      [ "btrfs" "ext4" "cifs" "f2fs" "jfs" "ntfs" "reiserfs" "vfat" "xfs" "zfs" ];
+
+    # network settings
     networking.networkmanager.enable = true;
     networking.wireless.enable = mkDefault true;
     networking.wireless.userControlled.enable = true;
     systemd.services.wpa_supplicant.wantedBy = mkOverride 50 [];
+    # needed for zfs
+    networking.hostId = lib.mkDefault "8425e349";
 
+    # virtualization settings
+    virtualisation.spiceUSBRedirection.enable = true;
+    virtualisation.hypervGuest.enable = true;
+    virtualisation.virtualbox.guest.enable = mkForce true;
+    virtualisation.vmware.guest.enable = true;
+
+    # services
+    services.qemuGuest.enable = true;
     services.xserver = {
       enable = true;
 
@@ -43,13 +86,14 @@
       };
     };
 
+    # security-related changes
     services.openssh = {
-      enable = mkDefault false;
-      settings.PermitRootLogin = mkDefault "no";
+      enable = mkForce false;
+      settings.PermitRootLogin = mkForce "no";
     };
 
     security.sudo = {
-      enable = mkDefault true;
+      enable = mkForce true;
       wheelNeedsPassword = mkImageMediaOverride false;
     };
 
@@ -57,53 +101,59 @@
     security.virtualisation.flushL1DataCache = mkDefault "always";
     security.apparmor.enable = mkDefault true;
     security.apparmor.killUnconfinedConfinables = mkDefault true;
+    nix.settings.trusted-users = [ "root" "nixos" ];
 
     powerManagement.enable = true;
     hardware.pulseaudio.enable = true;
-    hardware.enableRedistributableFirmware = true;
 
     environment.variables.GC_INITIAL_HEAP_SIZE = "1M";
 
-    swapDevices = mkImageMediaOverride [ ];
-    fileSystems = mkImageMediaOverride config.lib.isoFileSystems;
-
     fonts.fontconfig.enable = true;
 
-    console.packages = options.console.packages.default ++ [ pkgs.terminus_font ];
-    environment.systemPackages = [
-      pkgs.w3m-nographics
-      pkgs.testdisk
-      pkgs.ms-sys
-      pkgs.efibootmgr
-      pkgs.efivar
-      pkgs.parted
-      pkgs.gptfdisk
-      pkgs.ddrescue
-      pkgs.ccrypt
-      pkgs.cryptsetup
+    # packages
 
-      pkgs.gparted
-      pkgs.sdparm
-      pkgs.hdparm
-      pkgs.smartmontools
-      pkgs.pciutils
-      pkgs.usbutils
-      pkgs.nvme-cli
+    # console packages
+    console.packages = with pkgs;
+      [
+        terminus_font
+      ];
 
-      pkgs.fuse
-      pkgs.fuse3
-      pkgs.sshfs-fuse
-      pkgs.socat
-      pkgs.tmux
-      pkgs.tcpdump
+    # system packages
+    environment.systemPackages = with pkgs;
+      [
+        w3m-nographics
+        testdisk
+        ms-sys
+        efibootmgr
+        efivar
+        parted
+        gptfdisk
+        ddrescue
+        ccrypt
+        cryptsetup
 
-      pkgs.neovim
-      pkgs.git
-      pkgs.firefox
+        gparted
+        sdparm
+        hdparm
+        smartmontools
+        pciutils
+        usbutils
+        nvme-cli
 
-      pkgs.unzip
-      pkgs.zip
-    ];
+        fuse
+        fuse3
+        sshfs-fuse
+        socat
+        tmux
+        tcpdump
+
+        neovim
+        git
+        firefox
+
+        unzip
+        zip
+      ];
 
     system.extraDependencies = with pkgs;
       [
@@ -115,8 +165,5 @@
         systemdStage1
         systemdStage1Network
       ];
-
-    boot.swraid.enable = true;
-    nix.settings.trusted-users = [ "root" "nixos" ];
   };
 }
