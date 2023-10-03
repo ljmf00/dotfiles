@@ -13,7 +13,7 @@
         "@vue/tsconfig": "^0.4.0",
         "eslint": "^8.47.0",
         "eslint-plugin-vue": "^9.17.0",
-        "lightningcss": "^1.21.5",
+        "lightningcss": "^1.22.0",
         "sass": "^1.66.1",
         "terser": "^5.20.0",
         "ts-loader": "^9.4.4",
