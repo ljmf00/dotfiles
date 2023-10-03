@@ -58,9 +58,9 @@
     in {
       # nixos installer iso
       nixosInstallerIso = (nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        system = system;
         specialArgs = inputs;
-        modules = [ ./nixos/installer/config.nix ];
+        modules = [ ./nixos/installer/configuration.nix ];
       }).config.formats.iso;
 
       nixosConfigurations = {
