@@ -22,7 +22,7 @@
         "vite": "^4.4.11",
         "vite-plugin-eslint": "^1.8.1",
         "vite-plugin-manifest-sri": "^0.1.0",
-        "vitepress": "^1.0.0-rc.13",
+        "vitepress": "^1.0.0-rc.20",
         "vue": "^3.3.4"
     }
 }
