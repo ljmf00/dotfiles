@@ -1,12 +1,13 @@
 { config, lib, pkgs, inputs, ... }:
-
+  with lib;
 {
-  system.stateVersion = "23.05";
-
   # users
   users.users.luis = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     shell = pkgs.bash;
   };
+
+  nix.settings.trusted-users = [ "root" "luis" ];
+  nix.settings.allowed-users = [ "root" "luis" ];
 }

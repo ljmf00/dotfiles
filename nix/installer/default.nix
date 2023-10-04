@@ -14,8 +14,8 @@
     ];
 
     # metadata
-    system.stateVersion = lib.mkDefault lib.trivial.release;
-    system.nixos.variant_id = lib.mkDefault "installer";
+    system.stateVersion = mkDefault lib.trivial.release;
+    system.nixos.variant_id = mkDefault "installer";
 
     # iso image settings
     isoImage.isoName = mkForce "installer.iso";
@@ -64,7 +64,6 @@
     # virtualization settings
     virtualisation.spiceUSBRedirection.enable = true;
     virtualisation.hypervGuest.enable = true;
-    virtualisation.virtualbox.guest.enable = mkForce true;
     virtualisation.vmware.guest.enable = true;
 
     # services

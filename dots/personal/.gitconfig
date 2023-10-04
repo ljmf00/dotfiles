@@ -25,11 +25,6 @@
 [diff]
 	wsErrorHighlight = all
 
-[user]
-	email = contact@lsferreira.net
-	name = Luís Ferreira
-	signingkey = 730750D54B7A9F66
-
 [log]
 	utf8 = true
 

@@ -1,0 +1,31 @@
+{ config, lib, pkgs, inputs, ... }:
+  with lib;
+{
+  # enable fontconfig
+  fonts.fontconfig.enable = true;
+
+  # add fonts
+  fonts.packages = with pkgs; [
+      dejavu_fonts
+
+      noto-fonts
+      noto-fonts-emoji
+      noto-fonts-cjk
+
+      noto-fonts-lgc-plus
+      noto-fonts-cjk-sans
+      noto-fonts-cjk-serif
+
+      ubuntu_font_family
+      liberation_ttf
+      roboto
+  ];
+
+  # console settings
+  console.packages = with pkgs;
+    [
+      terminus_font
+    ];
+  console.font = "Lat2-Terminus16";
+  console.keyMap = "us";
+}
