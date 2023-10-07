@@ -10,7 +10,7 @@
 
     userControlled.enable = true;
   };
-  systemd.services.wpa_supplicant.wantedBy = [];
+  systemd.services.wpa_supplicant.wantedBy = mkForce [];
 
   # needed for zfs
   networking.hostId = mkDefault "8425e349";

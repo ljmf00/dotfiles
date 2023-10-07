@@ -12,6 +12,9 @@
       "${toString modulesPath}/installer/cd-dvd/channel.nix"
       "${toString modulesPath}/profiles/qemu-guest.nix"
     ];
+    imports = [
+      ./../profiles/system/installer.nix
+    ];
 
     # metadata
     system.stateVersion = mkDefault lib.trivial.release;
@@ -31,35 +34,6 @@
     # documentation
     documentation.enable = mkImageMediaOverride true;
     documentation.nixos.enable = mkImageMediaOverride true;
-
-    # early boot-related settings
-    boot.loader.grub.memtest86.enable = true;
-
-    # kernel and firmware settings
-    boot.swraid.enable = true;
-    hardware.enableRedistributableFirmware = true;
-    hardware.enableAllFirmware = true;
-    nixpkgs.config.allowUnfree = true;
-    boot.initrd.availableKernelModules =
-      [
-        "virtio_net" "virtio_pci" "virtio_mmio" "virtio_blk" "virtio_scsi"
-        "virtio_balloon" "virtio_console" "virtio_rng"
-        "9p" "9pnet_virtio"
-
-        "hv_balloon" "hv_netvsc" "hv_storvsc" "hv_utils" "hv_vmbus"
-        "hyperv_keyboard"
-      ];
-    boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-    boot.supportedFilesystems =
-      [ "btrfs" "ext4" "cifs" "f2fs" "jfs" "ntfs" "reiserfs" "vfat" "xfs" "zfs" ];
-
-    # network settings
-    networking.networkmanager.enable = true;
-    networking.wireless.enable = mkDefault true;
-    networking.wireless.userControlled.enable = true;
-    systemd.services.wpa_supplicant.wantedBy = mkOverride 50 [];
-    # needed for zfs
-    networking.hostId = lib.mkDefault "8425e349";
 
     # virtualization settings
     virtualisation.spiceUSBRedirection.enable = true;

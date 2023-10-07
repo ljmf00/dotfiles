@@ -2,7 +2,9 @@
   with lib;
 {
   security = {
+    # disable sudo and enable doas
     sudo.enable = false;
+
     doas = {
       enable = true;
       extraRules = [{
@@ -11,8 +13,5 @@
         persist = true;
       }];
     };
-
-    # Extra security
-    protectKernelImage = true;
   };
 }

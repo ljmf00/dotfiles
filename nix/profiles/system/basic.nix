@@ -3,9 +3,12 @@
 {
   imports = [
     ./../../modules/system/basic.nix
+    ./../../modules/system/boot.nix
+    ./../../modules/system/hardware.nix
     ./../../modules/system/nix.nix
     ./../../modules/system/users.nix
     ./../../modules/system/fonts.nix
     ./../../modules/system/network.nix
+    ./../../modules/system/security.nix
   ];
 }
