@@ -2,7 +2,6 @@
   with lib;
 {
   imports = [
-    ./basic.nix
-    ./../../modules/system/hardened.nix
+    ./../../nix/profiles/system/minimal.nix
   ];
 }

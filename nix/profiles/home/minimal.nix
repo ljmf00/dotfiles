@@ -2,6 +2,7 @@
   with lib;
 {
   imports = [
+    ./../../modules/home/basic.nix
     ./../../modules/home/shell.nix
     ./../../modules/home/local-scripts
     ./../../modules/home/keys.nix
@@ -12,7 +13,6 @@
 
   home.keyboard.layout = "us";
 
-  home.stateVersion = trivial.release;
   home.enableNixpkgsReleaseCheck = true;
   home.extraOutputsToInstall =
     [

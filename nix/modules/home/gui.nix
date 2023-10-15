@@ -3,6 +3,11 @@
 {
   services.gpg-agent.pinentryFlavor = mkDefault "gtk2";
 
+  home.packages = with pkgs;
+    [
+      firefox
+    ];
+
   gtk = {
     enable = true;
 

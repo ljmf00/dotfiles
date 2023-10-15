@@ -11,6 +11,10 @@
 
   home.packages = with pkgs;
     [
+      zip
+      unzip
+      screen
+
       ripgrep
 
       openssh # remote shell

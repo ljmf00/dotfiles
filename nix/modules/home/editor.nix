@@ -9,6 +9,9 @@
     [
       # GUI support
       neovim-qt
+
+      # GUI alternative
+      vscodium
     ];
 
   editorconfig = {

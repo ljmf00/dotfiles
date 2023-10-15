@@ -1,5 +1,7 @@
 { config, lib, pkgs, inputs, ... }:
-  with lib;
+let
+  mkGenericDefault = lib.mkOverride 1100;
+in with lib;
 {
-  system.stateVersion = mkDefault lib.trivial.release;
+  system.stateVersion = mkGenericDefault trivial.release;
 }

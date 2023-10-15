@@ -10,13 +10,13 @@
     # operating system facilities
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # user configurations
     home-manager = {
-      url = "github:nix-community/home-manager/release-23.05";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     flake-utils.url = "github:numtide/flake-utils";
@@ -44,7 +44,7 @@
       username = defaultUsername;
 
       # alias to system-specific packages
-      pkgs = inputs.nixpkgs-stable.legacyPackages.${system};
+      pkgs = inputs.nixpkgs.legacyPackages.${system};
 
       python = pkgs.python311;
       pyPkgs = pkgs.python311Packages;
@@ -55,14 +55,18 @@
         pkgs.lib.nixosSystem {
           system = system;
           modules = [
+            ./sanix/system.nix
+            
             { networking.hostName = hostname; }
-            ./hosts/${hostname}/configuration.nix
+            ./hosts/${hostname}/system.nix
+
             inputs.home-manager.nixosModules.home-manager
             {
               home-manager = {
                 useUserPackages = true;
                 useGlobalPkgs = true;
                 extraSpecialArgs = { inherit inputs; };
+
                 users.${username} = ./hosts/${hostname}/home.nix;
               };
             }
@@ -81,10 +85,7 @@
       }).config.formats.iso;
 
       nixosConfigurations = rec {
-        "${defaultHostname}" = mkSystem inputs.nixpkgs-stable defaultSystem defaultHostname;
-        "${defaultHostname}-${defaultSystem}" = "${defaultHostname}";
-
-        thinker = mkSystem inputs.nixpkgs-stable "x86_64-linux" "thinker";
+        thinker = mkSystem inputs.nixpkgs "x86_64-linux" "thinker";
       };
 
       homeConfigurations.${username} = inputs.home-manager.lib.homeManagerConfiguration {

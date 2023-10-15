@@ -2,8 +2,6 @@
   with lib;
 {
   imports = [
-    ./../../nix/profiles/home/core.nix
-    ./../../nix/profiles/home/dev.nix
-    ./../../nix/profiles/home/graphics.nix
+    ./../../nix/profiles/home/minimal.nix
   ];
 }

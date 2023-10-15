@@ -3,15 +3,16 @@
 {
   nix = {
     settings.auto-optimise-store = true;
+    settings.experimental-features = [
+      "nix-command" "flakes"
+    ];
+    settings.keep-outputs = true;
+    settings.keep-derivations = true;
+    
     gc = {
       automatic = true;
       dates = "weekly";
       options = "--delete-older-than 7d";
     };
-    extraOptions = ''
-      experimental-features = nix-command flakes
-      keep-outputs = true
-      keep-derivations = true
-    '';
   };
 }
