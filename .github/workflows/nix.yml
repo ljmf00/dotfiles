@@ -22,7 +22,7 @@ jobs:
 
     - uses: actions/checkout@v4
 
-    - uses: nixbuild/nix-quick-install-action@v25
+    - uses: nixbuild/nix-quick-install-action@v26
       with:
         nix_conf: |
           substituters = https://cache.nixos.org/ https://nix-community.cachix.org
