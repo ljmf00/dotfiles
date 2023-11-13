@@ -18,7 +18,7 @@
     ./../../nix/profiles/system/laptop.nix
     ./../../nix/profiles/system/personal.nix
 
-    ./../../sanix/profiles/laptop.nix
+    ./../../sanix/modules/profiles/laptop.nix
   ];
 
   nix.settings.system-features = [ "nixos-test" "benchmark" "big-parallel" ];
@@ -51,11 +51,11 @@
 
   # documentation
   sanix.hardware = [
-    "cpu-amd-zen3" "gpu-amd" "audio" "usb" "wifi" "ethernet" "bluetooth"
+    "cpu-x86_64-amd-zen3" "gpu-amd" "audio" "usb" "wifi" "ethernet" "bluetooth"
   ];
 
   sanix.features = [
-    "unfree" "hardening" "accel-graphics"
+    "unfree" "hardening"
     "documentation" "fonts"
 
     "graphical-gnome"

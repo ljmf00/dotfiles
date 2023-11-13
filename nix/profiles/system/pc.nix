@@ -2,7 +2,6 @@
   with lib;
 {
   imports = [
-    ./../../modules/system/hardware/io/ata.nix
     ./../../modules/system/hardware/io/pci.nix
     ./../../modules/system/hardware/io/printer.nix
     ./../../modules/system/hardware/io/usb.nix

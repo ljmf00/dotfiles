@@ -55,7 +55,7 @@
         pkgs.lib.nixosSystem {
           system = system;
           modules = [
-            ./sanix/system.nix
+            ./sanix/modules/system.nix
             
             { networking.hostName = hostname; }
             ./hosts/${hostname}/system.nix
