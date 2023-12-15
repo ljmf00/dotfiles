@@ -60,4 +60,9 @@
 
     "graphical-gnome"
   ];
+
+  environment.systemPackages = with pkgs;
+    [
+      kitty
+    ];
 }
