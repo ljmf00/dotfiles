@@ -32,11 +32,13 @@
     # Animations
     "org/gnome/desktop/interface"."enable-animations" = true;
 
-    # Clock and Calendar
+    # Clock, Locale and Calendar
     "org/gnome/desktop/interface"."clock-format" = "24h";
     "org/gnome/desktop/interface"."clock-show-seconds" = true;
     "org/gnome/desktop/interface"."clock-show-weekday" = true;
     "org/gnome/desktop/interface"."clock-show-date" = true;
     "org/gnome/desktop/calendar"."show-weekdate" = true;
+    "org/gnome/shell/weather"."automatic-location" = true;
+    "org/gnome/system/location".enabled = true;
   };
 }

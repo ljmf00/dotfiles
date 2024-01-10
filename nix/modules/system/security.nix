@@ -5,7 +5,7 @@
   security.protectKernelImage = true;
 
   # enable apparmor
-  security.apparmor.enable = true;
+  # security.apparmor.enable = true;
 
   # enable sudo
   security.sudo = {
