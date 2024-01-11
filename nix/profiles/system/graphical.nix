@@ -3,5 +3,7 @@
 {
   imports = [
     ./minimal.nix
+
+    ./../../modules/system/graphics.nix
   ];
 }

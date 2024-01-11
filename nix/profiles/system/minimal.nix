@@ -12,6 +12,7 @@
 
     ./../../modules/system/firmware.nix
     ./../../modules/system/security.nix
+    ./../../modules/system/appimage.nix
     ./../../modules/system/network.nix
     ./../../modules/system/power.nix
     

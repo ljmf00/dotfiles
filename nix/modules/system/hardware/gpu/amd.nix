@@ -10,6 +10,12 @@ in with lib;
   boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "amdgpu" ];
 
+  systemd.tmpfiles.rules = [
+    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
+  ];
+
+  services.xserver.videoDrivers = mkGenericDefault [ "amdgpu" "radeon" ];
+
   hardware.opengl.extraPackages = with pkgs; [
       amdvlk
     ] ++
@@ -22,4 +28,8 @@ in with lib;
   hardware.opengl.extraPackages32 = with pkgs; [
     driversi686Linux.amdvlk
   ];
+
+  environment.variables = {
+    ROC_ENABLE_PRE_VEGA = "1";
+  };
 }
