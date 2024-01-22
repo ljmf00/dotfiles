@@ -8,6 +8,7 @@
   programs.btop.enable = true;
   programs.htop.enable = true;
   programs.tmate.enable = true;
+  programs.matplotlib.enable = true;
 
   home.packages = with pkgs;
     [

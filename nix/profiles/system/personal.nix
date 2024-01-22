@@ -3,6 +3,8 @@
 {
   imports = [
     ./graphical.nix
+
+    ./../../modules/system/packages/essentials.nix
     
     ./../../modules/system/monitoring.nix
     ./../../modules/system/proxy.nix

@@ -3,10 +3,27 @@
 {
   services.gpg-agent.pinentryFlavor = mkDefault "gtk2";
 
-  home.packages = with pkgs;
-    [
-      firefox
-    ];
+  programs.librewolf = {
+    enable = true;
+    package = with pkgs; (librewolf.override { 
+      nativeMessagingHosts = [ libsForQt5.plasma-browser-integration ]; 
+    });
+
+    # Enable WebGL, cookies and history
+    settings = {
+      "webgl.disabled" = false;
+      "privacy.fingerprintingProtection" = true;
+      "privacy.resistFingerprinting" = true;
+      "privacy.resistFingerprinting.letterboxing" = false;
+      "network.http.referer.XOriginPolicy" = 2;
+      "privacy.clearOnShutdown.history" = false;
+      "privacy.clearOnShutdown.cookies" = true;
+      "privacy.donottrackheader.enabled" = true;
+      "privacy.globalprivacycontrol.enabled" = true;
+      "network.cookie.lifetimePolicy" = 0;
+      "widget.use-xdg-desktop-portal.file-picker" = 1;
+    };
+  };
 
   gtk = {
     enable = true;
