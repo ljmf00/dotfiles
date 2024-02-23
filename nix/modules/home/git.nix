@@ -18,7 +18,7 @@
 
     signing = {
       key = "730750D54B7A9F66";
-      signByDefault = true;
+      signByDefault = false;
     };
 
     aliases = {
