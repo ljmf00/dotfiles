@@ -41,6 +41,6 @@
 [submodule "3rdparty/nvim/plenary"]
 	path = 3rdparty/nvim/plenary
 	url = https://github.com/nvim-lua/plenary.nvim.git
-[submodule "sanix"]
-	path = sanix
-	url = git@github.com:ljmf00/sanix.git
+#[submodule "sanix"]
+#	path = sanix
+#	url = git@github.com:ljmf00/sanix.git
