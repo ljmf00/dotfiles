@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+mkdir -p ~/repos/
+
+REPOS=(
+    # my repos
+    "https://github.com/ljmf00/ldclint.git"
+    "ljmf00-archlinux::https://github.com/ljmf00/archlinux.git"
+    "https://github.com/ljmf00/rts5139.git"
+
+    # contributions
+    ## D
+    "https://github.com/dlang/dmd.git"
+    "https://github.com/dlang/phobos.git"
+    "https://github.com/dlang/dlang.org.git"
+    "https://github.com/dlang/dub.git"
+    "dlang-tools::https://github.com/dlang/tools.git"
+    "https://github.com/ldc-developers/ldc.git"
+    "https://github.com/Pure-D/serve-d.git"
+    ## Other
+    "https://github.com/llvm/llvm-project.git"
+    "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
+
+    # external projects
+    "https://github.com/mesonbuild/meson.git"
+)
+
+for repo in ${REPOS[@]}; do
+    repo_name="$(echo "$repo" | sed 's/^\(.*\)::\(.*\)/\1/')"
+    repo_url="$(echo "$repo" | sed 's/^\(.*\)::\(.*\)/\2/')"
+    if [[ "$repo_name" == "$repo" ]]; then
+        repo_name="$(basename "$repo" | sed 's/\(.*\)\.git$/\1/')"
+    fi
+
+    if [ ! -d ~/repos/"$repo_name" ]; then
+        mkdir -p ~/repos/"$repo_name"
+        git clone "$repo_url" ~/repos/"$repo_name"
+    fi
+    (cd ~/repos/"$repo_name"; git fetch --all -k --tags; git submodule update --init --recursive) || :
+done

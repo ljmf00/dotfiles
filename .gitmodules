@@ -1,6 +1,3 @@
-[submodule "private"]
-	path = private
-	url = git@github.com:ljmf00/dotfiles-private.git
 [submodule "3rdparty/vim/wakatime"]
 	path = 3rdparty/vim/wakatime
 	url = https://github.com/wakatime/vim-wakatime.git
@@ -44,3 +41,6 @@
 [submodule "3rdparty/nvim/plenary"]
 	path = 3rdparty/nvim/plenary
 	url = https://github.com/nvim-lua/plenary.nvim.git
+#[submodule "sanix"]
+#	path = sanix
+#	url = git@github.com:ljmf00/sanix.git

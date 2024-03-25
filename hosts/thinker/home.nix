@@ -2,6 +2,6 @@
   with lib;
 {
   imports = [
-    ./../generic/home.nix
+    ./../../nix/profiles/home/personal.nix
   ];
 }
