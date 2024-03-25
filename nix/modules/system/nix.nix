@@ -15,4 +15,8 @@
       options = "--delete-older-than 7d";
     };
   };
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "python-2.7.18.7"
+  ];
 }

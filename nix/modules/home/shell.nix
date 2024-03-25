@@ -39,6 +39,7 @@
     sessionVariables = {
       "IGNOREEOF" = 10;
       "PROMPT_DIRTRIM" = 2;
+      "LD_LIBRARY_PATH" = "/run/current-system/sw/lib:/run/opengl-driver/lib:/run/opengl-driver-32/lib:/usr/lib:/usr/lib32:$LD_LIBRARY_PATH";
     };
 
     shellOptions = [

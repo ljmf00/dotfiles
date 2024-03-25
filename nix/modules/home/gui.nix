@@ -1,12 +1,12 @@
 { config, pkgs, lib, inputs, ...}:
   with lib;
 {
-  services.gpg-agent.pinentryFlavor = mkDefault "gtk2";
+  services.gpg-agent.pinentryPackage = mkDefault pkgs.pinentry-gnome3;
 
   programs.librewolf = {
     enable = true;
-    package = with pkgs; (librewolf.override { 
-      nativeMessagingHosts = [ libsForQt5.plasma-browser-integration ]; 
+    package = with pkgs; (librewolf.override {
+      nativeMessagingHosts = [ libsForQt5.plasma-browser-integration ];
     });
 
     # Enable WebGL, cookies and history

@@ -12,6 +12,7 @@
     ./../../nix/modules/system/hardware/boot/swap.nix
 
     ./../../nix/modules/system/hardware/io/ssd-nvme.nix
+    ./../../nix/modules/system/hardware/virtualization.nix
 
     ./../../nix/modules/system/unfree.nix
 
@@ -64,5 +65,26 @@
   environment.systemPackages = with pkgs;
     [
       kitty
+      virt-manager
+      spice
+      spice-vdagent
     ];
+
+  virtualisation.spiceUSBRedirection.enable = true;
+
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = true;
+      swtpm.enable = true;
+      ovmf = {
+        enable = true;
+        packages = [(pkgs.OVMF.override {
+          secureBoot = true;
+          tpmSupport = true;
+        }).fd];
+      };
+    };
+  };
 }

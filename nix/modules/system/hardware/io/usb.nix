@@ -12,5 +12,8 @@ in with lib;
   environment.systemPackages = with pkgs;
     [
       usbutils
+      libusb1
+      libusb
+      hidapi
     ];
 }

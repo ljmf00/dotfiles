@@ -14,6 +14,7 @@ in with lib;
       usbutils
       pciutils
       neovim
+      pkg-config
 
       gcc
       llvm 

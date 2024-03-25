@@ -15,8 +15,9 @@
     services.xserver = {
       enable = true;
 
-      layout = "us";
-      xkbOptions = "eurosign:e,caps:escape";
+      xkb = {
+        layout = "us";
+      };
       libinput = {
         enable = true;
 

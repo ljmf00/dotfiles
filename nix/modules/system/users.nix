@@ -25,7 +25,9 @@
 
       "bluetooth" "lp" "networkmanager"
 
-      "adbusers"
+      "adbusers" 
+      
+      "plugdev" "dialout"
     ];
   };
 

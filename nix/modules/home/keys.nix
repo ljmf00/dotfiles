@@ -22,7 +22,6 @@
     enableExtraSocket     = true;
     enableSshSupport      = true;
 
-    pinentryFlavor = "tty";
     sshKeys = [
       "5339387E38B7C974FB09EA5E5AA53BC0CD08D99D"
     ];
