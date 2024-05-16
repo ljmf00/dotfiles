@@ -44,7 +44,7 @@ jobs:
         purge-created: true
         purge-created-max-age: 42
 
-    - uses: cachix/install-nix-action@v24
+    - uses: cachix/install-nix-action@V27
       with:
         nix_path: nixpkgs=channel:nixos-unstable
     - run: nix-build --attr ${{ matrix.attr }}
