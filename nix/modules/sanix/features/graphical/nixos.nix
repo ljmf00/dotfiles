@@ -5,6 +5,7 @@
     ./dm/nixos.nix
 
     ./gnome/nixos.nix
+    ./hyprland/nixos.nix
   ];
 
   config = mkIf (
@@ -40,6 +41,7 @@
     environment.sessionVariables = {
       NIXOS_OZONE_WL = "1";
       QT_QPA_PLATFORM = "wayland";
+      SDL_VIDEODRIVER = "wayland";
       XDG_SESSION_TYPE = "wayland";
       MOZ_USE_XINPUT2 = "1";
     };

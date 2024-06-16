@@ -13,7 +13,6 @@ in with lib;
       mesa.drivers
     ];
 
-    driSupport = true;
     driSupport32Bit = true;
   };
 

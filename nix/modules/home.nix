@@ -2,7 +2,7 @@
   with lib;
 {
   imports = [
-    ./nixos
-    ./sanix/nixos.nix
+    ./home
+    ./sanix/home.nix
   ];
 }

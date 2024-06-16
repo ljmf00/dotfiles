@@ -2,12 +2,6 @@
   with lib;
 {
   config = mkIf (builtins.elem "audio" config.sanix.hardware) {
-    # Enable sound.
-    sound.enable = true;
-    sound.extraConfig = ''
-        cards.USB-Audio.pcm.iec958_device."Behringer UV1" 999
-        cards.USB-Audio.pcm.iec958_device."UV1" 999
-    '';
     xdg.sounds.enable = true;
 
     # disable pulseaudio
