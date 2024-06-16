@@ -1,0 +1,126 @@
+#!/usr/bin/env bash
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  SCRIPT_FOLDER="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$SCRIPT_FOLDER/$SOURCE"
+done
+SCRIPT_FOLDER="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+unset SOURCE
+
+###############################################################################
+
+function usage()
+{
+    echo "Usage: editor [OPTIONS] PATH"
+    echo
+    echo "Options:"
+    echo
+    echo "  -h --help         Print help"
+    echo "  -g --goto <alias> Goto specified alias before edit"
+    echo "  -n --nosession    Don't attach to a tmux session"
+    echo
+    echo "Report bugs to: <https://github.com/ljmf00/dotfiles/issues>"
+}
+
+function main()
+{
+    local galias='' gpath=.
+    local createsession=auto
+
+    local paths=()
+    local args=
+    args=$(getopt -o hng:                      \
+                   --long goto:,nosession,help \
+                   -n 'editor' -- "$@"         \
+          )
+
+    # shellcheck disable=SC2181
+    if [ $? != 0 ] ; then usage 1>&2; return 1; fi
+
+    set -euo pipefail
+    eval set -- "$args"
+
+    while true; do
+        case "$1" in
+            --nosession | -n )
+                createsession=false
+                shift ;;
+            --goto | -g    )
+                galias="$2"
+
+                # shellcheck disable=SC1090
+                source "$HOME/.oh-luis-bash/goto-command.sh"
+
+                gpath="$(goto -x "$galias" 2>/dev/null)"
+                if [ "$gpath" = "" ]; then
+                    echo "Invalid foto alias!" >&2
+                    return 1
+                fi
+
+                shift 2 ;;
+            --help | -h     ) usage; return 0 ;;
+            --              ) shift; break    ;;
+            *               )        break    ;;
+        esac
+    done
+
+    # expand paths after parsing
+    paths=( "$@" )
+
+    if hash nvim 2> /dev/null; then
+        EDITOR='nvim'
+        VISUAL='nvim'
+    elif hash vim 2> /dev/null; then
+        EDITOR='vim'
+        VISUAL='vim'
+    elif hash vi 2> /dev/null; then
+        EDITOR='vi'
+        VISUAL='vi'
+    else
+        echo "No suitable editor found" >&2
+        return 1
+    fi
+
+    export EDITOR
+    export VISUAL
+
+    cd "$gpath"
+
+    local edit_args=()
+
+    if [ "$createsession" == "auto" ] && [ -n "${TMUX+x}" ]; then
+        createsession=false
+    fi
+
+    if [ -f "Session.vim" ]; then
+        if [ "$createsession" == "auto" ]; then
+            createsession=true
+        fi
+
+        edit_args+=('-S' 'Session.vim')
+    fi
+
+    if [ "$(readlink -f "${paths:-.}")" == "$(readlink -f "$HOME")" ]; then
+        edit_args=()
+    elif [ -f "${paths:-.}" ] || [ "${#paths[@]}" -gt 1 ] || [ ! -d "${paths:-.}" ]; then
+        edit_args=()
+    fi
+    edit_args+=( "${paths:-.}" )
+
+    if [ "$createsession" = true ]; then
+        if [ -n "${TMUX+x}" ]; then
+            # shellcheck disable=SC2016
+            echo 'sessions should be nested with care, unset $TMUX to force' >&2
+            return 1
+        fi
+
+        exec session "$EDITOR" "${edit_args[@]}"
+
+    fi
+
+    exec "$EDITOR" "${edit_args[@]}"
+}
+
+main "$@"

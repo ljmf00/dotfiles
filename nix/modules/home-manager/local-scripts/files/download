@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# shellcheck disable=SC2068
+yt-dlp -v \
+    -f bestaudio \
+    --audio-format best \
+    --audio-quality 0 \
+    --extract-audio \
+    --embed-thumbnail \
+    --embed-metadata \
+    --embed-chapters \
+    --embed-info-json \
+    --embed-subs \
+    --xattrs \
+    --video-multistreams \
+    --audio-multistreams \
+    --add-metadata \
+    --audio-format mp3 \
+    --yes-playlist \
+    --force-ipv4 \
+    -N "$(nproc --all)" \
+    -o "%(uploader)s - %(title)s.%(ext)s" \
+    $@
