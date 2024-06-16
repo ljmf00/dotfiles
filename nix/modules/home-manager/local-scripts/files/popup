@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+sessionname="$(tmux display-message -p -F "#{session_name}")"
+
+if [ -z "${TMUX+x}" ] && [[ "$sessionname" == "session-"* ]]; then
+    echo "Need to be inside a managed session" >&2
+    exit 1
+fi
+
+if [ "$1" == "" ]; then
+    echo "Provide a window name" >&2
+    exit 1
+fi
+
+if [ "$1" == "default" ]; then
+    echo "Window name 'default' is reserved for the session" >&2
+    exit 1
+fi
+
+sessionname="$(echo "$sessionname" | sed 's/\(session-[0-9A-Za-z]\+-[0-9A-Fa-f]\+\)-.*/\1/g')"
+
+if [[ "$(tmux display-message -p -F "#{session_name}")" = *"-$1" ]]; then
+    exec tmux detach-client
+else
+    popup_tmux_cmd="tmux a -t \"$sessionname-$1\" || tmux new -s \"$sessionname-$1\""
+    exec tmux popup -E -d '#{pane_current_path}' \
+        -xC -yC -w90% -h90%                      \
+        "$popup_tmux_cmd"
+fi

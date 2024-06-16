@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+service start box
+
+if [ "$#" -gt 1 ]; then
+        docker exec -it -e DISPLAY="${DISPLAY:-:0.0}" -e TERM="$TERM" -u luis -w '/home/luis' mybox-container "$@"
+else
+        docker exec -it -e DISPLAY="${DISPLAY:-:0.0}" -e TERM="$TERM" -u luis -w '/home/luis' mybox-container "${1-bash}"
+fi

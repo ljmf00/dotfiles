@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+if [ "${1+x}" == "" ]; then
+  echo "Provide a remote" >&2
+  exit 1
+fi
+
+exec mosh \
+  --predict=adaptive \
+  --family=prefer-inet6 \
+  "$1" -- "${@:2}"

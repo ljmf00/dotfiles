@@ -5,13 +5,6 @@ set -euxo pipefail
 [ -n "${DISPLAY+x}" ] || exit 0
 hash gsettings 2> /dev/null || exit 0
 
-# Disable annoying first-setup messages
-gsettings set org.gnome.software first-run false || :
-
-# Setting hot corners
-gsettings set org.gnome.shell enable-hot-corners false             || :
-gsettings set org.gnome.desktop.interface enable-hot-corners false || :
-
 # Set theme
 gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'     || :
 gsettings set org.gnome.desktop.interface cursor-theme 'Adwaita'  || :
@@ -19,19 +12,8 @@ gsettings set org.gnome.desktop.interface gtk-key-theme 'Default' || :
 gsettings set org.gnome.desktop.interface icon-theme 'Adwaita'    || :
 gsettings set org.gnome.desktop.wm.preferences theme 'Adwaita'    || :
 
-# Prefer dark mode
-gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' || :
-
-# Other interface settings
-gsettings set org.gnome.desktop.interface clock-format '24h'      || :
-gsettings set org.gnome.desktop.interface clock-show-seconds true || :
-gsettings set org.gnome.desktop.interface clock-show-weekday true || :
-gsettings set org.gnome.desktop.interface clock-show-date true    || :
-gsettings set org.gnome.desktop.interface enable-animations true  || :
-
 # Desktop settings
 gsettings set org.gnome.desktop.background show-desktop-icons false || :
-gsettings set org.gnome.desktop.calendar show-weekdate true         || :
 
 # Window management settings
 gsettings set org.gnome.mutter center-new-windows true || :

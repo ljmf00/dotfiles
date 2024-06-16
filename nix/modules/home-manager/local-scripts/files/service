@@ -1,0 +1,129 @@
+#!/usr/bin/env bash
+
+# set safe failures
+set -euo pipefail
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  SCRIPT_FOLDER="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$SCRIPT_FOLDER/$SOURCE"
+done
+SCRIPT_FOLDER="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+unset SOURCE
+
+[ -n "${_dotfiles_dots_core_local_bin_service_source_guard+x}" ] \
+    && return                                   \
+    || _dotfiles_dots_core_local_bin_service_source_guard=
+
+###############################################################################
+
+function _service_docker_service()
+{
+    if ! hash docker 2>/dev/null; then
+        echo "No 'docker' found. Skipping '$1' on '$2'"
+        return
+    fi
+
+    # needed for old docker cli
+    export DOCKER_BUILDKIT=1
+
+    if [ ! -f "$HOME/dotfiles/dist/deploy/compose.yaml" ]; then
+        return
+    fi
+
+    if ! docker buildx inspect dotservices >/dev/null 2>&1; then
+        docker buildx create \
+            --driver docker-container \
+            --name dotservices \
+            --bootstrap
+    fi
+
+    export BUILDX_BUILDER=dotservices
+
+    case "$1" in
+        start)
+            docker compose -f "$HOME/dotfiles/dist/deploy/compose.yaml" up -d --remove-orphans "${@:2}"
+            ;;
+        stop)
+            docker compose -f "$HOME/dotfiles/dist/deploy/compose.yaml" stop "${@:2}"
+            ;;
+        create | enable)
+            docker compose -f "$HOME/dotfiles/dist/deploy/compose.yaml" create "${@:2}"
+            ;;
+        recreate)
+            _service_docker_service drop "${@:2}"
+            _service_docker_service start "${@:2}"
+            ;;
+        drop)
+            docker compose -f "$HOME/dotfiles/dist/deploy/compose.yaml" rm -svf "${@:2}"
+            ;;
+        status)
+            docker compose -f "$HOME/dotfiles/dist/deploy/compose.yaml" ps "${@:2}"
+            ;;
+        logs)
+            docker compose -f "$HOME/dotfiles/dist/deploy/compose.yaml" logs -tf "${@:2}"
+            ;;
+        build)
+            docker compose -f "$HOME/dotfiles/dist/deploy/compose.yaml" build --pull --progress plain "${@:2}"
+            ;;
+        *)
+            echo "Unknown service command" >&2
+            exit 1
+            ;;
+    esac
+}
+
+function _service_sys_service()
+{
+    case "$1" in
+        drop | build | logs | create | recreate)
+            echo "Unknown service command" >&2
+            return 1
+            ;;
+        enable)
+            local is_enabled=
+            is_enabled="$(systemctl is-enabled "$2" || :)"
+            if [ "$is_enabled" == "not-found" ]; then
+                echo "Unknown service name" >&2
+                return 1
+            fi
+
+            if [ "$is_enabled" == "disabled" ]; then
+                pkexec systemctl enable "$2"
+            fi
+            ;;
+
+        *)
+            pkexec systemctl "$1" "$2"
+            ;;
+    esac
+}
+
+function service()
+{
+    if ! hash docker 2>/dev/null; then
+        echo "No 'docker' found. Skipping $* for now."
+        return
+    fi
+
+    local avail_services=()
+    # shellcheck disable=SC2207
+    avail_services=( $(docker compose -f "$HOME/dotfiles/deploy/compose.yaml" config --services) )
+
+    if [ -z "${2+x}" ]; then
+        _service_docker_service "${1:-status}"
+        return
+    fi
+
+    for s in "${@:2}"; do
+        if [[ " ${avail_services[*]} " == *" $s "* ]]; then
+            _service_docker_service "$1" "$s"
+        else
+            _service_sys_service "$1" "$s"
+        fi
+    done
+}
+
+#shellcheck disable=SC2015
+(return 0 2>/dev/null) && : || service "$@"

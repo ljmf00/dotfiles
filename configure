@@ -77,7 +77,7 @@ function main()
       OPTIONS_NIX_ARGS=(--option substitute "false")
     fi
 
-    nix run "${OPTIONS_NIX_ARGS[@]}" --impure home-manager -- \
+    nix run -I nixpkgs=channel:release-23.05 "${OPTIONS_NIX_ARGS[@]}" --impure home-manager/release-23.05 -- \
       switch "${OPTIONS_NIX_ARGS[@]}" --impure --flake .
   else
     (grep '^d ' < "$machine_path" | cut -d' ' -f2 || :) | \
