@@ -2,10 +2,9 @@
   with lib;
 {
   imports = [
-    ./../../modules/home-manager/basic.nix
-    ./../../modules/home-manager/terminal
-    ./../../modules/home-manager/local-scripts
-    ./../../modules/home-manager/keys.nix
+    ./../../modules/home/terminal
+    ./../../modules/home/local-scripts
+    ./../../modules/home/keys.nix
   ];
 
   home.username = "luis";

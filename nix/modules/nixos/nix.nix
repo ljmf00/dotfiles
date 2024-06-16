@@ -2,6 +2,8 @@
   with lib;
 {
   nix = {
+    channel.enable = true;
+
     settings.auto-optimise-store = true;
     settings.experimental-features = [
       "nix-command" "flakes"

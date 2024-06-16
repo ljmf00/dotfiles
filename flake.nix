@@ -3,9 +3,13 @@
 
   inputs = {
     # packages
-    nixpkgs.url              = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url              = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-nixos.url        = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url       = "github:nixos/nixpkgs/release-23.05";
     nixpkgs-staging-next.url = "github:NixOS/nixpkgs/staging-next";
+
+    # secrets manager
+    agenix.url = "github:ryantm/agenix";
 
     # community packages
     nur.url = "github:nix-community/nur";
@@ -56,6 +60,7 @@
       # alias to system-specific packages
 
       pkgs       = import inputs.nixpkgs { inherit system; };
+      nixosPkgs  = import inputs.nixpkgs-nixos { inherit system; };
       stablePkgs = import inputs.nixpkgs-stable { inherit system; };
       nextPkgs   = import inputs.nixpkgs-staging-next { inherit system; };
       nativePkgs = import inputs.nixpkgs {
@@ -83,6 +88,7 @@
             }
             ./nix/modules
             ./nix/modules/nixos.nix
+            ./nix/hosts/${hostname}
             ./nix/hosts/${hostname}/nixos.nix
 
 
@@ -93,7 +99,15 @@
                 useGlobalPkgs = true;
                 extraSpecialArgs = { inherit inputs stablePkgs nextPkgs; };
 
-                users.${username} = ./nix/hosts/${hostname}/home-manager.nix;
+                users.${username} = {config, pkgs, ... }:
+                {
+                  imports = [
+                    ./nix/modules
+                    ./nix/modules/home.nix
+                    ./nix/hosts/${hostname}
+                    ./nix/hosts/${hostname}/home.nix
+                  ];
+                };
               };
             }
           ];
@@ -108,10 +122,10 @@
       }).config.formats.iso;
 
       overlays.default = import ./nix/hosts/${defaultHostname}/overlays.nix;
-      nixosConfigurations.default = mkSystem inputs.nixpkgs "${defaultSystem}" "${defaultHostname}" "${defaultUsername}";
+      nixosConfigurations.default = mkSystem inputs.nixpkgs-nixos "${defaultSystem}" "${defaultHostname}" "${defaultUsername}";
 
       overlays.thinker = import ./nix/hosts/thinker/overlays.nix;
-      nixosConfigurations.thinker = mkSystem inputs.nixpkgs "x86_64-linux" "thinker" "luis";
+      nixosConfigurations.thinker = mkSystem inputs.nixpkgs-nixos "x86_64-linux" "thinker" "luis";
 
       homeConfigurations.${username} = inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;

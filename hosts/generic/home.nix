@@ -4,8 +4,6 @@
   home.username = "luis";
   home.homeDirectory = "/home/luis";
 
-  home.stateVersion = "23.05";
-
   home.packages = [ ];
   home.file = { };
   home.sessionVariables = { };
