@@ -19,6 +19,6 @@
     "documentation" "fonts"
     "virtualisation"
 
-    "graphical-hyprland"
+    "graphical-gnome"
   ];
 }
