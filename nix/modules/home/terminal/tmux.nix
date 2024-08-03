@@ -3,6 +3,6 @@
 {
   programs.tmux = {
     enable = true;
-    extraConfig = lib.fileContents ./tmux.conf;
+    extraConfig = lib.fileContents ./../../../../dots/core/.tmux.conf;
   };
 }
