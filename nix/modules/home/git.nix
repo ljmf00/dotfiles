@@ -24,7 +24,8 @@
     aliases = {
       "s" = "status";
 
-      "c" = "commit -s";
+      "c" = "commit";
+      "cs" = "commit -s";
       "ca-sign" = "commit -s --amend --no-edit";
       "cp" = "cherry-pick";
 
@@ -47,6 +48,8 @@
         whitespace = "trailing-space,space-before-tab";
         commitGraph = true;
       };
+
+      format.signoff = true;
     };
   };
 
