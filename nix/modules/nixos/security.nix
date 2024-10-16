@@ -1,5 +1,7 @@
 { config, lib, pkgs, inputs, ... }:
-  with lib;
+let
+  mkGenericDefault = lib.mkOverride 1100;
+in with lib;
 {
   # protect the kernel image
   security.protectKernelImage = true;
@@ -17,7 +19,14 @@
   };
 
   # enable gnupg agent
-  programs.gnupg.agent.enable = true;
+  programs.gnupg.agent = {
+    enable                = true;
+    enableExtraSocket     = true;
+    enableBrowserSocket   = true;
+    enableSSHSupport      = true;
+
+    pinentryPackage = pkgs.pinentry-curses;
+  };
 
   # Smartcard
   services.pcscd.enable = true;

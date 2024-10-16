@@ -1,5 +1,7 @@
 { config, pkgs, lib, inputs, ...}:
-  with lib;
+let
+  mkGenericDefault = lib.mkOverride 1100;
+in with lib;
 {
   services.gnome-keyring = {
     enable = false;
@@ -22,9 +24,7 @@
     enableExtraSocket     = true;
     enableSshSupport      = true;
 
-    sshKeys = [
-      "5339387E38B7C974FB09EA5E5AA53BC0CD08D99D"
-    ];
+    pinentryPackage = mkGenericDefault pkgs.pinentry-curses;
   };
 
   # Prevent clobbering SSH_AUTH_SOCK
