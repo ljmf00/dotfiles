@@ -171,6 +171,10 @@
           fi
       fi
 
+      if hash gpg-connect-agent 2> /dev/null; then
+        gpg-connect-agent updatestartuptty /bye >/dev/null
+      fi
+
       # External completion integrations
 
       # Bash completion
