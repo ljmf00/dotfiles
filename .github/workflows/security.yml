@@ -8,15 +8,7 @@ name: security
 
 on:
   pull_request:
-    branches:
-      - master
-    paths:
-      - '*/**'
-      - '!README.md'
-      - '!CONTRIBUTING.md'
-      - '!.pre-commit-config.yaml'
-      - '!.github/workflows/*'
-      - '.github/workflows/security.yml'
+    branches: [ master ]
   workflow_dispatch:
 
 permissions:
