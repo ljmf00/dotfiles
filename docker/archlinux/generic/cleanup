@@ -1,0 +1,53 @@
+#!/bin/sh
+
+rm -rf /etc/pacman.d/gnupg/openpgp-revocs.d/*
+rm -rf /etc/pacman.d/gnupg/private-keys-v1.d/*
+rm -rf /etc/pacman.d/gnupg/pubring.gpg~
+rm -rf /etc/pacman.d/gnupg/S.*
+rm -rf /var/cache/pacman/pkg/*
+rm -rf /var/lib/pacman/sync/*
+
+rm -rf /usr/share/man/*
+rm -rf /usr/share/info/*
+rm -rf /usr/share/doc/*
+rm -rf /usr/share/gtk-doc/*
+
+rm -rf /usr/share/vim/vim*/lang/*
+
+( find /usr/share/help/                            \
+	| grep -v '^/usr/share/help/en'            \
+	| grep -v '^/usr/share/help/$'             \
+	| grep -v '^/usr/share/help$'              \
+	| xargs -I{} rm -rf '{}'                   \
+)
+
+( find /usr/share/X11/locale/                      \
+	| grep -iv '^/usr/share/X11/locale/.*en.*' \
+	| grep -v '^/usr/share/X11/locale/$'       \
+	| grep -v '^/usr/share/X11/locale$'        \
+	| xargs -I{} rm -rf '{}'                   \
+)
+
+( find /usr/share/i18n/                            \
+	| grep -v '^/usr/share/i18n/.*en.*'        \
+	| grep -v '^/usr/share/i18n/$'             \
+	| grep -v '^/usr/share/i18n$'              \
+	| xargs -I{} rm -rf '{}'                   \
+)
+
+( find /usr/share/locale/                          \
+	| grep -v '^/usr/share/locale/en'          \
+	| grep -v '/usr/share/locale/locale.alias' \
+	| grep -v '^/usr/share/locale/$'           \
+	| grep -v '^/usr/share/locale$'            \
+	| xargs -I{} rm -rf '{}'                   \
+)
+
+rm -rf /etc/hostname
+rm -rf /etc/machine-id
+rm -rf /tmp/*
+rm -rf /root/*
+rm -rf /home/docker/*
+
+# Remove keys
+rm -rf /etc/ssh/ssh_host_rsa_key*
