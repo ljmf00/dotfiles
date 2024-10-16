@@ -16,6 +16,7 @@ repos:
       - id: check-yaml
         exclude: >
           (?x)^(
+            ^templates/.*|
             ^deploy/ansible/host_vars/tortoise/tor\.yml|
             ^deploy/ansible/host_vars/trex/wireless\.yml|
           )$
