@@ -5,7 +5,7 @@ resource "cloudflare_record" "ft_s_lu_04_cname_lsferreira" {
   type = "CNAME"
   proxied = false
 
-  tags = [ "terraform" ]
+  comment = "terraform"
 }
 
 resource "cloudflare_record" "ft_s_lu_04_ptr_lsferreira" {
@@ -15,7 +15,7 @@ resource "cloudflare_record" "ft_s_lu_04_ptr_lsferreira" {
   type = "PTR"
   proxied = false
 
-  tags = [ "terraform" ]
+  comment = "terraform"
 }
 
 resource "cloudflare_record" "nc_anx04_1_a_lsferreira" {
@@ -25,7 +25,7 @@ resource "cloudflare_record" "nc_anx04_1_a_lsferreira" {
   type = "A"
   proxied = false
 
-  tags = [ "terraform" ]
+  comment = "terraform"
 }
 
 resource "cloudflare_record" "dh_p_de_frkt_02_a_lsferreira" {
@@ -35,7 +35,7 @@ resource "cloudflare_record" "dh_p_de_frkt_02_a_lsferreira" {
   type = "A"
   proxied = false
 
-  tags = [ "terraform" ]
+  comment = "terraform"
 }
 
 resource "cloudflare_record" "dh_p_de_frkt_02_aaaa_lsferreira" {
@@ -45,5 +45,5 @@ resource "cloudflare_record" "dh_p_de_frkt_02_aaaa_lsferreira" {
   type = "AAAA"
   proxied = false
 
-  tags = [ "terraform" ]
+  comment = "terraform"
 }
