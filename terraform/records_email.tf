@@ -82,7 +82,7 @@ resource "cloudflare_record" "lsferreira_net_dkim3" {
 # =============================================================================
 
 resource "cloudflare_record" "smtp" {
-  zone_id = var.cloudflare_zone_id
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name = "smtp"
   value = "lu-shared04.cpanelplatform.com"
   proxied = false
@@ -91,7 +91,7 @@ resource "cloudflare_record" "smtp" {
 }
 
 resource "cloudflare_record" "pop3" {
-  zone_id = var.cloudflare_zone_id
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name = "pop3"
   value = "lu-shared04.cpanelplatform.com"
   proxied = false
@@ -101,7 +101,7 @@ resource "cloudflare_record" "pop3" {
 
 # Alias to pop3
 resource "cloudflare_record" "pop" {
-  zone_id = var.cloudflare_zone_id
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name = "pop"
   value = "lu-shared04.cpanelplatform.com"
   proxied = false
@@ -110,7 +110,7 @@ resource "cloudflare_record" "pop" {
 }
 
 resource "cloudflare_record" "imap" {
-  zone_id = var.cloudflare_zone_id
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name = "imap"
   value = "lu-shared04.cpanelplatform.com"
   proxied = false
@@ -124,7 +124,7 @@ resource "cloudflare_record" "imap" {
 # =============================================================================
 
 resource "cloudflare_record" "autoconfig" {
-  zone_id = var.cloudflare_zone_id
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name = "autoconfig"
   value = "lu-shared04.cpanelplatform.com"
   proxied = false
@@ -133,7 +133,7 @@ resource "cloudflare_record" "autoconfig" {
 }
 
 resource "cloudflare_record" "autodiscover" {
-  zone_id = var.cloudflare_zone_id
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name = "autodiscover"
   value = "lu-shared04.cpanelplatform.com"
   proxied = false
@@ -142,7 +142,7 @@ resource "cloudflare_record" "autodiscover" {
 }
 
 resource "cloudflare_record" "srv_autoconfig" {
-  zone_id = var.cloudflare_zone_id
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name    = "_autoconfig._tcp"
   type    = "SRV"
 
@@ -160,7 +160,7 @@ resource "cloudflare_record" "srv_autoconfig" {
 }
 
 resource "cloudflare_record" "srv_autodiscover" {
-  zone_id = var.cloudflare_zone_id
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name    = "_autodiscover._tcp"
   type    = "SRV"
 
@@ -178,7 +178,7 @@ resource "cloudflare_record" "srv_autodiscover" {
 }
 
 resource "cloudflare_record" "srv_smtp" {
-  zone_id = var.cloudflare_zone_id
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name    = "_submission._tcp"
   type    = "SRV"
 
@@ -196,7 +196,7 @@ resource "cloudflare_record" "srv_smtp" {
 }
 
 resource "cloudflare_record" "srv_pop3" {
-  zone_id = var.cloudflare_zone_id
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name    = "_pop3._tcp"
   type    = "SRV"
 
@@ -214,7 +214,7 @@ resource "cloudflare_record" "srv_pop3" {
 }
 
 resource "cloudflare_record" "srv_pop3s" {
-  zone_id = var.cloudflare_zone_id
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name    = "_pop3s._tcp"
   type    = "SRV"
 
@@ -232,7 +232,7 @@ resource "cloudflare_record" "srv_pop3s" {
 }
 
 resource "cloudflare_record" "srv_imap" {
-  zone_id = var.cloudflare_zone_id
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name    = "_imap._tcp"
   type    = "SRV"
 
@@ -250,7 +250,7 @@ resource "cloudflare_record" "srv_imap" {
 }
 
 resource "cloudflare_record" "srv_imaps" {
-  zone_id = var.cloudflare_zone_id
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name    = "_imaps._tcp"
   type    = "SRV"
 
@@ -273,7 +273,7 @@ resource "cloudflare_record" "srv_imaps" {
 # =============================================================================
 
 resource "cloudflare_record" "webmail" {
-  zone_id = var.cloudflare_zone_id
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name = "webmail"
   value = "lu-shared04.cpanelplatform.com"
   type = "CNAME"
