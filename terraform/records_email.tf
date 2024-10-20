@@ -8,7 +8,6 @@ resource "cloudflare_record" "lsferreira_net_mx1" {
   value = "route1.mx.cloudflare.net"
   priority = 59
   type = "MX"
-  allow_overwrite = true
 }
 
 resource "cloudflare_record" "lsferreira_net_mx2" {
@@ -17,7 +16,6 @@ resource "cloudflare_record" "lsferreira_net_mx2" {
   value = "route2.mx.cloudflare.net"
   priority = 100
   type = "MX"
-  allow_overwrite = true
 }
 
 resource "cloudflare_record" "lsferreira_net_mx3" {
@@ -26,7 +24,6 @@ resource "cloudflare_record" "lsferreira_net_mx3" {
   value = "route3.mx.cloudflare.net"
   priority = 92
   type = "MX"
-  allow_overwrite = true
 }
 
 # =============================================================================
@@ -38,7 +35,6 @@ resource "cloudflare_record" "lsferreira_net_spf" {
   name = "lsferreira.net"
   value = "v=spf1 include:_spf.mx.cloudflare.net +ip4:193.108.130.14 +include:spf.mxyeet.net +include:_spf.lsferreira.net ~all"
   type = "TXT"
-  allow_overwrite = true
 }
 
 resource "cloudflare_record" "lsferreira_net_dmarc" {
@@ -46,7 +42,6 @@ resource "cloudflare_record" "lsferreira_net_dmarc" {
   name = "_dmarc"
   value = "v=DMARC1;p=quarantine;sp=quarantine;pct=100;rua=mailto:cdbf63edcf5a46f6a003272a9f314ef1@dmarc-reports.cloudflare.net;ruf=mailto:cdbf63edcf5a46f6a003272a9f314ef1@dmarc-reports.cloudflare.net;ri=86400;aspf=s;adkim=s;fo=0:1:d:s;"
   type = "TXT"
-  allow_overwrite = true
 }
 
 # =============================================================================
@@ -59,7 +54,6 @@ resource "cloudflare_record" "lsferreira_net_dkim1" {
   value = "protonmail.domainkey.d3o6sspqrfqz73aqmw6ghj2f22kp3ob77j72axb34nj3dnhp4aqxa.domains.proton.ch"
   proxied = false
   type = "CNAME"
-  allow_overwrite = true
 }
 
 resource "cloudflare_record" "lsferreira_net_dkim2" {
@@ -68,7 +62,6 @@ resource "cloudflare_record" "lsferreira_net_dkim2" {
   value = "protonmail2.domainkey.d3o6sspqrfqz73aqmw6ghj2f22kp3ob77j72axb34nj3dnhp4aqxa.domains.proton.ch"
   proxied = false
   type = "CNAME"
-  allow_overwrite = true
 }
 
 resource "cloudflare_record" "lsferreira_net_dkim3" {
@@ -77,7 +70,6 @@ resource "cloudflare_record" "lsferreira_net_dkim3" {
   value = "protonmail3.domainkey.d3o6sspqrfqz73aqmw6ghj2f22kp3ob77j72axb34nj3dnhp4aqxa.domains.proton.ch"
   proxied = false
   type = "CNAME"
-  allow_overwrite = true
 }
 
 # =============================================================================
