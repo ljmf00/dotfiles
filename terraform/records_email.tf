@@ -2,29 +2,29 @@
 # MX RECORDS
 # =============================================================================
 
-resource "cloudflare_record" "lsferreira_net_mx1" {
-  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
-  name = "lsferreira.net"
-  value = "route1.mx.cloudflare.net"
-  priority = 59
-  type = "MX"
-}
-
-resource "cloudflare_record" "lsferreira_net_mx2" {
-  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
-  name = "lsferreira.net"
-  value = "route2.mx.cloudflare.net"
-  priority = 100
-  type = "MX"
-}
-
-resource "cloudflare_record" "lsferreira_net_mx3" {
-  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
-  name = "lsferreira.net"
-  value = "route3.mx.cloudflare.net"
-  priority = 92
-  type = "MX"
-}
+#resource "cloudflare_record" "lsferreira_net_mx1" {
+#  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
+#  name = "lsferreira.net"
+#  value = "route1.mx.cloudflare.net"
+#  priority = 59
+#  type = "MX"
+#}
+#
+#resource "cloudflare_record" "lsferreira_net_mx2" {
+#  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
+#  name = "lsferreira.net"
+#  value = "route2.mx.cloudflare.net"
+#  priority = 100
+#  type = "MX"
+#}
+#
+#resource "cloudflare_record" "lsferreira_net_mx3" {
+#  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
+#  name = "lsferreira.net"
+#  value = "route3.mx.cloudflare.net"
+#  priority = 92
+#  type = "MX"
+#}
 
 # =============================================================================
 # SPF / DMARC
