@@ -5,8 +5,8 @@
 resource "cloudflare_record" "lsferreira_net_mx1" {
   zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name = "lsferreira.net"
-  value = "mail.protonmail.ch"
-  priority = 10
+  value = "route1.mx.cloudflare.net"
+  priority = 59
   type = "MX"
   allow_overwrite = true
 }
@@ -14,39 +14,20 @@ resource "cloudflare_record" "lsferreira_net_mx1" {
 resource "cloudflare_record" "lsferreira_net_mx2" {
   zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name = "lsferreira.net"
-  value = "mailsec.protonmail.ch"
-  priority = 20
-  type = "MX"
-  allow_overwrite = true
-}
-
-resource "cloudflare_record" "luisf_eu_org_mx1" {
-  zone_id = data.cloudflare_zones.luisf_eu_org.zones[0].id
-  name = "luisf.eu.org"
-  value = "route1.mx.cloudflare.net"
-  priority = 36
-  type = "MX"
-  allow_overwrite = true
-}
-
-resource "cloudflare_record" "luisf_eu_org_mx2" {
-  zone_id = data.cloudflare_zones.luisf_eu_org.zones[0].id
-  name = "luisf.eu.org"
   value = "route2.mx.cloudflare.net"
-  priority = 34
+  priority = 100
   type = "MX"
   allow_overwrite = true
 }
 
-resource "cloudflare_record" "luisf_eu_org_mx3" {
-  zone_id = data.cloudflare_zones.luisf_eu_org.zones[0].id
-  name = "luisf.eu.org"
+resource "cloudflare_record" "lsferreira_net_mx3" {
+  zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
+  name = "lsferreira.net"
   value = "route3.mx.cloudflare.net"
-  priority = 3
+  priority = 92
   type = "MX"
   allow_overwrite = true
 }
-
 
 # =============================================================================
 # SPF / DMARC
@@ -55,15 +36,7 @@ resource "cloudflare_record" "luisf_eu_org_mx3" {
 resource "cloudflare_record" "lsferreira_net_spf" {
   zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name = "lsferreira.net"
-  value = "v=spf1 include:mx.ovh.com include:_spf.protonmail.ch mx ~all"
-  type = "TXT"
-  allow_overwrite = true
-}
-
-resource "cloudflare_record" "luisf_eu_org_spf" {
-  zone_id = data.cloudflare_zones.luisf_eu_org.zones[0].id
-  name = "luisf.eu.org"
-  value = "v=spf1 include:_spf.mx.cloudflare.net ~all"
+  value = "v=spf1 include:_spf.mx.cloudflare.net +ip4:193.108.130.14 +include:spf.mxyeet.net +include:_spf.lsferreira.net ~all"
   type = "TXT"
   allow_overwrite = true
 }
@@ -71,15 +44,7 @@ resource "cloudflare_record" "luisf_eu_org_spf" {
 resource "cloudflare_record" "lsferreira_net_dmarc" {
   zone_id = data.cloudflare_zones.lsferreira_net.zones[0].id
   name = "_dmarc"
-  value = "v=DMARC1; p=reject; sp=reject; pct=100; rua=mailto:dmarc@lsferreira.net; ruf=mailto:dmarc@lsferreira.net; fo=1:s:d; adkim=r; aspf=r"
-  type = "TXT"
-  allow_overwrite = true
-}
-
-resource "cloudflare_record" "luisf_eu_org_dmarc" {
-  zone_id = data.cloudflare_zones.luisf_eu_org.zones[0].id
-  name = "_dmarc"
-  value = "v=DMARC1; p=none; rua=mailto:e2275650eefe4c569fcc378083e6f5ea@dmarc-reports.cloudflare.net;"
+  value = "v=DMARC1;p=quarantine;sp=quarantine;pct=100;rua=mailto:cdbf63edcf5a46f6a003272a9f314ef1@dmarc-reports.cloudflare.net;ruf=mailto:cdbf63edcf5a46f6a003272a9f314ef1@dmarc-reports.cloudflare.net;ri=86400;aspf=s;adkim=s;fo=0:1:d:s;"
   type = "TXT"
   allow_overwrite = true
 }
@@ -122,7 +87,7 @@ resource "cloudflare_record" "lsferreira_net_dkim3" {
 resource "cloudflare_record" "smtp" {
   zone_id = var.cloudflare_zone_id
   name = "smtp"
-  value = "ssl0.ovh.net"
+  value = "lu-shared04.cpanelplatform.com"
   proxied = false
   type = "CNAME"
 }
@@ -130,7 +95,7 @@ resource "cloudflare_record" "smtp" {
 resource "cloudflare_record" "pop3" {
   zone_id = var.cloudflare_zone_id
   name = "pop3"
-  value = "ssl0.ovh.net"
+  value = "lu-shared04.cpanelplatform.com"
   proxied = false
   type = "CNAME"
 }
@@ -139,7 +104,7 @@ resource "cloudflare_record" "pop3" {
 resource "cloudflare_record" "pop" {
   zone_id = var.cloudflare_zone_id
   name = "pop"
-  value = "pop3.lsferreira.net"
+  value = "lu-shared04.cpanelplatform.com"
   proxied = false
   type = "CNAME"
 }
@@ -147,7 +112,7 @@ resource "cloudflare_record" "pop" {
 resource "cloudflare_record" "imap" {
   zone_id = var.cloudflare_zone_id
   name = "imap"
-  value = "ssl0.ovh.net"
+  value = "lu-shared04.cpanelplatform.com"
   proxied = false
   type = "CNAME"
 }
@@ -160,7 +125,7 @@ resource "cloudflare_record" "imap" {
 resource "cloudflare_record" "autoconfig" {
   zone_id = var.cloudflare_zone_id
   name = "autoconfig"
-  value = "mailconfig.ovh.net"
+  value = "lu-shared04.cpanelplatform.com"
   proxied = false
   type = "CNAME"
 }
@@ -168,9 +133,25 @@ resource "cloudflare_record" "autoconfig" {
 resource "cloudflare_record" "autodiscover" {
   zone_id = var.cloudflare_zone_id
   name = "autodiscover"
-  value = "mailconfig.ovh.net"
+  value = "lu-shared04.cpanelplatform.com"
   proxied = false
   type = "CNAME"
+}
+
+resource "cloudflare_record" "srv_autoconfig" {
+  zone_id = var.cloudflare_zone_id
+  name    = "_autoconfig._tcp"
+  type    = "SRV"
+
+  data {
+    name     = "lsferreira.net"
+    service  = "_autoconfig._tcp._autoconfig"
+    proto    = "_tcp"
+    priority = 0
+    weight   = 0
+    port     = 443
+    target   = "autoconfig.lsferreira.net"
+  }
 }
 
 resource "cloudflare_record" "srv_autodiscover" {
@@ -185,7 +166,7 @@ resource "cloudflare_record" "srv_autodiscover" {
     priority = 0
     weight   = 0
     port     = 443
-    target   = "mailconfig.ovh.net"
+    target   = "autodiscover.lsferreira.net"
   }
 }
 
@@ -277,6 +258,6 @@ resource "cloudflare_record" "srv_imaps" {
 resource "cloudflare_record" "webmail" {
   zone_id = var.cloudflare_zone_id
   name = "webmail"
-  value = "ssl0.ovh.net"
+  value = "lu-shared04.cpanelplatform.com"
   type = "CNAME"
 }
