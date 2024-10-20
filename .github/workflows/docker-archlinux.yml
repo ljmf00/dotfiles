@@ -1,0 +1,137 @@
+name: docker-archlinux
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+  schedule:
+    # Every day
+    - cron:  '0 0 * * *'
+  workflow_dispatch:
+
+env:
+  DOCKER_BUILDKIT: '1'
+
+jobs:
+  build_push:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [base, lite, devel, aur]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - if: github.event_name != 'pull_request'
+        name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3.0.0
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3.0.0
+        with:
+          version: 'latest'
+          buildkitd-flags: --debug
+          driver-opts: |
+            network=host
+            image=moby/buildkit:latest
+
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d%H%M%S')"
+
+      - if: github.event_name != 'pull_request' && matrix.target == 'base'
+        name: Build and push (base)
+        uses: docker/build-push-action@v5.1.0
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          platforms: linux/arm64,linux/arm/v7,linux/amd64,linux/386
+          context: ./docker/archlinux
+          no-cache: true
+          pull: true
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: docker.io/ljmf00/archlinux:${{ matrix.target }},docker.io/ljmf00/archlinux:latest,docker.io/ljmf00/archlinux:${{ matrix.target }}-${{ steps.date.outputs.date }}
+          target: ${{ matrix.target }}-squash
+
+      - if: github.event_name != 'pull_request' && matrix.target != 'base'
+        name: Build and push
+        uses: docker/build-push-action@v5.1.0
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          platforms: linux/arm64,linux/arm/v7,linux/amd64,linux/386
+          context: ./docker/archlinux
+          no-cache: true
+          pull: true
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: docker.io/ljmf00/archlinux:${{ matrix.target }},docker.io/ljmf00/archlinux:${{ matrix.target }}-${{ steps.date.outputs.date }}
+          target: ${{ matrix.target }}-squash
+
+      - if: github.event_name != 'pull_request'
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - if: github.event_name != 'pull_request' && matrix.target == 'base'
+        name: Build and push (base)
+        uses: docker/build-push-action@v5.1.0
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          platforms: linux/arm64,linux/arm/v7,linux/amd64,linux/386
+          context: ./docker/archlinux
+          pull: false
+          push: true
+          cache-from: type=gha
+          tags: ghcr.io/ljmf00/archlinux:${{ matrix.target }},ghcr.io/ljmf00/archlinux:latest,ghcr.io/ljmf00/archlinux:${{ matrix.target }}-${{ steps.date.outputs.date }}
+          target: ${{ matrix.target }}-squash
+
+      - if: github.event_name != 'pull_request' && matrix.target != 'base'
+        name: Build and push
+        uses: docker/build-push-action@v5.1.0
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          platforms: linux/arm64,linux/arm/v7,linux/amd64,linux/386
+          context: ./docker/archlinux
+          pull: false
+          push: true
+          cache-from: type=gha
+          tags: ghcr.io/ljmf00/archlinux:${{ matrix.target }},ghcr.io/ljmf00/archlinux:${{ matrix.target }}-${{ steps.date.outputs.date }}
+          target: ${{ matrix.target }}-squash
+
+      - if: github.event_name == 'pull_request'
+        name: Test build
+        uses: docker/build-push-action@v5.1.0
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          platforms: linux/arm64,linux/arm/v7,linux/amd64,linux/386
+          context: ./docker/archlinux
+          no-cache: true
+          pull: true
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: docker.io/ljmf00/archlinux:${{ matrix.target }}
+          target: ${{ matrix.target }}-squash
+
+      - name: Anchore scan
+        uses: anchore/scan-action@v3.4.0
+        with:
+          image: docker.io/ljmf00/archlinux:${{ matrix.target }}
+          acs-report-enable: true
+
+      - name: Upload Anchore Scan Report
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif
