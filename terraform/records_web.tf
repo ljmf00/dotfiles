@@ -1,0 +1,35 @@
+resource "cloudflare_record" "s_lsferreira" {
+  zone_id = var.cloudflare_zone_id
+  name = "s.lsferreira.net"
+  value = "nc-anx04-1._.lsferreira.net"
+  type = "CNAME"
+  proxied = true
+  allow_overwrite = true
+}
+
+resource "cloudflare_record" "rss_lsferreira" {
+  zone_id = var.cloudflare_zone_id
+  name = "rss.lsferreira.net"
+  value = "ft-s-lu-04._.lsferreira.net"
+  type = "CNAME"
+  proxied = true
+  allow_overwrite = true
+}
+
+resource "cloudflare_record" "social_lsferreira" {
+  zone_id = var.cloudflare_zone_id
+  name = "social.lsferreira.net"
+  value = "ft-s-lu-04._.lsferreira.net"
+  type = "CNAME"
+  proxied = true
+  allow_overwrite = true
+}
+
+resource "cloudflare_record" "feed_lsferreira" {
+  zone_id = var.cloudflare_zone_id
+  name = "feed.lsferreira.net"
+  value = "ft-s-lu-04._.lsferreira.net"
+  type = "CNAME"
+  proxied = true
+  allow_overwrite = true
+}
