@@ -1,3 +1,5 @@
+.terraform/
+
 # dist dotfiles folder
 dist/
 
