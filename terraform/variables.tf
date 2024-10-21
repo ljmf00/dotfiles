@@ -1,5 +1,14 @@
-variable "API_CLOUDFLARE_TOKEN_TF" {
-  description = "The Cloudflare API token. This can also be specified with the CLOUDFLARE_TOKEN shell environment variable."
+variable "infisical_client_id" {
+  type        = string
+  sensitive   = true
+}
+
+variable "infisical_client_secret" {
+  type        = string
+  sensitive   = true
+}
+
+variable "infisical_project_id" {
   type        = string
   sensitive   = true
 }
