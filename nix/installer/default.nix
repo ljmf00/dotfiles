@@ -12,9 +12,6 @@
       "${toString modulesPath}/installer/cd-dvd/channel.nix"
       "${toString modulesPath}/profiles/qemu-guest.nix"
     ];
-    imports = [
-      ./../profiles/system/installer.nix
-    ];
 
     # metadata
     system.stateVersion = mkDefault lib.trivial.release;
@@ -77,7 +74,6 @@
     nix.settings.trusted-users = [ "root" "nixos" ];
 
     powerManagement.enable = true;
-    hardware.pulseaudio.enable = true;
 
     environment.variables.GC_INITIAL_HEAP_SIZE = "1M";
 
@@ -135,8 +131,6 @@
         busybox
         jq
         makeInitrdNGTool
-        systemdStage1
-        systemdStage1Network
       ];
   };
 }
