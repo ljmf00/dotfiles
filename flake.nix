@@ -123,7 +123,7 @@
 
         specialArgs = inputs;
         modules = [ ./nix/installer ];
-      }).config.formats.iso;
+      }).config.formats.iso.config.system.build.isoImage;
 
       overlays.default = import ./nix/overlays.nix;
       nixosConfigurations.default = mkSystem inputs.nixpkgs-nixos "${defaultSystem}" "${defaultHostname}" "${defaultUsername}";
