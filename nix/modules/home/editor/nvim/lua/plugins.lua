@@ -58,18 +58,6 @@ return {
   },
 
   {
-    "nvim-tree/nvim-tree.lua",
-    cmd = { "NvimTreeOpen", "NvimTreeClose", "NvimTreeToggle", "NvimTreeFocus" },
-    opts = function()
-      return require "plugconf/nvimtree"
-    end,
-    config = function(_, opts)
-      require("nvim-tree").setup(opts)
-      vim.g.nvimtree_side = opts.view.side
-    end,
-  },
-
-  {
     dir = '~/dotfiles/dist/3rdparty/vim/neomake',
     config = function()
       require('plugconf/neomake')
