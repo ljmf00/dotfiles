@@ -50,8 +50,8 @@
     let
       # default values/parameters
       defaultSystem   = "x86_64-linux";
-      defaultHostname = "generic";
-      defaultUsername = "user";
+      defaultHostname = "devtty63";
+      defaultUsername = "luis";
 
       # system parameters
       system = if builtins ? currentSystem
@@ -59,7 +59,8 @@
         else defaultSystem;
       hostname = let host = builtins.getEnv "HOSTNAME";
         in if builtins.stringLength host != 0 then host else defaultHostname;
-      username = defaultUsername;
+      username = let user = builtins.getEnv "USER";
+        in if builtins.stringLength user != 0 then user else defaultUsername;
 
       # alias to system-specific packages
 
