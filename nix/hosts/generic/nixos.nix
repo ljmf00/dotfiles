@@ -2,6 +2,6 @@
   with lib;
 {
   imports = [
-    ./../../profiles/system/minimal.nix
+    ./../../profiles/nixos/minimal.nix
   ];
 }
