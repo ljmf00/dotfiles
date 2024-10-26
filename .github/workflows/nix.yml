@@ -17,6 +17,7 @@ jobs:
           - packages.x86_64-linux.installer-iso
           - nixosConfigurations.default
           - nixosConfigurations.thinker
+          - homeConfigurations.luis
 
     runs-on: ubuntu-latest
     steps:
