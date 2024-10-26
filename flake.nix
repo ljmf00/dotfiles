@@ -125,10 +125,9 @@
         modules = [ ./nix/installer ];
       }).config.formats.iso;
 
-      overlays.default = import ./nix/hosts/${defaultHostname}/overlays.nix;
+      overlays.default = import ./nix/overlays.nix;
       nixosConfigurations.default = mkSystem inputs.nixpkgs-nixos "${defaultSystem}" "${defaultHostname}" "${defaultUsername}";
 
-      overlays.thinker = import ./nix/hosts/thinker/overlays.nix;
       nixosConfigurations.thinker = mkSystem inputs.nixpkgs-nixos "x86_64-linux" "thinker" "luis";
 
       homeConfigurations.${username} = inputs.home-manager.lib.homeManagerConfiguration {
