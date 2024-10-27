@@ -4,6 +4,10 @@
     nixpkgs.overlays = [
         (self: super: {
             linuxPackages_custom = super.linuxPackagesFor (super.linux_6_11.override {
+              argsOverride = {
+                modDirVersion = "6.11.5-zen1";
+              };
+
               kernelPatches = [
                   {
                     name = "linux-zen-patchset";
@@ -148,7 +152,6 @@
                       UBSAN      = yes;
                       UBSAN_TRAP = whenAtLeast "5.7" yes;
                       UBSAN_BOUNDS = whenAtLeast "5.7" yes;
-                      UBSAN_SANITIZE_ALL = yes;
                       UBSAN_LOCAL_BOUNDS = option yes; # clang only
                       CFI_CLANG = option yes; # clang only Control Flow Integrity since 6.1
 
@@ -157,7 +160,6 @@
                       RANDSTRUCT_PERFORMANCE = whenAtLeast "5.19" yes;
 
                       # Disable various dangerous settings
-                      ACPI_CUSTOM_METHOD = no; # Allows writing directly to physical memory
                       PROC_KCORE         = no; # Exposes kernel text image layout
                       INET_DIAG          = no; # Has been used for heap based attacks in the past
 
