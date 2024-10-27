@@ -120,11 +120,13 @@
 
     in {
       packages."x86_64-linux"."installer-iso" = (inputs.nixpkgs.lib.nixosSystem {
-        inherit system;
-
+        system = "x86_64-linux";
         specialArgs = inputs;
         modules = [ ./nix/installer ];
       }).config.formats.iso.config.system.build.isoImage;
+
+      packages."x86_64-linux"."kernel" = (inputs.nixpkgs.lib.nixosSystem { system = "x86_64-linux"; modules = [ ./nix/kernel ]; }).pkgs.linuxPackages_custom.kernel;
+      packages."aarch64-linux"."kernel" = (inputs.nixpkgs.lib.nixosSystem { system = "aarch64-linux"; modules = [ ./nix/kernel ]; }).pkgs.linuxPackages_custom.kernel;
 
       overlays.default = import ./nix/overlays.nix;
       nixosConfigurations.default = mkSystem inputs.nixpkgs-nixos "${defaultSystem}" "${defaultHostname}" "${defaultUsername}";
