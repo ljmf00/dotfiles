@@ -1,0 +1,23 @@
+From 0a82c34e8cd9805db334fe36078fd6b260fac77d Mon Sep 17 00:00:00 2001
+From: Luis Ferreira <contact@lsferreira.net>
+Date: Tue, 16 Apr 2024 16:36:44 +0100
+Subject: [PATCH] sound/usb: add Behringer UV1 quirk to add playblack first and
+ implicit fb
+
+---
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 09712e61c606e..003e261dc1dab 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2101,6 +2101,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_PLAYBACK_FIRST | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
+ 	DEVICE_FLG(0x1397, 0x0509, /* Behringer UMC404HD */
+ 		   QUIRK_FLAG_PLAYBACK_FIRST | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
++	DEVICE_FLG(0x1397, 0x0510, /* Behringer UV1 */
++		   QUIRK_FLAG_PLAYBACK_FIRST | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
+ 	DEVICE_FLG(0x13e5, 0x0001, /* Serato Phono */
+ 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
+ 	DEVICE_FLG(0x154e, 0x1002, /* Denon DCD-1500RE */
