@@ -9,6 +9,9 @@ on:
       - master
   workflow_dispatch:
 
+env:
+  NIXPKGS_ALLOW_UNFREE: '1'
+
 jobs:
   build:
     strategy:
@@ -17,7 +20,9 @@ jobs:
           - packages.x86_64-linux.installer-iso
           - packages.x86_64-linux.kernel
           - nixosConfigurations.default
+          # - nixosConfigurations.default.config.system.build.toplevel
           - nixosConfigurations.thinker
+          # - nixosConfigurations.thinker.config.system.build.toplevel
           - homeConfigurations.luis
 
     runs-on: ubuntu-latest
