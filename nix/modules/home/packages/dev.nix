@@ -15,7 +15,7 @@
       llvmPackages_latest.clang-unwrapped
 
       ldc
-      dmd
+      # dmd
 
       ccache
 
