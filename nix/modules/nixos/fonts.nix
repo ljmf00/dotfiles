@@ -12,7 +12,6 @@
 
       noto-fonts
       noto-fonts-emoji
-      noto-fonts-cjk
 
       noto-fonts-lgc-plus
       noto-fonts-cjk-sans
