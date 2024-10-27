@@ -15,6 +15,8 @@ jobs:
       matrix:
         attr:
           - packages.x86_64-linux.installer-iso
+          - packages.x86_64-linux.kernel
+          - packages.aarch64-linux.kernel
           - nixosConfigurations.default
           - nixosConfigurations.thinker
           - homeConfigurations.luis
