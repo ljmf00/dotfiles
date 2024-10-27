@@ -18,7 +18,6 @@
         sushi.enable = true;
 
         # File trackers and information miners
-        gnome-online-miners.enable = true;
         tracker.enable = true;
         tracker-miners.enable = true;
     };

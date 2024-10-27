@@ -13,7 +13,6 @@ in with lib;
     [
       usbutils
       libusb1
-      libusb
       hidapi
     ];
 }
