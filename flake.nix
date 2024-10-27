@@ -50,7 +50,7 @@
     let
       # default values/parameters
       defaultSystem   = "x86_64-linux";
-      defaultHostname = "devtty63";
+      defaultHostname = "generic";
       defaultUsername = "luis";
 
       # system parameters
@@ -133,14 +133,16 @@
 
       nixosConfigurations.thinker = mkSystem inputs.nixpkgs-nixos "x86_64-linux" "thinker" "luis";
 
-      homeConfigurations.${username} = inputs.home-manager.lib.homeManagerConfiguration {
+      homeConfigurations."${defaultUsername}" = inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = { inherit inputs; };
 
         modules = [
-          { nixpkgs.overlays = [ (import ./nix/hosts/${hostname}/overlays.nix) ]; }
+          { nixpkgs.overlays = [ (import ./nix/hosts/${defaultHostname}/overlays.nix) ]; }
           ./nix/modules
-          ./nix/hosts/${hostname}/home.nix
+          ./nix/modules/home.nix
+          ./nix/hosts/${defaultHostname}
+          ./nix/hosts/${defaultHostname}/home.nix
         ];
       };
     };
