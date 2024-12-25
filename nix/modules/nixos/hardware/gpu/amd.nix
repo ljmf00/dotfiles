@@ -16,7 +16,7 @@ in with lib;
 
   services.xserver.videoDrivers = mkGenericDefault [ "amdgpu" "radeon" ];
 
-  hardware.opengl.extraPackages = with pkgs; [
+  hardware.graphics.extraPackages = with pkgs; [
       amdvlk
     ] ++
     (
@@ -25,7 +25,7 @@ in with lib;
       else with pkgs; [ rocm-opencl-icd rocm-opencl-runtime ]
     );
 
-  hardware.opengl.extraPackages32 = with pkgs; [
+  hardware.graphics.extraPackages32 = with pkgs; [
     driversi686Linux.amdvlk
   ];
 
