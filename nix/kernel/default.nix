@@ -3,74 +3,12 @@
 {
     nixpkgs.overlays = [
         (self: super: {
-            linuxPackages_custom = super.linuxPackagesFor (super.linux_6_11.override {
-              argsOverride = {
-                modDirVersion = "6.11.5-zen1";
-              };
-
+            linuxPackages_custom = super.linuxPackagesFor (super.linux_zen.override {
               kernelPatches = [
-                  {
-                    name = "linux-zen-patchset";
-                    patch = pkgs.stdenv.mkDerivation {
-                      name = "linux-zen.patch";
-                      src = pkgs.fetchurl {
-                        url = "https://github.com/zen-kernel/zen-kernel/releases/download/v6.11.5-zen1/linux-v6.11.5-zen1.patch.zst";
-                        sha256 = "sha256-SpZPR55q6AukyNIBG8sY18OoDG1vl4FQkpuxKmt/x5M=";
-                      };
-                      unpackPhase = ":";
-                      nativeBuildInputs = [ pkgs.zstd ];
-                      installPhase = ''zstd -d "$src" -o "$out"'';
-                    };
-                    extraStructuredConfig = with lib.kernel; {
-                      ZEN_INTERACTIVE = yes;
-
-                      # FQ-Codel Packet Scheduling
-                      NET_SCH_DEFAULT = yes;
-                      DEFAULT_FQ_CODEL = yes;
-                      DEFAULT_NET_SCH = freeform "fq_codel";
-
-                      # Preempt (low-latency)
-                      PREEMPT = lib.mkOverride 60 yes;
-                      PREEMPT_VOLUNTARY = lib.mkOverride 60 no;
-
-                      # Preemptible tree-based hierarchical RCU
-                      TREE_RCU = yes;
-                      PREEMPT_RCU = yes;
-                      RCU_EXPERT = yes;
-                      TREE_SRCU = yes;
-                      TASKS_RCU_GENERIC = yes;
-                      TASKS_RCU = yes;
-                      TASKS_RUDE_RCU = yes;
-                      TASKS_TRACE_RCU = yes;
-                      RCU_STALL_COMMON = yes;
-                      RCU_NEED_SEGCBLIST = yes;
-                      RCU_FANOUT = freeform "64";
-                      RCU_FANOUT_LEAF = freeform "16";
-                      RCU_BOOST = yes;
-                      RCU_BOOST_DELAY = freeform "500";
-                      RCU_NOCB_CPU = yes;
-                      RCU_LAZY = yes;
-
-                      # Futex WAIT_MULTIPLE implementation for Wine / Proton Fsync.
-                      FUTEX = yes;
-                      FUTEX_PI = yes;
-
-                      # Preemptive Full Tickless Kernel at 1000Hz
-                      HZ = freeform "1000";
-                      HZ_1000 = yes;
-                    };
-                  }
-
                   {
                     name = "behringer-uv1";
                     patch = ./patches/behringer_uv1.patch;
                   }
-
-                  # FIXME: Failing to build
-                  # {
-                  #   name = "linux-hardened-patchset";
-                  #   patch = ./patches/linux-hardened.patch;
-                  # }
 
                   {
                     name = "hardening-kernel-mkconfig";
@@ -104,6 +42,9 @@
                       DEBUG_PLIST           = whenAtLeast "5.2" yes;
                       DEBUG_SG              = yes;
                       DEBUG_VIRTUAL         = yes;
+
+                      # Set in common config as whenAtLeast "6.12" yes; Currently errors during config
+                      SCHED_CLASS_EXT = whenAtLeast "6.12" (option yes);
                       SCHED_STACK_END_CHECK = yes;
 
                       REFCOUNT_FULL = whenOlder "5.4.208" yes;
@@ -152,6 +93,7 @@
                       UBSAN      = yes;
                       UBSAN_TRAP = whenAtLeast "5.7" yes;
                       UBSAN_BOUNDS = whenAtLeast "5.7" yes;
+                      UBSAN_SANITIZE_ALL = whenOlder "6.9" yes;
                       UBSAN_LOCAL_BOUNDS = option yes; # clang only
                       CFI_CLANG = option yes; # clang only Control Flow Integrity since 6.1
 
@@ -160,6 +102,7 @@
                       RANDSTRUCT_PERFORMANCE = whenAtLeast "5.19" yes;
 
                       # Disable various dangerous settings
+                      ACPI_CUSTOM_METHOD = whenOlder "6.9" no; # Allows writing directly to physical memory
                       PROC_KCORE         = no; # Exposes kernel text image layout
                       INET_DIAG          = no; # Has been used for heap based attacks in the past
 
@@ -192,6 +135,9 @@
                       # Straight-Line-Speculation
                       # https://lwn.net/Articles/877845/
                       SLS = option yes;
+
+                      RUST = option yes; # Yes currently erros on 6.12
+                      DRM_PANIC_SCREEN_QR_CODE = whenAtLeast "6.12" (option yes);
                     };
                   }
               ];
