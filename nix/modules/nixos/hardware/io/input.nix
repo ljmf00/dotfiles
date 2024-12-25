@@ -3,5 +3,5 @@ let
   mkGenericDefault = lib.mkOverride 1100;
 in with lib;
 {
-  services.xserver.libinput.enable = mkGenericDefault true;
+  services.libinput.enable = mkGenericDefault true;
 }
