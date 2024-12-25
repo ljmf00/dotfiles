@@ -24,6 +24,8 @@
 
   nix.settings.system-features = [ "nixos-test" "benchmark" "big-parallel" ];
 
+  services.flatpak.enable = true;
+
   boot.kernelParams = [
     # Force use of the thinkpad_acpi driver for backlight control.
     # This allows the backlight save/load systemd service to work.
