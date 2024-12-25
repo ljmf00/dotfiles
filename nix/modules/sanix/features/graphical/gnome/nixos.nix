@@ -18,8 +18,8 @@
         sushi.enable = true;
 
         # File trackers and information miners
-        tracker.enable = true;
-        tracker-miners.enable = true;
+        tinysparql.enable = true;
+        localsearch.enable = true;
     };
 
     # Enable gnome theme on QT
