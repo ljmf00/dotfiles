@@ -25,11 +25,13 @@
     };
   };
 
+  home.sessionVariables.DEFAULT_BROWSER = "${config.programs.librewolf.package}/bin/librewolf";
+
   gtk = {
     enable = true;
 
     theme.name    = "Adwaita-Dark";
-    theme.package = pkgs.gnome.gnome-themes-extra;
+    theme.package = pkgs.gnome-themes-extra;
 
     iconTheme.name    = "Papirus-Dark";
     iconTheme.package = pkgs.papirus-icon-theme;

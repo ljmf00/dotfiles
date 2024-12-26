@@ -5,15 +5,15 @@ in with lib;
 {
   services.xserver.videoDrivers = mkGenericDefault [ "modesetting" "vesa" ];
 
-  hardware.opengl = {
-    enable = true;
+  hardware.graphics.enable = true;
+  hardware.graphics.enable32Bit = true;
+
+  hardware.graphics = {
     extraPackages = with pkgs; [
       vaapiVdpau
       libvdpau-va-gl
       mesa.drivers
     ];
-
-    driSupport32Bit = true;
   };
 
   environment.systemPackages = with pkgs; [

@@ -4,7 +4,11 @@
   home.packages = with pkgs;
     [
       dejavu_fonts
-      nerdfonts
+      nerd-fonts.roboto-mono
+      nerd-fonts.dejavu-sans-mono
+      nerd-fonts.ubuntu-mono
+      nerd-fonts.droid-sans-mono
+      nerd-fonts.inconsolata
 
       noto-fonts
       noto-fonts-emoji

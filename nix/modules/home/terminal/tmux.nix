@@ -3,6 +3,7 @@
 {
   programs.tmux = {
     enable = true;
+    terminal = "xterm-256color";
     extraConfig = lib.fileContents ./../../../../dots/core/.tmux.conf;
   };
 }

@@ -12,6 +12,21 @@
     (builtins.elem "graphical" config.sanix.features) ||
     (builtins.any (e: (builtins.match "^graphical-.*" e) != null) config.sanix.features)
   ) {
+    services.libinput = {
+      enable = true;
+
+      # disabling mouse acceleration
+      mouse = {
+        accelProfile = "flat";
+      };
+
+      # disabling touchpad acceleration
+      touchpad = {
+        accelProfile = "flat";
+        tapping = true;
+      };
+    };
+
     # Enable the X11 windowing system.
     services.xserver = {
       enable = true;
@@ -20,18 +35,7 @@
         layout = "us";
       };
       libinput = {
-        enable = true;
 
-        # disabling mouse acceleration
-        mouse = {
-          accelProfile = "flat";
-        };
-
-        # disabling touchpad acceleration
-        touchpad = {
-          accelProfile = "flat";
-          tapping = true;
-        };
       };
     };
 
