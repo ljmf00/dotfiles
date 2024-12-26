@@ -25,6 +25,8 @@
     };
   };
 
+  home.sessionVariables.DEFAULT_BROWSER = "${config.programs.librewolf.package}/bin/librewolf";
+
   gtk = {
     enable = true;
 
