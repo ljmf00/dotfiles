@@ -44,7 +44,6 @@
                       DEBUG_VIRTUAL         = yes;
 
                       # Set in common config as whenAtLeast "6.12" yes; Currently errors during config
-                      SCHED_CLASS_EXT = whenAtLeast "6.12" (option yes);
                       SCHED_STACK_END_CHECK = yes;
 
                       REFCOUNT_FULL = whenOlder "5.4.208" yes;
@@ -78,8 +77,6 @@
                       PANIC_TIMEOUT = freeform "-1";
 
                       GCC_PLUGINS = yes; # Enable gcc plugin options
-                      # Gather additional entropy at boot time for systems that may not have appropriate entropy sources.
-                      GCC_PLUGIN_LATENT_ENTROPY = yes;
 
                       GCC_PLUGIN_STRUCTLEAK = option yes; # A port of the PaX structleak plugin
                       GCC_PLUGIN_STRUCTLEAK_BYREF_ALL = option yes; # Also cover structs passed by address
@@ -96,10 +93,6 @@
                       UBSAN_SANITIZE_ALL = whenOlder "6.9" yes;
                       UBSAN_LOCAL_BOUNDS = option yes; # clang only
                       CFI_CLANG = option yes; # clang only Control Flow Integrity since 6.1
-
-                      # Same as GCC_PLUGIN_RANDSTRUCT*, but has been renamed to `RANDSTRUCT*` in 5.19.
-                      RANDSTRUCT = whenAtLeast "5.19" yes;
-                      RANDSTRUCT_PERFORMANCE = whenAtLeast "5.19" yes;
 
                       # Disable various dangerous settings
                       ACPI_CUSTOM_METHOD = whenOlder "6.9" no; # Allows writing directly to physical memory
@@ -135,9 +128,6 @@
                       # Straight-Line-Speculation
                       # https://lwn.net/Articles/877845/
                       SLS = option yes;
-
-                      RUST = option yes; # Yes currently erros on 6.12
-                      DRM_PANIC_SCREEN_QR_CODE = whenAtLeast "6.12" (option yes);
                     };
                   }
               ];
