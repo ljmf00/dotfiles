@@ -5,5 +5,6 @@
     ./ata/nixos.nix
     ./audio/nixos.nix
     ./bluetooth/nixos.nix
+    ./input/nixos.nix
   ];
 }
