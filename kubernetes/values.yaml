@@ -1,0 +1,33 @@
+traefik-ingress:
+  service:
+    enabled: true
+    type: ClusterIP
+
+  deployment:
+    enabled: true
+    replicas: 3
+
+  ingressRoute:
+    dashboard:
+      enabled: true
+
+  ports:
+    traefik:
+      port: 8888
+    web:
+      port: 8080
+
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
+
+    websecure:
+      port: 8443
+
+      tls:
+        enabled: true
+
+      http3:
+        enabled: true

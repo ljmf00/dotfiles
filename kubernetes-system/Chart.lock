@@ -1,0 +1,18 @@
+dependencies:
+- name: secrets-store-csi-driver
+  repository: https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
+  version: 1.4.8
+- name: infisical-csi-provider
+  repository: https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts
+  version: 0.1.0
+- name: secrets-operator
+  repository: https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts
+  version: 0.8.12
+- name: ingress-nginx
+  repository: https://kubernetes.github.io/ingress-nginx
+  version: 4.12.0
+- name: cert-manager
+  repository: https://charts.jetstack.io
+  version: v1.12.1
+digest: sha256:f984901fecd6bfd0a5fe6abe7bf9ba593364acb5387723b32828bcb6b53fea55
+generated: "2025-03-09T06:51:09.725833552Z"

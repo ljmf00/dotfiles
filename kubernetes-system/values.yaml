@@ -1,0 +1,31 @@
+secrets-store-csi-driver:
+  tokenRequests:
+    - audience: infisical
+  enableSecretRotation: true
+  rotationPollInterval: 2m
+  syncSecret:
+    enabled: true
+
+ingress-nginx:
+  namespaceOverride: "kube-system"
+
+  service:
+    enabled: true
+    type: ClusterIP
+    httpPort: 80
+    httpsPort: 443
+
+    externalTrafficPolicy: Local
+
+  controller:
+    kind: DaemonSet
+
+    ingressClassResource:
+      enabled: true
+      default: true
+
+    hostPort:
+      enabled: true
+      ports:
+        http: 80
+        https: 443

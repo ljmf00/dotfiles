@@ -1,0 +1,16 @@
+cilium:
+  namespaceOverride: kube-system
+
+  k8sServiceHost: auto
+  k8sServicePort: 6443
+
+  hostPort:
+    enabled: true
+
+  # You need to remove kube-proxy to replace it
+  # $ kubectl -n kube-system delete ds kube-proxy
+  # Delete the configmap as well to avoid kube-proxy being reinstalled during a Kubeadm upgrade (works only for K8s 1.19 and newer)
+  # $ kubectl -n kube-system delete cm kube-proxy
+  # Run on each node with root permissions:
+  # $ iptables-save | grep -v KUBE | iptables-restore
+  kubeProxyReplacement: true

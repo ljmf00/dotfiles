@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+helm upgrade --install --namespace kube-system --create-namespace monodots-bootstrap kubernetes-bootstrap
+helm upgrade --install --namespace kube-system --create-namespace monodots-system kubernetes-system
+helm upgrade --install --create-namespace monodots kubernetes

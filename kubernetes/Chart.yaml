@@ -2,6 +2,12 @@ apiVersion: v2
 name: monodots
 description: A Helm chart for Kubernetes
 
+dependencies:
+  - name: traefik
+    repository: https://traefik.github.io/charts
+    version: 34.4.1
+    alias: traefik-ingress
+
 # A chart can be either an 'application' or a 'library' chart.
 #
 # Application charts are a collection of templates that can be packaged into versioned archives
@@ -22,3 +28,7 @@ version: 0.1.0
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: "1.16.0"
+
+maintainers:
+- email: k8s@lsferreira.net
+  name: Luis Ferreira
