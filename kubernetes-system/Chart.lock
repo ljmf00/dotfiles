@@ -14,5 +14,8 @@ dependencies:
 - name: cert-manager
   repository: https://charts.jetstack.io
   version: v1.12.1
-digest: sha256:f984901fecd6bfd0a5fe6abe7bf9ba593364acb5387723b32828bcb6b53fea55
-generated: "2025-03-09T06:51:09.725833552Z"
+- name: csi-driver-smb
+  repository: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
+  version: v1.17.0
+digest: sha256:9d03421cca331588b2065516690d2653da7a7ca0e42be4002eb289ebf90a8a64
+generated: "2025-03-09T23:54:08.509498066Z"

@@ -19,6 +19,9 @@ dependencies:
   - name: cert-manager
     repository: https://charts.jetstack.io
     version: 1.12.1
+  - name: csi-driver-smb
+    repository: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
+    version: 1.17.0
 
 # A chart can be either an 'application' or a 'library' chart.
 #
